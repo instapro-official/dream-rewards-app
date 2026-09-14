@@ -73,13 +73,13 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 </div>
 </div>
 
-<!-- ADMIN PANEL (Sirf aapke liye - Password: admin999 daalne pe खुलेगा) -->
+<!-- ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
 <h2>🛡️ Owner Admin Panel</h2>
 <button class="btn" style="width:auto;padding:8px 15px;background:#ef4444;" onclick="closeAdmin()">LOGOUT ADMIN</button>
 </div>
-<p style="color:#aaa;margin-bottom:15px;">Yahan aapko sabhi users ke withdrawal requests dikhenge:</p>
+<p style="color:#aaa;margin-bottom:15px;">Yahan aapke device ke withdrawal records dikhenge:</p>
 <div id="adminWithdrawList"></div>
 </div>
 
@@ -120,7 +120,7 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <button class="withdraw" onclick="openWithdraw()">💰 WITHDRAW COINS</button>
 </div>
 
-<!-- WHEEL -->
+<!-- MODALS -->
 <div class="modal" id="wheelModal"><div class="box">
 <button class="close" onclick="closeModal('wheelModal')">×</button>
 <h2>🎡 Lucky Spin</h2>
@@ -132,7 +132,6 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px"></p>
 </div></div>
 
-<!-- LUCKY -->
 <div class="modal" id="luckyModal"><div class="box">
 <button class="close" onclick="closeModal('luckyModal')">×</button><h2>🃏 Lucky Card</h2>
 <div class="lucky" id="luckyCard">🎁</div>
@@ -140,7 +139,6 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <p id="luckyResult" style="text-align:center;margin-top:15px"></p>
 </div></div>
 
-<!-- QUIZ -->
 <div class="modal" id="quizModal"><div class="box">
 <button class="close" onclick="closeModal('quizModal')">×</button><h2>🧠 Quiz Challenge</h2>
 <p id="quizType" style="text-align:center;color:#aaa"></p>
@@ -149,29 +147,25 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <p id="quizResult" style="text-align:center;margin-top:15px;font-weight:800"></p>
 </div></div>
 
-<!-- WITHDRAW -->
 <div class="modal" id="withdrawModal"><div class="box">
 <button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal</h2>
 <p style="color:#aaa;text-align:center">Minimum 4,000 • Maximum 20,000 coins/day</p>
 <input id="withdrawCoins" type="number" placeholder="Enter coins">
 <input id="upi" type="text" placeholder="Enter UPI ID">
-<button class="btn" onclick="submitWithdraw()">REQUEST WITHDRAWAL</button>
+<button class="btn" onclick="submitWithdraw()">REQUEST WITHDRAWAL & SEND DM</button>
 </div></div>
 
-<!-- HISTORY -->
 <div class="modal" id="historyModal"><div class="box">
 <button class="close" onclick="closeModal('historyModal')">×</button><h2>📜 Withdrawal History</h2>
 <div id="historyList"></div>
 </div></div>
 
-<!-- REFERRAL -->
 <div class="modal" id="refModal"><div class="box">
 <button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite Friends</h2>
 <input id="refLink" value="https://google.com/?ref=COINRUSH" readonly>
 <button class="btn" onclick="copyRef()">📋 COPY LINK</button>
 </div></div>
 
-<!-- SURVEY PAGE -->
 <div class="surveyPage" id="surveyPage">
 <div class="surveyInner">
 <div class="surveyHead">
@@ -213,7 +207,6 @@ function handleLogin() {
 let number = document.getElementById("loginNumber").value.trim();
 let password = document.getElementById("loginPassword").value.trim();
 
-// SECRET ADMIN PASSCODE: Agar password ki jagah 'admin999' daaloge toh Admin Panel khul jayega
 if(password === "admin999") {
 localStorage.setItem("isAdminSession", "true");
 document.getElementById("loginContainer").style.display = "none";
@@ -268,7 +261,7 @@ box.innerHTML = arr.map((x, i) => `
 
 function approveWithdraw(index) {
 let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
-arr[index].status = "Paid ✓ (Approved by Admin)";
+arr[index].status = "Paid ✓ (Approved)";
 localStorage.setItem("withdrawals", JSON.stringify(arr));
 renderAdminRequests();
 toast("Withdrawal approved!");
@@ -304,7 +297,7 @@ let e=document.createElement("div");
 e.className="confetti";
 e.textContent=["🎉","✨","🪙","🎊"][Math.floor(Math.random()*4)];
 e.style.left=Math.random()*100+"vw";
-e.style.animationDelay=Math.random()*.4+"s";
+e.style.animationDelay=Math.random()*0.4+"s";
 document.body.appendChild(e);
 setTimeout(()=>e.remove(),1800);
 }
@@ -480,7 +473,7 @@ nextQuestion();
 }, 1200);
 }
 
-/* REAL SURVEY CENTER */
+/* SURVEY CENTER */
 const surveys=[
 ["Cint Global Consumer Survey", "https://www.cint.com"],
 ["Pollfish Market Opinion Poll", "https://www.pollfish.com"],
@@ -558,27 +551,41 @@ celebrate();
 renderSurveys();
 }
 
-/* WITHDRAWAL */
+/* WITHDRAWAL & WHATSAPP / TELEGRAM DM */
 function openWithdraw(){ openModal("withdrawModal"); }
 
 function submitWithdraw(){
 let amount=Number(document.getElementById("withdrawCoins").value);
 let upi=document.getElementById("upi").value.trim();
+let userPhone=localStorage.getItem("userPhone")||"Unknown";
 
 if(amount<4000){toast("Minimum withdrawal is 4,000 coins");return;}
 if(amount>20000){toast("Maximum daily withdrawal is 20,000 coins");return;}
 if(amount>coins){toast("Insufficient coins");return;}
 if(!upi||!upi.includes("@")){toast("Enter a valid UPI ID");return;}
 
-let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 coins-=amount;
 save();
 
+let msg = `🚨 *New Withdrawal Request - CoinRush* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI ID: ${upi}%0A📅 Date: ${today()}`;
+
+// Yahan aap apna WhatsApp number badal sakte hain agar zaroorat ho
+let myWhatsAppNumber = "919339823790"; 
+let myTelegramUsername = "YourTelegramUsername";
+
+let sendOption = confirm("Click OK to send withdrawal details via WhatsApp DM to Admin!");
+if(sendOption){
+window.open(`https://wa.me/${myWhatsAppNumber}?text=${msg}`, "_blank");
+} else {
+window.open(`https://t.me/${myTelegramUsername}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
 localStorage.setItem("withdrawals",JSON.stringify(arr));
 
 closeModal("withdrawModal");
-toast("✅ Withdrawal request submitted");
+toast("✅ Withdrawal request submitted & sent!");
 }
 
 function openHistory(){
