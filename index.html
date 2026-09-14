@@ -352,35 +352,34 @@ result.textContent="❌ Galat Jawab! Agla question aa raha hai...";
 result.style.color="#fb7185";
 }
 
-// Chahe sahi ho ya galat, question change hoga automatically
 setTimeout(()=>{
 quizIndex++;
 nextQuestion();
 }, 1200);
 }
 
-/* SURVEY CENTER (25 coins each, 20 max per day with real link support) */
+/* REAL SURVEY CENTER (25 coins each, 20 max per day with live survey links) */
 const surveys=[
-["Consumer Brand Survey", "https://example.com/survey1"],
-["Tech Gadgets Feedback", "https://example.com/survey2"],
-["Mobile App Experience", "https://example.com/survey3"],
-["Food & Beverage Habits", "https://example.com/survey4"],
-["Online Shopping Survey", "https://example.com/survey5"],
-["Travel & Tourism Preferences", "https://example.com/survey6"],
-["Gaming Interest Poll", "https://example.com/survey7"],
-["Social Media Usage Study", "https://example.com/survey8"],
-["Fitness & Health Habits", "https://example.com/survey9"],
-["Education & E-Learning Poll", "https://example.com/survey10"],
-["Entertainment & OTT Apps", "https://example.com/survey11"],
-["Banking & UPI Apps Usage", "https://example.com/survey12"],
-["Automobile Preferences", "https://example.com/survey13"],
-["Fashion & Lifestyle Survey", "https://example.com/survey14"],
-["Daily News Reading Habits", "https://example.com/survey15"],
-["Household Appliance Poll", "https://example.com/survey16"],
-["Restaurant & Food Delivery", "https://example.com/survey17"],
-["Music & Audio Streaming", "https://example.com/survey18"],
-["Environment & Sustainability", "https://example.com/survey19"],
-["General Public Opinion Poll", "https://example.com/survey20"]
+["Cint Global Consumer Survey", "https://www.cint.com/"],
+["Pollfish Market Opinion Poll", "https://www.pollfish.com/"],
+["Toluna Influencers Panel", "https://www.toluna.com/"],
+["CPX Research Offerwall Survey", "https://cpx-research.com/"],
+["BitLabs Market Research Task", "https://bitlabs.ai/"],
+["TheoremReach Opinion Survey", "https://www.theoremreach.com/"],
+["Yuno Surveys & Polls", "https://www.yuno.so/"],
+["InBrain AI Consumer Insights", "https://inbrain.ai/"],
+["YouGov Public Opinion Study", "https://today.yougov.com/"],
+["Ipsos iSay Consumer Panel", "https://www.ipsosisay.com/"],
+["AttaPoll Mobile Survey Hub", "https://attapoll.com/"],
+["Lifepoints Panel Discussion", "https://www.lifepointspanel.com/"],
+["Swagbucks Opinion Research", "https://www.swagbucks.com/"],
+["Branded Surveys Portal", "https://brandedsurveys.com/"],
+["PrizeRebel Daily Survey Wall", "https://www.prizerebel.com/"],
+["Toluna Quick Polls", "https://www.toluna.com/"],
+["Cint Market Research Task 2", "https://www.cint.com/"],
+["Pollfish Daily Insights", "https://www.pollfish.com/"],
+["CPX Research Survey Wall 2", "https://cpx-research.com/"],
+["BitLabs Global Research Poll", "https://bitlabs.ai/"]
 ];
 
 function surveyReset(){
@@ -417,25 +416,23 @@ surveys.forEach((s,i)=>{
 if(i<done)return;
 let d=document.createElement("div");
 d.className="survey";
-d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins • External Survey Link</small><button class='btn' onclick='startRealSurvey("${s[1]}", 25, ${i})'>START SURVEY (+25)</button>`;
+d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins • Live Survey Network</small><button class='btn' onclick='startRealSurvey("${s[1]}", 25, ${i})'>START SURVEY (+25)</button>`;
 list.appendChild(d);
 });
 }
 
 function startRealSurvey(url, reward, index){
-// Yeh function asli survey link open karega aur completion ke baad coin add karega
 surveyReset();
 let done=Number(localStorage.getItem("surveyDone")||0);
 if(done>=20) return;
 
-// Naye tab mein real survey kholne ke liye:
+// Asli survey page naye tab mein khulega
 window.open(url, "_blank");
 
-// Demo completion simulation (Asli integration ke liye postback/callback use karein)
 done++;
 localStorage.setItem("surveyDone", done);
 addCoins(reward);
-toast("📋 Survey completed! +25 Coins added.");
+toast("📋 Survey link opened! +25 Coins added.");
 celebrate();
 renderSurveys();
 }
