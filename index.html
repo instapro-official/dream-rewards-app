@@ -8,7 +8,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#080b20,#171044,#06233b);color:#fff;min-height:100vh}
 button{border:0;cursor:pointer;font-weight:800}
-.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:95px}
+.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:95px;display:none}
+.app.show{display:block}
 header{display:flex;align-items:center;justify-content:space-between;padding:16px}
 .profile{display:flex;align-items:center;gap:10px}.avatar{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#7c3aed,#06b6d4);font-size:21px}
 .name{font-weight:800}.id{font-size:11px;color:#aaa}.balance{background:#ffffff12;border:1px solid #ffffff18;padding:10px 13px;border-radius:14px}
@@ -25,6 +26,17 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 .modal.show{display:flex}.box{width:100%;max-width:480px;background:#11152e;border:1px solid #ffffff18;border-radius:25px;padding:22px;max-height:90vh;overflow:auto}
 .close{float:right;background:#ffffff15;color:#fff;border-radius:50%;width:34px;height:34px}
 .box h2{text-align:center;margin:5px 0 18px}
+
+/* LOGIN & ADMIN STYLING */
+.login-container{position:fixed;inset:0;background:#080b20;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.login-box{width:100%;max-width:400px;background:#11152e;border:1px solid #ffffff18;border-radius:25px;padding:25px;box-shadow:0 15px 35px #0007}
+.login-box h2{text-align:center;margin-bottom:20px;font-size:24px}
+.login-box p{text-align:center;color:#aaa;font-size:13px;margin-bottom:20px}
+
+.admin-panel{display:none;max-width:520px;margin:auto;min-height:100vh;padding:20px;background:#080b20;z-index:150;position:fixed;inset:0;overflow:auto}
+.admin-panel.show{display:block}
+.admin-card{background:#ffffff0c;border:1px solid #ffffff15;border-radius:15px;padding:15px;margin-top:12px;font-size:14px}
+
 .wheel-wrap{position:relative;width:290px;height:290px;margin:20px auto}
 #wheel{width:290px;height:290px;border-radius:50%;position:relative;transition:transform 4.2s cubic-bezier(.12,.75,.15,1);border:9px solid #fff;box-shadow:0 0 35px #7c3aed88;background:conic-gradient(#f59e0b 0 72deg,#22c55e 72deg 144deg,#3b82f6 144deg 216deg,#ef4444 216deg 288deg,#a855f7 288deg 360deg)}
 #wheel span{position:absolute;left:50%;top:50%;width:80px;text-align:center;font-size:25px;font-weight:900;transform-origin:0 0}
@@ -50,9 +62,31 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 </head>
 <body>
 
-<div class="app">
+<!-- LOGIN SCREEN -->
+<div class="login-container" id="loginContainer">
+<div class="login-box">
+<h2>🚀 CoinRush Login</h2>
+<p>Enter your mobile number and password</p>
+<input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="btn" onclick="handleLogin()">LOGIN / REGISTER</button>
+</div>
+</div>
+
+<!-- ADMIN PANEL (Sirf aapke liye - Password: admin999 daalne pe खुलेगा) -->
+<div class="admin-panel" id="adminPanel">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+<h2>🛡️ Owner Admin Panel</h2>
+<button class="btn" style="width:auto;padding:8px 15px;background:#ef4444;" onclick="closeAdmin()">LOGOUT ADMIN</button>
+</div>
+<p style="color:#aaa;margin-bottom:15px;">Yahan aapko sabhi users ke withdrawal requests dikhenge:</p>
+<div id="adminWithdrawList"></div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="mainApp">
 <header>
-<div class="profile"><div class="avatar">👤</div><div><div class="name">CoinRush</div><div class="id">Reward Member</div></div></div>
+<div class="profile"><div class="avatar">👤</div><div><div class="name" id="userName">CoinRush</div><div class="id" id="userPhone">Reward Member</div></div></div>
 <div class="balance">🪙 <span id="topCoins">0</span></div>
 </header>
 
@@ -79,6 +113,8 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 </div>
 
 <div class="full card"><div class="icon">💳</div><h3>Withdrawal History</h3><p>View previous withdrawal requests.</p><button class="btn" onclick="openHistory()">VIEW HISTORY</button></div>
+
+<button class="btn" style="background:#ef4444;margin-top:20px;" onclick="logout()">LOGOUT</button>
 </div>
 
 <button class="withdraw" onclick="openWithdraw()">💰 WITHDRAW COINS</button>
@@ -131,7 +167,7 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <!-- REFERRAL -->
 <div class="modal" id="refModal"><div class="box">
 <button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite Friends</h2>
-<input id="refLink" value="https://example.com/?ref=COINRUSH" readonly>
+<input id="refLink" value="https://google.com/?ref=COINRUSH" readonly>
 <button class="btn" onclick="copyRef()">📋 COPY LINK</button>
 </div></div>
 
@@ -156,6 +192,92 @@ let quizIndex=0;
 let wheelRotation=Number(localStorage.getItem("wheelRotation")||0);
 
 const today=()=>new Date().toISOString().slice(0,10);
+
+window.onload = function() {
+let isAdmin = localStorage.getItem("isAdminSession");
+if(isAdmin === "true") {
+document.getElementById("loginContainer").style.display = "none";
+openAdminPanel();
+return;
+}
+
+let savedUser = localStorage.getItem("userPhone");
+if(savedUser) {
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+document.getElementById("userPhone").textContent = "+91 " + savedUser;
+}
+};
+
+function handleLogin() {
+let number = document.getElementById("loginNumber").value.trim();
+let password = document.getElementById("loginPassword").value.trim();
+
+// SECRET ADMIN PASSCODE: Agar password ki jagah 'admin999' daaloge toh Admin Panel khul jayega
+if(password === "admin999") {
+localStorage.setItem("isAdminSession", "true");
+document.getElementById("loginContainer").style.display = "none";
+openAdminPanel();
+toast("Welcome Admin!");
+return;
+}
+
+if(number.length !== 10 || isNaN(number)) {
+toast("Please enter a valid 10-digit mobile number");
+return;
+}
+if(password.length < 4) {
+toast("Password must be at least 4 characters");
+return;
+}
+
+localStorage.setItem("userPhone", number);
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+document.getElementById("userPhone").textContent = "+91 " + number;
+toast("Login Successful!");
+}
+
+function openAdminPanel() {
+document.getElementById("adminPanel").classList.add("show");
+renderAdminRequests();
+}
+
+function closeAdmin() {
+localStorage.removeItem("isAdminSession");
+location.reload();
+}
+
+function renderAdminRequests() {
+let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
+let box = document.getElementById("adminWithdrawList");
+if(!arr.length) {
+box.innerHTML = "<p style='text-align:center;color:#aaa;'>No pending withdrawal requests.</p>";
+return;
+}
+box.innerHTML = arr.map((x, i) => `
+<div class="admin-card">
+<p><b>User UPI:</b> ${x.upi}</p>
+<p><b>Amount:</b> ${x.amount} Coins</p>
+<p><b>Date:</b> ${x.date}</p>
+<p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
+<button class="btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw(${i})">MARK AS PAID / APPROVED</button>
+</div>
+`).join("");
+}
+
+function approveWithdraw(index) {
+let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
+arr[index].status = "Paid ✓ (Approved by Admin)";
+localStorage.setItem("withdrawals", JSON.stringify(arr));
+renderAdminRequests();
+toast("Withdrawal approved!");
+}
+
+function logout() {
+localStorage.removeItem("userPhone");
+location.reload();
+}
 
 function save(){
 localStorage.setItem("coins",coins);
@@ -296,7 +418,7 @@ addCoins(reward);
 celebrate();
 }
 
-/* QUIZ - CLASS 5-10 EASY LEVEL & AUTO CHANGE */
+/* QUIZ */
 const math=[
 ["What is 12 + 15?",["25","27","30","22"],1],
 ["What is 5 × 8?",["35","40","45","50"],1],
@@ -358,28 +480,28 @@ nextQuestion();
 }, 1200);
 }
 
-/* REAL SURVEY CENTER (25 coins each, 20 max per day with live survey links) */
+/* REAL SURVEY CENTER */
 const surveys=[
-["Cint Global Consumer Survey", "https://www.cint.com/"],
-["Pollfish Market Opinion Poll", "https://www.pollfish.com/"],
-["Toluna Influencers Panel", "https://www.toluna.com/"],
-["CPX Research Offerwall Survey", "https://cpx-research.com/"],
-["BitLabs Market Research Task", "https://bitlabs.ai/"],
-["TheoremReach Opinion Survey", "https://www.theoremreach.com/"],
-["Yuno Surveys & Polls", "https://www.yuno.so/"],
-["InBrain AI Consumer Insights", "https://inbrain.ai/"],
-["YouGov Public Opinion Study", "https://today.yougov.com/"],
-["Ipsos iSay Consumer Panel", "https://www.ipsosisay.com/"],
-["AttaPoll Mobile Survey Hub", "https://attapoll.com/"],
-["Lifepoints Panel Discussion", "https://www.lifepointspanel.com/"],
-["Swagbucks Opinion Research", "https://www.swagbucks.com/"],
-["Branded Surveys Portal", "https://brandedsurveys.com/"],
-["PrizeRebel Daily Survey Wall", "https://www.prizerebel.com/"],
-["Toluna Quick Polls", "https://www.toluna.com/"],
-["Cint Market Research Task 2", "https://www.cint.com/"],
-["Pollfish Daily Insights", "https://www.pollfish.com/"],
-["CPX Research Survey Wall 2", "https://cpx-research.com/"],
-["BitLabs Global Research Poll", "https://bitlabs.ai/"]
+["Cint Global Consumer Survey", "https://www.cint.com"],
+["Pollfish Market Opinion Poll", "https://www.pollfish.com"],
+["Toluna Influencers Panel", "https://www.toluna.com"],
+["CPX Research Offerwall Survey", "https://cpx-research.com"],
+["BitLabs Market Research Task", "https://bitlabs.ai"],
+["TheoremReach Opinion Survey", "https://www.theoremreach.com"],
+["Yuno Surveys & Polls", "https://www.yuno.so"],
+["InBrain AI Consumer Insights", "https://inbrain.ai"],
+["YouGov Public Opinion Study", "https://today.yougov.com"],
+["Ipsos iSay Consumer Panel", "https://www.ipsosisay.com"],
+["AttaPoll Mobile Survey Hub", "https://attapoll.com"],
+["Lifepoints Panel Discussion", "https://www.lifepointspanel.com"],
+["Swagbucks Opinion Research", "https://www.swagbucks.com"],
+["Branded Surveys Portal", "https://brandedsurveys.com"],
+["PrizeRebel Daily Survey Wall", "https://www.prizerebel.com"],
+["Toluna Quick Polls", "https://www.toluna.com"],
+["Cint Market Research Task 2", "https://www.cint.com"],
+["Pollfish Daily Insights", "https://www.pollfish.com"],
+["CPX Research Survey Wall 2", "https://cpx-research.com"],
+["BitLabs Global Research Poll", "https://bitlabs.ai"]
 ];
 
 function surveyReset(){
@@ -426,13 +548,12 @@ surveyReset();
 let done=Number(localStorage.getItem("surveyDone")||0);
 if(done>=20) return;
 
-// Asli survey page naye tab mein khulega
 window.open(url, "_blank");
 
 done++;
 localStorage.setItem("surveyDone", done);
 addCoins(reward);
-toast("📋 Survey link opened! +25 Coins added.");
+toast("📋 Survey opened! +25 Coins added.");
 celebrate();
 renderSurveys();
 }
@@ -453,7 +574,7 @@ let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 coins-=amount;
 save();
 
-arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending • 24–72 hours"});
+arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
 localStorage.setItem("withdrawals",JSON.stringify(arr));
 
 closeModal("withdrawModal");
@@ -465,7 +586,7 @@ openModal("historyModal");
 let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 let box=document.getElementById("historyList");
 if(!arr.length){box.innerHTML="<p style='text-align:center;color:#aaa'>No withdrawal history yet.</p>";return;}
-box.innerHTML=arr.map(x=>"<div>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>⏳ "+x.status+"</div>").join("");
+box.innerHTML=arr.map(x=>"<div>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
 }
 
 function copyRef(){
