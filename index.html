@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Rewards App</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Bishal_Pro - Rewards App</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,7 +16,7 @@
         }
 
         body {
-            background-color: #0f172a;
+            background-color: #050b18;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,249 +29,452 @@
             max-width: 412px;
             height: 100vh;
             max-height: 896px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(180deg, #0f1c3f 0%, #080f25 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             overflow-y: auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
         }
 
-        /* Scrollbar hide for clean look */
         .mobile-container::-webkit-scrollbar {
             display: none;
         }
 
-        /* Header */
+        /* Top Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 15px;
+            background: rgba(15, 28, 63, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .profile-box {
+        .profile-area {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 12px;
-            border-radius: 20px;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            object-fit: cover;
+        }
+
+        .profile-info h4 {
             color: #fff;
-            font-size: 12px;
-        }
-
-        .wallet-box {
+            font-size: 13px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: #facc15;
-            padding: 6px 12px;
-            border-radius: 20px;
-            color: #000;
-            font-weight: 700;
+            gap: 4px;
+        }
+
+        .profile-info h4 i {
+            color: #ffd700;
+            font-size: 11px;
+        }
+
+        .profile-info span {
+            color: #94a3b8;
+            font-size: 10px;
+        }
+
+        .wallet-pill {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 30px;
+            padding: 4px 10px;
+            gap: 8px;
+        }
+
+        .wallet-pill i.fa-coins {
+            color: #ffd700;
             font-size: 14px;
         }
 
-        .app-title {
-            text-align: center;
-            color: #facc15;
-            font-size: 20px;
+        .wallet-pill span {
+            color: #fff;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin: 5px 0;
+            font-size: 13px;
         }
 
-        /* Main Content Area */
+        .wallet-pill .add-btn {
+            background: #22c55e;
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Main Content Scroll Area */
         .content {
-            padding: 10px 15px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 12px;
             flex: 1;
         }
 
-        .row {
+        /* Pro Banner */
+        .pro-banner {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 14px;
+            padding: 14px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .pro-banner h2 {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .pro-banner p {
+            color: #e2e8f0;
+            font-size: 10px;
+            margin-top: 2px;
+            margin-bottom: 8px;
+        }
+
+        .banner-tags {
+            display: flex;
+            gap: 6px;
+        }
+
+        .banner-tags span {
+            background: rgba(0,0,0,0.25);
+            color: #f8fafc;
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .banner-tags span i {
+            color: #4ade80;
+        }
+
+        /* Row Cards (Daily Bonus & Watch Ads) */
+        .row-cards {
             display: flex;
             gap: 10px;
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 12px;
+            flex: 1;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border-radius: 14px;
             padding: 12px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* Daily Bonus Card */
-        .daily-bonus {
-            flex: 1;
-            background: linear-gradient(to bottom, #ffffff, #f0fdf4);
-            border: 2px solid #22c55e;
+        .card.bonus {
+            border-color: rgba(34, 197, 94, 0.4);
         }
 
-        .daily-bonus h3 {
-            font-size: 13px;
-            color: #15803d;
-            margin-bottom: 5px;
+        .card.ads {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .badge-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ef4444;
+            color: white;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .card i.main-icon {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .card.bonus i.main-icon { color: #f59e0b; }
+        .card.ads i.main-icon { color: #3b82f6; }
+
+        .card h3 {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 9px;
+            margin: 2px 0 8px 0;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 7px;
+            border-radius: 8px;
+            border: none;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
         .btn-claim {
-            background: #22c55e;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 5px;
+            box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
         }
 
-        /* Watch Ads Card */
-        .watch-ads {
-            flex: 1;
-            background: linear-gradient(to bottom, #ffffff, #eff6ff);
-            border: 2px solid #3b82f6;
+        .btn-watch-ad {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
         }
 
-        .watch-ads h3 {
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .section-header h3 {
+            color: #fff;
             font-size: 13px;
-            color: #1d4ed8;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-header h3 i {
+            color: #f59e0b;
+        }
+
+        .section-header span {
+            color: #94a3b8;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        /* Play & Win Grid (4 items) */
+        .games-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .game-box {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 4px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .game-box i {
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
-        .btn-watch {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 11px;
+        .game-box:nth-child(1) i { color: #ec4899; }
+        .game-box:nth-child(2) i { color: #8b5cf6; }
+        .game-box:nth-child(3) i { color: #eab308; }
+        .game-box:nth-child(4) i { color: #06b6d4; }
+
+        .game-box span {
+            display: block;
+            color: #f1f5f9;
+            font-size: 9px;
             font-weight: 600;
-            cursor: pointer;
-            margin-top: 5px;
         }
 
-        /* Play & Win Section */
-        .play-win {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 10px;
-            border: 2px solid #a855f7;
+        .game-box small {
+            display: block;
+            color: #94a3b8;
+            font-size: 8px;
         }
 
-        .play-win h3 {
-            font-size: 13px;
-            color: #7e22ce;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .games-grid {
-            display: flex;
-            justify-content: space-around;
-            gap: 5px;
-        }
-
-        .mini-game {
-            background: #f3e8ff;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6b21a8;
-            flex: 1;
-            text-align: center;
-        }
-
-        /* Extra Tasks Section */
-        .extra-tasks {
-            background: #fff;
-            border-radius: 12px;
-            padding: 10px;
-            border: 2px solid #f97316;
-        }
-
-        .extra-tasks h3 {
-            font-size: 13px;
-            color: #c2410c;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .tasks-scroll {
+        /* Extra Tasks Horizontal Scroll */
+        .tasks-container {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding-bottom: 4px;
         }
 
-        .task-item {
-            min-width: 90px;
-            background: #ffedd5;
-            border-radius: 8px;
-            padding: 8px;
+        .tasks-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .task-card {
+            min-width: 105px;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px;
             text-align: center;
-            border: 1px solid #fdba74;
+            flex-shrink: 0;
         }
 
-        .task-item p {
-            font-size: 10px;
-            font-weight: 600;
-            color: #9a3412;
+        .task-card i {
+            font-size: 18px;
+            color: #38bdf8;
             margin-bottom: 4px;
         }
 
-        .task-item span {
-            font-size: 9px;
-            background: #ea580c;
+        .task-card h4 {
             color: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .task-reward {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 6px;
             display: inline-block;
         }
 
-        /* Withdraw Button */
-        .withdraw-container {
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.2);
+        /* Refer & Earn Banner */
+        .refer-banner {
+            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .refer-left h4 {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .refer-left p {
+            color: #ddd6fe;
+            font-size: 9px;
+            margin-top: 2px;
+        }
+
+        .refer-right {
+            background: #ffd700;
+            color: #000;
+            font-weight: 800;
+            font-size: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
             text-align: center;
         }
 
-        .btn-withdraw {
-            width: 100%;
-            background: #22c55e;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.4);
+        .refer-right small {
+            display: block;
+            font-size: 7px;
+            font-weight: 600;
         }
 
-        /* Bottom Nav */
+        /* Recent Activity Ticker */
+        .activity-ticker {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 9px;
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .activity-ticker i {
+            color: #22c55e;
+            font-size: 10px;
+        }
+
+        .activity-ticker span {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        /* Bottom Sticky Action & Navigation */
+        .footer-area {
+            background: rgba(8, 15, 37, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
+        }
+
+        .btn-withdraw-pro {
+            width: 100%;
+            background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
         .bottom-nav {
             display: flex;
             justify-content: space-around;
-            background: #0f172a;
-            padding: 10px 0;
-            color: #94a3b8;
-            font-size: 11px;
+            padding-top: 2px;
         }
 
-        .nav-item {
+        .nav-tab {
             text-align: center;
+            color: #64748b;
             cursor: pointer;
+            font-size: 9px;
         }
 
-        .nav-item.active {
-            color: #facc15;
+        .nav-tab i {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .nav-tab.active {
+            color: #38bdf8;
             font-weight: 600;
         }
     </style>
@@ -280,103 +484,203 @@
     <div class="mobile-container">
         
         <!-- Header -->
-        <div>
-            <div class="header">
-                <div class="profile-box">
-                    <span>👤 Profile</span>
-                    <small>ID: 10001</small>
-                </div>
-                <div class="wallet-box">
-                    <span>🪙</span> <span id="coin-count">21,500</span>
+        <div class="header">
+            <div class="profile-area">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Avatar" class="avatar">
+                <div class="profile-info">
+                    <h4>Bishal_Pro <i class="fa-solid fa-crown"></i></h4>
+                    <span>ID: 10001</span>
                 </div>
             </div>
-            <div class="app-title">DREAM REWARDS</div>
+            <div class="wallet-pill">
+                <i class="fa-solid fa-coins"></i>
+                <span id="coin-balance">21,500</span>
+                <div class="add-btn" onclick="addCoins(100)">+</div>
+            </div>
         </div>
 
         <!-- Main Content -->
         <div class="content">
             
-            <!-- Row 1: Daily Bonus & Watch Ads -->
-            <div class="row">
-                <div class="card daily-bonus">
-                    <h3>DAILY BONUS</h3>
-                    <p style="font-size:10px; color:#666;">Claim 50 Coins</p>
-                    <button class="btn-claim" onclick="claimBonus()">Claim</button>
-                </div>
-                <div class="card watch-ads">
-                    <h3>WATCH ADS</h3>
-                    <p style="font-size:10px; color:#666;">Earn 10 Coins</p>
-                    <button class="btn-watch" onclick="watchAd()">Watch</button>
+            <!-- Pro Banner -->
+            <div class="pro-banner">
+                <h2>PLAY • EARN • WITHDRAW</h2>
+                <p>Real Rewards, Real Fun Instantly!</p>
+                <div class="banner-tags">
+                    <span><i class="fa-solid fa-shield-halved"></i> 100% Safe</span>
+                    <span><i class="fa-solid fa-bolt"></i> Fast Payouts</span>
+                    <span><i class="fa-solid fa-headset"></i> 24/7 Support</span>
                 </div>
             </div>
 
-            <!-- Play & Win Mini Games -->
-            <div class="play-win">
-                <h3>🎮 PLAY & WIN</h3>
-                <div class="games-grid">
-                    <div class="mini-game">🎡 Spin Wheel</div>
-                    <div class="mini-game">🧩 Math Quiz</div>
-                    <div class="mini-game">🏆 Leaderboard</div>
+            <!-- Row Cards (Daily Bonus & Watch Ads) -->
+            <div class="row-cards">
+                <div class="card bonus">
+                    <span class="badge-tag">Day 1</span>
+                    <i class="fa-solid fa-gift main-icon"></i>
+                    <h3>DAILY BONUS</h3>
+                    <p>Claim 50 - 500 Coins</p>
+                    <button class="btn-action btn-claim" onclick="claimBonus()">CLAIM NOW</button>
+                </div>
+                <div class="card ads">
+                    <i class="fa-solid fa-video main-icon"></i>
+                    <h3>WATCH ADS</h3>
+                    <p>Earn 10 Coins / Ad</p>
+                    <button class="btn-action btn-watch-ad" onclick="watchAd()">WATCH NOW</button>
+                </div>
+            </div>
+
+            <!-- Play & Win Section -->
+            <div>
+                <div class="section-header">
+                    <h3><i class="fa-solid fa-gamepad"></i> PLAY & WIN</h3>
+                    <span>View All</span>
+                </div>
+                <div class="games-grid-4">
+                    <div class="game-box" onclick="playGame('Spin Wheel')">
+                        <i class="fa-solid fa-dharmachakra"></i>
+                        <span>Spin Wheel</span>
+                        <small>Win 500</small>
+                    </div>
+                    <div class="game-box" onclick="playGame('Math Quiz')">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>Math Quiz</span>
+                        <small>Win 300</small>
+                    </div>
+                    <div class="game-box" onclick="playGame('Leaderboard')">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Rankings</span>
+                        <small>Top Wins</small>
+                    </div>
+                    <div class="game-box" onclick="playGame('Scratch Card')">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span>Lucky Card</span>
+                        <small>Win 1000</small>
+                    </div>
                 </div>
             </div>
 
             <!-- Extra Tasks Section -->
-            <div class="extra-tasks">
-                <h3>🔥 EXTRA TASKS</h3>
-                <div class="tasks-scroll">
-                    <div class="task-item">
-                        <p>Download App</p>
-                        <span>+100 Coins</span>
+            <div>
+                <div class="section-header">
+                    <h3><i class="fa-solid fa-fire"></i> EXTRA TASKS</h3>
+                    <span>More</span>
+                </div>
+                <div class="tasks-container">
+                    <div class="task-card" onclick="completeTask(100)">
+                        <i class="fa-solid fa-download"></i>
+                        <h4>Download App</h4>
+                        <div class="task-reward">+100 Coins</div>
                     </div>
-                    <div class="task-item">
-                        <p>Take Survey</p>
-                        <span>+150 Coins</span>
+                    <div class="task-card" onclick="completeTask(150)">
+                        <i class="fa-solid fa-square-poll-vertical"></i>
+                        <h4>Take Survey</h4>
+                        <div class="task-reward">+150 Coins</div>
                     </div>
-                    <div class="task-item">
-                        <p>Invite Friend</p>
-                        <span>+200 Coins</span>
+                    <div class="task-card" onclick="completeTask(200)">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <h4>Invite Friend</h4>
+                        <div class="task-reward">+200 Coins</div>
                     </div>
-                    <div class="task-item">
-                        <p>Play Quiz</p>
-                        <span>+50 Coins</span>
+                    <div class="task-card" onclick="completeTask(50)">
+                        <i class="fa-solid fa-dice"></i>
+                        <h4>Play Game</h4>
+                        <div class="task-reward">+50 Coins</div>
                     </div>
                 </div>
             </div>
 
+            <!-- Refer & Earn Banner -->
+            <div class="refer-banner">
+                <div class="refer-left">
+                    <h4>REFER & EARN</h4>
+                    <p>Invite friends and get extra daily rewards!</p>
+                </div>
+                <div class="refer-right">
+                    +100 Coins
+                    <small>Per Friend</small>
+                </div>
+            </div>
+
+            <!-- Recent Activity Ticker -->
+            <div class="activity-ticker">
+                <i class="fa-solid fa-circle-check"></i>
+                <div><span>Rahul123</span> won 500 coins just now!</div>
+            </div>
+
         </div>
 
-        <!-- Footer Actions -->
-        <div>
-            <div class="withdraw-container">
-                <button class="btn-withdraw" onclick="alert('Withdrawal request submitted!')">WITHDRAW COINS ⬆</button>
-            </div>
+        <!-- Footer / Withdraw & Navigation -->
+        <div class="footer-area">
+            <button class="btn-withdraw-pro" onclick="withdrawCoins()">
+                <i class="fa-solid fa-wallet"></i> WITHDRAW COINS <i class="fa-solid fa-arrow-right"></i>
+            </button>
             <div class="bottom-nav">
-                <div class="nav-item active">🏠 Home</div>
-                <div class="nav-item">🎮 Games</div>
-                <div class="nav-item">🎁 Offers</div>
-                <div class="nav-item">👛 Wallet</div>
+                <div class="nav-tab active">
+                    <i class="fa-solid fa-house"></i>
+                    Home
+                </div>
+                <div class="nav-tab">
+                    <i class="fa-solid fa-gamepad"></i>
+                    Games
+                </div>
+                <div class="nav-tab">
+                    <i class="fa-solid fa-wallet"></i>
+                    Wallet
+                </div>
+                <div class="nav-tab">
+                    <i class="fa-solid fa-trophy"></i>
+                    Rank
+                </div>
+                <div class="nav-tab">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Simple JavaScript for Interactive Coins -->
+    <!-- JavaScript Interactive Logic -->
     <script>
-        let coins = 21500;
+        let userCoins = 21500;
 
-        function updateCoins(amount) {
-            coins += amount;
-            document.getElementById('coin-count').innerText = coins.toLocaleString();
+        function updateWallet(amount) {
+            userCoins += amount;
+            document.getElementById('coin-balance').innerText = userCoins.toLocaleString();
         }
 
         function claimBonus() {
-            alert("50 Coins added to your wallet!");
-            updateCoins(50);
+            alert("🎉 Daily Bonus Claimed! +50 Coins added.");
+            updateWallet(50);
         }
 
         function watchAd() {
-            alert("Ad watched successfully! 10 Coins added.");
-            updateCoins(10);
+            alert("📺 Ad watched successfully! +10 Coins added.");
+            updateWallet(10);
+        }
+
+        function playGame(gameName) {
+            alert("🎮 Opening " + gameName + "! Play & win big rewards.");
+            updateWallet(25);
+        }
+
+        function completeTask(reward) {
+            alert("✅ Task completed! +" + reward + " Coins added to your wallet.");
+            updateWallet(reward);
+        }
+
+        function withdrawCoins() {
+            let amount = prompt("Enter coins to withdraw (Min 10,000):", "10000");
+            if (amount && amount >= 10000) {
+                alert("🚀 Withdrawal request submitted successfully via UPI/Bank!");
+            } else if (amount) {
+                alert("❌ Minimum withdrawal limit is 10,000 coins.");
+            }
+        }
+
+        function addCoins(amt) {
+            updateWallet(amt);
         }
     </script>
 
