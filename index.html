@@ -23,7 +23,6 @@
             min-height: 100vh;
         }
 
-        /* 9:16 Mobile Container */
         .mobile-container {
             width: 100%;
             max-width: 412px;
@@ -42,7 +41,6 @@
             display: none;
         }
 
-        /* Top Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -109,20 +107,6 @@
             font-size: 13px;
         }
 
-        .wallet-pill .add-btn {
-            background: #22c55e;
-            color: #fff;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            cursor: pointer;
-        }
-
-        /* Main Content Scroll Area */
         .content {
             padding: 12px;
             display: flex;
@@ -131,13 +115,10 @@
             flex: 1;
         }
 
-        /* Pro Banner */
         .pro-banner {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             border-radius: 14px;
             padding: 14px;
-            position: relative;
-            overflow: hidden;
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
@@ -146,14 +127,12 @@
             color: #fff;
             font-size: 15px;
             font-weight: 800;
-            letter-spacing: 0.5px;
         }
 
         .pro-banner p {
             color: #e2e8f0;
             font-size: 10px;
-            margin-top: 2px;
-            margin-bottom: 8px;
+            margin: 2px 0 8px 0;
         }
 
         .banner-tags {
@@ -167,16 +146,8 @@
             font-size: 9px;
             padding: 3px 8px;
             border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
-        .banner-tags span i {
-            color: #4ade80;
-        }
-
-        /* Row Cards (Daily Bonus & Watch Ads) */
         .row-cards {
             display: flex;
             gap: 10px;
@@ -190,16 +161,10 @@
             text-align: center;
             border: 1px solid rgba(255,255,255,0.08);
             position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        .card.bonus {
-            border-color: rgba(34, 197, 94, 0.4);
-        }
-
-        .card.ads {
-            border-color: rgba(59, 130, 246, 0.4);
-        }
+        .card.bonus { border-color: rgba(34, 197, 94, 0.4); }
+        .card.ads { border-color: rgba(59, 130, 246, 0.4); }
 
         .badge-tag {
             position: absolute;
@@ -221,17 +186,8 @@
         .card.bonus i.main-icon { color: #f59e0b; }
         .card.ads i.main-icon { color: #3b82f6; }
 
-        .card h3 {
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .card p {
-            color: #94a3b8;
-            font-size: 9px;
-            margin: 2px 0 8px 0;
-        }
+        .card h3 { color: #fff; font-size: 12px; font-weight: 700; }
+        .card p { color: #94a3b8; font-size: 9px; margin: 2px 0 8px 0; }
 
         .btn-action {
             width: 100%;
@@ -241,22 +197,11 @@
             font-size: 10px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
         }
 
-        .btn-claim {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
-        }
+        .btn-claim { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+        .btn-watch-ad { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
 
-        .btn-watch-ad {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Section Header */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -273,17 +218,9 @@
             gap: 6px;
         }
 
-        .section-header h3 i {
-            color: #f59e0b;
-        }
+        .section-header h3 i { color: #f59e0b; }
+        .section-header span { color: #94a3b8; font-size: 10px; }
 
-        .section-header span {
-            color: #94a3b8;
-            font-size: 10px;
-            cursor: pointer;
-        }
-
-        /* Play & Win Grid (4 items) */
         .games-grid-4 {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -299,40 +236,22 @@
             cursor: pointer;
         }
 
-        .game-box i {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
+        .game-box i { font-size: 20px; margin-bottom: 5px; display: block; }
         .game-box:nth-child(1) i { color: #ec4899; }
         .game-box:nth-child(2) i { color: #8b5cf6; }
         .game-box:nth-child(3) i { color: #eab308; }
         .game-box:nth-child(4) i { color: #06b6d4; }
 
-        .game-box span {
-            display: block;
-            color: #f1f5f9;
-            font-size: 9px;
-            font-weight: 600;
-        }
+        .game-box span { display: block; color: #f1f5f9; font-size: 9px; font-weight: 600; }
+        .game-box small { display: block; color: #94a3b8; font-size: 8px; }
 
-        .game-box small {
-            display: block;
-            color: #94a3b8;
-            font-size: 8px;
-        }
-
-        /* Extra Tasks Horizontal Scroll */
         .tasks-container {
             display: flex;
             gap: 8px;
             overflow-x: auto;
             padding-bottom: 4px;
         }
-
-        .tasks-container::-webkit-scrollbar {
-            display: none;
-        }
+        .tasks-container::-webkit-scrollbar { display: none; }
 
         .task-card {
             min-width: 105px;
@@ -342,21 +261,11 @@
             padding: 10px;
             text-align: center;
             flex-shrink: 0;
+            cursor: pointer;
         }
 
-        .task-card i {
-            font-size: 18px;
-            color: #38bdf8;
-            margin-bottom: 4px;
-        }
-
-        .task-card h4 {
-            color: #fff;
-            font-size: 10px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
+        .task-card i { font-size: 18px; color: #38bdf8; margin-bottom: 4px; display: block; }
+        .task-card h4 { color: #fff; font-size: 10px; font-weight: 600; margin-bottom: 6px; }
         .task-reward {
             background: rgba(245, 158, 11, 0.15);
             color: #fbbf24;
@@ -367,69 +276,54 @@
             display: inline-block;
         }
 
-        /* Refer & Earn Banner */
-        .refer-banner {
-            background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            justify-content: space-between;
+        /* Popups for Games */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 1000;
         }
 
-        .refer-left h4 {
-            color: #fff;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .refer-left p {
-            color: #ddd6fe;
-            font-size: 9px;
-            margin-top: 2px;
-        }
-
-        .refer-right {
-            background: #ffd700;
-            color: #000;
-            font-weight: 800;
-            font-size: 10px;
-            padding: 6px 10px;
-            border-radius: 8px;
+        .modal-content {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 330px;
             text-align: center;
+            border: 2px solid #3b82f6;
+            color: #fff;
         }
 
-        .refer-right small {
-            display: block;
-            font-size: 7px;
-            font-weight: 600;
+        .modal-content h3 { color: #ffd700; margin-bottom: 10px; font-size: 16px; }
+        .modal-content p { font-size: 12px; color: #cbd5e1; margin-bottom: 15px; }
+        
+        .wheel-box {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#ef4444 0deg 90deg, #3b82f6 90deg 180deg, #22c55e 180deg 270deg, #eab308 270deg 360deg);
+            margin: 15px auto;
+            border: 4px solid #fff;
+            transition: transform 3s cubic-bezier(0.15, 0.95, 0.15, 1);
         }
 
-        /* Recent Activity Ticker */
-        .activity-ticker {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 10px;
-            padding: 6px 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 9px;
-            color: #94a3b8;
-            border: 1px solid rgba(255,255,255,0.05);
+        .btn-close-modal {
+            background: #ef4444; color: #fff; border: none; padding: 6px 14px;
+            border-radius: 6px; margin-top: 10px; font-weight: 600; cursor: pointer;
         }
 
-        .activity-ticker i {
-            color: #22c55e;
-            font-size: 10px;
+        .quiz-options {
+            display: flex; flex-direction: column; gap: 8px; margin-top: 10px;
         }
-
-        .activity-ticker span {
-            color: #f8fafc;
-            font-weight: 600;
+        .quiz-btn {
+            background: #334155; color: #fff; border: 1px solid #475569;
+            padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px;
         }
+        .quiz-btn:hover { background: #3b82f6; }
 
-        /* Bottom Sticky Action & Navigation */
         .footer-area {
             background: rgba(8, 15, 37, 0.95);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -439,44 +333,17 @@
         .btn-withdraw-pro {
             width: 100%;
             background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            color: white; border: none; padding: 10px; border-radius: 10px;
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
 
         .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 2px;
+            display: flex; justify-content: space-around; padding-top: 6px;
         }
-
-        .nav-tab {
-            text-align: center;
-            color: #64748b;
-            cursor: pointer;
-            font-size: 9px;
-        }
-
-        .nav-tab i {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 2px;
-        }
-
-        .nav-tab.active {
-            color: #38bdf8;
-            font-weight: 600;
-        }
+        .nav-tab { text-align: center; color: #64748b; cursor: pointer; font-size: 9px; }
+        .nav-tab i { display: block; font-size: 15px; margin-bottom: 2px; }
+        .nav-tab.active { color: #38bdf8; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -495,64 +362,57 @@
             <div class="wallet-pill">
                 <i class="fa-solid fa-coins"></i>
                 <span id="coin-balance">21,500</span>
-                <div class="add-btn" onclick="addCoins(100)">+</div>
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Content -->
         <div class="content">
-            
-            <!-- Pro Banner -->
             <div class="pro-banner">
                 <h2>PLAY • EARN • WITHDRAW</h2>
                 <p>Real Rewards, Real Fun Instantly!</p>
                 <div class="banner-tags">
-                    <span><i class="fa-solid fa-shield-halved"></i> 100% Safe</span>
-                    <span><i class="fa-solid fa-bolt"></i> Fast Payouts</span>
-                    <span><i class="fa-solid fa-headset"></i> 24/7 Support</span>
+                    <span>🛡️ 100% Safe</span>
+                    <span>⚡ Fast Payouts</span>
                 </div>
             </div>
 
-            <!-- Row Cards (Daily Bonus & Watch Ads) -->
             <div class="row-cards">
                 <div class="card bonus">
                     <span class="badge-tag">Day 1</span>
                     <i class="fa-solid fa-gift main-icon"></i>
                     <h3>DAILY BONUS</h3>
-                    <p>Claim 50 - 500 Coins</p>
+                    <p>Claim 50 Coins</p>
                     <button class="btn-action btn-claim" onclick="claimBonus()">CLAIM NOW</button>
                 </div>
                 <div class="card ads">
                     <i class="fa-solid fa-video main-icon"></i>
                     <h3>WATCH ADS</h3>
-                    <p>Earn 10 Coins / Ad</p>
+                    <p>Earn 10 Coins</p>
                     <button class="btn-action btn-watch-ad" onclick="watchAd()">WATCH NOW</button>
                 </div>
             </div>
 
-            <!-- Play & Win Section -->
             <div>
                 <div class="section-header">
                     <h3><i class="fa-solid fa-gamepad"></i> PLAY & WIN</h3>
-                    <span>View All</span>
                 </div>
                 <div class="games-grid-4">
-                    <div class="game-box" onclick="playGame('Spin Wheel')">
+                    <div class="game-box" onclick="openSpinWheel()">
                         <i class="fa-solid fa-dharmachakra"></i>
                         <span>Spin Wheel</span>
                         <small>Win 500</small>
                     </div>
-                    <div class="game-box" onclick="playGame('Math Quiz')">
+                    <div class="game-box" onclick="openMathQuiz()">
                         <i class="fa-solid fa-brain"></i>
                         <span>Math Quiz</span>
                         <small>Win 300</small>
                     </div>
-                    <div class="game-box" onclick="playGame('Leaderboard')">
+                    <div class="game-box" onclick="alert('🏆 Leaderboard: Top player has 150,000 coins!')">
                         <i class="fa-solid fa-trophy"></i>
                         <span>Rankings</span>
                         <small>Top Wins</small>
                     </div>
-                    <div class="game-box" onclick="playGame('Scratch Card')">
+                    <div class="game-box" onclick="alert('🎫 Lucky Scratch: Scratch & win up to 1000 coins!')">
                         <i class="fa-solid fa-ticket"></i>
                         <span>Lucky Card</span>
                         <small>Win 1000</small>
@@ -560,88 +420,71 @@
                 </div>
             </div>
 
-            <!-- Extra Tasks Section -->
             <div>
                 <div class="section-header">
                     <h3><i class="fa-solid fa-fire"></i> EXTRA TASKS</h3>
-                    <span>More</span>
                 </div>
                 <div class="tasks-container">
-                    <div class="task-card" onclick="completeTask(100)">
+                    <div class="task-card" onclick="completeTask(100, 'App Download')">
                         <i class="fa-solid fa-download"></i>
-                        <h4>Download App</h4>
+                        <h4>Download</h4>
                         <div class="task-reward">+100 Coins</div>
                     </div>
-                    <div class="task-card" onclick="completeTask(150)">
+                    <div class="task-card" onclick="completeTask(150, 'Survey')">
                         <i class="fa-solid fa-square-poll-vertical"></i>
-                        <h4>Take Survey</h4>
+                        <h4>Survey</h4>
                         <div class="task-reward">+150 Coins</div>
                     </div>
-                    <div class="task-card" onclick="completeTask(200)">
+                    <div class="task-card" onclick="completeTask(200, 'Referral')">
                         <i class="fa-solid fa-user-plus"></i>
-                        <h4>Invite Friend</h4>
+                        <h4>Invite</h4>
                         <div class="task-reward">+200 Coins</div>
                     </div>
-                    <div class="task-card" onclick="completeTask(50)">
-                        <i class="fa-solid fa-dice"></i>
-                        <h4>Play Game</h4>
-                        <div class="task-reward">+50 Coins</div>
-                    </div>
                 </div>
             </div>
-
-            <!-- Refer & Earn Banner -->
-            <div class="refer-banner">
-                <div class="refer-left">
-                    <h4>REFER & EARN</h4>
-                    <p>Invite friends and get extra daily rewards!</p>
-                </div>
-                <div class="refer-right">
-                    +100 Coins
-                    <small>Per Friend</small>
-                </div>
-            </div>
-
-            <!-- Recent Activity Ticker -->
-            <div class="activity-ticker">
-                <i class="fa-solid fa-circle-check"></i>
-                <div><span>Rahul123</span> won 500 coins just now!</div>
-            </div>
-
         </div>
 
-        <!-- Footer / Withdraw & Navigation -->
+        <!-- Footer -->
         <div class="footer-area">
             <button class="btn-withdraw-pro" onclick="withdrawCoins()">
-                <i class="fa-solid fa-wallet"></i> WITHDRAW COINS <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-wallet"></i> WITHDRAW COINS
             </button>
             <div class="bottom-nav">
-                <div class="nav-tab active">
-                    <i class="fa-solid fa-house"></i>
-                    Home
-                </div>
-                <div class="nav-tab">
-                    <i class="fa-solid fa-gamepad"></i>
-                    Games
-                </div>
-                <div class="nav-tab">
-                    <i class="fa-solid fa-wallet"></i>
-                    Wallet
-                </div>
-                <div class="nav-tab">
-                    <i class="fa-solid fa-trophy"></i>
-                    Rank
-                </div>
-                <div class="nav-tab">
-                    <i class="fa-solid fa-user"></i>
-                    Profile
-                </div>
+                <div class="nav-tab active"><i class="fa-solid fa-house"></i>Home</div>
+                <div class="nav-tab" onclick="openSpinWheel()"><i class="fa-solid fa-gamepad"></i>Games</div>
+                <div class="nav-tab" onclick="withdrawCoins()"><i class="fa-solid fa-wallet"></i>Wallet</div>
+                <div class="nav-tab" onclick="alert('👤 Profile ID: 10001\nName: Bishal_Pro')"><i class="fa-solid fa-user"></i>Profile</div>
             </div>
         </div>
-
     </div>
 
-    <!-- JavaScript Interactive Logic -->
+    <!-- SPIN WHEEL MODAL -->
+    <div class="modal-overlay" id="spinModal">
+        <div class="modal-content">
+            <h3>🎡 Spin & Win</h3>
+            <p>Tap the wheel to spin and win coins!</p>
+            <div class="wheel-box" id="wheel"></div>
+            <button class="btn-action btn-claim" style="margin-top:10px;" onclick="spinTheWheel()">SPIN NOW</button>
+            <br>
+            <button class="btn-close-modal" onclick="closeModals()">Close</button>
+        </div>
+    </div>
+
+    <!-- MATH QUIZ MODAL -->
+    <div class="modal-overlay" id="quizModal">
+        <div class="modal-content">
+            <h3>🧠 Math Quiz</h3>
+            <p id="quizQuestion">What is 15 + 10?</p>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkQuiz(20)">20</button>
+                <button class="quiz-btn" onclick="checkQuiz(25)">25</button>
+                <button class="quiz-btn" onclick="checkQuiz(30)">30</button>
+            </div>
+            <button class="btn-close-modal" style="margin-top:15px;" onclick="closeModals()">Close</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Game Logic -->
     <script>
         let userCoins = 21500;
 
@@ -660,27 +503,58 @@
             updateWallet(10);
         }
 
-        function playGame(gameName) {
-            alert("🎮 Opening " + gameName + "! Play & win big rewards.");
-            updateWallet(25);
+        function completeTask(reward, taskName) {
+            alert("✅ " + taskName + " completed! +" + reward + " Coins added.");
+            updateWallet(reward);
         }
 
-        function completeTask(reward) {
-            alert("✅ Task completed! +" + reward + " Coins added to your wallet.");
-            updateWallet(reward);
+        // Spin Wheel Logic
+        function openSpinWheel() {
+            document.getElementById('spinModal').style.display = 'flex';
+        }
+
+        let currentRotation = 0;
+        function spinTheWheel() {
+            let wheel = document.getElementById('wheel');
+            let randomCoins = [50, 100, 200, 500][Math.floor(Math.random() * 4)];
+            currentRotation += 1440 + Math.floor(Math.random() * 360);
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            
+            setTimeout(() => {
+                alert("🎉 Congratulations! You won " + randomCoins + " coins from Spin Wheel!");
+                updateWallet(randomCoins);
+                closeModals();
+            }, 3000);
+        }
+
+        // Math Quiz Logic
+        let currentAnswer = 25;
+        function openMathQuiz() {
+            document.getElementById('quizModal').style.display = 'flex';
+        }
+
+        function checkQuiz(selectedAnswer) {
+            if (selectedAnswer === currentAnswer) {
+                alert("🎉 Correct Answer! +50 Coins added.");
+                updateWallet(50);
+            } else {
+                alert("❌ Wrong Answer! Try again next time.");
+            }
+            closeModals();
+        }
+
+        function closeModals() {
+            document.getElementById('spinModal').style.display = 'none';
+            document.getElementById('quizModal').style.display = 'none';
         }
 
         function withdrawCoins() {
             let amount = prompt("Enter coins to withdraw (Min 10,000):", "10000");
-            if (amount && amount >= 10000) {
-                alert("🚀 Withdrawal request submitted successfully via UPI/Bank!");
+            if (amount && Number(amount) >= 10000) {
+                alert("🚀 Withdrawal request of " + amount + " coins submitted via UPI/Bank!");
             } else if (amount) {
                 alert("❌ Minimum withdrawal limit is 10,000 coins.");
             }
-        }
-
-        function addCoins(amt) {
-            updateWallet(amt);
         }
     </script>
 
