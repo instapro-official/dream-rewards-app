@@ -197,11 +197,11 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="grid">
 <div class="card card-blue">
-<div class="badge-tag">Earn 10 Coins</div>
+<div class="badge-tag" id="adBadge">Earn 10 Coins</div>
 <div class="icon-box">📺</div>
 <h3>Watch Ads</h3>
-<p>Watch sponsor ads & earn 10 coins instantly.</p>
-<button class="card-btn" onclick="watchAd()">EARN 10 ➔</button>
+<p>Watch sponsor ads (Max 30/day) & earn coins.</p>
+<button class="card-btn" id="watchAdBtn" onclick="watchAd()">EARN 10 ➔</button>
 </div>
 
 <div class="card card-purple">
@@ -221,11 +221,11 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 
 <div class="card card-orange">
-<div class="badge-tag">Earn 10 Coins</div>
+<div class="badge-tag" id="quizBadge">Earn 10 Coins</div>
 <div class="icon-box">🧠</div>
-<h3>Unlimited Quiz</h3>
-<p>Easy Math & GK questions challenge.</p>
-<button class="card-btn" onclick="startQuiz()">START ➔</button>
+<h3>Daily Quiz</h3>
+<p>Easy Math & GK questions (Max 40/day).</p>
+<button class="card-btn" id="quizCardBtn" onclick="startQuiz()">START ➔</button>
 </div>
 </div>
 
@@ -245,9 +245,10 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="card-btn" onclick="openLucky()">PLAY ➔</button>
 </div>
 <div class="card card-orange">
+<div class="badge-tag">200 Coins/Ref</div>
 <div class="icon-box">👥</div>
 <h3>Invite Friends</h3>
-<p>Share via WhatsApp or Telegram.</p>
+<p>Share via WhatsApp or Telegram (+200 Coins).</p>
 <button class="card-btn" onclick="openModal('refModal')">INVITE ➔</button>
 </div>
 </div>
@@ -400,6 +401,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="modal" id="quizModal"><div class="box">
 <button class="close" onclick="closeModal('quizModal')">×</button><h2>🧠 Quiz Challenge</h2>
+<p id="quizLimitTracker" style="text-align:center;color:#fde047;font-size:11px;font-weight:bold;margin-bottom:4px"></p>
 <p id="quizType" style="text-align:center;color:#aaa;font-size:12px;margin-bottom:8px"></p>
 <div class="quiz-q" id="quizQuestion"></div>
 <div class="answers" id="answers"></div>
@@ -421,11 +423,11 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div></div>
 
 <div class="modal" id="refModal"><div class="box">
-<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share</h2>
-<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends!</p>
+<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share (+200 Coins)</h2>
+<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends and earn 200 coins per share!</p>
 <input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
-<button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
-<button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
+<button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP (+200)</button>
+<button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM (+200)</button>
 </div></div>
 
 <div class="surveyPage" id="surveyPage">
@@ -457,7 +459,6 @@ const vipTiers = {
 
 const today = () => new Date().toISOString().slice(0, 10);
 
-// GLOBAL / MULTI-DEVICE SHARED DB SIMULATOR
 function getUsersDB() {
     let cloudData = localStorage.getItem("coinRushGlobalUsers");
     if(!cloudData) {
@@ -493,6 +494,7 @@ localStorage.removeItem("currentUser");
 }
 }
 updateVipUI();
+updateDailyLimitsUI();
 };
 
 function handleLogin() {
@@ -588,6 +590,7 @@ document.getElementById("accUidVal").textContent = document.getElementById("user
 document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
 
 save();
+updateDailyLimitsUI();
 }
 
 function save() {
@@ -800,18 +803,79 @@ b.textContent="🎁 Daily Bonus";b.disabled=false;
 }
 }
 
+// --- DAILY LIMIT SYSTEM FOR ADS & QUIZ ---
+function checkDailyLimits() {
+    let adDateKey = "adDate_" + currentUser;
+    let adCountKey = "adCount_" + currentUser;
+    if(localStorage.getItem(adDateKey) !== today()) {
+        localStorage.setItem(adDateKey, today());
+        localStorage.setItem(adCountKey, "0");
+    }
+
+    let quizDateKey = "quizDate_" + currentUser;
+    let quizCountKey = "quizCount_" + currentUser;
+    if(localStorage.getItem(quizDateKey) !== today()) {
+        localStorage.setItem(quizDateKey, today());
+        localStorage.setItem(quizCountKey, "0");
+    }
+}
+
+function updateDailyLimitsUI() {
+    checkDailyLimits();
+    let adCount = Number(localStorage.getItem("adCount_" + currentUser) || 0);
+    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
+
+    let watchAdBtn = document.getElementById("watchAdBtn");
+    let adBadge = document.getElementById("adBadge");
+    if(adCount >= 30) {
+        watchAdBtn.textContent = "🔒 LOCKED (30/30)";
+        watchAdBtn.disabled = true;
+        adBadge.textContent = "Limit Reached";
+    } else {
+        watchAdBtn.textContent = `EARN 10 (${30 - adCount} left)`;
+        watchAdBtn.disabled = false;
+        adBadge.textContent = "Earn 10 Coins";
+    }
+
+    let quizCardBtn = document.getElementById("quizCardBtn");
+    let quizBadge = document.getElementById("quizBadge");
+    if(quizCount >= 40) {
+        quizCardBtn.textContent = "🔒 LOCKED (40/40)";
+        quizCardBtn.disabled = true;
+        quizBadge.textContent = "Limit Reached";
+    } else {
+        quizCardBtn.textContent = `START (${40 - quizCount} left)`;
+        quizCardBtn.disabled = false;
+        quizBadge.textContent = "Earn 10 Coins";
+    }
+}
+
 const adNetworks = ["https://www.monetag.com","https://www.adsterra.com","https://cpx-research.com","https://bitlabs.ai","https://www.pollfish.com"];
 
 function watchAd(){
-let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
-let targetAdUrl = adNetworks[adIndex % adNetworks.length];
-localStorage.setItem("nextAdIndex", adIndex + 1);
-window.open(targetAdUrl, "_blank");
-setTimeout(() => {
-addCoins(10);
-toast("📺 +10 Coins added!");
-celebrate();
-}, 1000);
+    checkDailyLimits();
+    let adCountKey = "adCount_" + currentUser;
+    let adCount = Number(localStorage.getItem(adCountKey) || 0);
+    
+    if(adCount >= 30) {
+        toast("🔒 Daily ad watch limit reached (30/30)!");
+        updateDailyLimitsUI();
+        return;
+    }
+
+    let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
+    let targetAdUrl = adNetworks[adIndex % adNetworks.length];
+    localStorage.setItem("nextAdIndex", adIndex + 1);
+    window.open(targetAdUrl, "_blank");
+
+    setTimeout(() => {
+        adCount++;
+        localStorage.setItem(adCountKey, adCount);
+        addCoins(10);
+        toast(`📺 +10 Coins added! (${adCount}/30)`);
+        celebrate();
+        updateDailyLimitsUI();
+    }, 1000);
 }
 
 const playStoreApps = [
@@ -839,7 +903,10 @@ let link = document.getElementById("refLink").value;
 let msg = encodeURIComponent("🔥 Best earning app! Join now: " + link);
 window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");
 navigator.clipboard.writeText(link);
-toast("Link copied & WhatsApp opened!");
+addCoins(200);
+celebrate();
+toast("Link copied & WhatsApp opened! +200 Coins added!");
+closeModal('refModal');
 }
 
 function shareTelegram(){
@@ -847,7 +914,10 @@ let link = document.getElementById("refLink").value;
 let text = encodeURIComponent("🔥 Best earning app! Join now: " + link);
 window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
 navigator.clipboard.writeText(link);
-toast("Link copied & Telegram opened!");
+addCoins(200);
+celebrate();
+toast("Link copied & Telegram opened! +200 Coins added!");
+closeModal('refModal');
 }
 
 function resetSpin(){
@@ -962,45 +1032,85 @@ const gk=[
 
 let quizIndex = 0;
 function startQuiz(){
-quizIndex=0;
-openModal("quizModal");
-nextQuestion();
+    checkDailyLimits();
+    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
+    if(quizCount >= 40) {
+        toast("🔒 Daily quiz limit reached (40/40)!");
+        updateDailyLimitsUI();
+        return;
+    }
+    quizIndex=0;
+    openModal("quizModal");
+    nextQuestion();
 }
 
 function nextQuestion(){
-let isMath=quizIndex%2===0;
-let qList=isMath?math:gk;
-let q=qList[Math.floor(quizIndex/2)%qList.length];
+    checkDailyLimits();
+    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
+    if(quizCount >= 40) {
+        closeModal("quizModal");
+        toast("🔒 Daily quiz limit reached (40/40)!");
+        updateDailyLimitsUI();
+        return;
+    }
 
-document.getElementById("quizType").textContent=isMath?"MATH (Class 5-10)":"GK (Class 5-10)";
-document.getElementById("quizQuestion").textContent=q[0];
-document.getElementById("quizResult").textContent="";
+    document.getElementById("quizLimitTracker").textContent = `Questions Completed Today: ${quizCount} / 40`;
 
-let box=document.getElementById("answers");
-box.innerHTML="";
-q[1].forEach((a,i)=>{
-let b=document.createElement("button");
-b.textContent=a;
-b.onclick=()=>answer(i,q[2]);
-box.appendChild(b);
-});
+    let isMath=quizIndex%2===0;
+    let qList=isMath?math:gk;
+    let q=qList[Math.floor(quizIndex/2)%qList.length];
+
+    document.getElementById("quizType").textContent=isMath?"MATH (Class 5-10)":"GK (Class 5-10)";
+    document.getElementById("quizQuestion").textContent=q[0];
+    document.getElementById("quizResult").textContent="";
+
+    let box=document.getElementById("answers");
+    box.innerHTML="";
+    q[1].forEach((a,i)=>{
+        let b=document.createElement("button");
+        b.textContent=a;
+        b.onclick=()=>answer(i,q[2]);
+        box.appendChild(b);
+    });
 }
 
 function answer(i,correct){
-let result=document.getElementById("quizResult");
-if(i===correct){
-result.textContent="🎉 Correct! +10 Coins";
-result.style.color="#4ade80";
-addCoins(10);
-celebrate();
-}else{
-result.textContent="❌ Wrong answer!";
-result.style.color="#fb7185";
-}
-setTimeout(()=>{
-quizIndex++;
-nextQuestion();
-}, 1000);
+    let quizCountKey = "quizCount_" + currentUser;
+    let quizCount = Number(localStorage.getItem(quizCountKey) || 0);
+
+    if(quizCount >= 40) {
+        closeModal("quizModal");
+        toast("🔒 Daily quiz limit reached (40/40)!");
+        updateDailyLimitsUI();
+        return;
+    }
+
+    let result=document.getElementById("quizResult");
+    if(i===correct){
+        quizCount++;
+        localStorage.setItem(quizCountKey, quizCount);
+        result.textContent="🎉 Correct! +10 Coins";
+        result.style.color="#4ade80";
+        addCoins(10);
+        celebrate();
+        updateDailyLimitsUI();
+    }else{
+        quizCount++;
+        localStorage.setItem(quizCountKey, quizCount);
+        result.textContent="❌ Wrong answer!";
+        result.style.color="#fb7185";
+        updateDailyLimitsUI();
+    }
+
+    setTimeout(()=>{
+        if(quizCount >= 40) {
+            closeModal("quizModal");
+            toast("🔒 Daily quiz limit completed (40/40)!");
+        } else {
+            quizIndex++;
+            nextQuestion();
+        }
+    }, 1000);
 }
 
 const surveys=[
