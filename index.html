@@ -3,104 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Rewards Pro</title>
+<title>CoinRush Pro - Glowing Edition</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#07091e,#13113d,#050b1a);color:#fff;min-height:100vh}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#050716;color:#fff;min-height:100vh}
 button{border:0;cursor:pointer;font-weight:700}
-.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:95px;display:none}
+.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:100px;display:none}
 .app.show{display:block}
 
-/* STYLISH COLOR GRADIENT HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(90deg,#1c1b4b,#2e1065);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;backdrop-filter:blur(12px);z-index:10}
-.profile{display:flex;align-items:center;gap:10px}.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#06b6d4);font-size:18px;box-shadow:0 0 15px rgba(139,92,246,0.5)}
-.name{font-weight:700;font-size:14px}.id{font-size:11px;color:#a5b4fc}
-.balance-pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);padding:6px 14px;border-radius:14px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px}
+/* HEADER WITH GLOWING PROFILE */
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(90deg,#0f1035,#1b104a);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;backdrop-filter:blur(15px);z-index:10}
+.profile{display:flex;align-items:center;gap:10px}
+.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);font-size:18px;box-shadow:0 0 15px rgba(139,92,246,0.6)}
+.name{font-weight:800;font-size:14px;letter-spacing:0.3px}.id{font-size:11px;color:#cbd5e1}
+.balance-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:6px 14px;border-radius:16px;font-size:14px;font-weight:900;display:flex;align-items:center;gap:6px;box-shadow:0 0 12px rgba(234,179,8,0.3)}
 
-/* HERO BALANCE CARD (REF: 97274.jpg) */
-.hero-card{margin:14px 16px;padding:20px;border-radius:24px;background:linear-gradient(135deg,#3b82f6,#7c3aed,#ec4899);box-shadow:0 12px 30px rgba(124,58,237,0.35);position:relative;overflow:hidden}
-.hero-title{font-size:11px;letter-spacing:1px;color:#e0e7ff;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+/* HERO BALANCE CARD (REF: 97274_2.jpg EXACT MATCH) */
+.hero-card{margin:16px;padding:24px 20px;border-radius:28px;background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95,#7c3aed);box-shadow:0 15px 35px rgba(76,29,149,0.5),inset 0 1px 2px rgba(255,255,255,0.2);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.12)}
+.hero-card::before{content:'';position:absolute;top:-50px;right:-50px;width:120px;height:120px;background:radial-gradient(circle,rgba(236,72,153,0.4) 0%,transparent 70%);border-radius:50%}
+.hero-title{font-size:11px;letter-spacing:1.5px;color:#c084fc;font-weight:800;text-transform:uppercase;margin-bottom:8px}
 .hero-balance-row{display:flex;align-items:center;justify-content:space-between}
-.hero-amount{font-size:28px;font-weight:900;display:flex;align-items:center;gap:8px}
-.hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.hero-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);padding:10px;border-radius:14px;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(5px);transition:0.2s}
+.hero-amount{font-size:32px;font-weight:900;display:flex;align-items:center;gap:10px;text-shadow:0 2px 10px rgba(0,0,0,0.4)}
+.hero-coins-icon{font-size:34px;filter:drop-shadow(0 0 8px rgba(234,179,8,0.6))}
+.hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.hero-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:12px;border-radius:16px;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;backdrop-filter:blur(8px);transition:0.2s;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
 .hero-btn:active{transform:scale(0.97)}
 
 /* SECTION HEADER */
-.section-header{display:flex;justify-content:space-between;align-items:center;padding:4px 18px 10px;font-size:14px;font-weight:800}
-.section-header span{color:#a5b4fc;font-size:12px;cursor:pointer}
+.section-header{display:flex;justify-content:space-between;align-items:center;padding:8px 18px 12px;font-size:15px;font-weight:900;letter-spacing:0.5px}
+.section-header span{color:#a78bfa;font-size:12px;cursor:pointer;font-weight:700}
 
-/* GRID & CARDS LAYOUT */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 12px}
-.card{background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,0.25);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
-.card h3{margin:8px 0 3px;font-size:14px;font-weight:700}.card p{font-size:11px;color:#94a3b8;line-height:1.3}
-.badge-tag{position:absolute;top:10px;right:10px;background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.4);padding:2px 8px;border-radius:8px;font-size:9px;color:#c084fc;font-weight:700}
-.icon{font-size:26px}
-.full{margin:0 16px 12px}
-.btn{width:100%;padding:11px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:white;margin-top:12px;font-size:12px;font-weight:700;transition:0.2s;box-shadow:0 4px 15px rgba(139,92,246,0.3)}
-.btn:active{transform:scale(0.97)}
-.btn:disabled{opacity:.5;box-shadow:none}
+/* VIBRANT COLOR-GRADED CARDS (REF: 97274_2.jpg) */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 16px 14px}
+.card{border-radius:22px;padding:18px 16px;box-shadow:0 10px 25px rgba(0,0,0,0.3),inset 0 1px 1px rgba(255,255,255,0.2);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.15);transition:0.3s}
+.card:active{transform:scale(0.97)}
 
-/* BOTTOM NAV BAR (REF: 97274.jpg) */
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:rgba(15, 23, 42, 0.95);backdrop-filter:blur(15px);border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;padding:10px 0 16px;z-index:25}
-.nav-item{background:transparent;border:0;color:#64748b;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;cursor:pointer;font-weight:600}
-.nav-item.active{color:#a78bfa}
-.nav-item span:first-child{font-size:18px}
+/* INDIVIDUAL CARD COLOR GRADIENTS TO MATCH REF IMAGE */
+.card-blue{background:linear-gradient(145deg,#1e3a8a,#172554,#1e40af);box-shadow:0 10px 25px rgba(30,58,138,0.4)}
+.card-purple{background:linear-gradient(145deg,#581c87,#3b0764,#6b21a8);box-shadow:0 10px 25px rgba(88,28,135,0.4)}
+.card-green{background:linear-gradient(145deg,#064e3b,#022c22,#047857);box-shadow:0 10px 25px rgba(6,78,59,0.4)}
+.card-orange{background:linear-gradient(145deg,#7c2d12,#431407,#c2410c);box-shadow:0 10px 25px rgba(124,45,18,0.4)}
+.card-full{background:linear-gradient(145deg,#312e81,#1e1b4b,#4338ca);margin:0 16px 14px}
 
-/* STICKY TOP WITHDRAW BUTTON */
-.withdraw{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);width:min(450px,calc(100% - 24px));padding:13px;border-radius:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:15px;font-weight:800;z-index:20;box-shadow:0 8px 25px rgba(245,158,11,0.4)}
+.card h3{margin:10px 0 4px;font-size:14px;font-weight:800;color:#fff}
+.card p{font-size:11px;color:#cbd5e1;line-height:1.35}
+.badge-tag{position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);padding:3px 9px;border-radius:10px;font-size:9px;color:#fde047;font-weight:800;backdrop-filter:blur(4px)}
+.icon-box{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,0.15);display:grid;place-items:center;font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+.card-btn{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.2);color:white;margin-top:14px;font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(5px);transition:0.2s}
+.card-btn:active{background:rgba(255,255,255,0.35)}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:30;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
-.modal.show{display:flex}.box{width:100%;max-width:440px;background:linear-gradient(145deg,#13113d,#0f172a);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:22px;max-height:90vh;overflow:auto;box-shadow:0 20px 40px rgba(0,0,0,0.6)}
-.close{float:right;background:rgba(255,255,255,0.1);color:#fff;border-radius:50%;width:32px;height:32px;font-size:16px;display:grid;place-items:center;cursor:pointer}
-.box h2{text-align:center;margin:0 0 15px;font-size:18px}
+/* STICKY BOTTOM WITHDRAW BUTTON */
+.withdraw-main{margin:10px 16px 20px;width:calc(100% - 32px);padding:16px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ea580c,#dc2626);color:#fff;font-size:16px;font-weight:900;box-shadow:0 10px 30px rgba(245,158,11,0.5);letter-spacing:0.5px;text-align:center;border:1px solid rgba(255,255,255,0.3)}
+
+/* BOTTOM NAV BAR (REF: 97274_2.jpg EXACT) */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:rgba(11, 15, 33, 0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-around;padding:12px 0 18px;z-index:25;box-shadow:0 -10px 25px rgba(0,0,0,0.5)}
+.nav-item{background:transparent;border:0;color:#64748b;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;font-weight:700;transition:0.2s}
+.nav-item.active{color:#c084fc;text-shadow:0 0 10px rgba(192,132,252,0.6)}
+.nav-item span:first-child{font-size:20px}
+
+/* MODALS & OTHERS */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:30;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
+.modal.show{display:flex}
+.box{width:100%;max-width:440px;background:linear-gradient(145deg,#14113b,#0b0f29);border:1px solid rgba(255,255,255,0.18);border-radius:28px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 50px rgba(0,0,0,0.8)}
+.close{float:right;background:rgba(255,255,255,0.12);color:#fff;border-radius:50%;width:34px;height:34px;font-size:16px;display:grid;place-items:center;cursor:pointer}
+.box h2{text-align:center;margin:0 0 16px;font-size:18px;font-weight:900}
 
 /* LOGIN & ADMIN STYLING */
-.login-container{position:fixed;inset:0;background:#050714;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-.login-box{width:100%;max-width:380px;background:#11152e;border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:24px;box-shadow:0 15px 35px rgba(0,0,0,0.7)}
-.login-box h2{text-align:center;margin-bottom:6px;font-size:22px}
-.login-box p{text-align:center;color:#94a3b8;font-size:12px;margin-bottom:18px}
+.login-container{position:fixed;inset:0;background:#050716;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.login-box{width:100%;max-width:380px;background:linear-gradient(145deg,#121633,#0a0d24);border:1px solid rgba(255,255,255,0.18);border-radius:28px;padding:28px;box-shadow:0 20px 40px rgba(0,0,0,0.8)}
+.login-box h2{text-align:center;margin-bottom:8px;font-size:24px;font-weight:900}
+.login-box p{text-align:center;color:#94a3b8;font-size:12px;margin-bottom:20px}
 
-.admin-panel{display:none;max-width:480px;margin:auto;min-height:100vh;padding:16px;background:#050714;z-index:150;position:fixed;inset:0;overflow:auto}
+.admin-panel{display:none;max-width:480px;margin:auto;min-height:100vh;padding:16px;background:#050716;z-index:150;position:fixed;inset:0;overflow:auto}
 .admin-panel.show{display:block}
-.admin-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;margin-top:10px;font-size:13px}
+.admin-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:16px;margin-top:12px;font-size:13px}
 
-/* STYLISH TASK PROGRESS TIMELINE (REF: 97275.png) */
-.task-header-box{background:linear-gradient(135deg,#7c3aed,#3b82f6);border-radius:20px;padding:18px;margin-bottom:16px;position:relative}
-.task-top-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.task-stats-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.2);padding:12px 14px;border-radius:14px}
-.circular-progress{position:relative;width:60px;height:60px;border-radius:50%;background:conic-gradient(#22c55e 75%, rgba(255,255,255,0.2) 0deg);display:grid;place-items:center}
-.circular-inner{width:48px;height:48px;background:#13113d;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700}
-
+/* RICHIE GAMES STYLE TASK TIMELINE */
+.task-header-box{background:linear-gradient(135deg,#7c3aed,#4f46e5,#3b82f6);border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 10px 25px rgba(79,70,229,0.4)}
+.task-stats-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.25);padding:14px;border-radius:16px;margin-top:12px}
+.circular-progress{position:relative;width:56px;height:56px;border-radius:50%;background:conic-gradient(#22c55e 75%, rgba(255,255,255,0.2) 0deg);display:grid;place-items:center;box-shadow:0 0 12px rgba(34,197,94,0.4)}
+.circular-inner{width:46px;height:46px;background:#14113b;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:900}
 .timeline{position:relative;padding-left:24px;margin-top:15px}
 .timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:rgba(255,255,255,0.2)}
-.timeline-item{position:relative;margin-bottom:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center}
-.timeline-dot{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#22c55e;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;border:2px solid #13113d}
+.timeline-item{position:relative;margin-bottom:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center}
+.timeline-dot{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#22c55e;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;border:2px solid #14113b;box-shadow:0 0 8px rgba(34,197,94,0.6)}
 .timeline-dot.pending{background:#64748b}
 
-/* REALISTIC PRO SPIN WHEEL */
-.wheel-wrap{position:relative;width:280px;height:280px;margin:15px auto;filter:drop-shadow(0 0 20px rgba(139,92,246,0.5))}
-#wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4.5s cubic-bezier(0.15,0.85,0.12,1);border:10px solid #111;box-shadow:inset 0 0 15px rgba(0,0,0,0.8),0 0 25px rgba(255,255,255,0.15);background:conic-gradient(#ef4444 0deg 30deg,#3b82f6 30deg 60deg,#10b981 60deg 90deg,#a855f7 90deg 120deg,#f59e0b 120deg 150deg,#ef4444 150deg 180deg,#3b82f6 180deg 210deg,#10b981 210deg 240deg,#a855f7 240deg 270deg,#f59e0b 270deg 300deg,#ef4444 300deg 330deg,#22d3ee 330deg 360deg)}
-#wheel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:radial-gradient(circle,#333 40%,#111 100%);border-radius:50%;border:3px solid #fff;box-shadow:0 0 8px rgba(0,0,0,0.8);z-index:4}
+/* SPIN WHEEL */
+.wheel-wrap{position:relative;width:280px;height:280px;margin:15px auto;filter:drop-shadow(0 0 25px rgba(139,92,246,0.6))}
+#wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4.5s cubic-bezier(0.15,0.85,0.12,1);border:10px solid #111;box-shadow:inset 0 0 15px rgba(0,0,0,0.8),0 0 25px rgba(255,255,255,0.2);background:conic-gradient(#ef4444 0deg 30deg,#3b82f6 30deg 60deg,#10b981 60deg 90deg,#a855f7 90deg 120deg,#f59e0b 120deg 150deg,#ef4444 150deg 180deg,#3b82f6 180deg 210deg,#10b981 210deg 240deg,#a855f7 240deg 270deg,#f59e0b 270deg 300deg,#ef4444 300deg 330deg,#22d3ee 330deg 360deg)}
+#wheel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:radial-gradient(circle,#333 40%,#111 100%);border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px rgba(0,0,0,0.9);z-index:4}
 #wheel span{position:absolute;left:50%;top:50%;width:65px;text-align:center;font-size:14px;font-weight:900;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,0.9);transform-origin:0 0}
 .s1{transform:rotate(15deg) translateX(65px)}.s2{transform:rotate(45deg) translateX(65px)}.s3{transform:rotate(75deg) translateX(65px)}.s4{transform:rotate(105deg) translateX(65px)}.s5{transform:rotate(135deg) translateX(65px)}.s6{transform:rotate(165deg) translateX(65px)}.s7{transform:rotate(195deg) translateX(65px)}.s8{transform:rotate(225deg) translateX(65px)}.s9{transform:rotate(255deg) translateX(65px)}.s10{transform:rotate(285deg) translateX(65px)}.s11{transform:rotate(315deg) translateX(65px)}.s12{transform:rotate(345deg) translateX(65px)}
-.pointer{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:30px solid #facc15;z-index:6;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.5))}
+.pointer{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:30px solid #facc15;z-index:6;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.6))}
 
-.result{text-align:center;display:none;padding:10px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);border-radius:12px;margin-top:10px;font-size:13px}.result.show{display:block}.result strong{font-size:20px}
-.lucky{height:150px;border-radius:16px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:50px}
-.quiz-q{font-size:15px;font-weight:700;text-align:center;background:rgba(255,255,255,0.04);padding:16px;border-radius:14px;margin-bottom:12px}
-.answers{display:grid;gap:8px}.answers button{padding:12px;border-radius:12px;background:rgba(255,255,255,0.08);color:#fff;text-align:left;font-size:13px;font-weight:600}
-.surveyPage{display:none;position:fixed;inset:0;background:#050714;z-index:40;overflow:auto}
+.result{text-align:center;display:none;padding:12px;background:rgba(34,197,94,0.2);border:1px solid rgba(34,197,94,0.5);border-radius:14px;margin-top:12px;font-size:13px}.result.show{display:block}.result strong{font-size:20px}
+.lucky{height:150px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:50px;box-shadow:0 10px 25px rgba(245,158,11,0.3)}
+.quiz-q{font-size:15px;font-weight:800;text-align:center;background:rgba(255,255,255,0.06);padding:16px;border-radius:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.1)}
+.answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:14px;background:rgba(255,255,255,0.08);color:#fff;text-align:left;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,0.1);transition:0.2s}
+.answers button:active{background:rgba(255,255,255,0.2)}
+
+.surveyPage{display:none;position:fixed;inset:0;background:#050716;z-index:40;overflow:auto}
 .surveyPage.show{display:block}.surveyInner{max-width:480px;margin:auto;padding-bottom:40px}
-.surveyHead{display:flex;align-items:center;gap:10px;padding:14px 18px;position:sticky;top:0;background:rgba(12,16,48,0.95);backdrop-filter:blur(10px);z-index:5}
-.back{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.1);color:#fff;font-size:18px;display:grid;place-items:center}
-.surveyHead h2{font-size:16px}.surveyCount{text-align:center;color:#94a3b8;padding:10px 16px;font-size:12px}
-.survey{margin:8px 16px;padding:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px}
-.survey b{display:block;font-size:14px;margin-bottom:4px}.survey small{color:#94a3b8;font-size:11px}
-input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;margin:6px 0;outline:none;font-size:13px}
-.toast{position:fixed;top:15px;left:50%;transform:translate(-50%,-120px);background:#1e1b4b;border:1px solid rgba(255,255,255,0.2);padding:10px 18px;border-radius:14px;z-index:200;transition:.3s;box-shadow:0 10px 30px rgba(0,0,0,0.6);font-size:13px;font-weight:600}
+.surveyHead{display:flex;align-items:center;gap:12px;padding:14px 18px;position:sticky;top:0;background:rgba(11,15,33,0.95);backdrop-filter:blur(15px);z-index:5;border-bottom:1px solid rgba(255,255,255,0.08)}
+.back{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,0.12);color:#fff;font-size:20px;display:grid;place-items:center}
+.surveyHead h2{font-size:16px}.surveyCount{text-align:center;color:#cbd5e1;padding:12px 16px;font-size:12px;font-weight:700}
+.survey{margin:10px 16px;padding:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:18px}
+.survey b{display:block;font-size:14px;margin-bottom:4px}.survey small{color:#cbd5e1;font-size:11px}
+input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;margin:8px 0;outline:none;font-size:13px;font-weight:600}
+.toast{position:fixed;top:15px;left:50%;transform:translate(-50%,-120px);background:#1e1b4b;border:1px solid rgba(255,255,255,0.3);padding:12px 20px;border-radius:16px;z-index:200;transition:.3s;box-shadow:0 15px 35px rgba(0,0,0,0.8);font-size:13px;font-weight:800;color:#fde047}
 .toast.show{transform:translate(-50%,0)}
-.confetti{position:fixed;z-index:199;top:-10px;font-size:20px;animation:fall 1.5s linear forwards;pointer-events:none}
+.confetti{position:fixed;z-index:199;top:-10px;font-size:22px;animation:fall 1.5s linear forwards;pointer-events:none}
 @keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
 </style>
 </head>
@@ -113,15 +126,15 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,2
 <p>Enter your mobile number and password</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
 <input id="loginPassword" type="password" placeholder="Password">
-<button class="btn" onclick="handleLogin()">LOGIN / REGISTER</button>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
 </div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div class="admin-panel" id="adminPanel">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
 <h2>🛡️ Owner Admin Panel</h2>
-<button class="btn" style="width:auto;padding:6px 12px;background:#ef4444;" onclick="closeAdmin()">LOGOUT</button>
+<button class="card-btn" style="width:auto;padding:8px 14px;background:#ef4444;" onclick="closeAdmin()">LOGOUT</button>
 </div>
 <p style="color:#aaa;margin-bottom:12px;font-size:12px">Withdrawal requests:</p>
 <div id="adminWithdrawList"></div>
@@ -137,11 +150,11 @@ input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,2
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
 
-<!-- HERO BALANCE CARD (REF: 97274.jpg) -->
+<!-- HERO BALANCE CARD (REF: 97274_2.jpg EXACT) -->
 <section class="hero-card">
 <div class="hero-title">Total Balance</div>
 <div class="hero-balance-row">
-<div class="hero-amount">🪙 <span id="coins">0</span></div>
+<div class="hero-amount"><span class="hero-coins-icon">🪙</span> <span id="coins">0</span></div>
 </div>
 <div class="hero-btns">
 <button class="hero-btn" onclick="openWithdraw()">💳 Withdraw</button>
@@ -154,74 +167,79 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 
 <div class="grid">
-<div class="card">
+<!-- Card 1: Blue -->
+<div class="card card-blue">
 <div class="badge-tag">Earn 25 Coins</div>
-<div class="icon">📺</div>
+<div class="icon-box">📺</div>
 <h3>Watch Ads</h3>
-<p>Watch sponsor ads & earn coins.</p>
-<button class="btn" onclick="watchAd()">EARN 25</button>
+<p>Watch sponsor ads & earn coins instantly.</p>
+<button class="card-btn" onclick="watchAd()">EARN 25 ➔</button>
 </div>
 
-<div class="card">
+<!-- Card 2: Purple -->
+<div class="card card-purple">
 <div class="badge-tag">Up to 100 Coins</div>
-<div class="icon">🎡</div>
+<div class="icon-box">🎡</div>
 <h3>Lucky Spin</h3>
-<p>Spin & win exciting rewards.</p>
-<button class="btn" onclick="openModal('wheelModal')">SPIN</button>
+<p>Spin & win exciting rewards every day.</p>
+<button class="card-btn" onclick="openModal('wheelModal')">SPIN ➔</button>
 </div>
 
-<div class="card">
+<!-- Card 3: Green -->
+<div class="card card-green">
 <div class="badge-tag">Earn 100 Coins</div>
-<div class="icon">📥</div>
+<div class="icon-box">📥</div>
 <h3>Download App</h3>
-<p>Earn coins on downloading new app.</p>
-<button class="btn" onclick="openDownloadTask()">EARN 100</button>
+<p>Earn high coins on downloading new apps.</p>
+<button class="card-btn" onclick="openDownloadTask()">EARN 100 ➔</button>
 </div>
 
-<div class="card">
+<!-- Card 4: Orange -->
+<div class="card card-orange">
 <div class="badge-tag">Earn 25 Coins</div>
-<div class="icon">🧠</div>
+<div class="icon-box">🧠</div>
 <h3>Unlimited Quiz</h3>
-<p>Easy Math & GK questions.</p>
-<button class="btn" onclick="startQuiz()">START QUIZ</button>
+<p>Easy Math & GK questions challenge.</p>
+<button class="card-btn" onclick="startQuiz()">START ➔</button>
 </div>
 </div>
 
-<div class="full card" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(59,130,246,0.15));">
+<!-- Full Card -->
+<div class="card card-full card-blue" style="margin:0 16px 14px;">
 <div class="badge-tag">25 coins / survey</div>
-<div class="icon">📋</div>
+<div class="icon-box">📋</div>
 <h3>Survey Center</h3>
-<p>Complete surveys and boost your earnings daily.</p>
-<button class="btn" onclick="openSurveyPage()">OPEN SURVEY</button>
+<p>Complete daily surveys and boost your earnings rapidly.</p>
+<button class="card-btn" onclick="openSurveyPage()">OPEN SURVEY CENTER ➔</button>
 </div>
 
 <div class="grid">
-<div class="card">
-<div class="icon">🃏</div>
+<div class="card card-purple">
+<div class="icon-box">🃏</div>
 <h3>Lucky Card</h3>
-<p>One lucky card every day.</p>
-<button class="btn" onclick="openLucky()">PLAY</button>
+<p>One lucky card every single day.</p>
+<button class="card-btn" onclick="openLucky()">PLAY ➔</button>
 </div>
-<div class="card">
-<div class="icon">👥</div>
+<div class="card card-orange">
+<div class="icon-box">👥</div>
 <h3>Invite Friends</h3>
 <p>Share via WhatsApp or Telegram.</p>
-<button class="btn" onclick="openModal('refModal')">INVITE</button>
+<button class="card-btn" onclick="openModal('refModal')">INVITE ➔</button>
 </div>
 </div>
 
-<div class="full card">
-<div class="icon">📜</div>
+<div class="card card-full card-green" style="margin:0 16px 14px;">
+<div class="icon-box">📜</div>
 <h3>Withdrawal History</h3>
-<p>View previous withdrawal requests.</p>
-<button class="btn" onclick="openHistory()">VIEW HISTORY</button>
+<p>View your previous withdrawal records & status.</p>
+<button class="card-btn" onclick="openHistory()">VIEW HISTORY ➔</button>
 </div>
 
-<button class="btn" style="background:#ef4444;margin:10px 16px;width:calc(100% - 32px);" onclick="logout()">LOGOUT</button>
+<button class="card-btn" style="background:#ef4444;margin:10px 16px;width:calc(100% - 32px);padding:14px;" onclick="logout()">LOGOUT ACCOUNT</button>
 
-<button class="withdraw" onclick="openWithdraw()">💰 WITHDRAW COINS</button>
+<button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
 
-<!-- BOTTOM NAVIGATION BAR (REF: 97274.jpg) -->
+<!-- BOTTOM NAVIGATION BAR (REF: 97274_2.jpg EXACT) -->
 <nav class="bottom-nav">
 <button class="nav-item active" onclick="switchNav('home')"><span>🏠</span>Home</button>
 <button class="nav-item" onclick="openTaskModal()"><span>🎁</span>Earn Tasks</button>
@@ -230,14 +248,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </nav>
 </div>
 
-<!-- TASK PROGRESS & REWARDS MODAL (REF: 97275.png) -->
+<!-- TASK PROGRESS & REWARDS MODAL -->
 <div class="modal" id="taskModal">
 <div class="box">
 <button class="close" onclick="closeModal('taskModal')">×</button>
 <h2>📊 Task Progress & Rewards</h2>
 
 <div class="task-header-box">
-<div style="font-size:16px;font-weight:800;margin-bottom:4px;">Richie Games - Play & Earn</div>
+<div style="font-size:16px;font-weight:900;margin-bottom:4px;">Richie Games - Play & Earn</div>
 <div style="font-size:11px;color:#e0e7ff;margin-bottom:12px;">Complete tasks below to unlock big coin rewards!</div>
 <div class="task-stats-row">
 <div>
@@ -250,12 +268,10 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<div style="font-size:13px;font-weight:800;margin-bottom:6px;">🎁 Rewards Timeline</div>
-<div class="timeline" id="timelineList">
-<!-- Timeline injected via JS -->
-</div>
+<div style="font-size:13px;font-weight:900;margin-bottom:6px;">🎁 Rewards Timeline</div>
+<div class="timeline" id="timelineList"></div>
 
-<button class="btn" onclick="closeModal('taskModal')">Continue →</button>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:16px;padding:12px;" onclick="closeModal('taskModal')">Continue →</button>
 </div>
 </div>
 
@@ -272,31 +288,31 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 <div class="result" id="spinResult"><strong id="spinWon"></strong><br>🎉 Congratulations!</div>
-<button class="btn" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
-<p id="spinLeft" style="text-align:center;color:#aaa;margin-top:8px;font-size:12px"></p>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
+<p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px;font-size:12px"></p>
 </div></div>
 
 <div class="modal" id="luckyModal"><div class="box">
 <button class="close" onclick="closeModal('luckyModal')">×</button><h2>🃏 Lucky Card</h2>
 <div class="lucky" id="luckyCard">🎁</div>
-<button class="btn" id="luckyBtn" onclick="chooseLucky()">REVEAL CARD</button>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="luckyBtn" onclick="chooseLucky()">REVEAL CARD</button>
 <p id="luckyResult" style="text-align:center;margin-top:12px;font-size:12px"></p>
 </div></div>
 
 <div class="modal" id="quizModal"><div class="box">
 <button class="close" onclick="closeModal('quizModal')">×</button><h2>🧠 Quiz Challenge</h2>
-<p id="quizType" style="text-align:center;color:#aaa;font-size:12px"></p>
+<p id="quizType" style="text-align:center;color:#aaa;font-size:12px;margin-bottom:8px"></p>
 <div class="quiz-q" id="quizQuestion"></div>
 <div class="answers" id="answers"></div>
-<p id="quizResult" style="text-align:center;margin-top:12px;font-weight:700;font-size:12px"></p>
+<p id="quizResult" style="text-align:center;margin-top:12px;font-weight:900;font-size:13px"></p>
 </div></div>
 
 <div class="modal" id="withdrawModal"><div class="box">
 <button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal</h2>
-<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:10px">Min 4,000 • Max 20,000 coins/day</p>
+<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:12px">Min 4,000 • Max 20,000 coins/day</p>
 <input id="withdrawCoins" type="number" placeholder="Enter coins">
-<input id="upi" type="text" placeholder="Enter UPI ID">
-<button class="btn" onclick="submitWithdraw()">REQUEST & SEND WHATSAPP</button>
+<input id="upi" type="text" placeholder="Enter UPI ID (e.g. ybl@okhdfc)">
+<button class="card-btn" style="background:linear-gradient(135deg,#f59e0b,#ef4444);padding:14px;margin-top:16px;" onclick="submitWithdraw()">REQUEST & SEND WHATSAPP</button>
 </div></div>
 
 <div class="modal" id="historyModal"><div class="box">
@@ -306,10 +322,10 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="modal" id="refModal"><div class="box">
 <button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share</h2>
-<p style="color:#aaa;text-align:center;margin-bottom:10px;font-size:12px">Share your referral link with friends!</p>
+<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends!</p>
 <input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
-<button class="btn" style="background:#25D366;margin-bottom:6px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
-<button class="btn" style="background:#0088cc;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
+<button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
+<button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
 </div></div>
 
 <div class="surveyPage" id="surveyPage">
@@ -397,7 +413,7 @@ box.innerHTML = arr.map((x, i) => `
 <p><b>Amount:</b> ${x.amount} Coins</p>
 <p><b>Date:</b> ${x.date}</p>
 <p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
-<button class="btn" style="background:#22c55e;margin-top:6px;padding:6px;" onclick="approveWithdraw(${i})">APPROVE / PAID</button>
+<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw(${i})">APPROVE / PAID ✓</button>
 </div>
 `).join("");
 }
@@ -460,10 +476,10 @@ html += `
 <div class="timeline-item">
 <div class="timeline-dot ${item.done ? '' : 'pending'}">${item.done ? '✓' : idx+1}</div>
 <div>
-<div style="font-size:13px;font-weight:700;">${item.title}</div>
+<div style="font-size:13px;font-weight:800;">${item.title}</div>
 <div style="font-size:11px;color:#94a3b8;">Status: ${item.done ? '<span style="color:#22c55e">Completed ✓</span>' : '<span style="color:#f59e0b">Pending</span>'}</div>
 </div>
-<div style="font-size:12px;font-weight:800;color:#a78bfa;">${item.reward}</div>
+<div style="font-size:12px;font-weight:900;color:#fde047;">${item.reward}</div>
 </div>
 `;
 });
@@ -752,7 +768,7 @@ surveys.forEach((s,i)=>{
 if(i>=10)return;
 let d=document.createElement("div");
 d.className="survey";
-d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='btn' onclick='startRealSurvey("${s[1]}", 25)'>START SURVEY (+25)</button>`;
+d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}", 25)'>START SURVEY (+25) ➔</button>`;
 list.appendChild(d);
 });
 }
@@ -801,7 +817,7 @@ openModal("historyModal");
 let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 let box=document.getElementById("historyList");
 if(!arr.length){box.innerHTML="<p style='text-align:center;color:#aaa;font-size:12px'>No history yet.</p>";return;}
-box.innerHTML=arr.map(x=>"<div>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
+box.innerHTML=arr.map(x=>"<div style='margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)'>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
 }
 
 save();
