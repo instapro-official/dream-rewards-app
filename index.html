@@ -29,6 +29,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .hero-btn{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);padding:12px;border-radius:16px;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;backdrop-filter:blur(8px);transition:0.2s;font-weight:700;box-shadow:0 4px 15px rgba(0,0,0,0.25)}
 .hero-btn:active{transform:scale(0.97)}
 
+/* BANNER AD CONTAINER */
+.banner-ad-container{margin:0 16px 14px;background:rgba(255,255,255,0.05);border:1px dashed rgba(255,255,255,0.2);border-radius:16px;padding:10px;text-align:center;font-size:11px;color:#aaa;}
+
 /* SECTION HEADER */
 .section-header{display:flex;justify-content:space-between;align-items:center;padding:8px 18px 12px;font-size:15px;font-weight:900;letter-spacing:0.5px}
 .section-header span{color:#c084fc;font-size:12px;cursor:pointer;font-weight:700}
@@ -185,6 +188,13 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </div>
 </section>
 
+<!-- BANNER AD SECTION -->
+<div class="banner-ad-container">
+  <span>Advertisement (Banner Ad)</span>
+  <!-- Yahan aap apna Ad Network ka script/iframe ya Adsterra/Monetag banner code paste kar sakte hain -->
+  <div style="margin-top:4px; font-weight:bold; color:#fde047;">[ Ad Space Ready ]</div>
+</div>
+
 <div class="section-header">
 EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
@@ -262,14 +272,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- VIP LEVEL UPGRADE SECTION -->
+<!-- VIP LEVEL UPGRADE SECTION (FREE REWARD SYSTEM) -->
 <div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 <div>
 <div style="font-size:12px;color:#e0e7ff;font-weight:800;" id="vipTitle">Current: VIP Level 1</div>
-<div style="font-size:16px;font-weight:900;margin-top:2px;" id="vipStatusMsg">Upgrade to unlock rewards!</div>
+<div style="font-size:16px;font-weight:900;margin-top:2px;" id="vipStatusMsg">Unlock free rewards!</div>
 </div>
-<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">UPGRADE VIP 🚀</button>
+<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">CLAIM VIP 🚀</button>
 </div>
 <div style="font-size:11px;color:#cbd5e1;" id="vipNextInfo">Next Level requires: 10,000 Coins (Reward: 500 Free Coins)</div>
 </div>
@@ -287,7 +297,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <span>📤</span>
 <p>Withdraw</p>
 </div>
-<div class="acc-wallet-item" onclick="toast('VIP System Active!')">
+<div class="acc-wallet-item" onclick="toast('VIP System Active - Free Rewards!')">
 <span>👑</span>
 <p>VIP</p>
 </div>
@@ -444,7 +454,7 @@ let spinning=false;
 let quizIndex=0;
 let wheelRotation=Number(localStorage.getItem("wheelRotation")||0);
 
-// VIP System Config
+// VIP System Config (No coin deduction, gives free bonus reward)
 const vipTiers = {
     1: { cost: 0, reward: 0, title: "VIP Level 1" },
     2: { cost: 10000, reward: 500, title: "VIP Level 2" },
@@ -559,8 +569,8 @@ let nextLevel = vipLevel + 1;
 if(vipTiers[nextLevel]) {
 let req = vipTiers[nextLevel].cost;
 let rew = vipTiers[nextLevel].reward;
-document.getElementById("vipNextInfo").textContent = `Next Level requires: ${req.toLocaleString()} Coins (Reward: ${rew} Free Coins)`;
-document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Upgrade! 🚀" : "Collect more coins to upgrade!";
+document.getElementById("vipNextInfo").textContent = `Next Level requires ${req.toLocaleString()} Coins (Free Reward: ${rew} Coins)`;
+document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Claim Free Reward! 🚀" : "Earn more coins to unlock next level!";
 } else {
 document.getElementById("vipNextInfo").textContent = "Maximum VIP Tier Achieved! 👑";
 document.getElementById("vipStatusMsg").textContent = "You are an Elite User!";
@@ -577,12 +587,12 @@ let requiredCoins = vipTiers[nextLevel].cost;
 if(coins >= requiredCoins) {
 vipLevel = nextLevel;
 let freeReward = vipTiers[nextLevel].reward;
-coins += freeReward;
+coins += freeReward; // Coins are NOT deducted, extra reward added!
 save();
 celebrate();
-toast(`Badhai ho! VIP ${vipLevel} unlock hua + ${freeReward} Coins free!`);
+toast(`Badhai ho! VIP ${levelTextMatch = vipLevel} unlock hua + ${freeReward} Coins free mile!`);
 } else {
-toast(`Agle level ke liye ${requiredCoins} coins chahiye!`);
+toast(`Agle level ke liye ${requiredCoins} coins balance me hone chahiye!`);
 }
 }
 
