@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Pro - Glowing Edition</title>
+<title>CoinRush Pro - Account Edition</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1137;color:#fff;min-height:100vh}
@@ -61,12 +61,30 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* MODALS & OTHERS */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:30;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
-.modal.show{display:flex}
-.box{width:100%;max-width:440px;background:linear-gradient(145deg,#1e1b4b,#0f1035);border:1px solid rgba(255,255,255,0.22);border-radius:28px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 60px rgba(0,0,0,0.9)}
-.close{float:right;background:rgba(255,255,255,0.15);color:#fff;border-radius:50%;width:34px;height:34px;font-size:16px;display:grid;place-items:center;cursor:pointer}
-.box h2{text-align:center;margin:0 0 16px;font-size:18px;font-weight:900}
+/* ACCOUNT / PROFILE PAGE STYLES (REFERENCED) */
+.account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
+.account-page.show{display:block}
+.acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.15)}
+.acc-user-row{display:flex;align-items:center;gap:14px}
+.acc-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);display:grid;place-items:center;font-size:30px;box-shadow:0 0 25px rgba(139,92,246,0.8)}
+.acc-info h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px}
+.vip-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:800}
+.acc-uid{font-size:12px;color:#cbd5e1;margin-top:4px;display:flex;align-items:center;gap:6px}
+.acc-login-time{font-size:11px;color:#94a3b8;margin-top:2px}
+
+/* ACC WALLET CARD */
+.acc-wallet{margin:16px;padding:20px;border-radius:22px;background:linear-gradient(135deg,#2563eb,#1d4ed8,#3b82f6);box-shadow:0 10px 30px rgba(37,99,235,0.5);border:1px solid rgba(255,255,255,0.25)}
+.acc-wallet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.acc-wallet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.acc-wallet-item{background:rgba(255,255,255,0.15);padding:12px 6px;border-radius:14px;border:1px solid rgba(255,255,255,0.2);cursor:pointer}
+.acc-wallet-item span{font-size:20px;display:block;margin-bottom:4px}
+.acc-wallet-item p{font-size:10px;font-weight:800}
+
+/* ACC LIST MENU */
+.acc-menu-list{padding:0 16px;display:grid;gap:12px}
+.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
+.acc-menu-card:active{background:rgba(255,255,255,0.12)}
+.acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
 /* LOGIN & ADMIN STYLING */
 .login-container{position:fixed;inset:0;background:#0d1137;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
@@ -78,7 +96,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .admin-panel.show{display:block}
 .admin-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:16px;margin-top:12px;font-size:13px}
 
-/* RICHIE GAMES STYLE TASK TIMELINE */
+/* TASK TIMELINE & OTHER MODALS */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:40;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
+.modal.show{display:flex}
+.box{width:100%;max-width:440px;background:linear-gradient(145deg,#1e1b4b,#0f1035);border:1px solid rgba(255,255,255,0.22);border-radius:28px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 60px rgba(0,0,0,0.9)}
+.close{float:right;background:rgba(255,255,255,0.15);color:#fff;border-radius:50%;width:34px;height:34px;font-size:16px;display:grid;place-items:center;cursor:pointer}
+.box h2{text-align:center;margin:0 0 16px;font-size:18px;font-weight:900}
+
 .task-header-box{background:linear-gradient(135deg,#7c3aed,#4f46e5,#3b82f6);border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 10px 25px rgba(79,70,229,0.5)}
 .task-stats-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.25);padding:14px;border-radius:16px;margin-top:12px}
 .circular-progress{position:relative;width:56px;height:56px;border-radius:50%;background:conic-gradient(#22c55e 75%, rgba(255,255,255,0.2) 0deg);display:grid;place-items:center;box-shadow:0 0 12px rgba(34,197,94,0.5)}
@@ -140,19 +164,19 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <div id="adminWithdrawList"></div>
 </div>
 
-<!-- MAIN APP -->
+<!-- MAIN APP (HOME TAB) -->
 <div class="app" id="mainApp">
 <header>
-<div class="profile" onclick="openProfileModal()">
-<div class="avatar">👤</div>
-<div><div class="name" id="userName">CoinRush Pro</div><div class="id" id="userPhone">Member</div></div>
+<div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
+<div class="avatar">👦🏽</div>
+<div><div class="name" id="userName">MEMBERNNGDX9M5</div><div class="id" id="userPhone">UID | 20925778</div></div>
 </div>
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
 
 <!-- HERO BALANCE CARD -->
 <section class="hero-card">
-<div class="hero-title">Total Balance</div>
+<div class="hero-title">Total balance</div>
 <div class="hero-balance-row">
 <div class="hero-amount"><span class="hero-coins-icon">🪙</span> <span id="coins">0</span></div>
 </div>
@@ -167,7 +191,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 
 <div class="grid">
-<!-- Card 1: Blue -->
 <div class="card card-blue">
 <div class="badge-tag">Earn 25 Coins</div>
 <div class="icon-box">📺</div>
@@ -176,7 +199,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="card-btn" onclick="watchAd()">EARN 25 ➔</button>
 </div>
 
-<!-- Card 2: Purple -->
 <div class="card card-purple">
 <div class="badge-tag">Up to 100 Coins</div>
 <div class="icon-box">🎡</div>
@@ -185,7 +207,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="card-btn" onclick="openModal('wheelModal')">SPIN ➔</button>
 </div>
 
-<!-- Card 3: Green -->
 <div class="card card-green">
 <div class="badge-tag">Earn 100 Coins</div>
 <div class="icon-box">📥</div>
@@ -194,7 +215,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="card-btn" onclick="openDownloadTask()">EARN 100 ➔</button>
 </div>
 
-<!-- Card 4: Orange -->
 <div class="card card-orange">
 <div class="badge-tag">Earn 25 Coins</div>
 <div class="icon-box">🧠</div>
@@ -204,7 +224,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- Full Card -->
 <div class="card card-full card-blue" style="margin:0 16px 14px;">
 <div class="badge-tag">25 coins / survey</div>
 <div class="icon-box">📋</div>
@@ -228,47 +247,128 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<div class="card card-full card-green" style="margin:0 16px 14px;">
-<div class="icon-box">📜</div>
-<h3>Withdrawal History</h3>
-<p>View your previous withdrawal records & status.</p>
-<button class="card-btn" onclick="openHistory()">VIEW HISTORY ➔</button>
+<button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
 </div>
 
-<button class="card-btn" style="background:#ef4444;margin:10px 16px;width:calc(100% - 32px);padding:14px;" onclick="logout()">LOGOUT ACCOUNT</button>
+<!-- FULL ACCOUNT / PROFILE PAGE (REFERENCE STYLE) -->
+<div class="account-page" id="accountPage">
+<div class="acc-header">
+<div class="acc-user-row">
+<div class="acc-avatar">👦🏽</div>
+<div class="acc-info">
+<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge">VIP1</span></h2>
+<div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
+<div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 11:13:35</div>
+</div>
+</div>
+</div>
 
-<button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
+<!-- ACC WALLET SECTION -->
+<div class="acc-wallet">
+<div class="acc-wallet-top">
+<div>
+<div style="font-size:11px;color:#cbd5e1;text-transform:uppercase;letter-spacing:1px;">Total balance</div>
+<div style="font-size:24px;font-weight:900;margin-top:4px;">🪙 <span id="accCoins">0</span> Coins</div>
+</div>
+<button class="card-btn" style="width:auto;padding:8px 14px;background:rgba(255,255,255,0.25);" onclick="openWithdraw()">Enter wallet</button>
+</div>
+<div class="acc-wallet-grid">
+<div class="acc-wallet-item" onclick="openWithdraw()">
+<span>💳</span>
+<p>ARWallet</p>
+</div>
+<div class="acc-wallet-item" onclick="openWithdraw()">
+<span>📥</span>
+<p>Deposit</p>
+</div>
+<div class="acc-wallet-item" onclick="openWithdraw()">
+<span>📤</span>
+<p>Withdraw</p>
+</div>
+<div class="acc-wallet-item" onclick="toast('VIP1 Active!')">
+<span>👑</span>
+<p>VIP</p>
+</div>
+</div>
+</div>
+
+<!-- SAFE BOX CARD -->
+<div style="margin:0 16px 14px;padding:16px;border-radius:18px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);display:flex;justify-content:space-between;align-items:center;">
+<div style="display:flex;gap:12px;align-items:center;">
+<div style="font-size:28px;background:rgba(245,158,11,0.2);padding:10px;border-radius:14px;">🪙</div>
+<div>
+<div style="font-weight:800;font-size:14px;">Safe</div>
+<div style="font-size:11px;color:#cbd5e1;margin-top:2px;">Daily interest rate is 0.1%</div>
+</div>
+</div>
+<div style="font-weight:900;color:#fde047;">🪙 0.00 ></div>
+</div>
+
+<!-- ACC MENU LIST -->
+<div class="acc-menu-grid">
+<div class="acc-menu-card" onclick="openTaskModal()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">📊</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Game History</div>
+<div style="font-size:10px;color:#cbd5e1;">My game history</div>
+</div>
+</div>
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">📜</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Transaction</div>
+<div style="font-size:10px;color:#cbd5e1;">My transaction history</div>
+</div>
+</div>
+</div>
+
+<div class="acc-menu-grid">
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">📥</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Deposit</div>
+<div style="font-size:10px;color:#cbd5e1;">My deposit history</div>
+</div>
+</div>
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">💳</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Withdraw</div>
+<div style="font-size:10px;color:#cbd5e1;">My withdraw history</div>
+</div>
+</div>
+</div>
+
+<div class="acc-menu-list" style="margin-top:12px;">
+<div class="acc-menu-card" onclick="toast('No new notifications')" style="justify-content:space-between;">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🔔</span> <span style="font-size:13px;font-weight:800;">Notification</span></div>
+<span>></span>
+</div>
+<div class="acc-menu-card" onclick="openTaskModal()" style="justify-content:space-between;">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🎁</span> <span style="font-size:13px;font-weight:800;">Gifts & Rewards</span></div>
+<span>></span>
+</div>
+<div class="acc-menu-card" onclick="logout()" style="justify-content:space-between;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🚪</span> <span style="font-size:13px;font-weight:800;color:#ef4444;">Logout Account</span></div>
+<span>></span>
+</div>
+</div>
+</div>
 
 <!-- BOTTOM NAVIGATION BAR -->
 <nav class="bottom-nav">
-<button class="nav-item active" onclick="switchNav('home')"><span>🏠</span>Home</button>
-<button class="nav-item" onclick="openTaskModal()"><span>🎁</span>Earn Tasks</button>
-<button class="nav-item" onclick="openWithdraw()"><span>💳</span>Wallet</button>
-<button class="nav-item" onclick="openProfileModal()"><span>👤</span>Profile</button>
+<button class="nav-item active" onclick="switchNav('home', this)"><span>🏠</span>Home</button>
+<button class="nav-item" onclick="switchNav('activity', this)"><span>🛍️</span>Activity</button>
+<button class="nav-item" onclick="openTaskModal()"><span>🎯</span>Get ₹500</button>
+<button class="nav-item" onclick="switchNav('promotion', this)"><span>🎁</span>Promotion</button>
+<button class="nav-item" onclick="switchNav('account', this)"><span>👤</span>Account</button>
 </nav>
-</div>
-
-<!-- USER PROFILE MODAL -->
-<div class="modal" id="profileModal">
-<div class="box" style="text-align:center;">
-<button class="close" onclick="closeModal('profileModal')">×</button>
-<div class="avatar" style="width:70px;height:70px;margin:0 auto 12px;font-size:30px;">👤</div>
-<h2 id="profileModalName" style="margin-bottom:4px;">CoinRush User</h2>
-<p id="profileModalPhone" style="color:#cbd5e1;font-size:13px;margin-bottom:18px;">+91 0000000000</p>
-<div style="background:rgba(255,255,255,0.08);padding:14px;border-radius:16px;margin-bottom:16px;border:1px solid rgba(255,255,255,0.15);">
-<div style="font-size:12px;color:#94a3b8;">Total Account Balance</div>
-<div style="font-size:22px;font-weight:900;color:#fde047;margin-top:4px;">🪙 <span id="profileModalCoins">0</span> Coins</div>
-</div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:12px;" onclick="closeModal('profileModal')">Close Profile</button>
-</div>
-</div>
 
 <!-- TASK PROGRESS & REWARDS MODAL -->
 <div class="modal" id="taskModal">
 <div class="box">
 <button class="close" onclick="closeModal('taskModal')">×</button>
 <h2>📊 Task Progress & Rewards</h2>
-
 <div class="task-header-box">
 <div style="font-size:16px;font-weight:900;margin-bottom:4px;">Richie Games - Play & Earn</div>
 <div style="font-size:11px;color:#e0e7ff;margin-bottom:12px;">Complete tasks below to unlock big coin rewards!</div>
@@ -282,15 +382,13 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 </div>
-
 <div style="font-size:13px;font-weight:900;margin-bottom:6px;">🎁 Rewards Timeline</div>
 <div class="timeline" id="timelineList"></div>
-
 <button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:16px;padding:12px;" onclick="closeModal('taskModal')">Continue →</button>
 </div>
 </div>
 
-<!-- MODALS -->
+<!-- WHEEL MODAL -->
 <div class="modal" id="wheelModal"><div class="box">
 <button class="close" onclick="closeModal('wheelModal')">×</button>
 <h2>🎡 Pro Lucky Spin</h2>
@@ -375,7 +473,9 @@ let savedUser = localStorage.getItem("userPhone");
 if(savedUser) {
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
-document.getElementById("userPhone").textContent = "+91 " + savedUser;
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(savedUser.slice(-4)));
+document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
+document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
 }
 };
 
@@ -401,7 +501,8 @@ return;
 localStorage.setItem("userPhone", number);
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
-document.getElementById("userPhone").textContent = "+91 " + number;
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
+document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
 toast("Login Successful!");
 }
 
@@ -450,6 +551,7 @@ function save(){
 localStorage.setItem("coins",coins);
 document.getElementById("coins").textContent=coins;
 document.getElementById("topCoins").textContent=coins;
+document.getElementById("accCoins").textContent=coins;
 }
 
 function toast(t){
@@ -461,16 +563,27 @@ setTimeout(()=>x.classList.remove("show"),2000);
 function openModal(id){document.getElementById(id).classList.add("show")}
 function closeModal(id){document.getElementById(id).classList.remove("show")}
 
-function openProfileModal() {
-let userPhone = localStorage.getItem("userPhone") || "9876543210";
-document.getElementById("profileModalPhone").textContent = "+91 " + userPhone;
-document.getElementById("profileModalCoins").textContent = coins;
-openModal('profileModal');
+function switchNav(tab, el) {
+document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+if(el) el.classList.add('active');
+
+let main = document.getElementById("mainApp");
+let acc = document.getElementById("accountPage");
+
+if(tab === 'account') {
+main.style.display = "none";
+acc.classList.add("show");
+save();
+} else {
+acc.classList.remove("show");
+main.style.display = "block";
+}
 }
 
-function switchNav(tab) {
-document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-event.currentTarget.classList.add('active');
+function copyUid() {
+let uid = document.getElementById("accUidVal").textContent;
+navigator.clipboard.writeText(uid);
+toast("UID Copied to clipboard!");
 }
 
 function openTaskModal() {
