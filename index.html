@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CoinRush Pro - Global Cloud Edition</title>
+<!-- Supabase SDK CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1137;color:#fff;min-height:100vh}
@@ -56,7 +58,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 .withdraw-main{margin:10px 16px 20px;width:calc(100% - 32px);padding:16px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ea580c,#dc2626);color:#fff;font-size:16px;font-weight:900;box-shadow:0 10px 35px rgba(245,158,11,0.6);letter-spacing:0.5px;text-align:center;border:1px solid rgba(255,255,255,0.35)}
 
-/* BOTTOM NAV BAR (5 ITEMS: Home, Activity, Get ₹500, Help Support, Account) */
+/* BOTTOM NAV BAR */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:rgba(18, 24, 61, 0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.15);display:flex;justify-content:space-around;padding:12px 0 18px;z-index:25;box-shadow:0 -10px 30px rgba(0,0,0,0.6)}
 .nav-item{background:transparent;border:0;color:#94a3b8;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;cursor:pointer;font-weight:700;transition:0.2s}
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
@@ -83,7 +85,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-wallet-item p{font-size:10px;font-weight:800}
 
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
-.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
+.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
 /* LOGIN & ADMIN */
@@ -261,15 +263,15 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div class="acc-header">
 <div class="acc-top-bar">
 <button class="acc-back-btn" onclick="switchNav('home', document.querySelector('.bottom-nav button:first-child'))">
-<span>←</span> Back to Home
+<span>Back</span>
 </button>
 </div>
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
-<h2><span id="accUsername">MEMBER</span></h2>
-<div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
-<div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 17:15:44</div>
+<h2><span id="accName">MEMBER</span> <span class="vip-badge">VIP 1</span></h2>
+<div class="acc-uid"><span>UID:</span> <span id="accPhone">20925778</span></div>
+<div class="acc-login-time">Last Login: Just now</div>
 </div>
 </div>
 </div>
@@ -277,930 +279,600 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div class="acc-wallet">
 <div class="acc-wallet-top">
 <div>
-<div style="font-size:11px;color:#cbd5e1;text-transform:uppercase;letter-spacing:1px;">Total balance</div>
-<div style="font-size:24px;font-weight:900;margin-top:4px;">🪙 <span id="accCoins">0</span> Coins</div>
+<p style="font-size:11px;color:#dbeafe;font-weight:700">Account Balance</p>
+<h3 style="font-size:24px;font-weight:900;margin-top:2px">🪙 <span id="accCoins">0</span></h3>
 </div>
+<button class="card-btn" style="width:auto;padding:8px 16px;margin:0;background:rgba(255,255,255,0.25)" onclick="openWithdraw()">Withdraw</button>
 </div>
 <div class="acc-wallet-grid">
-<div class="acc-wallet-item" onclick="openWithdraw()">
-<span>📤</span>
-<p>Withdraw</p>
+<div class="acc-wallet-item" onclick="openTaskModal()">
+<span>📊</span>
+<p>Task History</p>
 </div>
-<div class="acc-wallet-item" onclick="toast('Account Active!')">
-<span>👑</span>
-<p>Profile</p>
-</div>
-</div>
-</div>
-
-<div class="acc-menu-grid">
-<div class="acc-menu-card" onclick="openTaskModal()" style="display:flex;gap:12px;align-items:center;">
-<span style="font-size:24px;">📊</span>
-<div>
-<div style="font-size:13px;font-weight:800;">Game History</div>
-<div style="font-size:10px;color:#cbd5e1;">My game history</div>
-</div>
-</div>
-<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
-<span style="font-size:24px;">📜</span>
-<div>
-<div style="font-size:13px;font-weight:800;">Transaction</div>
-<div style="font-size:10px;color:#cbd5e1;">My transaction history</div>
+<div class="acc-wallet-item" onclick="openModal('refModal')">
+<span>👥</span>
+<p>Referral Record</p>
 </div>
 </div>
 </div>
 
 <div class="acc-menu-grid">
-<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;grid-column: span 2;">
-<span style="font-size:24px;">💳</span>
-<div>
-<div style="font-size:13px;font-weight:800;">Withdraw History</div>
-<div style="font-size:10px;color:#cbd5e1;">My withdraw history</div>
+<div class="acc-menu-card" style="flex-direction:column;align-items:flex-start;gap:8px" onclick="openAdminLogin()">
+<span style="font-size:24px">🛡️</span>
+<div><h4 style="font-size:13px;font-weight:800">Admin Control</h4><p style="font-size:10px;color:#cbd5e1">Owner panel access</p></div>
+</div>
+<div class="acc-menu-card" style="flex-direction:column;align-items:flex-start;gap:8px" onclick="showToast('Supabase Cloud Connected')">
+<span style="font-size:24px">☁️</span>
+<div><h4 style="font-size:13px;font-weight:800">Cloud Sync</h4><p style="font-size:10px;color:#cbd5e1">Active Database v2.4</p></div>
+</div>
+</div>
+
+<div class="acc-menu-list" style="margin-top:16px">
+<div class="acc-menu-card" onclick="showToast('Version 4.2.1 - Global Edition')">
+<div style="display:flex;align-items:center;gap:12px">
+<span style="font-size:20px">📱</span>
+<div><h4 style="font-size:13px;font-weight:800">App Version</h4><p style="font-size:10px;color:#cbd5e1">Latest build installed</p></div>
+</div>
+<span>➔</span>
+</div>
+<div class="acc-menu-card" onclick="handleLogout()">
+<div style="display:flex;align-items:center;gap:12px">
+<span style="font-size:20px">🚪</span>
+<div><h4 style="font-size:13px;font-weight:800;color:#f87171">Logout Account</h4><p style="font-size:10px;color:#cbd5e1">Sign out from device</p></div>
+</div>
+<span>➔</span>
 </div>
 </div>
 </div>
 
-<div class="acc-menu-list" style="margin-top:12px;">
-<div class="acc-menu-card" onclick="toast('No new notifications')" style="justify-content:space-between;">
-<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🔔</span> <span style="font-size:13px;font-weight:800;">Notification</span></div>
-<span>></span>
-</div>
-<div class="acc-menu-card" onclick="openTaskModal()" style="justify-content:space-between;">
-<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🎁</span> <span style="font-size:13px;font-weight:800;">Gifts & Rewards</span></div>
-<span>></span>
-</div>
-<div class="acc-menu-card" onclick="logout()" style="justify-content:space-between;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
-<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🚪</span> <span style="font-size:13px;font-weight:800;color:#ef4444;">Logout Account</span></div>
-<span>></span>
-</div>
-</div>
-</div>
-
-<!-- BOTTOM NAV (Promotion button removed & replaced with Help Support -> opens Telegram @ROYALNEST00) -->
+<!-- BOTTOM NAV BAR -->
 <nav class="bottom-nav">
-<button class="nav-item active" onclick="switchNav('home', this)"><span>🏠</span>Home</button>
-<button class="nav-item" onclick="switchNav('activity', this)"><span>🛍️</span>Activity</button>
-<button class="nav-item" onclick="openTaskModal()"><span>🎯</span>Get ₹500</button>
-<button class="nav-item" onclick="openTelegramSupport()"><span>🎧</span>Help Support</button>
-<button class="nav-item" onclick="switchNav('account', this)"><span>👤</span>Account</button>
+<button class="nav-item active" onclick="switchNav('home', this)">
+<span>🏠</span>
+<span>Home</span>
+</button>
+<button class="nav-item" onclick="openTaskModal()">
+<span>📊</span>
+<span>Activity</span>
+</button>
+<button class="nav-item" onclick="openModal('refModal')">
+<span>🎁</span>
+<span>Get ₹500</span>
+</button>
+<button class="nav-item" onclick="openModal('supportModal')">
+<span>🎧</span>
+<span>Support</span>
+</button>
+<button class="nav-item" onclick="switchNav('account', this)">
+<span>👤</span>
+<span>Account</span>
+</button>
 </nav>
 
 <!-- MODALS -->
-<div class="modal" id="taskModal"><div class="box">
-<button class="close" onclick="closeModal('taskModal')">×</button>
-<h2>📊 Task Progress & Rewards</h2>
+<div class="modal" id="taskModal">
+<div class="box">
+<div class="close" onclick="closeModal('taskModal')">✕</div>
+<h2>📋 Tasks & Timeline</h2>
 <div class="task-header-box">
-<div style="font-size:16px;font-weight:900;margin-bottom:4px;">Richie Games - Play & Earn</div>
-<div style="font-size:11px;color:#e0e7ff;margin-bottom:12px;">Complete tasks below to unlock big coin rewards!</div>
+<div style="font-size:12px;font-weight:700;color:#ddd">Daily Completion Progress</div>
 <div class="task-stats-row">
 <div>
-<div style="font-size:14px;font-weight:900;" id="modalCoinsEarned">1325 Coins earned</div>
-<div style="font-size:10px;color:#cbd5e1;" id="modalTaskStatus">Great job! You completed tasks!</div>
+<div style="font-size:18px;font-weight:900" id="taskCountText">0 / 4 Done</div>
+<div style="font-size:11px;color:#cbd5e1;margin-top:2px">Complete tasks to unlock bonus</div>
 </div>
-<div class="circular-progress"><div class="circular-inner"><span id="percentText">75%</span></div></div>
+<div class="circular-progress" id="circularProgress">
+<div class="circular-inner" id="progressPercent">0%</div>
 </div>
 </div>
-<div style="font-size:13px;font-weight:900;margin-bottom:6px;">🎁 Rewards Timeline</div>
-<div class="timeline" id="timelineList"></div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:16px;padding:12px;" onclick="closeModal('taskModal')">Continue →</button>
-</div></div>
+</div>
+<div style="font-size:13px;font-weight:800;margin-bottom:8px">Activity Timeline</div>
+<div class="timeline" id="timelineList">
+<div class="timeline-item">
+<div class="timeline-dot pending" id="tl-ad">✓</div>
+<div><div style="font-size:13px;font-weight:800">Watch Daily Ads</div><div style="font-size:10px;color:#cbd5e1">Max 30 ads per day</div></div>
+<span style="font-size:11px;font-weight:800;color:#fde047">+10 Coins</span>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot pending" id="tl-spin">✓</div>
+<div><div style="font-size:13px;font-weight:800">Lucky Spin Reward</div><div style="font-size:10px;color:#cbd5e1">Spin the wheel</div></div>
+<span style="font-size:11px;font-weight:800;color:#fde047">Variable</span>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot pending" id="tl-quiz">✓</div>
+<div><div style="font-size:13px;font-weight:800">Daily Math Quiz</div><div style="font-size:10px;color:#cbd5e1">Class 1 level questions</div></div>
+<span style="font-size:11px;font-weight:800;color:#fde047">+10 Coins</span>
+</div>
+<div class="timeline-item">
+<div class="timeline-dot pending" id="tl-survey">✓</div>
+<div><div style="font-size:13px;font-weight:800">Survey Center</div><div style="font-size:10px;color:#cbd5e1">Fill out daily queries</div></div>
+<span style="font-size:11px;font-weight:800;color:#fde047">+25 Coins</span>
+</div>
+</div>
+</div>
+</div>
 
-<div class="modal" id="wheelModal"><div class="box">
-<button class="close" onclick="closeModal('wheelModal')">×</button>
-<h2>🎡 Pro Lucky Spin</h2>
+<div class="modal" id="wheelModal">
+<div class="box" style="text-align:center">
+<div class="close" onclick="closeModal('wheelModal')">✕</div>
+<h2>🎡 Lucky Spin Wheel</h2>
+<p style="font-size:12px;color:#cbd5e1;margin-bottom:10px">Spin to win random coin rewards!</p>
 <div class="wheel-wrap">
 <div class="pointer"></div>
 <div id="wheel">
-<span class="s1">10</span><span class="s2">15</span><span class="s3">20</span><span class="s4">10</span>
-<span class="s5">15</span><span class="s6">20</span><span class="s7">10</span><span class="s8">15</span>
-<span class="s9">20</span><span class="s10">15</span><span class="s11">10</span><span class="s12">100</span>
+<span class="s1">10</span><span class="s2">50</span><span class="s3">5</span><span class="s4">100</span><span class="s5">20</span><span class="s6">10</span><span class="s7">50</span><span class="s8">10</span><span class="s9">20</span><span class="s10">100</span><span class="s11">5</span><span class="s12">20</span>
 </div>
 </div>
-<div class="result" id="spinResult"><strong id="spinWon"></strong><br>🎉 Congratulations!</div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
-<p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px;font-size:12px"></p>
-</div></div>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#ec4899);padding:14px;font-size:14px;margin-top:15px;" onclick="spinWheel()" id="spinBtn">SPIN NOW</button>
+<div class="result" id="spinResult">Won: <strong id="wonCoins">0</strong> Coins!</div>
+</div>
+</div>
 
-<div class="modal" id="luckyModal"><div class="box">
-<button class="close" onclick="closeModal('luckyModal')">×</button><h2>🃏 Lucky Card</h2>
-<div class="lucky" id="luckyCard">🎁</div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="luckyBtn" onclick="chooseLucky()">REVEAL CARD</button>
-<p id="luckyResult" style="text-align:center;margin-top:12px;font-size:12px"></p>
-</div></div>
+<div class="modal" id="quizModal">
+<div class="box">
+<div class="close" onclick="closeModal('quizModal')">✕</div>
+<h2>🧠 Daily Class 1 Quiz</h2>
+<div class="quiz-q" id="quizQuestion">Loading question...</div>
+<div class="answers" id="quizAnswers"></div>
+</div>
+</div>
 
-<div class="modal" id="quizModal"><div class="box">
-<button class="close" onclick="closeModal('quizModal')">×</button><h2>🧠 Quiz Challenge</h2>
-<p id="quizLimitTracker" style="text-align:center;color:#fde047;font-size:11px;font-weight:bold;margin-bottom:4px"></p>
-<p id="quizType" style="text-align:center;color:#aaa;font-size:12px;margin-bottom:8px"></p>
-<div class="quiz-q" id="quizQuestion"></div>
-<div class="answers" id="answers"></div>
-<p id="quizResult" style="text-align:center;margin-top:12px;font-weight:900;font-size:13px"></p>
-</div></div>
+<div class="modal" id="luckyModal">
+<div class="box" style="text-align:center">
+<div class="close" onclick="closeModal('luckyModal')">✕</div>
+<h2>🃏 Lucky Card Scratch</h2>
+<p style="font-size:12px;color:#cbd5e1;margin-bottom:14px">Tap below to open your mystery card!</p>
+<div class="lucky" id="luckyBox" onclick="revealLucky()">🎁</div>
+<div class="result" id="luckyResult" style="margin-top:14px">Congratulations! You won <strong>50 Coins</strong>!</div>
+<button class="card-btn" style="background:linear-gradient(135deg,#059669,#10b981);margin-top:14px;display:none" id="claimLuckyBtn" onclick="claimLucky()">CLAIM COINS</button>
+</div>
+</div>
 
-<div class="modal" id="withdrawModal"><div class="box">
-<button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal (24 Hours Limit)</h2>
-<p style="color:#fde047;text-align:center;font-size:12px;margin-bottom:4px">Rates: 3100 Coins = ₹10 | 6200 Coins = ₹20</p>
-<p style="color:#aaa;text-align:center;font-size:11px;margin-bottom:12px">Max limit: 31,000 Coins (= ₹100) per 24 hours</p>
-<input id="withdrawCoins" type="number" placeholder="Enter coins (e.g., 3100)">
-<input id="upi" type="text" placeholder="Enter UPI ID (e.g. ybl@okhdfc)">
-<button class="card-btn" style="background:linear-gradient(135deg,#f59e0b,#ef4444);padding:14px;margin-top:16px;" onclick="submitWithdraw()">REQUEST & SEND WHATSAPP</button>
-</div></div>
+<div class="modal" id="refModal">
+<div class="box" style="text-align:center">
+<div class="close" onclick="closeModal('refModal')">✕</div>
+<h2>👥 Invite Friends & Earn</h2>
+<div style="font-size:40px;margin:10px 0">🎁</div>
+<p style="font-size:13px;color:#cbd5e1;margin-bottom:16px">Earn <strong>200 Coins</strong> for every friend who joins using your secure link or code.</p>
+<input type="text" readonly value="https://coinrush.pro/invite?ref=20925778" style="text-align:center;font-weight:bold;color:#fde047" id="refLinkInput">
+<button class="card-btn" style="background:linear-gradient(135deg,#2563eb,#3b82f6);margin-top:10px;" onclick="copyRefLink()">COPY INVITE LINK</button>
+</div>
+</div>
 
-<div class="modal" id="historyModal"><div class="box">
-<button class="close" onclick="closeModal('historyModal')">×</button><h2>📜 Withdrawal History</h2>
-<div id="historyList"></div>
-</div></div>
+<div class="modal" id="withdrawModal">
+<div class="box">
+<div class="close" onclick="closeModal('withdrawModal')">✕</div>
+<h2>💰 Withdraw Coins</h2>
+<p style="font-size:12px;color:#cbd5e1;text-align:center;margin-bottom:16px">Exchange Rate: 3100 Coins = ₹10</p>
+<div style="background:rgba(255,255,255,0.07);padding:14px;border-radius:14px;margin-bottom:14px;font-size:12px">
+<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>Your Balance:</span><strong id="wCoinsDisplay">0 Coins</strong></div>
+<div style="display:flex;justify-content:space-between"><span>Minimum Payout:</span><strong>3100 Coins (₹10)</strong></div>
+</div>
+<input type="number" id="withdrawAmount" placeholder="Enter coins to withdraw (e.g. 3100)">
+<input type="text" id="withdrawUpi" placeholder="Enter UPI ID (e.g. yourname@paytm)">
+<button class="card-btn" style="background:linear-gradient(135deg,#059669,#10b981);margin-top:14px;padding:14px;font-size:14px;" onclick="submitWithdraw()">SUBMIT WITHDRAWAL</button>
+</div>
+</div>
 
-<div class="modal" id="refModal"><div class="box">
-<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share (+200 Coins)</h2>
-<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends and earn 200 coins per share!</p>
-<input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
-<button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP (+200)</button>
-<button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM (+200)</button>
-</div></div>
+<div class="modal" id="supportModal">
+<div class="box" style="text-align:center">
+<div class="close" onclick="closeModal('supportModal')">✕</div>
+<h2>🎧 Help & Support</h2>
+<div style="font-size:40px;margin:10px 0">💬</div>
+<p style="font-size:13px;color:#cbd5e1;margin-bottom:16px">Our global cloud support team is available 24/7 to resolve any issues regarding coin credits or payouts.</p>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:14px;" onclick="showToast('Support ticket #9281 opened successfully!')">CONTACT LIVE SUPPORT</button>
+</div>
+</div>
 
 <div class="surveyPage" id="surveyPage">
 <div class="surveyInner">
 <div class="surveyHead">
-<button class="back" onclick="closeSurveyPage()">‹</button>
-<h2>📋 Survey Center (25 Coins Each)</h2>
+<div class="back" onclick="closeSurveyPage()">←</div>
+<h2>📋 Survey Center</h2>
 </div>
-<div class="surveyCount" id="surveyCount"></div>
-<div id="surveyList"></div>
+<div class="surveyCount">Survey 1 of 2 (Earn 25 Coins)</div>
+<div class="survey">
+<b>1. How often do you play mobile mini-games?</b>
+<small>Select your primary preference</small>
+<input type="text" id="ans1" placeholder="e.g. Daily / Weekly">
+</div>
+<div class="survey">
+<b>2. Which reward payout method do you prefer most?</b>
+<small>UPI, Bank Transfer, or Gift Cards</small>
+<input type="text" id="ans2" placeholder="e.g. UPI">
+</div>
+<div style="padding:0 16px;margin-top:14px">
+<button class="card-btn" style="background:linear-gradient(135deg,#059669,#10b981);padding:14px;font-size:14px;" onclick="submitSurvey()">SUBMIT SURVEY (+25 COINS)</button>
+</div>
 </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">Notification Message</div>
 
 <script>
-let currentUser = localStorage.getItem("currentUser") || "";
-let coins = 0;
-let wheelRotation = 0;
-let spinning = false;
-let currentQuestion = null;
+// --- SUPABASE CLOUD CONFIGURATION ---
+const SUPABASE_URL = 'https://tvsmkqotpwweacgwpdlv.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_502F_XXmtsKAOsi18HXTCg_h8R_E9FH';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const today = () => new Date().toISOString().slice(0, 10);
+// State Management
+let currentUser = null;
+let currentCoins = 0;
+let userTasks = { ad: false, spin: false, quiz: false, survey: false };
+let userWithdrawals = [];
+let currentUserPass = '';
 
-function getUsersDB() {
-    let cloudData = localStorage.getItem("coinRushGlobalUsers");
-    if(!cloudData) {
-        let initial = {
-            "9999999999": { password: "password123", coins: 500, wheelRotation: 0, withdrawals: [] }
-        };
-        localStorage.setItem("coinRushGlobalUsers", JSON.stringify(initial));
-        return initial;
-    }
-    return JSON.parse(cloudData);
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function saveUsersDB(db) {
-    localStorage.setItem("coinRushGlobalUsers", JSON.stringify(db));
+function triggerConfetti() {
+  for(let i=0; i<25; i++) {
+    let c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.animationDuration = (Math.random() * 1 + 1) + 's';
+    c.innerHTML = ['🪙','🎉','⭐','✨'][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
+  }
 }
 
-window.onload = function() {
-let isAdmin = localStorage.getItem("isAdminSession");
-if(isAdmin === "true") {
-document.getElementById("loginContainer").style.display = "none";
-openAdminPanel();
-return;
+// REGISTER USER TO SUPABASE
+async function handleRegister() {
+  let num = document.getElementById('loginNumber').value.trim();
+  let pass = document.getElementById('loginPassword').value.trim();
+  if(num.length < 10) { showToast('Enter a valid 10-digit mobile number'); return; }
+  if(!pass) { showToast('Enter a secure password'); return; }
+  
+  // Check if user already exists
+  let { data: existing } = await supabase.from('users').select('*').eq('phone', num).single();
+  if(existing) {
+    showToast('Number already registered! Please login.');
+    return;
+  }
+  
+  let initialData = {
+    phone: num,
+    pass: pass,
+    coins: 50,
+    tasks: { ad: false, spin: false, quiz: false, survey: false },
+    withdrawals: []
+  };
+
+  let { error } = await supabase.from('users').insert([initialData]);
+  if(error) {
+    showToast('Registration failed: ' + error.message);
+    return;
+  }
+  
+  showToast('Registration successful! +50 welcome coins');
+  loginUser(num, pass, 50, initialData.tasks, []);
 }
 
-if(currentUser) {
-let usersDB = getUsersDB();
-if(usersDB[currentUser]) {
-loadUserData(currentUser);
-document.getElementById("loginContainer").style.display = "none";
-document.getElementById("mainApp").classList.add("show");
-} else {
-localStorage.removeItem("currentUser");
-}
-}
-updateDailyLimitsUI();
-};
-
-function handleLogin() {
-let number = document.getElementById("loginNumber").value.trim();
-let password = document.getElementById("loginPassword").value.trim();
-
-if(password === "admin999") {
-localStorage.setItem("isAdminSession", "true");
-document.getElementById("loginContainer").style.display = "none";
-openAdminPanel();
-toast("Welcome Admin!");
-return;
+// LOGIN USER FROM SUPABASE
+async function handleLogin() {
+  let num = document.getElementById('loginNumber').value.trim();
+  let pass = document.getElementById('loginPassword').value.trim();
+  
+  let { data: user, error } = await supabase.from('users').select('*').eq('phone', num).single();
+  if(error || !user) {
+    showToast('Account not found. Please register first.');
+    return;
+  }
+  if(user.pass !== pass) {
+    showToast('Incorrect password!');
+    return;
+  }
+  loginUser(num, pass, user.coins, user.tasks, user.withdrawals || []);
 }
 
-if(number.length !== 10 || isNaN(number)) {
-toast("Enter valid 10-digit mobile number");
-return;
-}
-if(password.length < 4) {
-toast("Password must be 4+ characters");
-return;
-}
-
-let usersDB = getUsersDB();
-
-if(!usersDB[number]) {
-toast("❌ Yeh mobile number registered nahi hai! Kripya Register par click karein.");
-return;
-}
-
-if(usersDB[number].password !== password) {
-toast("❌ Galt password! Kripya sahi password dalein.");
-return;
+function loginUser(num, pass, coins, tasks, withdrawals) {
+  currentUser = num;
+  currentUserPass = pass;
+  currentCoins = coins;
+  userTasks = tasks || { ad: false, spin: false, quiz: false, survey: false };
+  userWithdrawals = withdrawals || [];
+  
+  document.getElementById('loginContainer').style.display = 'none';
+  document.getElementById('mainApp').classList.add('show');
+  document.getElementById('userPhone').innerText = 'UID | ' + num.slice(-6);
+  document.getElementById('accPhone').innerText = num;
+  document.getElementById('userName').innerText = 'MEMBER ' + num.slice(-4);
+  document.getElementById('accName').innerText = 'MEMBER ' + num.slice(-4);
+  updateUI();
+  showToast('Logged in successfully via Cloud!');
 }
 
-currentUser = number;
-localStorage.setItem("currentUser", currentUser);
-loadUserData(currentUser);
-
-document.getElementById("loginContainer").style.display = "none";
-document.getElementById("mainApp").classList.add("show");
-toast("Login Successful!");
+function handleLogout() {
+  currentUser = null;
+  document.getElementById('mainApp').classList.remove('show');
+  document.getElementById('accountPage').classList.remove('show');
+  document.getElementById('loginContainer').style.display = 'flex';
+  document.getElementById('loginNumber').value = '';
+  document.getElementById('loginPassword').value = '';
+  showToast('Logged out securely');
 }
 
-function handleRegister() {
-let number = document.getElementById("loginNumber").value.trim();
-let password = document.getElementById("loginPassword").value.trim();
-
-if(number.length !== 10 || isNaN(number)) {
-toast("Enter valid 10-digit mobile number");
-return;
-}
-if(password.length < 4) {
-toast("Password must be 4+ characters");
-return;
+// SAVE TO SUPABASE CLOUD
+async function saveUserData() {
+  if(!currentUser) return;
+  await supabase.from('users').update({
+    coins: currentCoins,
+    tasks: userTasks,
+    withdrawals: userWithdrawals
+  }).eq('phone', currentUser);
 }
 
-let usersDB = getUsersDB();
+function updateUI() {
+  if(!currentUser) return;
+  document.getElementById('coins').innerText = currentCoins;
+  document.getElementById('topCoins').innerText = currentCoins;
+  document.getElementById('accCoins').innerText = currentCoins;
+  document.getElementById('wCoinsDisplay').innerText = currentCoins + ' Coins';
+  
+  let completed = Object.values(userTasks).filter(Boolean).length;
+  let pct = Math.round((completed / 4) * 100);
+  document.getElementById('taskCountText').innerText = completed + ' / 4 Done';
+  document.getElementById('progressPercent').innerText = pct + '%';
+  document.getElementById('circularProgress').style.background = `conic-gradient(#22c55e ${pct * 3.6}deg, rgba(255,255,255,0.2) 0deg)`;
 
-if(usersDB[number]) {
-toast("⚠️ Yeh number pehle se registered hai! Kripya LOGIN karein.");
-return;
+  updateTimelineDot('tl-ad', userTasks.ad);
+  updateTimelineDot('tl-spin', userTasks.spin);
+  updateTimelineDot('tl-quiz', userTasks.quiz);
+  updateTimelineDot('tl-survey', userTasks.survey);
 }
 
-usersDB[number] = {
-password: password,
-coins: 0,
-wheelRotation: 0,
-withdrawals: []
-};
-saveUsersDB(usersDB);
-
-currentUser = number;
-localStorage.setItem("currentUser", currentUser);
-loadUserData(currentUser);
-
-document.getElementById("loginContainer").style.display = "none";
-document.getElementById("mainApp").classList.add("show");
-toast("Account Created & Logged In!");
+function updateTimelineDot(id, done) {
+  let el = document.getElementById(id);
+  if(done) {
+    el.style.background = '#22c55e';
+    el.classList.remove('pending');
+    el.innerText = '✓';
+  } else {
+    el.style.background = '#64748b';
+    el.classList.add('pending');
+    el.innerText = '•';
+  }
 }
 
-function loadUserData(number) {
-let usersDB = getUsersDB();
-let uData = usersDB[number] || { coins: 0, wheelRotation: 0 };
-
-coins = Number(uData.coins || 0);
-wheelRotation = Number(uData.wheelRotation || 0);
-
-document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
-document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
-document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
-
-save();
-updateDailyLimitsUI();
+function switchNav(page, btn) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  
+  if(page === 'home') {
+    document.getElementById('accountPage').classList.remove('show');
+  } else if(page === 'account') {
+    document.getElementById('accountPage').classList.add('show');
+  }
 }
 
-function save() {
-if(currentUser) {
-let usersDB = getUsersDB();
-if(usersDB[currentUser]) {
-usersDB[currentUser].coins = coins;
-usersDB[currentUser].wheelRotation = wheelRotation;
-saveUsersDB(usersDB);
-}
-}
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function openTaskModal() { openModal('taskModal'); }
 
-document.getElementById("coins").textContent = coins;
-document.getElementById("topCoins").textContent = coins;
-document.getElementById("accCoins").textContent = coins;
-}
-
-function openAdminPanel() {
-document.getElementById("adminPanel").classList.add("show");
-renderAdminRequests();
-}
-
-function closeAdmin() {
-localStorage.removeItem("isAdminSession");
-location.reload();
+let lastBonusDate = '';
+function dailyBonus() {
+  let today = new Date().toDateString();
+  if(lastBonusDate === today) {
+    showToast('Daily bonus already claimed today!');
+    return;
+  }
+  lastBonusDate = today;
+  currentCoins += 50;
+  saveUserData();
+  updateUI();
+  triggerConfetti();
+  showToast('🎁 +50 Daily Bonus Coins Claimed!');
 }
 
-function renderAdminRequests() {
-let usersDB = getUsersDB();
-let allWithdrawals = [];
-for(let num in usersDB) {
-if(usersDB[num].withdrawals) {
-usersDB[num].withdrawals.forEach(w => {
-w.user = num;
-allWithdrawals.push(w);
-});
+function watchAd() {
+  showToast('Loading sponsor advertisement...');
+  setTimeout(() => {
+    currentCoins += 10;
+    userTasks.ad = true;
+    saveUserData();
+    updateUI();
+    triggerConfetti();
+    showToast('📺 Earned +10 Coins from Watch Ad!');
+  }, 1200);
 }
-}
-
-let box = document.getElementById("adminWithdrawList");
-if(!allWithdrawals.length) {
-box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>No pending requests.</p>";
-return;
-}
-box.innerHTML = allWithdrawals.map((x, i) => `
-<div class="admin-card">
-<p><b>User:</b> +91 ${x.user}</p>
-<p><b>UPI:</b> ${x.upi}</p>
-<p><b>Amount:</b> ${x.amount} Coins (₹${x.rupees})</p>
-<p><b>Date:</b> ${x.date}</p>
-<p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
-<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw('${x.user}', ${x.amount})">APPROVE / PAID ✓</button>
-</div>
-`).join("");
-}
-
-function approveWithdraw(userNum, amount) {
-let usersDB = getUsersDB();
-if(usersDB[userNum] && usersDB[userNum].withdrawals) {
-let req = usersDB[userNum].withdrawals.find(w => w.amount === amount);
-if(req) req.status = "Paid ✓";
-saveUsersDB(usersDB);
-}
-renderAdminRequests();
-toast("Approved!");
-}
-
-function logout() {
-localStorage.removeItem("currentUser");
-location.reload();
-}
-
-function toast(t){
-let x=document.getElementById("toast");
-x.textContent=t;x.classList.add("show");
-setTimeout(()=>x.classList.remove("show"),2000);
-}
-
-function openModal(id){document.getElementById(id).classList.add("show")}
-function closeModal(id){document.getElementById(id).classList.remove("show")}
-
-function switchNav(tab, el) {
-document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-if(el) el.classList.add('active');
-
-let main = document.getElementById("mainApp");
-let acc = document.getElementById("accountPage");
-
-if(tab === 'account') {
-main.style.display = "none";
-acc.classList.add("show");
-save();
-} else {
-acc.classList.remove("show");
-main.style.display = "block";
-}
-}
-
-function openTelegramSupport() {
-window.open("https://t.me/ROYALNEST00", "_blank");
-toast("Opening Telegram Support...");
-}
-
-function copyUid() {
-let uid = document.getElementById("accUidVal").textContent;
-navigator.clipboard.writeText(uid);
-toast("UID Copied to clipboard!");
-}
-
-function openTaskModal() {
-openModal('taskModal');
-renderTimeline();
-}
-
-function renderTimeline() {
-let completedTasks = Number(localStorage.getItem("completedTasksCount") || 3);
-let totalCoinsEarned = coins > 1325 ? coins : 1325;
-document.getElementById("modalCoinsEarned").textContent = totalCoinsEarned + " Coins earned";
-document.getElementById("modalTaskStatus").textContent = `Great job! You completed ${completedTasks} / 6 tasks!`;
-
-let timelineData = [
-{title: "Install 1 game", reward: "+100 Coins", done: true},
-{title: "Install 2 games", reward: "+100 Coins", done: true},
-{title: "Earn 100k coins", reward: "+375 Coins", done: true},
-{title: "Complete 5 Daily Surveys", reward: "+250 Coins", done: completedTasks >= 4},
-{title: "Refer 3 Friends", reward: "+500 Coins", done: completedTasks >= 5}
-];
-
-let html = "";
-timelineData.forEach((item, idx) => {
-html += `
-<div class="timeline-item">
-<div class="timeline-dot ${item.done ? '' : 'pending'}">${item.done ? '✓' : idx+1}</div>
-<div>
-<div style="font-size:13px;font-weight:800;">${item.title}</div>
-<div style="font-size:11px;color:#cbd5e1;">Status: ${item.done ? '<span style="color:#22c55e">Completed ✓</span>' : '<span style="color:#f59e0b">Pending</span>'}</div>
-</div>
-<div style="font-size:12px;font-weight:900;color:#fde047;">${item.reward}</div>
-</div>
-`;
-});
-document.getElementById("timelineList").innerHTML = html;
-}
-
-function addCoins(n){
-coins+=n;save();toast("🪙 +"+n+" Coins added!");
-}
-
-function celebrate(){
-for(let i=0;i<25;i++){
-let e=document.createElement("div");
-e.className="confetti";
-e.textContent=["🎉","✨","🪙","🎊"][Math.floor(Math.random()*4)];
-e.style.left=Math.random()*100+"vw";
-e.style.animationDelay=Math.random()*0.3+"s";
-document.body.appendChild(e);
-setTimeout(()=>e.remove(),1500);
-}
-}
-
-function dailyBonus(){
-let bonusKey = "lastBonus_" + currentUser;
-if(localStorage.getItem(bonusKey)===today()){
-toast("🎁 Already claimed today");return;
-}
-localStorage.setItem(bonusKey,today());
-addCoins(100);celebrate();updateBonus();
-}
-
-function updateBonus(){
-let bonusKey = "lastBonus_" + currentUser;
-let b=document.getElementById("heroBonusBtn");
-if(localStorage.getItem(bonusKey)===today()){
-b.textContent="CLAIMED ✓";b.disabled=true;
-} else {
-b.textContent="🎁 Daily Bonus";b.disabled=false;
-}
-}
-
-function checkDailyLimits() {
-    let adDateKey = "adDate_" + currentUser;
-    let adCountKey = "adCount_" + currentUser;
-    if(localStorage.getItem(adDateKey) !== today()) {
-        localStorage.setItem(adDateKey, today());
-        localStorage.setItem(adCountKey, "0");
-    }
-
-    let quizDateKey = "quizDate_" + currentUser;
-    let quizCountKey = "quizCount_" + currentUser;
-    if(localStorage.getItem(quizDateKey) !== today()) {
-        localStorage.setItem(quizDateKey, today());
-        localStorage.setItem(quizCountKey, "0");
-    }
-}
-
-function updateDailyLimitsUI() {
-    checkDailyLimits();
-    let adCount = Number(localStorage.getItem("adCount_" + currentUser) || 0);
-    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
-
-    let watchAdBtn = document.getElementById("watchAdBtn");
-    let adBadge = document.getElementById("adBadge");
-    if(adCount >= 30) {
-        watchAdBtn.textContent = "🔒 LOCKED (30/30)";
-        watchAdBtn.disabled = true;
-        adBadge.textContent = "Limit Reached";
-    } else {
-        watchAdBtn.textContent = `EARN 10 (${30 - adCount} left)`;
-        watchAdBtn.disabled = false;
-        adBadge.textContent = "Earn 10 Coins";
-    }
-
-    let quizCardBtn = document.getElementById("quizCardBtn");
-    let quizBadge = document.getElementById("quizBadge");
-    if(quizCount >= 40) {
-        quizCardBtn.textContent = "🔒 LOCKED (40/40)";
-        quizCardBtn.disabled = true;
-        quizBadge.textContent = "Limit Reached";
-    } else {
-        quizCardBtn.textContent = `START (${40 - quizCount} left)`;
-        quizCardBtn.disabled = false;
-        quizBadge.textContent = "Earn 10 Coins";
-    }
-}
-
-const adNetworks = ["https://www.monetag.com","https://www.adsterra.com","https://cpx-research.com","https://bitlabs.ai","https://www.pollfish.com"];
-
-function watchAd(){
-    checkDailyLimits();
-    let adCountKey = "adCount_" + currentUser;
-    let adCount = Number(localStorage.getItem(adCountKey) || 0);
-    
-    if(adCount >= 30) {
-        toast("🔒 Daily ad watch limit reached (30/30)!");
-        updateDailyLimitsUI();
-        return;
-    }
-
-    let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
-    let targetAdUrl = adNetworks[adIndex % adNetworks.length];
-    localStorage.setItem("nextAdIndex", adIndex + 1);
-    window.open(targetAdUrl, "_blank");
-
-    setTimeout(() => {
-        adCount++;
-        localStorage.setItem(adCountKey, adCount);
-        addCoins(10);
-        toast(`📺 +10 Coins added! (${adCount}/30)`);
-        celebrate();
-        updateDailyLimitsUI();
-    }, 1000);
-}
-
-const playStoreApps = [
-"https://play.google.com/store/apps/details?id=com.whatsapp",
-"https://play.google.com/store/apps/details?id=com.instagram.android",
-"https://play.google.com/store/apps/details?id=in.mohalla.sharechat",
-"https://play.google.com/store/apps/details?id=com.josh.droid",
-"https://play.google.com/store/apps/details?id=com.truecaller"
-];
 
 function openDownloadTask() {
-let appIndex = Number(localStorage.getItem("nextAppIndex") || 0);
-let targetUrl = playStoreApps[appIndex % playStoreApps.length];
-localStorage.setItem("nextAppIndex", appIndex + 1);
-window.open(targetUrl, "_blank");
-setTimeout(() => {
-addCoins(10);
-celebrate();
-toast("🎉 +10 Coins credited!");
-}, 1200);
+  showToast('Redirecting to partner app store...');
+  setTimeout(() => {
+    currentCoins += 10;
+    saveUserData();
+    updateUI();
+    triggerConfetti();
+    showToast('📥 App download verified! +10 Coins added.');
+  }, 1500);
 }
 
-function shareWhatsApp(){
-let link = document.getElementById("refLink").value;
-let msg = encodeURIComponent("🔥 Best earning app! Join now: " + link);
-window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");
-navigator.clipboard.writeText(link);
-addCoins(200);
-celebrate();
-toast("Link copied & WhatsApp opened! +200 Coins added!");
-closeModal('refModal');
-}
-
-function shareTelegram(){
-let link = document.getElementById("refLink").value;
-let text = encodeURIComponent("🔥 Best earning app! Join now: " + link);
-window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
-navigator.clipboard.writeText(link);
-addCoins(200);
-celebrate();
-toast("Link copied & Telegram opened! +200 Coins added!");
-closeModal('refModal');
-}
-
-function resetSpin(){
-let spinDateKey = "spinDate_" + currentUser;
-let spinCountKey = "spinCount_" + currentUser;
-if(localStorage.getItem(spinDateKey)!==today()){
-localStorage.setItem(spinDateKey,today());
-localStorage.setItem(spinCountKey,"0");
-}
-}
-
-function spinWheel(){
-resetSpin();
-let spinCountKey = "spinCount_" + currentUser;
-let count=Number(localStorage.getItem(spinCountKey)||0);
-if(count >= 2){toast("🔒 Daily limit reached! (2 spins max)");return;}
-if(spinning)return;
-spinning=true;
-
-let button=document.getElementById("spinButton");
-let wheel=document.getElementById("wheel");
-let result=document.getElementById("spinResult");
-
-button.disabled=true;
-result.classList.remove("show");
-
-let possibleRewards = [
-  {val: 10, idx: 0}, {val: 15, idx: 1}, {val: 20, idx: 2},
-  {val: 10, idx: 3}, {val: 15, idx: 4}, {val: 20, idx: 5},
-  {val: 10, idx: 6}, {val: 15, idx: 7}, {val: 20, idx: 8},
-  {val: 15, idx: 9}, {val: 10, idx: 10}, {val: 100, idx: 11}
-];
-
-let chosen = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
-let reward = chosen.val;
-let targetSegmentIndex = chosen.idx;
-
-let extraSpins = 6 + Math.floor(Math.random()*3);
-let sliceAngle = targetSegmentIndex * 30 + 15;
-wheelRotation += extraSpins * 360 + (360 - sliceAngle);
-
-wheel.style.transform = "rotate(" + wheelRotation + "deg)";
-
-count++;
-localStorage.setItem(spinCountKey, count);
-
-setTimeout(()=>{
-coins += reward;
-save();
-document.getElementById("spinWon").textContent = "You won " + reward + " Coins!";
-result.classList.add("show");
-celebrate();
-spinning = false;
-button.disabled = false;
-updateSpinText();
-}, 4500);
-}
-
-function updateSpinText(){
-resetSpin();
-let spinCountKey = "spinCount_" + currentUser;
-let c=Number(localStorage.getItem(spinCountKey)||0);
-document.getElementById("spinLeft").textContent=(2 - c) + " spins left today (Max 2)";
-let b=document.getElementById("spinButton");
-if(c >= 2){
-b.textContent="🔒 LOCKED (2/2 COMPLETED)";
-b.disabled=true;
-} else {
-b.textContent="🎡 SPIN NOW • "+(2 - c)+" LEFT";
-b.disabled=false;
-}
-}
-
-function openLucky(){
-openModal("luckyModal");
-let luckyDateKey = "luckyDate_" + currentUser;
-let used=localStorage.getItem(luckyDateKey)===today();
-document.getElementById("luckyBtn").disabled=used;
-document.getElementById("luckyBtn").textContent=used?"USED TODAY":"REVEAL CARD";
-document.getElementById("luckyResult").textContent=used?"Come back tomorrow!":"Pick your lucky reward 🎁";
-}
-
-function chooseLucky(){
-let luckyDateKey = "luckyDate_" + currentUser;
-if(localStorage.getItem(luckyDateKey)===today())return;
-localStorage.setItem(luckyDateKey,today());
-let rewards=[30,50,75,100];
-let reward=rewards[Math.floor(Math.random()*rewards.length)];
-document.getElementById("luckyCard").textContent="🪙 "+reward;
-document.getElementById("luckyResult").textContent="🎉 Won "+reward+" Coins!";
-document.getElementById("luckyBtn").textContent="USED TODAY";
-document.getElementById("luckyBtn").disabled=true;
-addCoins(reward);
-celebrate();
-}
-
-const class1GK = [
-    ["Which animal says 'Meow'?", ["Cat", "Cow", "Dog", "Lion"], 0],
-    ["How many days are in a week?", ["5", "6", "7", "10"], 2],
-    ["What color is an apple?", ["Blue", "Red", "Black", "Pink"], 1],
-    ["How many eyes do you have?", ["1", "2", "4", "3"], 1],
-    ["Which is our national bird?", ["Sparrow", "Crow", "Peacock", "Parrot"], 2],
-    ["Sun rises in the:", ["West", "North", "East", "South"], 2],
-    ["Which animal is called the king of the jungle?", ["Dog", "Cat", "Lion", "Rabbit"], 2],
-    ["How many fingers on one hand?", ["3", "4", "5", "10"], 2]
-];
-
-function generateClass1Question() {
-    let type = Math.floor(Math.random() * 4);
-    let qText = "", correctAns = 0;
-
-    if (type === 0) {
-        let a = Math.floor(Math.random() * 9) + 1;
-        let b = Math.floor(Math.random() * 9) + 1;
-        qText = `What is ${a} + ${b}?`;
-        correctAns = a + b;
-    } else if (type === 1) {
-        let a = Math.floor(Math.random() * 9) + 2;
-        let b = Math.floor(Math.random() * a) + 1;
-        qText = `What is ${a} - ${b}?`;
-        correctAns = a - b;
-    } else if (type === 2) {
-        let a = Math.floor(Math.random() * 5) + 1;
-        let b = Math.floor(Math.random() * 5) + 1;
-        qText = `What is ${a} × ${b}?`;
-        correctAns = a * b;
-    } else {
-        let item = class1GK[Math.floor(Math.random() * class1GK.length)];
-        qText = item[0];
-        let opts = [...item[1]];
-        let correctStr = opts[item[2]];
-        opts.sort(() => Math.random() - 0.5);
-        return {
-            text: qText,
-            options: opts,
-            correct: opts.indexOf(correctStr),
-            type: "GK (Class 1)"
-        };
-    }
-
-    let optSet = new Set([correctAns]);
-    while(optSet.size < 4) {
-        let diff = Math.floor(Math.random() * 5) - 2;
-        let wrong = correctAns + (diff === 0 ? 1 : diff);
-        if(wrong >= 0) optSet.add(wrong);
-    }
-    let opts = Array.from(optSet).sort(() => Math.random() - 0.5);
-    return {
-        text: qText,
-        options: opts.map(String),
-        correct: opts.indexOf(correctAns),
-        type: "Math (Class 1)"
-    };
-}
-
-function startQuiz(){
-    checkDailyLimits();
-    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
-    if(quizCount >= 40) {
-        toast("🔒 Daily quiz limit reached (40/40)!");
-        updateDailyLimitsUI();
-        return;
-    }
-    openModal("quizModal");
-    loadNewQuizQuestion();
-}
-
-function loadNewQuizQuestion() {
-    checkDailyLimits();
-    let quizCount = Number(localStorage.getItem("quizCount_" + currentUser) || 0);
-    if(quizCount >= 40) {
-        closeModal("quizModal");
-        toast("🔒 Daily quiz limit reached (40/40)!");
-        updateDailyLimitsUI();
-        return;
-    }
-
-    document.getElementById("quizLimitTracker").textContent = `Questions Completed Today: ${quizCount} / 40`;
+let isSpinning = false;
+function spinWheel() {
+  if(isSpinning) return;
+  isSpinning = true;
+  let wheel = document.getElementById('wheel');
+  let btn = document.getElementById('spinBtn');
+  btn.innerText = 'SPINNING...';
+  
+  let randomDegree = Math.floor(3600 + Math.random() * 360);
+  wheel.style.transform = `rotate(${randomDegree}deg)`;
+  
+  setTimeout(() => {
+    isSpinning = false;
+    btn.innerText = 'SPIN NOW';
+    let rewards = [10, 50, 5, 100, 20, 10, 50, 10, 20, 100, 5, 20];
+    let normalized = (randomDegree % 360);
+    let index = Math.floor((360 - normalized) / 30) % 12;
+    let won = rewards[index];
     
-    currentQuestion = generateClass1Question();
-    document.getElementById("quizType").textContent = currentQuestion.type;
-    document.getElementById("quizQuestion").textContent = currentQuestion.text;
-    document.getElementById("quizResult").textContent = "";
-
-    let box = document.getElementById("answers");
-    box.innerHTML = "";
-    currentQuestion.options.forEach((opt, idx) => {
-        let b = document.createElement("button");
-        b.textContent = opt;
-        b.onclick = () => answerQuiz(idx);
-        box.appendChild(b);
-    });
+    currentCoins += won;
+    userTasks.spin = true;
+    saveUserData();
+    updateUI();
+    
+    document.getElementById('wonCoins').innerText = won;
+    document.getElementById('spinResult').classList.add('show');
+    triggerConfetti();
+    showToast(`🎡 Won ${won} Coins on Wheel!`);
+  }, 4500);
 }
+function updateSpinText() { document.getElementById('spinResult').classList.remove('show'); }
 
-function answerQuiz(selectedIndex){
-    let quizCountKey = "quizCount_" + currentUser;
-    let quizCount = Number(localStorage.getItem(quizCountKey) || 0);
-    let result = document.getElementById("quizResult");
-
-    if(quizCount >= 40) {
-        closeModal("quizModal");
-        toast("🔒 Daily quiz limit reached (40/40)!");
-        updateDailyLimitsUI();
-        return;
-    }
-
-    if(selectedIndex === currentQuestion.correct) {
-        quizCount++;
-        localStorage.setItem(quizCountKey, quizCount);
-        result.textContent = "🎉 Correct! +10 Coins";
-        result.style.color = "#4ade80";
-        addCoins(10);
-        celebrate();
-        updateDailyLimitsUI();
-
-        setTimeout(() => {
-            if(quizCount >= 40) {
-                closeModal("quizModal");
-                toast("🔒 Daily quiz limit completed (40/40)!");
-            } else {
-                loadNewQuizQuestion();
-            }
-        }, 1000);
-    } else {
-        result.textContent = "❌ Wrong answer! Try again.";
-        result.style.color = "#fb7185";
-        toast("Galat jawab! Phir se koshish karein.");
-    }
-}
-
-const surveys=[
-["Cint Consumer Survey", "https://www.cint.com"],
-["Pollfish Market Opinion", "https://www.pollfish.com"],
-["Toluna Influencers Panel", "###"],
-["CPX Research Survey", "https://cpx-research.com"],
-["BitLabs Market Research", "https://bitlabs.ai"]
+const quizQuestions = [
+  { q: "What is 3 + 4?", options: ["6", "7", "8"], ans: "7" },
+  { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow"], ans: "Cat" },
+  { q: "How many fingers are on one hand?", options: ["4", "5", "10"], ans: "5" },
+  { q: "What color is the sky on a clear day?", options: ["Blue", "Red", "Green"], ans: "Blue" }
 ];
 
-function surveyReset(){
-let sDateKey = "surveyDate_" + currentUser;
-let sDoneKey = "surveyDone_" + currentUser;
-if(localStorage.getItem(sDateKey)!==today()){
-localStorage.setItem(sDateKey,today());
-localStorage.setItem(sDoneKey,"0");
-}
-}
-
-function openSurveyPage(){
-surveyReset();
-document.getElementById("surveyPage").classList.add("show");
-renderSurveys();
-}
-
-function closeSurveyPage(){
-document.getElementById("surveyPage").classList.remove("show");
-}
-
-function renderSurveys(){
-surveyReset();
-let sDoneKey = "surveyDone_" + currentUser;
-let done=Number(localStorage.getItem(sDoneKey)||0);
-document.getElementById("surveyCount").textContent=done+" / 5 surveys completed today";
-let list=document.getElementById("surveyList");
-list.innerHTML="";
-if(done>=5){
-list.innerHTML="<div class='survey'><b>🔒 Daily Limit Reached</b><small>Come back tomorrow!</small></div>";
-return;
-}
-surveys.forEach((s)=>{
-let d=document.createElement("div");
-d.className="survey";
-d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}")'>START SURVEY (+25) ➔</button>`;
-list.appendChild(d);
-});
+function startQuiz() {
+  let randQ = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+  document.getElementById('quizQuestion').innerText = randQ.q;
+  let ansBox = document.getElementById('quizAnswers');
+  ansBox.innerHTML = '';
+  randQ.options.forEach(opt => {
+    let b = document.createElement('button');
+    b.innerText = opt;
+    b.onclick = () => {
+      if(opt === randQ.ans) {
+        currentCoins += 10;
+        userTasks.quiz = true;
+        saveUserData();
+        updateUI();
+        triggerConfetti();
+        showToast('🧠 Correct! +10 Coins');
+        closeModal('quizModal');
+      } else {
+        showToast('❌ Incorrect answer. Try again!');
+      }
+    };
+    ansBox.appendChild(b);
+  });
+  openModal('quizModal');
 }
 
-function startRealSurvey(url){
-surveyReset();
-let sDoneKey = "surveyDone_" + currentUser;
-let done=Number(localStorage.getItem(sDoneKey)||0);
-if(done>=5) return;
-window.open(url, "_blank");
-done++;
-localStorage.setItem(sDoneKey, done);
-addCoins(25);
-toast("📋 Survey opened! +25 Coins.");
-celebrate();
-renderSurveys();
+function openLucky() {
+  document.getElementById('luckyResult').style.display = 'none';
+  document.getElementById('claimLuckyBtn').style.display = 'none';
+  document.getElementById('luckyBox').innerText = '🎁';
+  openModal('luckyModal');
+}
+function revealLucky() {
+  document.getElementById('luckyBox').innerText = '🪙 50';
+  document.getElementById('luckyResult').style.display = 'block';
+  document.getElementById('claimLuckyBtn').style.display = 'block';
+}
+function claimLucky() {
+  currentCoins += 50;
+  saveUserData();
+  updateUI();
+  triggerConfetti();
+  closeModal('luckyModal');
+  showToast('🃏 +50 Coins claimed from Lucky Card!');
 }
 
-function openWithdraw(){ openModal("withdrawModal"); }
+function openSurveyPage() { document.getElementById('surveyPage').classList.add('show'); }
+function closeSurveyPage() { document.getElementById('surveyPage').classList.remove('show'); }
+function submitSurvey() {
+  let a1 = document.getElementById('ans1').value.trim();
+  let a2 = document.getElementById('ans2').value.trim();
+  if(!a1 || !a2) { showToast('Please answer all survey questions'); return; }
+  currentCoins += 25;
+  userTasks.survey = true;
+  saveUserData();
+  updateUI();
+  closeSurveyPage();
+  triggerConfetti();
+  showToast('📋 Survey submitted! +25 Coins added.');
+}
 
-function submitWithdraw(){
-let amount = Number(document.getElementById("withdrawCoins").value);
-let upi = document.getElementById("upi").value.trim();
+function copyRefLink() {
+  let input = document.getElementById('refLinkInput');
+  input.select();
+  navigator.clipboard.writeText(input.value);
+  showToast('🔗 Invite link copied to clipboard!');
+}
 
-if(amount < 3100) {
-    toast("Minimum withdrawal is 3,100 coins (= ₹10)");
+function openWithdraw() { openModal('withdrawModal'); }
+async function submitWithdraw() {
+  let amt = parseInt(document.getElementById('withdrawAmount').value);
+  let upi = document.getElementById('withdrawUpi').value.trim();
+  
+  if(isNaN(amt) || amt < 3100) { showToast('Minimum withdrawal amount is 3100 coins'); return; }
+  if(amt > currentCoins) { showToast('Insufficient coin balance!'); return; }
+  if(!upi || !upi.includes('@')) { showToast('Enter a valid UPI ID (e.g. name@paytm)'); return; }
+  
+  currentCoins -= amt;
+  userWithdrawals.push({ amount: amt, upi: upi, time: new Date().toLocaleString(), status: 'Pending' });
+  await saveUserData();
+  updateUI();
+  closeModal('withdrawModal');
+  triggerConfetti();
+  showToast('🎉 Withdrawal request submitted to cloud!');
+}
+
+function openAdminLogin() {
+  let pass = prompt('Enter Owner Admin Password:');
+  if(pass === 'admin123' || pass === 'owner999') {
+    loadAdminData();
+    document.getElementById('adminPanel').classList.add('show');
+  } else {
+    showToast('Incorrect admin password');
+  }
+}
+function closeAdmin() { document.getElementById('adminPanel').classList.remove('show'); }
+
+async function loadAdminData() {
+  let list = document.getElementById('adminWithdrawList');
+  list.innerHTML = 'Loading from cloud...';
+  
+  let { data: allUsers, error } = await supabase.from('users').select('*');
+  if(error || !allUsers) {
+    list.innerHTML = '<div class="admin-card" style="color:#f87171">Failed to load admin data.</div>';
     return;
-}
-if(amount > 31000) {
-    toast("Maximum daily limit is 31,000 coins (= ₹100) per 24 hours!");
-    return;
-}
-if(amount > coins) {
-    toast("Insufficient coins in your balance!");
-    return;
-}
-if(!upi || !upi.includes("@")) {
-    toast("Enter a valid UPI ID");
-    return;
-}
-
-let calculatedRupees = Math.floor(amount / 310); 
-coins -= amount;
-save();
-
-let msg = `🚨 *New Withdrawal Request* 🚨%0A📱 User: +91 ${currentUser}%0A🪙 Amount: ${amount} Coins (₹${calculatedRupees})%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
-window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
-
-let usersDB = getUsersDB();
-if(!usersDB[currentUser].withdrawals) usersDB[currentUser].withdrawals = [];
-usersDB[currentUser].withdrawals.unshift({user: currentUser, amount: amount, rupees: calculatedRupees, upi: upi, date: today(), status: "Pending ⏳"});
-saveUsersDB(usersDB);
-
-closeModal("withdrawModal");
-toast("✅ Request submitted & WhatsApp opened!");
+  }
+  
+  list.innerHTML = '';
+  let totalW = 0;
+  
+  allUsers.forEach(u => {
+    if(u.withdrawals && u.withdrawals.length > 0) {
+      u.withdrawals.forEach((w, idx) => {
+        totalW++;
+        let div = document.createElement('div');
+        div.className = 'admin-card';
+        div.innerHTML = `
+          <div><strong>User:</strong> ${u.phone}</div>
+          <div><strong>Amount:</strong> ${w.amount} Coins (₹${(w.amount/310).toFixed(2)})</div>
+          <div><strong>UPI:</strong> ${w.upi}</div>
+          <div><strong>Time:</strong> ${w.time}</div>
+          <div style="margin-top:8px"><strong>Status:</strong> <span style="color:#fde047">${w.status}</span></div>
+          <button class="card-btn" style="background:#059669;margin-top:8px;padding:8px;" onclick="approveWithdraw('${u.phone}', ${idx})">APPROVE & PAYOUT</button>
+        `;
+        list.appendChild(div);
+      });
+    }
+  });
+  if(totalW === 0) {
+    list.innerHTML = '<div class="admin-card" style="text-align:center;color:#aaa">No pending withdrawal requests found.</div>';
+  }
 }
 
-function openHistory(){
-openModal("historyModal");
-let usersDB = getUsersDB();
-let userArr = (usersDB[currentUser] && usersDB[currentUser].withdrawals) ? usersDB[currentUser].withdrawals : [];
-let box=document.getElementById("historyList");
-if(!userArr.length){box.innerHTML="<p style='text-align:center;color:#aaa;font-size:12px'>No history yet.</p>";return;}
-box.innerHTML=userArr.map(x=>"<div style='margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)'>💰 <b>"+x.amount+" Coins (₹"+x.rupees+")</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
+async function approveWithdraw(phone, idx) {
+  let { data: u } = await supabase.from('users').select('*').eq('phone', phone).single();
+  if(u && u.withdrawals && u.withdrawals[idx]) {
+    u.withdrawals[idx].status = 'Approved & Paid';
+    await supabase.from('users').update({ withdrawals: u.withdrawals }).eq('phone', phone);
+    showToast(`Withdrawal for ${phone} approved!`);
+    loadAdminData();
+  }
 }
 </script>
-
 </body>
 </html>
