@@ -64,12 +64,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* ACCOUNT / PROFILE PAGE STYLES */
+/* ACCOUNT / PROFILE PAGE STYLES - PROFESSIONAL BACK BUTTON */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
 
-/* BACK BUTTON DESIGN */
+/* UPDATED PROFESSIONAL BACK BUTTON DESIGN */
 .acc-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s;}
 .acc-back-btn:active{transform:scale(0.95);background:rgba(255,255,255,0.2);}
@@ -79,6 +79,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-info h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px}
 .vip-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:800}
 .acc-uid{font-size:12px;color:#cbd5e1;margin-top:4px;display:flex;align-items:center;gap:6px}
+.acc-login-time{font-size:11px;color:#94a3b8;margin-top:2px}
 
 /* ACC WALLET SECTION */
 .acc-wallet{margin:16px;padding:20px;border-radius:22px;background:linear-gradient(135deg,#2563eb,#1d4ed8,#3b82f6);box-shadow:0 10px 30px rgba(37,99,235,0.5);border:1px solid rgba(255,255,255,0.25)}
@@ -90,8 +91,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 /* ACC LIST MENU */
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
-.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-decoration:none;color:#fff}
+.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
 .acc-menu-card:active{background:rgba(255,255,255,0.12)}
+.acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
 /* LOGIN & ADMIN STYLING */
 .login-container{position:fixed;inset:0;background:#0d1137;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
@@ -99,12 +101,26 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .login-box h2{text-align:center;margin-bottom:8px;font-size:24px;font-weight:900}
 .login-box p{text-align:center;color:#cbd5e1;font-size:12px;margin-bottom:20px}
 
-/* MODALS */
+.admin-panel{display:none;max-width:480px;margin:auto;min-height:100vh;padding:16px;background:#0d1137;z-index:150;position:fixed;inset:0;overflow:auto}
+.admin-panel.show{display:block}
+.admin-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:16px;margin-top:12px;font-size:13px}
+
+/* TASK TIMELINE & OTHER MODALS */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:40;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
 .modal.show{display:flex}
 .box{width:100%;max-width:440px;background:linear-gradient(145deg,#1e1b4b,#0f1035);border:1px solid rgba(255,255,255,0.22);border-radius:28px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 60px rgba(0,0,0,0.9)}
 .close{float:right;background:rgba(255,255,255,0.15);color:#fff;border-radius:50%;width:34px;height:34px;font-size:16px;display:grid;place-items:center;cursor:pointer}
 .box h2{text-align:center;margin:0 0 16px;font-size:18px;font-weight:900}
+
+.task-header-box{background:linear-gradient(135deg,#7c3aed,#4f46e5,#3b82f6);border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 10px 25px rgba(79,70,229,0.5)}
+.task-stats-row{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.25);padding:14px;border-radius:16px;margin-top:12px}
+.circular-progress{position:relative;width:56px;height:56px;border-radius:50%;background:conic-gradient(#22c55e 75%, rgba(255,255,255,0.2) 0deg);display:grid;place-items:center;box-shadow:0 0 12px rgba(34,197,94,0.5)}
+.circular-inner{width:46px;height:46px;background:#1e1b4b;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:900}
+.timeline{position:relative;padding-left:24px;margin-top:15px}
+.timeline::before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:rgba(255,255,255,0.25)}
+.timeline-item{position:relative;margin-bottom:16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);padding:14px;border-radius:16px;display:flex;justify-content:space-between;align-items:center}
+.timeline-dot{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#22c55e;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;border:2px solid #1e1b4b;box-shadow:0 0 8px rgba(34,197,94,0.7)}
+.timeline-dot.pending{background:#64748b}
 
 /* SPIN WHEEL */
 .wheel-wrap{position:relative;width:280px;height:280px;margin:15px auto;filter:drop-shadow(0 0 25px rgba(139,92,246,0.7))}
@@ -114,31 +130,52 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .s1{transform:rotate(15deg) translateX(65px)}.s2{transform:rotate(45deg) translateX(65px)}.s3{transform:rotate(75deg) translateX(65px)}.s4{transform:rotate(105deg) translateX(65px)}.s5{transform:rotate(135deg) translateX(65px)}.s6{transform:rotate(165deg) translateX(65px)}.s7{transform:rotate(195deg) translateX(65px)}.s8{transform:rotate(225deg) translateX(65px)}.s9{transform:rotate(255deg) translateX(65px)}.s10{transform:rotate(285deg) translateX(65px)}.s11{transform:rotate(315deg) translateX(65px)}.s12{transform:rotate(345deg) translateX(65px)}
 .pointer{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:30px solid #facc15;z-index:6;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.7))}
 
+.result{text-align:center;display:none;padding:12px;background:rgba(34,197,94,0.25);border:1px solid rgba(34,197,94,0.6);border-radius:14px;margin-top:12px;font-size:13px}.result.show{display:block}.result strong{font-size:20px}
+.lucky{height:150px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:50px;box-shadow:0 10px 30px rgba(245,158,11,0.4)}
 .quiz-q{font-size:15px;font-weight:800;text-align:center;background:rgba(255,255,255,0.08);padding:16px;border-radius:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.15)}
 .answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:14px;background:rgba(255,255,255,0.1);color:#fff;text-align:left;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,0.15);transition:0.2s}
 .answers button:active{background:rgba(255,255,255,0.25)}
 
 .surveyPage{display:none;position:fixed;inset:0;background:#0d1137;z-index:40;overflow:auto}
-.surveyPage.show{display:block}
+.surveyPage.show{display:block}.surveyInner{max-width:480px;margin:auto;padding-bottom:40px}
 .surveyHead{display:flex;align-items:center;gap:12px;padding:14px 18px;position:sticky;top:0;background:rgba(18,24,61,0.95);backdrop-filter:blur(15px);z-index:5;border-bottom:1px solid rgba(255,255,255,0.12)}
-.back{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,0.15);color:#fff;font-size:20px;display:grid;place-items:center;cursor:pointer}
+.back{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,0.15);color:#fff;font-size:20px;display:grid;place-items:center}
+.surveyHead h2{font-size:16px}.surveyCount{text-align:center;color:#cbd5e1;padding:12px 16px;font-size:12px;font-weight:700}
 .survey{margin:10px 16px;padding:16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px}
+.survey b{display:block;font-size:14px;margin-bottom:4px}.survey small{color:#cbd5e1;font-size:11px}
 input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);color:#fff;margin:8px 0;outline:none;font-size:13px;font-weight:600}
 .toast{position:fixed;top:15px;left:50%;transform:translate(-50%,-120px);background:#2e1065;border:1px solid rgba(255,255,255,0.35);padding:12px 20px;border-radius:16px;z-index:200;transition:.3s;box-shadow:0 15px 40px rgba(0,0,0,0.8);font-size:13px;font-weight:800;color:#fde047}
 .toast.show{transform:translate(-50%,0)}
+.confetti{position:fixed;z-index:199;top:-10px;font-size:22px;animation:fall 1.5s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:0}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN (Phone + Email, No Password) -->
+<!-- LOGIN SCREEN -->
 <div class="login-container" id="loginContainer">
 <div class="login-box">
 <h2>🚀 CoinRush Pro</h2>
-<p>Enter Mobile Number & Gmail to Login</p>
+<p>Enter your mobile number and password</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
-<input id="loginEmail" type="email" placeholder="Gmail Address (e.g. user@gmail.com)">
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / START</button>
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
+
+<!-- Google Login Option Added -->
+<button class="card-btn" style="background:#ffffff; color:#333; padding:14px; font-size:14px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="handleGoogleLogin()">
+  <span style="font-size:16px;">🌐</span> Continue with Google
+</button>
 </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+<h2>🛡️ Owner Admin Panel</h2>
+<button class="card-btn" style="width:auto;padding:8px 14px;background:#ef4444;" onclick="closeAdmin()">LOGOUT</button>
+</div>
+<p style="color:#aaa;margin-bottom:12px;font-size:12px">Withdrawal requests:</p>
+<div id="adminWithdrawList"></div>
 </div>
 
 <!-- MAIN APP (HOME TAB) -->
@@ -146,11 +183,12 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <header>
 <div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
 <div class="avatar">👦🏽</div>
-<div><div class="name" id="userName">MEMBER</div><div class="id" id="userPhoneDisplay">UID | --</div></div>
+<div><div class="name" id="userName">MEMBERNNGDX9M5</div><div class="id" id="userPhone">UID | 20925778</div></div>
 </div>
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
 
+<!-- HERO BALANCE CARD -->
 <section class="hero-card">
 <div class="hero-title">Total balance</div>
 <div class="hero-balance-row">
@@ -161,13 +199,14 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </div>
 </section>
 
+<!-- BANNER AD SECTION -->
 <div class="banner-ad-container">
   <span>Advertisement (Banner Ad)</span>
   <div style="margin-top:4px; font-weight:bold; color:#fde047;">[ Ad Space Ready ]</div>
 </div>
 
 <div class="section-header">
-EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
+EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 
 <div class="grid">
@@ -176,7 +215,7 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="icon-box">📺</div>
 <h3>Watch Ads</h3>
 <p>Watch sponsor ads & earn coins instantly.</p>
-<button class="card-btn" onclick="addCoins(25)">EARN 25 ➔</button>
+<button class="card-btn" onclick="watchAd()">EARN 25 ➔</button>
 </div>
 
 <div class="card card-purple">
@@ -192,7 +231,7 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="icon-box">📥</div>
 <h3>Download App</h3>
 <p>Earn high coins on downloading new apps.</p>
-<button class="card-btn" onclick="addCoins(100); toast('100 Coins added!')">EARN 100 ➔</button>
+<button class="card-btn" onclick="openDownloadTask()">EARN 100 ➔</button>
 </div>
 
 <div class="card card-orange">
@@ -200,7 +239,7 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="icon-box">🧠</div>
 <h3>Unlimited Quiz</h3>
 <p>Easy Math & GK questions challenge.</p>
-<button class="card-btn" onclick="openModal('quizModal')">START ➔</button>
+<button class="card-btn" onclick="startQuiz()">START ➔</button>
 </div>
 </div>
 
@@ -208,16 +247,32 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="badge-tag">25 coins / survey</div>
 <div class="icon-box">📋</div>
 <h3>Survey Center</h3>
-<p>Complete daily surveys and boost your earnings.</p>
+<p>Complete daily surveys and boost your earnings rapidly.</p>
 <button class="card-btn" onclick="openSurveyPage()">OPEN SURVEY CENTER ➔</button>
 </div>
 
-<button class="withdraw-main" onclick="openModal('withdrawModal')">💰 WITHDRAW COINS NOW</button>
+<div class="grid">
+<div class="card card-purple">
+<div class="icon-box">🃏</div>
+<h3>Lucky Card</h3>
+<p>One lucky card every single day.</p>
+<button class="card-btn" onclick="openLucky()">PLAY ➔</button>
+</div>
+<div class="card card-orange">
+<div class="icon-box">👥</div>
+<h3>Invite Friends</h3>
+<p>Share via WhatsApp or Telegram.</p>
+<button class="card-btn" onclick="openModal('refModal')">INVITE ➔</button>
+</div>
 </div>
 
-<!-- ACCOUNT / PROFILE PAGE -->
+<button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
+</div>
+
+<!-- FULL ACCOUNT / PROFILE PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
+<!-- PROFESSIONAL BACK BUTTON DESIGN -->
 <div class="acc-top-bar">
 <button class="acc-back-btn" onclick="switchNav('home', document.querySelector('.bottom-nav button:first-child'))">
 <span>←</span> Back to Home
@@ -226,246 +281,754 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
-<h2><span id="accUsername">MEMBER</span> <span class="vip-badge">VIP 1</span></h2>
-<div class="acc-uid" id="accEmailDisplay">Email: --</div>
+<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
+<div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
+<div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 11:13:35</div>
 </div>
 </div>
 </div>
 
+<!-- VIP LEVEL UPGRADE SECTION (FREE REWARD SYSTEM) -->
+<div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+<div>
+<div style="font-size:12px;color:#e0e7ff;font-weight:800;" id="vipTitle">Current: VIP Level 1</div>
+<div style="font-size:16px;font-weight:900;margin-top:2px;" id="vipStatusMsg">Unlock free rewards!</div>
+</div>
+<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">CLAIM VIP 🚀</button>
+</div>
+<div style="font-size:11px;color:#cbd5e1;" id="vipNextInfo">Next Level requires: 10,000 Coins (Reward: 500 Free Coins)</div>
+</div>
+
+<!-- ACC WALLET SECTION -->
 <div class="acc-wallet">
 <div class="acc-wallet-top">
-<div><p style="font-size:11px;color:#cbd5e1">Account Balance</p><h3 style="font-size:22px;" id="accCoinsVal">0 Coins</h3></div>
+<div>
+<div style="font-size:11px;color:#cbd5e1;text-transform:uppercase;letter-spacing:1px;">Total balance</div>
+<div style="font-size:24px;font-weight:900;margin-top:4px;">🪙 <span id="accCoins">0</span> Coins</div>
+</div>
 </div>
 <div class="acc-wallet-grid">
-<div class="acc-wallet-item" onclick="openModal('withdrawModal')"><span>💸</span><p>Withdraw</p></div>
-<div class="acc-wallet-item" onclick="toast('History feature loaded')"><span>📜</span><p>History</p></div>
+<div class="acc-wallet-item" onclick="openWithdraw()">
+<span>📤</span>
+<p>Withdraw</p>
+</div>
+<div class="acc-wallet-item" onclick="toast('VIP System Active - Free Rewards!')">
+<span>👑</span>
+<p>VIP</p>
+</div>
 </div>
 </div>
 
-<div class="acc-menu-list">
-<!-- Telegram Support Link -->
-<a href="https://t.me/Luffyxzoroa" target="_blank" class="acc-menu-card">
-<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">💬</span> <span style="font-size:13px;font-weight:800;">Support & Help (Telegram)</span></div>
+<!-- ACC MENU LIST -->
+<div class="acc-menu-grid">
+<div class="acc-menu-card" onclick="openTaskModal()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">📊</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Game History</div>
+<div style="font-size:10px;color:#cbd5e1;">My game history</div>
+</div>
+</div>
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
+<span style="font-size:24px;">📜</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Transaction</div>
+<div style="font-size:10px;color:#cbd5e1;">My transaction history</div>
+</div>
+</div>
+</div>
+
+<div class="acc-menu-grid">
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;grid-column: span 2;">
+<span style="font-size:24px;">💳</span>
+<div>
+<div style="font-size:13px;font-weight:800;">Withdraw History</div>
+<div style="font-size:10px;color:#cbd5e1;">My withdraw history</div>
+</div>
+</div>
+</div>
+
+<div class="acc-menu-list" style="margin-top:12px;">
+<div class="acc-menu-card" onclick="toast('No new notifications')" style="justify-content:space-between;">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🔔</span> <span style="font-size:13px;font-weight:800;">Notification</span></div>
 <span>></span>
-</a>
-
-<div class="acc-menu-card" onclick="logout()" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
+</div>
+<div class="acc-menu-card" onclick="openTaskModal()" style="justify-content:space-between;">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🎁</span> <span style="font-size:13px;font-weight:800;">Gifts & Rewards</span></div>
+<span>></span>
+</div>
+<div class="acc-menu-card" onclick="logout()" style="justify-content:space-between;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
 <div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🚪</span> <span style="font-size:13px;font-weight:800;color:#ef4444;">Logout Account</span></div>
 <span>></span>
 </div>
 </div>
 </div>
 
-<!-- SURVEY CENTER PAGE -->
-<div class="surveyPage" id="surveyPage">
-<div class="surveyHead">
-<div class="back" onclick="closeSurveyPage()">←</div>
-<h2>📋 Survey Center</h2>
-</div>
-<div class="survey">
-<b>Survey #1: App Feedback</b>
-<p style="font-size:12px;color:#cbd5e1;margin-bottom:10px;">How do you like CoinRush Pro?</p>
-<button class="card-btn" onclick="addCoins(25); closeSurveyPage(); toast('Survey Completed! +25 Coins')">Submit & Earn 25 Coins</button>
-</div>
-</div>
-
-<!-- BOTTOM NAV BAR -->
+<!-- BOTTOM NAVIGATION BAR -->
 <nav class="bottom-nav">
 <button class="nav-item active" onclick="switchNav('home', this)"><span>🏠</span>Home</button>
+<button class="nav-item" onclick="switchNav('activity', this)"><span>🛍️</span>Activity</button>
+<button class="nav-item" onclick="openTaskModal()"><span>🎯</span>Get ₹500</button>
+<button class="nav-item" onclick="switchNav('promotion', this)"><span>🎁</span>Promotion</button>
 <button class="nav-item" onclick="switchNav('account', this)"><span>👤</span>Account</button>
 </nav>
 
-<!-- WHEEL MODAL -->
-<div class="modal" id="wheelModal">
-<div class="box" style="text-align:center;">
-<button class="close" onclick="closeModal('wheelModal')">×</button>
-<h2>🎡 Lucky Spin</h2>
-<div class="wheel-wrap">
-<div class="pointer"></div>
-<div id="wheel">
-<span class="s1">10</span><span class="s2">50</span><span class="s3">20</span><span class="s4">100</span><span class="s5">5</span><span class="s6">25</span><span class="s7">15</span><span class="s8">80</span><span class="s9">30</span><span class="s10">10</span><span class="s11">40</span><span class="s12">60</span>
-</div>
-</div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:12px;margin-top:10px;" onclick="spinWheel()">SPIN NOW</button>
-</div>
-</div>
-
-<!-- QUIZ MODAL -->
-<div class="modal" id="quizModal">
-<div class="box">
-<button class="close" onclick="closeModal('quizModal')">×</button>
-<h2>🧠 Math Quiz</h2>
-<div class="quiz-q">What is 15 + 10?</div>
-<div class="answers">
-<button onclick="checkQuiz(25)">A) 25</button>
-<button onclick="checkQuiz(20)">B) 20</button>
-<button onclick="checkQuiz(30)">C) 30</button>
-</div>
-</div>
-</div>
-
-<!-- TASK MODAL -->
+<!-- TASK PROGRESS & REWARDS MODAL -->
 <div class="modal" id="taskModal">
 <div class="box">
 <button class="close" onclick="closeModal('taskModal')">×</button>
-<h2>📌 Task Timeline</h2>
-<p style="font-size:12px;color:#cbd5e1;text-align:center;margin-bottom:10px;">Complete daily activities to unlock rewards.</p>
-<div style="background:rgba(255,255,255,0.07);padding:12px;border-radius:12px;font-size:12px;margin-bottom:8px;">✅ Daily Check-in (Done)</div>
-<div style="background:rgba(255,255,255,0.07);padding:12px;border-radius:12px;font-size:12px;margin-bottom:8px;">⏳ Watch Sponsor Ads (Pending)</div>
+<h2>📊 Task Progress & Rewards</h2>
+<div class="task-header-box">
+<div style="font-size:16px;font-weight:900;margin-bottom:4px;">Richie Games - Play & Earn</div>
+<div style="font-size:11px;color:#e0e7ff;margin-bottom:12px;">Complete tasks below to unlock big coin rewards!</div>
+<div class="task-stats-row">
+<div>
+<div style="font-size:14px;font-weight:900;" id="modalCoinsEarned">1325 Coins earned</div>
+<div style="font-size:10px;color:#cbd5e1;" id="modalTaskStatus">Great job! You completed tasks!</div>
+</div>
+<div class="circular-progress">
+<div class="circular-inner"><span id="percentText">75%</span></div>
+</div>
+</div>
+</div>
+<div style="font-size:13px;font-weight:900;margin-bottom:6px;">🎁 Rewards Timeline</div>
+<div class="timeline" id="timelineList"></div>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:16px;padding:12px;" onclick="closeModal('taskModal')">Continue →</button>
 </div>
 </div>
 
-<!-- WITHDRAW MODAL -->
-<div class="modal" id="withdrawModal">
-<div class="box">
-<button class="close" onclick="closeModal('withdrawModal')">×</button>
-<h2>💰 Withdrawal</h2>
+<!-- WHEEL MODAL -->
+<div class="modal" id="wheelModal"><div class="box">
+<button class="close" onclick="closeModal('wheelModal')">×</button>
+<h2>🎡 Pro Lucky Spin</h2>
+<div class="wheel-wrap">
+<div class="pointer"></div>
+<div id="wheel">
+<span class="s1">10</span><span class="s2">15</span><span class="s3">20</span><span class="s4">10</span>
+<span class="s5">15</span><span class="s6">20</span><span class="s7">10</span><span class="s8">15</span>
+<span class="s9">20</span><span class="s10">15</span><span class="s11">10</span><span class="s12">100</span>
+</div>
+</div>
+<div class="result" id="spinResult"><strong id="spinWon"></strong><br>🎉 Congratulations!</div>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
+<p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px;font-size:12px"></p>
+</div></div>
+
+<div class="modal" id="luckyModal"><div class="box">
+<button class="close" onclick="closeModal('luckyModal')">×</button><h2>🃏 Lucky Card</h2>
+<div class="lucky" id="luckyCard">🎁</div>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="luckyBtn" onclick="chooseLucky()">REVEAL CARD</button>
+<p id="luckyResult" style="text-align:center;margin-top:12px;font-size:12px"></p>
+</div></div>
+
+<div class="modal" id="quizModal"><div class="box">
+<button class="close" onclick="closeModal('quizModal')">×</button><h2>🧠 Quiz Challenge</h2>
+<p id="quizType" style="text-align:center;color:#aaa;font-size:12px;margin-bottom:8px"></p>
+<div class="quiz-q" id="quizQuestion"></div>
+<div class="answers" id="answers"></div>
+<p id="quizResult" style="text-align:center;margin-top:12px;font-weight:900;font-size:13px"></p>
+</div></div>
+
+<div class="modal" id="withdrawModal"><div class="box">
+<button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal</h2>
+<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:12px">Min 4,000 • Max 20,000 coins/day</p>
 <input id="withdrawCoins" type="number" placeholder="Enter coins">
-<input id="upi" type="text" placeholder="Enter UPI ID or Phone Number">
-<button class="card-btn" style="background:linear-gradient(135deg,#f59e0b,#ef4444);padding:14px;margin-top:16px;" onclick="toast('Withdrawal request submitted!'); closeModal('withdrawModal');">SUBMIT REQUEST</button>
+<input id="upi" type="text" placeholder="Enter UPI ID (e.g. ybl@okhdfc)">
+<button class="card-btn" style="background:linear-gradient(135deg,#f59e0b,#ef4444);padding:14px;margin-top:16px;" onclick="submitWithdraw()">REQUEST & SEND WHATSAPP</button>
+</div></div>
+
+<div class="modal" id="historyModal"><div class="box">
+<button class="close" onclick="closeModal('historyModal')">×</button><h2>📜 Withdrawal History</h2>
+<div id="historyList"></div>
+</div></div>
+
+<div class="modal" id="refModal"><div class="box">
+<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share</h2>
+<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends!</p>
+<input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
+<button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
+<button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
+</div></div>
+
+<div class="surveyPage" id="surveyPage">
+<div class="surveyInner">
+<div class="surveyHead">
+<button class="back" onclick="closeSurveyPage()">‹</button>
+<h2>📋 Survey Center (25 Coins Each)</h2>
+</div>
+<div class="surveyCount" id="surveyCount"></div>
+<div id="surveyList"></div>
 </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// Multiple account storage key helpers based on phone number + email combo
-let currentKey = localStorage.getItem("activeUserKey") || "";
-let coins = 0;
+let coins=Number(localStorage.getItem("coins")||0);
+let vipLevel=Number(localStorage.getItem("vipLevel")||1);
+let spinning=false;
+let quizIndex=0;
+let wheelRotation=Number(localStorage.getItem("wheelRotation")||0);
+
+const vipTiers = {
+    1: { cost: 0, reward: 0, title: "VIP Level 1" },
+    2: { cost: 10000, reward: 500, title: "VIP Level 2" },
+    3: { cost: 25000, reward: 2000, title: "VIP Level 3" },
+    4: { cost: 50000, reward: 10000, title: "VIP Level 4" }
+};
+
+const today=()=>new Date().toISOString().slice(0,10);
 
 window.onload = function() {
-  if(currentKey) {
-    let savedData = JSON.parse(localStorage.getItem("account_" + currentKey) || "{}");
-    coins = savedData.coins || 0;
-    
-    document.getElementById("loginContainer").style.display = "none";
-    document.getElementById("mainApp").classList.add("show");
-    updateUI();
-  }
+let isAdmin = localStorage.getItem("isAdminSession");
+if(isAdmin === "true") {
+document.getElementById("loginContainer").style.display = "none";
+openAdminPanel();
+return;
+}
+let savedUser = localStorage.getItem("userPhone");
+if(savedUser) {
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+let suffix = savedUser.length >= 4 ? savedUser.slice(-4) : "5778";
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(suffix));
+document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
+document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
+}
+updateVipUI();
 };
 
 function handleLogin() {
-  let number = document.getElementById("loginNumber").value.trim();
-  let email = document.getElementById("loginEmail").value.trim();
+let number = document.getElementById("loginNumber").value.trim();
+let password = document.getElementById("loginPassword").value.trim();
 
-  if(number.length !== 10 || isNaN(number)) {
-    toast("Enter a valid 10-digit mobile number");
-    return;
-  }
-  if(!email.includes("@") || !email.includes(".com")) {
-    toast("Enter a valid Gmail address");
-    return;
-  }
-
-  // Unique session key for each phone+email combination
-  currentKey = number + "_" + email.toLowerCase();
-  localStorage.setItem("activeUserKey", currentKey);
-
-  // Load existing coins or initialize if new account
-  let savedData = JSON.parse(localStorage.getItem("account_" + currentKey) || "{}");
-  coins = savedData.coins !== undefined ? savedData.coins : 0;
-
-  document.getElementById("loginContainer").style.display = "none";
-  document.getElementById("mainApp").classList.add("show");
-  updateUI();
-  toast("Login Successful!");
+if(password === "admin999") {
+localStorage.setItem("isAdminSession", "true");
+document.getElementById("loginContainer").style.display = "none";
+openAdminPanel();
+toast("Welcome Admin!");
+return;
+}
+if(number.length !== 10 || isNaN(number)) {
+toast("Enter valid 10-digit mobile number");
+return;
+}
+if(password.length < 4) {
+toast("Password must be 4+ characters");
+return;
+}
+localStorage.setItem("userPhone", number);
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
+document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
+toast("Login Successful!");
+updateVipUI();
 }
 
-function updateUI() {
-  let [phone, email] = currentKey.split("_");
-  
-  document.getElementById("coins").textContent = coins;
-  document.getElementById("topCoins").textContent = coins;
-  document.getElementById("accCoinsVal").textContent = coins + " Coins";
-  document.getElementById("userPhoneDisplay").textContent = "Phone | " + (phone || "");
-  document.getElementById("accEmailDisplay").textContent = "Gmail: " + (email || "");
-  document.getElementById("userName").textContent = "User_" + (phone ? phone.slice(-4) : "1234");
-  document.getElementById("accUsername").textContent = "User_" + (phone ? phone.slice(-4) : "1234");
-  
-  if(currentKey) {
-    // Save account state instantly so syncing across devices via localStorage works seamlessly
-    let accData = { coins: coins, phone: phone, email: email };
-    localStorage.setItem("account_" + currentKey, JSON.stringify(accData));
-  }
+function handleGoogleLogin() {
+let googleUser = "GoogleUser_" + Math.floor(1000 + Math.random() * 9000);
+localStorage.setItem("userPhone", googleUser);
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Math.floor(100 + Math.random() * 900));
+document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
+toast("Google Login Successful! 🎉");
+updateVipUI();
 }
 
-function addCoins(n) {
-  coins += n;
-  updateUI();
-  toast("🪙 +" + n + " Coins added!");
+function openAdminPanel() {
+document.getElementById("adminPanel").classList.add("show");
+renderAdminRequests();
 }
 
-function spinWheel() {
-  let wheel = document.getElementById("wheel");
-  let randomDegree = Math.floor(Math.random() * 3600) + 720;
-  wheel.style.transform = `rotate(${randomDegree}deg)`;
-  setTimeout(() => {
-    let won = [10, 50, 20, 100, 5, 25, 15, 80, 30, 10, 40, 60][Math.floor(Math.random()*12)];
-    addCoins(won);
-    toast("🎉 Lucky Spin Won: " + won + " Coins!");
-    closeModal('wheelModal');
-  }, 4500);
+function closeAdmin() {
+localStorage.removeItem("isAdminSession");
+location.reload();
 }
 
-function checkQuiz(ans) {
-  if(ans === 25) {
-    addCoins(25);
-    toast("Correct Answer! +25 Coins");
-  } else {
-    toast("Incorrect Answer!");
-  }
-  closeModal('quizModal');
+function renderAdminRequests() {
+let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
+let box = document.getElementById("adminWithdrawList");
+if(!arr.length) {
+box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>No pending requests.</p>";
+return;
+}
+box.innerHTML = arr.map((x, i) => `
+<div class="admin-card">
+<p><b>UPI:</b> ${x.upi}</p>
+<p><b>Amount:</b> ${x.amount} Coins</p>
+<p><b>Date:</b> ${x.date}</p>
+<p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
+<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw(${i})">APPROVE / PAID ✓</button>
+</div>
+`).join("");
 }
 
-function openSurveyPage() {
-  document.getElementById("surveyPage").classList.add("show");
-}
-function closeSurveyPage() {
-  document.getElementById("surveyPage").classList.remove("show");
-}
-
-function toast(t) {
-  let x = document.getElementById("toast");
-  x.textContent = t;
-  x.classList.add("show");
-  setTimeout(() => x.classList.remove("shadow") || x.classList.remove("show"), 2500);
-}
-
-function openModal(id) { document.getElementById(id).classList.add("show"); }
-function closeModal(id) { document.getElementById(id).classList.remove("show"); }
-
-function switchNav(tab, el) {
-  let main = document.getElementById("mainApp");
-  let acc = document.getElementById("accountPage");
-  
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  if(el) el.classList.add('active');
-
-  if(tab === 'account') {
-    main.style.display = "none";
-    acc.classList.add("show");
-  } else {
-    acc.classList.remove("show");
-    main.style.display = "block";
-  }
+function approveWithdraw(index) {
+let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
+arr[index].status = "Paid ✓";
+localStorage.setItem("withdrawals", JSON.stringify(arr));
+renderAdminRequests();
+toast("Approved!");
 }
 
 function logout() {
-  localStorage.removeItem("activeUserKey");
-  location.reload();
+localStorage.removeItem("userPhone");
+location.reload();
 }
 
-function dailyBonus() {
-  let k = "bonus_" + currentKey;
-  let today = new Date().toISOString().slice(0, 10);
-  if(localStorage.getItem(k) === today) {
-    toast("Already claimed today!");
-    return;
-  }
-  localStorage.setItem(k, today);
-  addCoins(50);
-  toast("🎁 Daily Bonus Claimed: +50 Coins!");
+function save(){
+localStorage.setItem("coins",coins);
+localStorage.setItem("vipLevel",vipLevel);
+document.getElementById("coins").textContent=coins;
+document.getElementById("topCoins").textContent=coins;
+document.getElementById("accCoins").textContent=coins;
+updateVipUI();
 }
+
+function updateVipUI() {
+let currentVip = vipTiers[vipLevel] || vipTiers[4];
+document.getElementById("accVipBadge").textContent = "VIP " + vipLevel;
+document.getElementById("vipTitle").textContent = "Current: " + currentVip.title;
+
+let nextLevel = vipLevel + 1;
+if(vipTiers[nextLevel]) {
+let req = vipTiers[nextLevel].cost;
+let rew = vipTiers[nextLevel].reward;
+document.getElementById("vipNextInfo").textContent = `Next Level requires ${req.toLocaleString()} Coins (Free Reward: ${rew} Coins)`;
+document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Claim Free Reward! 🚀" : "Earn more coins to unlock next level!";
+} else {
+document.getElementById("vipNextInfo").textContent = "Maximum VIP Tier Achieved! 👑";
+document.getElementById("vipStatusMsg").textContent = "You are an Elite User!";
+}
+}
+
+function upgradeVIPLevel() {
+let nextLevel = vipLevel + 1;
+if(!vipTiers[nextLevel]) {
+toast("Aap pehle se hi maximum VIP level par hain!");
+return;
+}
+let requiredCoins = vipTiers[nextLevel].cost;
+if(coins >= requiredCoins) {
+vipLevel = nextLevel;
+let freeReward = vipTiers[nextLevel].reward;
+coins += freeReward; 
+save();
+celebrate();
+toast(`Badhai ho! VIP ${vipLevel} unlock hua + ${freeReward} Coins free mile!`);
+} else {
+toast(`Agle level ke liye ${requiredCoins} coins balance me hone chahiye!`);
+}
+}
+
+function toast(t){
+let x=document.getElementById("toast");
+x.textContent=t;x.classList.add("show");
+setTimeout(()=>x.classList.remove("show"),2000);
+}
+
+function openModal(id){document.getElementById(id).classList.add("show")}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+
+function switchNav(tab, el) {
+document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+if(el) el.classList.add('active');
+
+let main = document.getElementById("mainApp");
+let acc = document.getElementById("accountPage");
+
+if(tab === 'account') {
+main.style.display = "none";
+acc.classList.add("show");
+save();
+} else {
+acc.classList.remove("show");
+main.style.display = "block";
+}
+}
+
+function copyUid() {
+let uid = document.getElementById("accUidVal").textContent;
+navigator.clipboard.writeText(uid);
+toast("UID Copied to clipboard!");
+}
+
+function openTaskModal() {
+openModal('taskModal');
+renderTimeline();
+}
+
+function renderTimeline() {
+let completedTasks = Number(localStorage.getItem("completedTasksCount") || 3);
+let totalCoinsEarned = coins > 1325 ? coins : 1325;
+document.getElementById("modalCoinsEarned").textContent = totalCoinsEarned + " Coins earned";
+document.getElementById("modalTaskStatus").textContent = `Great job! You completed ${completedTasks} / 6 tasks!`;
+
+let timelineData = [
+{title: "Install 1 game", reward: "+100 Coins", done: true},
+{title: "Install 2 games", reward: "+100 Coins", done: true},
+{title: "Earn 100k coins", reward: "+375 Coins", done: true},
+{title: "Complete 5 Daily Surveys", reward: "+250 Coins", done: completedTasks >= 4},
+{title: "Refer 3 Friends", reward: "+500 Coins", done: completedTasks >= 5}
+];
+
+let html = "";
+timelineData.forEach((item, idx) => {
+html += `
+<div class="timeline-item">
+<div class="timeline-dot ${item.done ? '' : 'pending'}">${item.done ? '✓' : idx+1}</div>
+<div>
+<div style="font-size:13px;font-weight:800;">${item.title}</div>
+<div style="font-size:11px;color:#cbd5e1;">Status: ${item.done ? '<span style="color:#22c55e">Completed ✓</span>' : '<span style="color:#f59e0b">Pending</span>'}</div>
+</div>
+<div style="font-size:12px;font-weight:900;color:#fde047;">${item.reward}</div>
+</div>
+`;
+});
+document.getElementById("timelineList").innerHTML = html;
+}
+
+function addCoins(n){
+coins+=n;save();toast("🪙 +"+n+" Coins added!");
+}
+
+function celebrate(){
+for(let i=0;i<25;i++){
+let e=document.createElement("div");
+e.className="confetti";
+e.textContent=["🎉","✨","🪙","🎊"][Math.floor(Math.random()*4)];
+e.style.left=Math.random()*100+"vw";
+e.style.animationDelay=Math.random()*0.3+"s";
+document.body.appendChild(e);
+setTimeout(()=>e.remove(),1500);
+}
+}
+
+function dailyBonus(){
+if(localStorage.getItem("lastBonus")===today()){
+toast("🎁 Already claimed today");return;
+}
+localStorage.setItem("lastBonus",today());
+addCoins(100);celebrate();updateBonus();
+}
+
+function updateBonus(){
+let b=document.getElementById("heroBonusBtn");
+if(localStorage.getItem("lastBonus")===today()){
+b.textContent="CLAIMED ✓";b.disabled=true;
+}
+}
+
+const adNetworks = [
+"https://www.monetag.com",
+"https://www.adsterra.com",
+"https://cpx-research.com",
+"https://bitlabs.ai",
+"https://www.pollfish.com"
+];
+
+function watchAd(){
+let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
+let targetAdUrl = adNetworks[adIndex % adNetworks.length];
+localStorage.setItem("nextAdIndex", adIndex + 1);
+window.open(targetAdUrl, "_blank");
+setTimeout(() => {
+addCoins(25);
+toast("📺 +25 Coins added!");
+celebrate();
+}, 1000);
+}
+
+const playStoreApps = [
+"https://play.google.com/store/apps/details?id=com.whatsapp",
+"https://play.google.com/store/apps/details?id=com.instagram.android",
+"https://play.google.com/store/apps/details?id=in.mohalla.sharechat",
+"https://play.google.com/store/apps/details?id=com.josh.droid",
+"https://play.google.com/store/apps/details?id=com.truecaller"
+];
+
+function openDownloadTask() {
+let appIndex = Number(localStorage.getItem("nextAppIndex") || 0);
+let targetUrl = playStoreApps[appIndex % playStoreApps.length];
+localStorage.setItem("nextAppIndex", appIndex + 1);
+window.open(targetUrl, "_blank");
+setTimeout(() => {
+addCoins(100);
+celebrate();
+toast("🎉 +100 Coins credited!");
+}, 1200);
+}
+
+function shareWhatsApp(){
+let link = document.getElementById("refLink").value;
+let msg = encodeURIComponent("🔥 Best earning app! Join now: " + link);
+window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");
+navigator.clipboard.writeText(link);
+toast("Link copied & WhatsApp opened!");
+}
+
+function shareTelegram(){
+let link = document.getElementById("refLink").value;
+let text = encodeURIComponent("🔥 Best earning app! Join now: " + link);
+window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
+navigator.clipboard.writeText(link);
+toast("Link copied & Telegram opened!");
+}
+
+function resetSpin(){
+if(localStorage.getItem("spinDate")!==today()){
+localStorage.setItem("spinDate",today());
+localStorage.setItem("spinCount","0");
+}
+}
+
+function spinWheel(){
+resetSpin();
+let count=Number(localStorage.getItem("spinCount")||0);
+if(count>=5){toast("🔒 5 spins completed today");return;}
+if(spinning)return;
+spinning=true;
+
+let button=document.getElementById("spinButton");
+let wheel=document.getElementById("wheel");
+let result=document.getElementById("spinResult");
+
+button.disabled=true;
+result.classList.remove("show");
+
+let randChance = Math.random();
+let reward = 10;
+let targetSegmentIndex = 0;
+
+if(randChance < 0.01) {
+reward = 100;
+targetSegmentIndex = 11;
+} else {
+let smallOptions = [
+{val:10, idx:0}, {val:15, idx:1}, {val:20, idx:2},
+{val:10, idx:3}, {val:15, idx:4}, {val:20, idx:5},
+{val:10, idx:6}, {val:15, idx:7}, {val:20, idx:8},
+{val:15, idx:9}, {val:10, idx:10}
+];
+let chosen = smallOptions[Math.floor(Math.random() * smallOptions.length)];
+reward = chosen.val;
+targetSegmentIndex = chosen.idx;
+}
+
+let extraSpins = 6 + Math.floor(Math.random()*3);
+let sliceAngle = targetSegmentIndex * 30 + 15;
+wheelRotation += extraSpins * 360 + (360 - sliceAngle);
+
+localStorage.setItem("wheelRotation", wheelRotation);
+wheel.style.transform = "rotate(" + wheelRotation + "deg)";
+
+count++;
+localStorage.setItem("spinCount", count);
+updateSpinText();
+
+setTimeout(()=>{
+coins += reward;
+save();
+document.getElementById("spinWon").textContent = "You won " + reward + " Coins!";
+result.classList.add("show");
+celebrate();
+spinning = false;
+button.disabled = false;
+updateSpinText();
+}, 4500);
+}
+
+function updateSpinText(){
+resetSpin();
+let c=Number(localStorage.getItem("spinCount")||0);
+document.getElementById("spinLeft").textContent=(5-c)+" spins left today";
+let b=document.getElementById("spinButton");
+if(c>=5){b.textContent="🔒 COMPLETED";b.disabled=true;}
+else{b.textContent="🎡 SPIN NOW • "+(5-c)+" LEFT";}
+}
+
+function openLucky(){
+openModal("luckyModal");
+let used=localStorage.getItem("luckyDate")===today();
+document.getElementById("luckyBtn").disabled=used;
+document.getElementById("luckyBtn").textContent=used?"USED TODAY":"REVEAL CARD";
+document.getElementById("luckyResult").textContent=used?"Come back tomorrow!":"Pick your lucky reward 🎁";
+}
+
+function chooseLucky(){
+if(localStorage.getItem("luckyDate")===today())return;
+localStorage.setItem("luckyDate",today());
+let rewards=[30,50,75,100];
+let reward=rewards[Math.floor(Math.random()*rewards.length)];
+document.getElementById("luckyCard").textContent="🪙 "+reward;
+document.getElementById("luckyResult").textContent="🎉 Won "+reward+" Coins!";
+document.getElementById("luckyBtn").textContent="USED TODAY";
+document.getElementById("luckyBtn").disabled=true;
+addCoins(reward);
+celebrate();
+}
+
+const math=[
+["What is 12 + 15?",["25","27","30","22"],1],
+["What is 5 × 8?",["35","40","45","50"],1],
+["If x - 5 = 10, x = ?",["5","10","15","20"],2],
+["What is 50% of 100?",["25","50","75","100"],1],
+["What is 81 ÷ 9?",["7","8","9","10"],2]
+];
+
+const gk=[
+["Which is national animal of India?",["Lion","Tiger","Elephant","Horse"],1],
+["Days in a leap year?",["365","366","364","367"],1],
+["Largest continent?",["Africa","Asia","Europe","Australia"],1],
+["Color of clear sky?",["Green","Red","Blue","Yellow"],2],
+["Gas humans need to breathe?",["Carbon Dioxide","Nitrogen","Oxygen","Hydrogen"],2]
+];
+
+function startQuiz(){
+quizIndex=0;
+openModal("quizModal");
+nextQuestion();
+}
+
+function nextQuestion(){
+let isMath=quizIndex%2===0;
+let qList=isMath?math:gk;
+let q=qList[Math.floor(quizIndex/2)%qList.length];
+
+document.getElementById("quizType").textContent=isMath?"MATH (Class 5-10)":"GK (Class 5-10)";
+document.getElementById("quizQuestion").textContent=q[0];
+document.getElementById("quizResult").textContent="";
+
+let box=document.getElementById("answers");
+box.innerHTML="";
+q[1].forEach((a,i)=>{
+let b=document.createElement("button");
+b.textContent=a;
+b.onclick=()=>answer(i,q[2]);
+box.appendChild(b);
+});
+}
+
+function answer(i,correct){
+let result=document.getElementById("quizResult");
+if(i===correct){
+result.textContent="🎉 Correct! +25 Coins";
+result.style.color="#4ade80";
+addCoins(25);
+celebrate();
+}else{
+result.textContent="❌ Wrong answer!";
+result.style.color="#fb7185";
+}
+setTimeout(()=>{
+quizIndex++;
+nextQuestion();
+}, 1000);
+}
+
+const surveys=[
+["Cint Consumer Survey", "https://www.cint.com"],
+["Pollfish Market Opinion", "https://www.pollfish.com"],
+["Toluna Influencers Panel", "https://www.toluna.com"],
+["CPX Research Survey", "https://cpx-research.com"],
+["BitLabs Market Research", "https://bitlabs.ai"],
+["TheoremReach Opinion", "https://www.theoremreach.com"],
+["Yuno Surveys & Polls", "https://www.yuno.so"],
+["InBrain AI Insights", "https://inbrain.ai"],
+["YouGov Public Opinion", "https://today.yougov.com"],
+["Ipsos iSay Panel", "https://www.ipsosisay.com"]
+];
+
+function surveyReset(){
+if(localStorage.getItem("surveyDate")!==today()){
+localStorage.setItem("surveyDate",today());
+localStorage.setItem("surveyDone","0");
+}
+}
+
+function openSurveyPage(){
+surveyReset();
+document.getElementById("surveyPage").classList.add("show");
+renderSurveys();
+}
+
+function closeSurveyPage(){
+document.getElementById("surveyPage").classList.remove("show");
+}
+
+function renderSurveys(){
+surveyReset();
+let done=Number(localStorage.getItem("surveyDone")||0);
+document.getElementById("surveyCount").textContent=done+" / 20 surveys completed today";
+let list=document.getElementById("surveyList");
+list.innerHTML="";
+if(done>=20){
+list.innerHTML="<div class='survey'><b>🔒 Daily Limit Reached</b><small>Come back tomorrow!</small></div>";
+return;
+}
+surveys.forEach((s,i)=>{
+if(i>=10)return;
+let d=document.createElement("div");
+d.className="survey";
+d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}", 25)'>START SURVEY (+25) ➔</button>`;
+list.appendChild(d);
+});
+}
+
+function startRealSurvey(url){
+surveyReset();
+let done=Number(localStorage.getItem("surveyDone")||0);
+if(done>=20) return;
+window.open(url, "_blank");
+done++;
+localStorage.setItem("surveyDone", done);
+addCoins(25);
+toast("📋 Survey opened! +25 Coins.");
+celebrate();
+renderSurveys();
+}
+
+function openWithdraw(){ openModal("withdrawModal"); }
+
+function submitWithdraw(){
+let amount=Number(document.getElementById("withdrawCoins").value);
+let upi=document.getElementById("upi").value.trim();
+let userPhone=localStorage.getItem("userPhone")||"Unknown";
+
+if(amount<4000){toast("Minimum withdrawal is 4,000 coins");return;}
+if(amount>20000){toast("Maximum daily limit is 20,000");return;}
+if(amount>coins){toast("Insufficient coins");return;}
+if(!upi||!upi.includes("@")){toast("Enter valid UPI ID");return;}
+
+coins-=amount;
+save();
+
+let msg = `🚨 *New Withdrawal Request* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
+window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
+
+let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
+arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
+localStorage.setItem("withdrawals",JSON.stringify(arr));
+
+closeModal("withdrawModal");
+toast("✅ Request submitted & WhatsApp opened!");
+}
+
+function openHistory(){
+openModal("historyModal");
+let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
+let box=document.getElementById("historyList");
+if(!arr.length){box.innerHTML="<p style='text-align:center;color:#aaa;font-size:12px'>No history yet.</p>";return;}
+box.innerHTML=arr.map(x=>"<div style='margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)'>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
+}
+
+save();
+updateBonus();
+updateSpinText();
+document.getElementById("wheel").style.transform="rotate("+(wheelRotation%360)+"deg)";
 </script>
+
 </body>
 </html>
