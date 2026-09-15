@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Pro - Account Edition</title>
+<title>CoinRush Pro - Free Edition</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1137;color:#fff;min-height:100vh}
@@ -25,7 +25,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .hero-balance-row{display:flex;align-items:center;justify-content:space-between}
 .hero-amount{font-size:32px;font-weight:900;display:flex;align-items:center;gap:10px;text-shadow:0 2px 12px rgba(0,0,0,0.4)}
 .hero-coins-icon{font-size:34px;filter:drop-shadow(0 0 10px rgba(234,179,8,0.8))}
-.hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.hero-btns{display:grid;grid-template-columns:1fr;gap:12px;margin-top:20px}
 .hero-btn{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);padding:12px;border-radius:16px;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;backdrop-filter:blur(8px);transition:0.2s;font-weight:700;box-shadow:0 4px 15px rgba(0,0,0,0.25)}
 .hero-btn:active{transform:scale(0.97)}
 
@@ -61,7 +61,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* ACCOUNT / PROFILE PAGE STYLES (REFERENCED) */
+/* ACCOUNT / PROFILE PAGE STYLES */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.15)}
@@ -72,11 +72,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-uid{font-size:12px;color:#cbd5e1;margin-top:4px;display:flex;align-items:center;gap:6px}
 .acc-login-time{font-size:11px;color:#94a3b8;margin-top:2px}
 
-/* ACC WALLET CARD */
+/* ACC WALLET SECTION */
 .acc-wallet{margin:16px;padding:20px;border-radius:22px;background:linear-gradient(135deg,#2563eb,#1d4ed8,#3b82f6);box-shadow:0 10px 30px rgba(37,99,235,0.5);border:1px solid rgba(255,255,255,0.25)}
 .acc-wallet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.acc-wallet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
-.acc-wallet-item{background:rgba(255,255,255,0.15);padding:12px 6px;border-radius:14px;border:1px solid rgba(255,255,255,0.2);cursor:pointer}
+.acc-wallet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:center}
+.acc-wallet-item{background:rgba(255,255,255,0.15);padding:14px 8px;border-radius:14px;border:1px solid rgba(255,255,255,0.2);cursor:pointer}
 .acc-wallet-item span{font-size:20px;display:block;margin-bottom:4px}
 .acc-wallet-item p{font-size:10px;font-weight:800}
 
@@ -181,7 +181,6 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <div class="hero-amount"><span class="hero-coins-icon">🪙</span> <span id="coins">0</span></div>
 </div>
 <div class="hero-btns">
-<button class="hero-btn" onclick="openWithdraw()">💳 Withdraw</button>
 <button class="hero-btn" onclick="dailyBonus()" id="heroBonusBtn">🎁 Daily Bonus</button>
 </div>
 </section>
@@ -250,17 +249,29 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
 </div>
 
-<!-- FULL ACCOUNT / PROFILE PAGE (REFERENCE STYLE) -->
+<!-- FULL ACCOUNT / PROFILE PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
-<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge">VIP1</span></h2>
+<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
 <div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
 <div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 11:13:35</div>
 </div>
 </div>
+</div>
+
+<!-- VIP LEVEL UPGRADE SECTION -->
+<div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+<div>
+<div style="font-size:12px;color:#e0e7ff;font-weight:800;" id="vipTitle">Current: VIP Level 1</div>
+<div style="font-size:16px;font-weight:900;margin-top:2px;" id="vipStatusMsg">Upgrade to unlock rewards!</div>
+</div>
+<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">UPGRADE VIP 🚀</button>
+</div>
+<div style="font-size:11px;color:#cbd5e1;" id="vipNextInfo">Next Level requires: 10,000 Coins (Reward: 500 Free Coins)</div>
 </div>
 
 <!-- ACC WALLET SECTION -->
@@ -270,38 +281,17 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div style="font-size:11px;color:#cbd5e1;text-transform:uppercase;letter-spacing:1px;">Total balance</div>
 <div style="font-size:24px;font-weight:900;margin-top:4px;">🪙 <span id="accCoins">0</span> Coins</div>
 </div>
-<button class="card-btn" style="width:auto;padding:8px 14px;background:rgba(255,255,255,0.25);" onclick="openWithdraw()">Enter wallet</button>
 </div>
 <div class="acc-wallet-grid">
-<div class="acc-wallet-item" onclick="openWithdraw()">
-<span>💳</span>
-<p>ARWallet</p>
-</div>
-<div class="acc-wallet-item" onclick="openWithdraw()">
-<span>📥</span>
-<p>Deposit</p>
-</div>
 <div class="acc-wallet-item" onclick="openWithdraw()">
 <span>📤</span>
 <p>Withdraw</p>
 </div>
-<div class="acc-wallet-item" onclick="toast('VIP1 Active!')">
+<div class="acc-wallet-item" onclick="toast('VIP System Active!')">
 <span>👑</span>
 <p>VIP</p>
 </div>
 </div>
-</div>
-
-<!-- SAFE BOX CARD -->
-<div style="margin:0 16px 14px;padding:16px;border-radius:18px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);display:flex;justify-content:space-between;align-items:center;">
-<div style="display:flex;gap:12px;align-items:center;">
-<div style="font-size:28px;background:rgba(245,158,11,0.2);padding:10px;border-radius:14px;">🪙</div>
-<div>
-<div style="font-weight:800;font-size:14px;">Safe</div>
-<div style="font-size:11px;color:#cbd5e1;margin-top:2px;">Daily interest rate is 0.1%</div>
-</div>
-</div>
-<div style="font-weight:900;color:#fde047;">🪙 0.00 ></div>
 </div>
 
 <!-- ACC MENU LIST -->
@@ -323,17 +313,10 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 
 <div class="acc-menu-grid">
-<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
-<span style="font-size:24px;">📥</span>
-<div>
-<div style="font-size:13px;font-weight:800;">Deposit</div>
-<div style="font-size:10px;color:#cbd5e1;">My deposit history</div>
-</div>
-</div>
-<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;">
+<div class="acc-menu-card" onclick="openHistory()" style="display:flex;gap:12px;align-items:center;grid-column: span 2;">
 <span style="font-size:24px;">💳</span>
 <div>
-<div style="font-size:13px;font-weight:800;">Withdraw</div>
+<div style="font-size:13px;font-weight:800;">Withdraw History</div>
 <div style="font-size:10px;color:#cbd5e1;">My withdraw history</div>
 </div>
 </div>
@@ -456,9 +439,18 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <script>
 let coins=Number(localStorage.getItem("coins")||0);
+let vipLevel=Number(localStorage.getItem("vipLevel")||1);
 let spinning=false;
 let quizIndex=0;
 let wheelRotation=Number(localStorage.getItem("wheelRotation")||0);
+
+// VIP System Config
+const vipTiers = {
+    1: { cost: 0, reward: 0, title: "VIP Level 1" },
+    2: { cost: 10000, reward: 500, title: "VIP Level 2" },
+    3: { cost: 25000, reward: 2000, title: "VIP Level 3" },
+    4: { cost: 50000, reward: 10000, title: "VIP Level 4" }
+};
 
 const today=()=>new Date().toISOString().slice(0,10);
 
@@ -477,6 +469,7 @@ document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number
 document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
 document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
 }
+updateVipUI();
 };
 
 function handleLogin() {
@@ -504,6 +497,7 @@ document.getElementById("mainApp").classList.add("show");
 document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
 document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
 toast("Login Successful!");
+updateVipUI();
 }
 
 function openAdminPanel() {
@@ -549,9 +543,47 @@ location.reload();
 
 function save(){
 localStorage.setItem("coins",coins);
+localStorage.setItem("vipLevel",vipLevel);
 document.getElementById("coins").textContent=coins;
 document.getElementById("topCoins").textContent=coins;
 document.getElementById("accCoins").textContent=coins;
+updateVipUI();
+}
+
+function updateVipUI() {
+let currentVip = vipTiers[vipLevel] || vipTiers[4];
+document.getElementById("accVipBadge").textContent = "VIP " + vipLevel;
+document.getElementById("vipTitle").textContent = "Current: " + currentVip.title;
+
+let nextLevel = vipLevel + 1;
+if(vipTiers[nextLevel]) {
+let req = vipTiers[nextLevel].cost;
+let rew = vipTiers[nextLevel].reward;
+document.getElementById("vipNextInfo").textContent = `Next Level requires: ${req.toLocaleString()} Coins (Reward: ${rew} Free Coins)`;
+document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Upgrade! 🚀" : "Collect more coins to upgrade!";
+} else {
+document.getElementById("vipNextInfo").textContent = "Maximum VIP Tier Achieved! 👑";
+document.getElementById("vipStatusMsg").textContent = "You are an Elite User!";
+}
+}
+
+function upgradeVIPLevel() {
+let nextLevel = vipLevel + 1;
+if(!vipTiers[nextLevel]) {
+toast("Aap pehle se hi maximum VIP level par hain!");
+return;
+}
+let requiredCoins = vipTiers[nextLevel].cost;
+if(coins >= requiredCoins) {
+vipLevel = nextLevel;
+let freeReward = vipTiers[nextLevel].reward;
+coins += freeReward;
+save();
+celebrate();
+toast(`Badhai ho! VIP ${vipLevel} unlock hua + ${freeReward} Coins free!`);
+} else {
+toast(`Agle level ke liye ${requiredCoins} coins chahiye!`);
+}
 }
 
 function toast(t){
