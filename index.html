@@ -64,12 +64,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* ACCOUNT / PROFILE PAGE STYLES - PROFESSIONAL BACK BUTTON */
+/* ACCOUNT / PROFILE PAGE STYLES */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
 
-/* UPDATED PROFESSIONAL BACK BUTTON DESIGN */
 .acc-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s;}
 .acc-back-btn:active{transform:scale(0.95);background:rgba(255,255,255,0.2);}
@@ -91,7 +90,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 /* ACC LIST MENU */
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
-.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
+.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .acc-menu-card:active{background:rgba(255,255,255,0.12)}
 .acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
@@ -160,11 +159,6 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
 <input id="loginPassword" type="password" placeholder="Password">
 <button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
-
-<!-- Google Login Option Added -->
-<button class="card-btn" style="background:#ffffff; color:#333; padding:14px; font-size:14px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="handleGoogleLogin()">
-  <span style="font-size:16px;">🌐</span> Continue with Google
-</button>
 </div>
 </div>
 
@@ -269,10 +263,9 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW</button>
 </div>
 
-<!-- FULL ACCOUNT / PROFILE PAGE -->
+<!-- FULL ACCOUNT / PROFILE PAGE WITH LEVEL UP / VIP FEATURE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
-<!-- PROFESSIONAL BACK BUTTON DESIGN -->
 <div class="acc-top-bar">
 <button class="acc-back-btn" onclick="switchNav('home', document.querySelector('.bottom-nav button:first-child'))">
 <span>←</span> Back to Home
@@ -288,14 +281,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- VIP LEVEL UPGRADE SECTION (FREE REWARD SYSTEM) -->
+<!-- VIP LEVEL UPGRADE SECTION (LEVEL UP FEATURE) -->
 <div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 <div>
 <div style="font-size:12px;color:#e0e7ff;font-weight:800;" id="vipTitle">Current: VIP Level 1</div>
 <div style="font-size:16px;font-weight:900;margin-top:2px;" id="vipStatusMsg">Unlock free rewards!</div>
 </div>
-<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">CLAIM VIP 🚀</button>
+<button class="card-btn" style="width:auto;padding:10px 16px;background:linear-gradient(135deg,#f59e0b,#ea580c);" onclick="upgradeVIPLevel()">LEVEL UP 🚀</button>
 </div>
 <div style="font-size:11px;color:#cbd5e1;" id="vipNextInfo">Next Level requires: 10,000 Coins (Reward: 500 Free Coins)</div>
 </div>
@@ -313,9 +306,9 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <span>📤</span>
 <p>Withdraw</p>
 </div>
-<div class="acc-wallet-item" onclick="toast('VIP System Active - Free Rewards!')">
+<div class="acc-wallet-item" onclick="toast('Level Up system active!')">
 <span>👑</span>
-<p>VIP</p>
+<p>Level Up</p>
 </div>
 </div>
 </div>
@@ -353,8 +346,8 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🔔</span> <span style="font-size:13px;font-weight:800;">Notification</span></div>
 <span>></span>
 </div>
-<div class="acc-menu-card" onclick="openTaskModal()" style="justify-content:space-between;">
-<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🎁</span> <span style="font-size:13px;font-weight:800;">Gifts & Rewards</span></div>
+<div class="acc-menu-card" onclick="openModal('refModal')" style="justify-content:space-between;">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">👥</span> <span style="font-size:13px;font-weight:800;">Invite & Refer</span></div>
 <span>></span>
 </div>
 <div class="acc-menu-card" onclick="logout()" style="justify-content:space-between;background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
@@ -367,9 +360,9 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <!-- BOTTOM NAVIGATION BAR -->
 <nav class="bottom-nav">
 <button class="nav-item active" onclick="switchNav('home', this)"><span>🏠</span>Home</button>
-<button class="nav-item" onclick="switchNav('activity', this)"><span>🛍️</span>Activity</button>
+<button class="nav-item" onclick="openModal('refModal')"><span>👥</span>Refer</button>
 <button class="nav-item" onclick="openTaskModal()"><span>🎯</span>Get ₹500</button>
-<button class="nav-item" onclick="switchNav('promotion', this)"><span>🎁</span>Promotion</button>
+<button class="nav-item" onclick="openSurveyPage()"><span>📋</span>Surveys</button>
 <button class="nav-item" onclick="switchNav('account', this)"><span>👤</span>Account</button>
 </nav>
 
@@ -444,7 +437,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="modal" id="refModal"><div class="box">
 <button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share</h2>
-<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends!</p>
+<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:12px">Share your referral link with friends & earn coins!</p>
 <input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
 <button class="card-btn" style="background:#25D366;margin-bottom:10px;padding:12px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
 <button class="card-btn" style="background:#0088cc;padding:12px;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
@@ -490,8 +483,7 @@ let savedUser = localStorage.getItem("userPhone");
 if(savedUser) {
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
-let suffix = savedUser.length >= 4 ? savedUser.slice(-4) : "5778";
-document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(suffix));
+document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(savedUser.slice(-4)));
 document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
 document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
 }
@@ -523,17 +515,6 @@ document.getElementById("mainApp").classList.add("show");
 document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
 document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
 toast("Login Successful!");
-updateVipUI();
-}
-
-function handleGoogleLogin() {
-let googleUser = "GoogleUser_" + Math.floor(1000 + Math.random() * 9000);
-localStorage.setItem("userPhone", googleUser);
-document.getElementById("loginContainer").style.display = "none";
-document.getElementById("mainApp").classList.add("show");
-document.getElementById("userPhone").textContent = "UID | " + (20925778 + Math.floor(100 + Math.random() * 900));
-document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
-toast("Google Login Successful! 🎉");
 updateVipUI();
 }
 
@@ -597,17 +578,17 @@ if(vipTiers[nextLevel]) {
 let req = vipTiers[nextLevel].cost;
 let rew = vipTiers[nextLevel].reward;
 document.getElementById("vipNextInfo").textContent = `Next Level requires ${req.toLocaleString()} Coins (Free Reward: ${rew} Coins)`;
-document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Claim Free Reward! 🚀" : "Earn more coins to unlock next level!";
+document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Level Up! 🚀" : "Earn more coins to level up!";
 } else {
-document.getElementById("vipNextInfo").textContent = "Maximum VIP Tier Achieved! 👑";
-document.getElementById("vipStatusMsg").textContent = "You are an Elite User!";
+document.getElementById("vipNextInfo").textContent = "Maximum Level Achieved! 👑";
+document.getElementById("vipStatusMsg").textContent = "Aap maximum level par hain!";
 }
 }
 
 function upgradeVIPLevel() {
 let nextLevel = vipLevel + 1;
 if(!vipTiers[nextLevel]) {
-toast("Aap pehle se hi maximum VIP level par hain!");
+toast("Aap pehle se hi maximum level par hain!");
 return;
 }
 let requiredCoins = vipTiers[nextLevel].cost;
@@ -617,9 +598,9 @@ let freeReward = vipTiers[nextLevel].reward;
 coins += freeReward; 
 save();
 celebrate();
-toast(`Badhai ho! VIP ${vipLevel} unlock hua + ${freeReward} Coins free mile!`);
+toast(`Badhai ho! Level ${vipLevel} unlock hua + ${freeReward} Coins free mile!`);
 } else {
-toast(`Agle level ke liye ${requiredCoins} coins balance me hone chahiye!`);
+toast(`Level up ke liye kam se kam ${requiredCoins} coins hone chahiye!`);
 }
 }
 
@@ -721,19 +702,8 @@ b.textContent="CLAIMED ✓";b.disabled=true;
 }
 }
 
-const adNetworks = [
-"https://www.monetag.com",
-"https://www.adsterra.com",
-"https://cpx-research.com",
-"https://bitlabs.ai",
-"https://www.pollfish.com"
-];
-
 function watchAd(){
-let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
-let targetAdUrl = adNetworks[adIndex % adNetworks.length];
-localStorage.setItem("nextAdIndex", adIndex + 1);
-window.open(targetAdUrl, "_blank");
+window.open("https://www.monetag.com", "_blank");
 setTimeout(() => {
 addCoins(25);
 toast("📺 +25 Coins added!");
@@ -741,19 +711,8 @@ celebrate();
 }, 1000);
 }
 
-const playStoreApps = [
-"https://play.google.com/store/apps/details?id=com.whatsapp",
-"https://play.google.com/store/apps/details?id=com.instagram.android",
-"https://play.google.com/store/apps/details?id=in.mohalla.sharechat",
-"https://play.google.com/store/apps/details?id=com.josh.droid",
-"https://play.google.com/store/apps/details?id=com.truecaller"
-];
-
 function openDownloadTask() {
-let appIndex = Number(localStorage.getItem("nextAppIndex") || 0);
-let targetUrl = playStoreApps[appIndex % playStoreApps.length];
-localStorage.setItem("nextAppIndex", appIndex + 1);
-window.open(targetUrl, "_blank");
+window.open("https://play.google.com/store/apps/details?id=com.whatsapp", "_blank");
 setTimeout(() => {
 addCoins(100);
 celebrate();
@@ -798,24 +757,8 @@ let result=document.getElementById("spinResult");
 button.disabled=true;
 result.classList.remove("show");
 
-let randChance = Math.random();
-let reward = 10;
-let targetSegmentIndex = 0;
-
-if(randChance < 0.01) {
-reward = 100;
-targetSegmentIndex = 11;
-} else {
-let smallOptions = [
-{val:10, idx:0}, {val:15, idx:1}, {val:20, idx:2},
-{val:10, idx:3}, {val:15, idx:4}, {val:20, idx:5},
-{val:10, idx:6}, {val:15, idx:7}, {val:20, idx:8},
-{val:15, idx:9}, {val:10, idx:10}
-];
-let chosen = smallOptions[Math.floor(Math.random() * smallOptions.length)];
-reward = chosen.val;
-targetSegmentIndex = chosen.idx;
-}
+let reward = 15;
+let targetSegmentIndex = 1;
 
 let extraSpins = 6 + Math.floor(Math.random()*3);
 let sliceAngle = targetSegmentIndex * 30 + 15;
@@ -860,8 +803,7 @@ document.getElementById("luckyResult").textContent=used?"Come back tomorrow!":"P
 function chooseLucky(){
 if(localStorage.getItem("luckyDate")===today())return;
 localStorage.setItem("luckyDate",today());
-let rewards=[30,50,75,100];
-let reward=rewards[Math.floor(Math.random()*rewards.length)];
+let reward=50;
 document.getElementById("luckyCard").textContent="🪙 "+reward;
 document.getElementById("luckyResult").textContent="🎉 Won "+reward+" Coins!";
 document.getElementById("luckyBtn").textContent="USED TODAY";
@@ -870,61 +812,53 @@ addCoins(reward);
 celebrate();
 }
 
-const math=[
-["What is 12 + 15?",["25","27","30","22"],1],
-["What is 5 × 8?",["35","40","45","50"],1],
-["If x - 5 = 10, x = ?",["5","10","15","20"],2],
-["What is 50% of 100?",["25","50","75","100"],1],
-["What is 81 ÷ 9?",["7","8","9","10"],2]
-];
-
-const gk=[
-["Which is national animal of India?",["Lion","Tiger","Elephant","Horse"],1],
-["Days in a leap year?",["365","366","364","367"],1],
-["Largest continent?",["Africa","Asia","Europe","Australia"],1],
-["Color of clear sky?",["Green","Red","Blue","Yellow"],2],
-["Gas humans need to breathe?",["Carbon Dioxide","Nitrogen","Oxygen","Hydrogen"],2]
+const quizList = [
+{ q: "What is 12 + 15?", options: ["25", "27", "30", "22"], correct: 1 },
+{ q: "What is 5 × 8?", options: ["35", "40", "45", "50"], correct: 1 },
+{ q: "Which is national animal of India?", options: ["Lion", "Tiger", "Elephant", "Horse"], correct: 1 },
+{ q: "Days in a leap year?", options: ["365", "366", "364", "367"], correct: 1 },
+{ q: "Color of clear sky?", options: ["Green", "Red", "Blue", "Yellow"], correct: 2 }
 ];
 
 function startQuiz(){
-quizIndex=0;
+quizIndex = 0;
 openModal("quizModal");
-nextQuestion();
+loadQuizQuestion();
 }
 
-function nextQuestion(){
-let isMath=quizIndex%2===0;
-let qList=isMath?math:gk;
-let q=qList[Math.floor(quizIndex/2)%qList.length];
+function loadQuizQuestion(){
+if(quizIndex >= quizList.length) {
+quizIndex = 0;
+}
+let qData = quizList[quizIndex];
+document.getElementById("quizType").textContent = "General Knowledge & Math Quiz";
+document.getElementById("quizQuestion").textContent = qData.q;
+document.getElementById("quizResult").textContent = "";
 
-document.getElementById("quizType").textContent=isMath?"MATH (Class 5-10)":"GK (Class 5-10)";
-document.getElementById("quizQuestion").textContent=q[0];
-document.getElementById("quizResult").textContent="";
-
-let box=document.getElementById("answers");
-box.innerHTML="";
-q[1].forEach((a,i)=>{
-let b=document.createElement("button");
-b.textContent=a;
-b.onclick=()=>answer(i,q[2]);
+let box = document.getElementById("answers");
+box.innerHTML = "";
+qData.options.forEach((opt, i) => {
+let b = document.createElement("button");
+b.textContent = opt;
+b.onclick = () => checkQuizAnswer(i, qData.correct);
 box.appendChild(b);
 });
 }
 
-function answer(i,correct){
-let result=document.getElementById("quizResult");
-if(i===correct){
-result.textContent="🎉 Correct! +25 Coins";
-result.style.color="#4ade80";
+function checkQuizAnswer(selected, correct){
+let result = document.getElementById("quizResult");
+if(selected === correct){
+result.textContent = "🎉 Correct! +25 Coins";
+result.style.color = "#4ade80";
 addCoins(25);
 celebrate();
-}else{
-result.textContent="❌ Wrong answer!";
-result.style.color="#fb7185";
+} else {
+result.textContent = "❌ Wrong answer!";
+result.style.color = "#fb7185";
 }
-setTimeout(()=>{
+setTimeout(() => {
 quizIndex++;
-nextQuestion();
+loadQuizQuestion();
 }, 1000);
 }
 
@@ -932,13 +866,7 @@ const surveys=[
 ["Cint Consumer Survey", "https://www.cint.com"],
 ["Pollfish Market Opinion", "https://www.pollfish.com"],
 ["Toluna Influencers Panel", "https://www.toluna.com"],
-["CPX Research Survey", "https://cpx-research.com"],
-["BitLabs Market Research", "https://bitlabs.ai"],
-["TheoremReach Opinion", "https://www.theoremreach.com"],
-["Yuno Surveys & Polls", "https://www.yuno.so"],
-["InBrain AI Insights", "https://inbrain.ai"],
-["YouGov Public Opinion", "https://today.yougov.com"],
-["Ipsos iSay Panel", "https://www.ipsosisay.com"]
+["CPX Research Survey", "https://cpx-research.com"]
 ];
 
 function surveyReset(){
@@ -961,33 +889,22 @@ document.getElementById("surveyPage").classList.remove("show");
 function renderSurveys(){
 surveyReset();
 let done=Number(localStorage.getItem("surveyDone")||0);
-document.getElementById("surveyCount").textContent=done+" / 20 surveys completed today";
+document.getElementById("surveyCount").textContent=done+" / 10 surveys completed today";
 let list=document.getElementById("surveyList");
 list.innerHTML="";
-if(done>=20){
-list.innerHTML="<div class='survey'><b>🔒 Daily Limit Reached</b><small>Come back tomorrow!</small></div>";
-return;
-}
-surveys.forEach((s,i)=>{
-if(i>=10)return;
+surveys.forEach((s)=>{
 let d=document.createElement("div");
 d.className="survey";
-d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}", 25)'>START SURVEY (+25) ➔</button>`;
+d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}")'>START SURVEY (+25) ➔</button>`;
 list.appendChild(d);
 });
 }
 
 function startRealSurvey(url){
-surveyReset();
-let done=Number(localStorage.getItem("surveyDone")||0);
-if(done>=20) return;
 window.open(url, "_blank");
-done++;
-localStorage.setItem("surveyDone", done);
 addCoins(25);
 toast("📋 Survey opened! +25 Coins.");
 celebrate();
-renderSurveys();
 }
 
 function openWithdraw(){ openModal("withdrawModal"); }
@@ -1010,7 +927,7 @@ window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
 
 let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
-localStorage.setItem("withdrawals",JSON.stringify(arr));
+localStorage.setItem("withdrawals",JSON.stringify(JSON.stringify(arr) ? arr : []));
 
 closeModal("withdrawModal");
 toast("✅ Request submitted & WhatsApp opened!");
