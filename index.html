@@ -3,50 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Rewards</title>
+<title>CoinRush Rewards Pro</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#080b20,#171044,#06233b);color:#fff;min-height:100vh}
+body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#050714,#100c2a,#02182b);color:#fff;min-height:100vh}
 button{border:0;cursor:pointer;font-weight:800}
 .app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:95px;display:none}
 .app.show{display:block}
 header{display:flex;align-items:center;justify-content:space-between;padding:16px}
 .profile{display:flex;align-items:center;gap:10px}.avatar{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#7c3aed,#06b6d4);font-size:21px}
 .name{font-weight:800}.id{font-size:11px;color:#aaa}.balance{background:#ffffff12;border:1px solid #ffffff18;padding:10px 13px;border-radius:14px}
-.hero{margin:10px 16px;padding:24px;border-radius:25px;background:linear-gradient(135deg,#4824a8,#0964a9);box-shadow:0 15px 35px #0005}
+.hero{margin:10px 16px;padding:24px;border-radius:25px;background:linear-gradient(135deg,#5b21b6,#0284c7);box-shadow:0 15px 35px #0005}
 .hero h1{font-size:27px;margin-bottom:8px}.hero p{color:#ddd}.coins{font-size:32px;font-weight:900;margin-top:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
 .card{background:#ffffff0c;border:1px solid #ffffff15;border-radius:20px;padding:18px;box-shadow:0 8px 25px #0003}
 .card h3{margin:8px 0}.card p{font-size:13px;color:#aaa;line-height:1.5}.icon{font-size:32px}
 .full{margin:0 16px 12px}
-.btn{width:100%;padding:13px;border-radius:13px;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:white;margin-top:12px}
+.btn{width:100%;padding:13px;border-radius:13px;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:white;margin-top:12px;transition:0.2s}
+.btn:active{transform:scale(0.97)}
 .btn:disabled{opacity:.5}
-.withdraw{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);width:min(488px,calc(100% - 30px));padding:16px;border-radius:18px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:16px;z-index:20}
+.withdraw{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);width:min(488px,calc(100% - 30px));padding:16px;border-radius:18px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:16px;z-index:20;box-shadow:0 10px 25px rgba(245,158,11,0.4)}
 .modal{display:none;position:fixed;inset:0;background:#000b;z-index:30;align-items:center;justify-content:center;padding:16px}
 .modal.show{display:flex}.box{width:100%;max-width:480px;background:#11152e;border:1px solid #ffffff18;border-radius:25px;padding:22px;max-height:90vh;overflow:auto}
 .close{float:right;background:#ffffff15;color:#fff;border-radius:50%;width:34px;height:34px}
 .box h2{text-align:center;margin:5px 0 18px}
 
 /* LOGIN & ADMIN STYLING */
-.login-container{position:fixed;inset:0;background:#080b20;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.login-container{position:fixed;inset:0;background:#050714;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
 .login-box{width:100%;max-width:400px;background:#11152e;border:1px solid #ffffff18;border-radius:25px;padding:25px;box-shadow:0 15px 35px #0007}
 .login-box h2{text-align:center;margin-bottom:20px;font-size:24px}
 .login-box p{text-align:center;color:#aaa;font-size:13px;margin-bottom:20px}
 
-.admin-panel{display:none;max-width:520px;margin:auto;min-height:100vh;padding:20px;background:#080b20;z-index:150;position:fixed;inset:0;overflow:auto}
+.admin-panel{display:none;max-width:520px;margin:auto;min-height:100vh;padding:20px;background:#050714;z-index:150;position:fixed;inset:0;overflow:auto}
 .admin-panel.show{display:block}
 .admin-card{background:#ffffff0c;border:1px solid #ffffff15;border-radius:15px;padding:15px;margin-top:12px;font-size:14px}
 
-.wheel-wrap{position:relative;width:290px;height:290px;margin:20px auto}
-#wheel{width:290px;height:290px;border-radius:50%;position:relative;transition:transform 4.2s cubic-bezier(.12,.75,.15,1);border:9px solid #fff;box-shadow:0 0 35px #7c3aed88;background:conic-gradient(#f59e0b 0 72deg,#22c55e 72deg 144deg,#3b82f6 144deg 216deg,#ef4444 216deg 288deg,#a855f7 288deg 360deg)}
-#wheel span{position:absolute;left:50%;top:50%;width:80px;text-align:center;font-size:25px;font-weight:900;transform-origin:0 0}
-.s1{transform:rotate(36deg) translateX(62px)}.s2{transform:rotate(108deg) translateX(62px)}.s3{transform:rotate(180deg) translateX(62px)}.s4{transform:rotate(252deg) translateX(62px)}.s5{transform:rotate(324deg) translateX(62px)}
-.pointer{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:32px solid #fff;z-index:3}
+/* PRO LEVEL WHEEL DESIGN */
+.wheel-wrap{position:relative;width:310px;height:310px;margin:20px auto;filter:drop-shadow(0 0 20px rgba(124,58,237,0.5))}
+#wheel{width:310px;height:310px;border-radius:50%;position:relative;transition:transform 4.5s cubic-bezier(0.15, 0.85, 0.12, 1);border:10px solid #22d3ee;box-shadow:inset 0 0 25px rgba(0,0,0,0.6), 0 0 30px #7c3aed;background:conic-gradient(#f59e0b 0deg 72deg, #10b981 72deg 144deg, #3b82f6 144deg 216deg, #ef4444 216deg 288deg, #a855f7 288deg 360deg)}
+#wheel span{position:absolute;left:50%;top:50%;width:90px;text-align:center;font-size:22px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.8);transform-origin:0 0}
+.s1{transform:rotate(36deg) translateX(68px)}
+.s2{transform:rotate(108deg) translateX(68px)}
+.s3{transform:rotate(180deg) translateX(68px)}
+.s4{transform:rotate(252deg) translateX(68px)}
+.s5{transform:rotate(324deg) translateX(68px)}
+.pointer{position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:34px solid #facc15;z-index:5;filter:drop-shadow(0 3px 3px rgba(0,0,0,0.5))}
+
 .result{text-align:center;display:none;padding:14px;background:#22c55e22;border:1px solid #22c55e66;border-radius:15px;margin-top:12px}.result.show{display:block}.result strong{font-size:24px}
 .lucky{height:190px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:60px}
 .quiz-q{font-size:21px;font-weight:800;text-align:center;background:#ffffff0b;padding:22px;border-radius:16px;margin-bottom:14px}
 .answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:13px;background:#ffffff12;color:#fff;text-align:left}
-.surveyPage{display:none;position:fixed;inset:0;background:#080b20;z-index:40;overflow:auto}
+.surveyPage{display:none;position:fixed;inset:0;background:#050714;z-index:40;overflow:auto}
 .surveyPage.show{display:block}.surveyInner{max-width:520px;margin:auto;padding-bottom:40px}
 .surveyHead{display:flex;align-items:center;gap:12px;padding:18px 16px;position:sticky;top:0;background:#0c1030ee;backdrop-filter:blur(10px);z-index:5}
 .back{width:38px;height:38px;border-radius:12px;background:#ffffff12;color:#fff;font-size:20px}
@@ -65,7 +72,7 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <!-- LOGIN SCREEN -->
 <div class="login-container" id="loginContainer">
 <div class="login-box">
-<h2>🚀 CoinRush Login</h2>
+<h2>🚀 CoinRush Pro Login</h2>
 <p>Enter your mobile number and password</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
 <input id="loginPassword" type="password" placeholder="Password">
@@ -86,7 +93,7 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <!-- MAIN APP -->
 <div class="app" id="mainApp">
 <header>
-<div class="profile"><div class="avatar">👤</div><div><div class="name" id="userName">CoinRush</div><div class="id" id="userPhone">Reward Member</div></div></div>
+<div class="profile"><div class="avatar">👤</div><div><div class="name" id="userName">CoinRush Pro</div><div class="id" id="userPhone">Reward Member</div></div></div>
 <div class="balance">🪙 <span id="topCoins">0</span></div>
 </header>
 
@@ -108,8 +115,8 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <div class="full card"><div class="icon">📋</div><h3>Survey Center</h3><p>25 coins per survey • 20 maximum per day.</p><button class="btn" onclick="openSurveyPage()">OPEN SURVEY CENTER</button></div>
 
 <div class="grid">
-<div class="card"><div class="icon">📥</div><h3>Download</h3><p>Demo download task.</p><button class="btn" onclick="taskReward(20)">EARN 20</button></div>
-<div class="card"><div class="icon">👥</div><h3>Invite Friends</h3><p>Share your referral link.</p><button class="btn" onclick="openModal('refModal')">INVITE</button></div>
+<div class="card"><div class="icon">📥</div><h3>Download App</h3><p>Earn 100 coins on downloading new app.</p><button class="btn" onclick="openDownloadTask()">EARN 100</button></div>
+<div class="card"><div class="icon">👥</div><h3>Invite Friends</h3><p>Share via WhatsApp or Telegram.</p><button class="btn" onclick="openModal('refModal')">INVITE</button></div>
 </div>
 
 <div class="full card"><div class="icon">💳</div><h3>Withdrawal History</h3><p>View previous withdrawal requests.</p><button class="btn" onclick="openHistory()">VIEW HISTORY</button></div>
@@ -123,10 +130,17 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 <!-- MODALS -->
 <div class="modal" id="wheelModal"><div class="box">
 <button class="close" onclick="closeModal('wheelModal')">×</button>
-<h2>🎡 Lucky Spin</h2>
-<div class="wheel-wrap"><div class="pointer"></div><div id="wheel">
-<span class="s1">10</span><span class="s2">15</span><span class="s3">20</span><span class="s4">100</span><span class="s5">100</span>
-</div></div>
+<h2>🎡 Pro Lucky Spin</h2>
+<div class="wheel-wrap">
+<div class="pointer"></div>
+<div id="wheel">
+<span class="s1">10</span>
+<span class="s2">15</span>
+<span class="s3">20</span>
+<span class="s4">15</span>
+<span class="s5">100</span>
+</div>
+</div>
 <div class="result" id="spinResult"><strong id="spinWon"></strong><br>🎉 Congratulations!</div>
 <button class="btn" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
 <p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px"></p>
@@ -161,9 +175,11 @@ input{width:100%;padding:14px;border-radius:12px;border:1px solid #ffffff20;back
 </div></div>
 
 <div class="modal" id="refModal"><div class="box">
-<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite Friends</h2>
-<input id="refLink" value="https://google.com/?ref=COINRUSH" readonly>
-<button class="btn" onclick="copyRef()">📋 COPY LINK</button>
+<button class="close" onclick="closeModal('refModal')">×</button><h2>👥 Invite & Share</h2>
+<p style="color:#aaa;text-align:center;margin-bottom:12px;font-size:13px">Share your referral link with friends on WhatsApp or Telegram!</p>
+<input id="refLink" value="https://play.google.com/store/apps/details?id=com.coinrush.reward" readonly>
+<button class="btn" style="background:#25D366;margin-bottom:8px;" onclick="shareWhatsApp()">📱 SHARE ON WHATSAPP</button>
+<button class="btn" style="background:#0088cc;" onclick="shareTelegram()">✈️ SHARE ON TELEGRAM</button>
 </div></div>
 
 <div class="surveyPage" id="surveyPage">
@@ -323,16 +339,55 @@ addCoins(25);
 toast("📺 Demo ad task completed");
 }
 
-function taskReward(n){
-let key="task_"+today();
-if(localStorage.getItem(key)){
-toast("Task already completed today");return;
-}
-localStorage.setItem(key,1);
-addCoins(n);celebrate();
+/* DYNAMIC DOWNLOAD APPS TASK (NEW APPS ON EVERY CLICK) */
+const playStoreApps = [
+"https://play.google.com/store/apps/details?id=com.whatsapp",
+"https://play.google.com/store/apps/details?id=com.instagram.android",
+"https://play.google.com/store/apps/details?id=in.mohalla.sharechat",
+"https://play.google.com/store/apps/details?id=com.josh.droid",
+"https://play.google.com/store/apps/details?id=mx.makeup.camera.editor",
+"https://play.google.com/store/apps/details?id=com.truecaller",
+"https://play.google.com/store/apps/details?id=com.spotify.music",
+"https://play.google.com/store/apps/details?id=in.startv.hotstar",
+"https://play.google.com/store/apps/details?id=com.zee5.app",
+"https://play.google.com/store/apps/details?id=com.jio.jioplay"
+];
+
+function openDownloadTask() {
+let appIndex = Number(localStorage.getItem("nextAppIndex") || 0);
+let targetUrl = playStoreApps[appIndex % playStoreApps.length];
+
+// Next app index update for subsequent clicks
+localStorage.setItem("nextAppIndex", appIndex + 1);
+
+window.open(targetUrl, "_blank");
+
+// Reward after opening & downloading task simulation
+setTimeout(() => {
+addCoins(100);
+celebrate();
+toast("🎉 100 Coins credited for App Download!");
+}, 1500);
 }
 
-/* WHEEL */
+/* SHARE VIA WHATSAPP & TELEGRAM */
+function shareWhatsApp(){
+let link = document.getElementById("refLink").value;
+let msg = encodeURIComponent("🔥 Sabse best earning app! Is link se join karo aur turant coins jeeto: " + link);
+window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");
+navigator.clipboard.writeText(link);
+toast("Link copied & WhatsApp opened!");
+}
+
+function shareTelegram(){
+let link = document.getElementById("refLink").value;
+let text = encodeURIComponent("🔥 Sabse best earning app! Is link se join karo aur turant coins jeeto: " + link);
+window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
+navigator.clipboard.writeText(link);
+toast("Link copied & Telegram opened!");
+}
+
+/* WHEEL PRO LOGIC (99% small rewards, 1% big reward 100) */
 function resetSpin(){
 if(localStorage.getItem("spinDate")!==today()){
 localStorage.setItem("spinDate",today());
@@ -354,30 +409,50 @@ let result=document.getElementById("spinResult");
 button.disabled=true;
 result.classList.remove("show");
 
-const rewards=[10,15,20,100,100];
-let reward=rewards[Math.floor(Math.random()*rewards.length)];
+// 99% chance for small rewards [10, 15, 20, 15], 1% chance for 100
+let randChance = Math.random();
+let reward = 10;
+let targetSegmentIndex = 0; // default 10 (s1)
 
-let extraSpins=5+Math.floor(Math.random()*3);
-let targetAngle=Math.floor(Math.random()*5)*72+36;
+if(randChance < 0.01) {
+// 1% chance -> 100 coins (segment s5, angle index 4 -> 324 deg)
+reward = 100;
+targetSegmentIndex = 4;
+} else {
+// 99% chance -> small rewards [10, 15, 20, 15] (indices 0, 1, 2, 3)
+let smallRewards = [
+{val: 10, idx: 0},
+{val: 15, idx: 1},
+{val: 20, idx: 2},
+{val: 15, idx: 3}
+];
+let chosen = smallRewards[Math.floor(Math.random() * smallRewards.length)];
+reward = chosen.val;
+targetSegmentIndex = chosen.idx;
+}
 
-wheelRotation+=extraSpins*360+(360-targetAngle);
-localStorage.setItem("wheelRotation",wheelRotation);
-wheel.style.transform="rotate("+wheelRotation+"deg)";
+let extraSpins = 6 + Math.floor(Math.random()*3);
+// Each segment is 72 degrees. Center of segment = index * 72 + 36
+let segmentAngle = targetSegmentIndex * 72 + 36;
+wheelRotation += extraSpins * 360 + (360 - segmentAngle);
+
+localStorage.setItem("wheelRotation", wheelRotation);
+wheel.style.transform = "rotate(" + wheelRotation + "deg)";
 
 count++;
-localStorage.setItem("spinCount",count);
+localStorage.setItem("spinCount", count);
 updateSpinText();
 
 setTimeout(()=>{
-coins+=reward;
+coins += reward;
 save();
-document.getElementById("spinWon").textContent="You won "+reward+" Coins!";
+document.getElementById("spinWon").textContent = "You won " + reward + " Coins!";
 result.classList.add("show");
 celebrate();
-spinning=false;
-button.disabled=false;
+spinning = false;
+button.disabled = false;
 updateSpinText();
-},4200);
+}, 4500);
 }
 
 function updateSpinText(){
@@ -551,7 +626,7 @@ celebrate();
 renderSurveys();
 }
 
-/* WITHDRAWAL & WHATSAPP / TELEGRAM DM */
+/* WITHDRAWAL & WHATSAPP DM */
 function openWithdraw(){ openModal("withdrawModal"); }
 
 function submitWithdraw(){
@@ -567,25 +642,17 @@ if(!upi||!upi.includes("@")){toast("Enter a valid UPI ID");return;}
 coins-=amount;
 save();
 
-let msg = `🚨 *New Withdrawal Request - CoinRush* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI ID: ${upi}%0A📅 Date: ${today()}`;
-
-// Yahan aap apna WhatsApp number badal sakte hain agar zaroorat ho
+let msg = `🚨 *New Withdrawal Request - CoinRush Pro* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI ID: ${upi}%0A📅 Date: ${today()}`;
 let myWhatsAppNumber = "919339823790"; 
-let myTelegramUsername = "YourTelegramUsername";
 
-let sendOption = confirm("Click OK to send withdrawal details via WhatsApp DM to Admin!");
-if(sendOption){
 window.open(`https://wa.me/${myWhatsAppNumber}?text=${msg}`, "_blank");
-} else {
-window.open(`https://t.me/${myTelegramUsername}?text=${encodeURIComponent(msg)}`, "_blank");
-}
 
 let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
 localStorage.setItem("withdrawals",JSON.stringify(arr));
 
 closeModal("withdrawModal");
-toast("✅ Withdrawal request submitted & sent!");
+toast("✅ Withdrawal request submitted & sent to WhatsApp!");
 }
 
 function openHistory(){
@@ -594,11 +661,6 @@ let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
 let box=document.getElementById("historyList");
 if(!arr.length){box.innerHTML="<p style='text-align:center;color:#aaa'>No withdrawal history yet.</p>";return;}
 box.innerHTML=arr.map(x=>"<div>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
-}
-
-function copyRef(){
-navigator.clipboard.writeText(document.getElementById("refLink").value);
-toast("📋 Referral link copied");
 }
 
 save();
