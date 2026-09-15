@@ -67,8 +67,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 /* ACCOUNT / PROFILE PAGE STYLES */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
-.acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.15)}
-.acc-user-row{display:flex;align-items:center;gap:14px}
+.acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
+.acc-back-btn{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;display:grid;place-items:center;cursor:pointer;transition:0.2s;}
+.acc-back-btn:active{transform:scale(0.9);}
+.acc-user-row{display:flex;align-items:center;gap:14px;margin-top:10px;}
 .acc-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);display:grid;place-items:center;font-size:30px;box-shadow:0 0 25px rgba(139,92,246,0.8)}
 .acc-info h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px}
 .vip-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:10px;padding:2px 8px;border-radius:8px;font-weight:800}
@@ -191,7 +193,6 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <!-- BANNER AD SECTION -->
 <div class="banner-ad-container">
   <span>Advertisement (Banner Ad)</span>
-  <!-- Yahan aap apna Ad Network ka script/iframe ya Adsterra/Monetag banner code paste kar sakte hain -->
   <div style="margin-top:4px; font-weight:bold; color:#fde047;">[ Ad Space Ready ]</div>
 </div>
 
@@ -262,6 +263,8 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <!-- FULL ACCOUNT / PROFILE PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
+<!-- BACK ARROW BUTTON ADDED HERE -->
+<button class="acc-back-btn" onclick="switchNav('home', document.querySelector('.bottom-nav button:first-child'))">←</button>
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
@@ -587,7 +590,7 @@ let requiredCoins = vipTiers[nextLevel].cost;
 if(coins >= requiredCoins) {
 vipLevel = nextLevel;
 let freeReward = vipTiers[nextLevel].reward;
-coins += freeReward; // Coins are NOT deducted, extra reward added!
+coins += freeReward; 
 save();
 celebrate();
 toast(`Badhai ho! VIP ${levelTextMatch = vipLevel} unlock hua + ${freeReward} Coins free mile!`);
