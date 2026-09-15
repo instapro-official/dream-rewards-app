@@ -69,7 +69,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
 
-/* PROFESSIONAL BACK BUTTON DESIGN */
+/* BACK BUTTON DESIGN */
 .acc-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s;}
 .acc-back-btn:active{transform:scale(0.95);background:rgba(255,255,255,0.2);}
@@ -90,7 +90,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 /* ACC LIST MENU */
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
-.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-decoration:none;color:#fff}
 .acc-menu-card:active{background:rgba(255,255,255,0.12)}
 
 /* LOGIN & ADMIN STYLING */
@@ -130,14 +130,14 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN SCREEN (Phone + Email, No Password) -->
 <div class="login-container" id="loginContainer">
 <div class="login-box">
 <h2>🚀 CoinRush Pro</h2>
-<p>Enter your mobile number and password</p>
+<p>Enter Mobile Number & Gmail to Login</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
-<input id="loginPassword" type="password" placeholder="Password">
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
+<input id="loginEmail" type="email" placeholder="Gmail Address (e.g. user@gmail.com)">
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / START</button>
 </div>
 </div>
 
@@ -146,7 +146,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <header>
 <div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
 <div class="avatar">👦🏽</div>
-<div><div class="name" id="userName">MEMBER</div><div class="id" id="userPhoneDisplay">UID | 20925778</div></div>
+<div><div class="name" id="userName">MEMBER</div><div class="id" id="userPhoneDisplay">UID | --</div></div>
 </div>
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
@@ -215,7 +215,7 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <button class="withdraw-main" onclick="openModal('withdrawModal')">💰 WITHDRAW COINS NOW</button>
 </div>
 
-<!-- FULL ACCOUNT / PROFILE PAGE (WITH PROFESSIONAL BACK BUTTON) -->
+<!-- ACCOUNT / PROFILE PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
 <div class="acc-top-bar">
@@ -227,7 +227,7 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
 <h2><span id="accUsername">MEMBER</span> <span class="vip-badge">VIP 1</span></h2>
-<div class="acc-uid">UID: <span id="accUidVal">20925778</span></div>
+<div class="acc-uid" id="accEmailDisplay">Email: --</div>
 </div>
 </div>
 </div>
@@ -243,6 +243,12 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 </div>
 
 <div class="acc-menu-list">
+<!-- Telegram Support Link -->
+<a href="https://t.me/Luffyxzoroa" target="_blank" class="acc-menu-card">
+<div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">💬</span> <span style="font-size:13px;font-weight:800;">Support & Help (Telegram)</span></div>
+<span>></span>
+</a>
+
 <div class="acc-menu-card" onclick="logout()" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
 <div style="display:flex;gap:12px;align-items:center;"><span style="font-size:20px;">🚪</span> <span style="font-size:13px;font-weight:800;color:#ef4444;">Logout Account</span></div>
 <span>></span>
@@ -323,11 +329,15 @@ EARN NOW <span onclick="openModal('taskModal')">View Timeline & Tasks →</span>
 <div class="toast" id="toast"></div>
 
 <script>
-let currentUser = localStorage.getItem("userPhone") || "";
-let coins = Number(localStorage.getItem("coins_" + currentUser) || 0);
+// Multiple account storage key helpers based on phone number + email combo
+let currentKey = localStorage.getItem("activeUserKey") || "";
+let coins = 0;
 
 window.onload = function() {
-  if(currentUser) {
+  if(currentKey) {
+    let savedData = JSON.parse(localStorage.getItem("account_" + currentKey) || "{}");
+    coins = savedData.coins || 0;
+    
     document.getElementById("loginContainer").style.display = "none";
     document.getElementById("mainApp").classList.add("show");
     updateUI();
@@ -336,20 +346,24 @@ window.onload = function() {
 
 function handleLogin() {
   let number = document.getElementById("loginNumber").value.trim();
-  let password = document.getElementById("loginPassword").value.trim();
+  let email = document.getElementById("loginEmail").value.trim();
 
   if(number.length !== 10 || isNaN(number)) {
     toast("Enter a valid 10-digit mobile number");
     return;
   }
-  if(password.length < 4) {
-    toast("Password must be at least 4 characters");
+  if(!email.includes("@") || !email.includes(".com")) {
+    toast("Enter a valid Gmail address");
     return;
   }
 
-  currentUser = number;
-  localStorage.setItem("userPhone", number);
-  coins = Number(localStorage.getItem("coins_" + number) || 0);
+  // Unique session key for each phone+email combination
+  currentKey = number + "_" + email.toLowerCase();
+  localStorage.setItem("activeUserKey", currentKey);
+
+  // Load existing coins or initialize if new account
+  let savedData = JSON.parse(localStorage.getItem("account_" + currentKey) || "{}");
+  coins = savedData.coins !== undefined ? savedData.coins : 0;
 
   document.getElementById("loginContainer").style.display = "none";
   document.getElementById("mainApp").classList.add("show");
@@ -358,16 +372,20 @@ function handleLogin() {
 }
 
 function updateUI() {
+  let [phone, email] = currentKey.split("_");
+  
   document.getElementById("coins").textContent = coins;
   document.getElementById("topCoins").textContent = coins;
   document.getElementById("accCoinsVal").textContent = coins + " Coins";
-  document.getElementById("userPhoneDisplay").textContent = "UID | " + currentUser;
-  document.getElementById("accUidVal").textContent = currentUser;
-  document.getElementById("userName").textContent = "User_" + currentUser.slice(-4);
-  document.getElementById("accUsername").textContent = "User_" + currentUser.slice(-4);
+  document.getElementById("userPhoneDisplay").textContent = "Phone | " + (phone || "");
+  document.getElementById("accEmailDisplay").textContent = "Gmail: " + (email || "");
+  document.getElementById("userName").textContent = "User_" + (phone ? phone.slice(-4) : "1234");
+  document.getElementById("accUsername").textContent = "User_" + (phone ? phone.slice(-4) : "1234");
   
-  if(currentUser) {
-    localStorage.setItem("coins_" + currentUser, coins);
+  if(currentKey) {
+    // Save account state instantly so syncing across devices via localStorage works seamlessly
+    let accData = { coins: coins, phone: phone, email: email };
+    localStorage.setItem("account_" + currentKey, JSON.stringify(accData));
   }
 }
 
@@ -433,12 +451,12 @@ function switchNav(tab, el) {
 }
 
 function logout() {
-  localStorage.removeItem("userPhone");
+  localStorage.removeItem("activeUserKey");
   location.reload();
 }
 
 function dailyBonus() {
-  let k = "bonus_" + currentUser;
+  let k = "bonus_" + currentKey;
   let today = new Date().toISOString().slice(0, 10);
   if(localStorage.getItem(k) === today) {
     toast("Already claimed today!");
