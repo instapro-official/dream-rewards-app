@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Pro - Free Edition</title>
+<title>CoinRush Pro - Global Cloud Edition</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1137;color:#fff;min-height:100vh}
@@ -36,12 +36,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .section-header{display:flex;justify-content:space-between;align-items:center;padding:8px 18px 12px;font-size:15px;font-weight:900;letter-spacing:0.5px}
 .section-header span{color:#c084fc;font-size:12px;cursor:pointer;font-weight:700}
 
-/* VIBRANT COLOR-GRADED CARDS */
+/* CARDS */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 16px 14px}
 .card{border-radius:22px;padding:18px 16px;box-shadow:0 10px 30px rgba(0,0,0,0.4),inset 0 1px 1px rgba(255,255,255,0.25);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.2);transition:0.3s}
 .card:active{transform:scale(0.97)}
 
-/* BRIGHT LIGHTING GRADIENTS */
 .card-blue{background:linear-gradient(145deg,#2563eb,#1d4ed8,#3b82f6);box-shadow:0 10px 30px rgba(37,99,235,0.5)}
 .card-purple{background:linear-gradient(145deg,#7c3aed,#6d28d9,#8b5cf6);box-shadow:0 10px 30px rgba(124,58,237,0.5)}
 .card-green{background:linear-gradient(145deg,#059669,#047857,#10b981);box-shadow:0 10px 30px rgba(5,150,105,0.5)}
@@ -55,7 +54,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .card-btn{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.25);color:white;margin-top:14px;font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;gap:6px;backdrop-filter:blur(5px);transition:0.2s}
 .card-btn:active{background:rgba(255,255,255,0.4)}
 
-/* STICKY BOTTOM WITHDRAW BUTTON */
 .withdraw-main{margin:10px 16px 20px;width:calc(100% - 32px);padding:16px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ea580c,#dc2626);color:#fff;font-size:16px;font-weight:900;box-shadow:0 10px 35px rgba(245,158,11,0.6);letter-spacing:0.5px;text-align:center;border:1px solid rgba(255,255,255,0.35)}
 
 /* BOTTOM NAV BAR */
@@ -64,14 +62,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* ACCOUNT / PROFILE PAGE STYLES */
+/* ACCOUNT PAGE */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
 .acc-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s;}
-.acc-back-btn:active{transform:scale(0.95);background:rgba(255,255,255,0.2);}
-
+.acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);}
 .acc-user-row{display:flex;align-items:center;gap:14px;}
 .acc-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);display:grid;place-items:center;font-size:30px;box-shadow:0 0 25px rgba(139,92,246,0.8)}
 .acc-info h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px}
@@ -88,10 +84,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
 .acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
-.acc-menu-card:active{background:rgba(255,255,255,0.12)}
 .acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
-/* LOGIN & ADMIN STYLING */
+/* LOGIN & ADMIN */
 .login-container{position:fixed;inset:0;background:#0d1137;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
 .login-box{width:100%;max-width:380px;background:linear-gradient(145deg,#1e1b4b,#121633);border:1px solid rgba(255,255,255,0.2);border-radius:28px;padding:28px;box-shadow:0 20px 50px rgba(0,0,0,0.9)}
 .login-box h2{text-align:center;margin-bottom:8px;font-size:24px;font-weight:900}
@@ -129,8 +124,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .result{text-align:center;display:none;padding:12px;background:rgba(34,197,94,0.25);border:1px solid rgba(34,197,94,0.6);border-radius:14px;margin-top:12px;font-size:13px}.result.show{display:block}.result strong{font-size:20px}
 .lucky{height:150px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:50px;box-shadow:0 10px 30px rgba(245,158,11,0.4)}
 .quiz-q{font-size:15px;font-weight:800;text-align:center;background:rgba(255,255,255,0.08);padding:16px;border-radius:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.15)}
-.answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:14px;background:rgba(255,255,255,0.1);color:#fff;text-align:left;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,0.15);transition:0.2s}
-.answers button:active{background:rgba(255,255,255,0.25)}
+.answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:14px;background:rgba(255,255,255,0.1);color:#fff;text-align:left;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,0.15)}
 
 .surveyPage{display:none;position:fixed;inset:0;background:#0d1137;z-index:40;overflow:auto}
 .surveyPage.show{display:block}.surveyInner{max-width:480px;margin:auto;padding-bottom:40px}
@@ -172,7 +166,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <div id="adminWithdrawList"></div>
 </div>
 
-<!-- MAIN APP (HOME TAB) -->
+<!-- MAIN APP -->
 <div class="app" id="mainApp">
 <header>
 <div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
@@ -182,7 +176,6 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
 
-<!-- HERO BALANCE CARD -->
 <section class="hero-card">
 <div class="hero-title">Total balance</div>
 <div class="hero-balance-row">
@@ -193,7 +186,6 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </div>
 </section>
 
-<!-- BANNER AD SECTION -->
 <div class="banner-ad-container">
   <span>Advertisement (Banner Ad)</span>
   <div style="margin-top:4px; font-weight:bold; color:#fde047;">[ Ad Space Ready ]</div>
@@ -263,7 +255,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="withdraw-main" onclick="openWithdraw()">💰 WITHDRAW COINS NOW (Rate: 3100 = ₹10)</button>
 </div>
 
-<!-- FULL ACCOUNT / PROFILE PAGE -->
+<!-- ACCOUNT PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
 <div class="acc-top-bar">
@@ -281,7 +273,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- VIP LEVEL UPGRADE SECTION -->
 <div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 <div>
@@ -293,7 +284,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div style="font-size:11px;color:#cbd5e1;" id="vipNextInfo">Next Level requires: 10,000 Coins (Reward: 500 Free Coins)</div>
 </div>
 
-<!-- ACC WALLET SECTION -->
 <div class="acc-wallet">
 <div class="acc-wallet-top">
 <div>
@@ -306,14 +296,13 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <span>📤</span>
 <p>Withdraw</p>
 </div>
-<div class="acc-wallet-item" onclick="toast('VIP System Active - Free Rewards!')">
+<div class="acc-wallet-item" onclick="toast('VIP System Active!')">
 <span>👑</span>
 <p>VIP</p>
 </div>
 </div>
 </div>
 
-<!-- ACC MENU LIST -->
 <div class="acc-menu-grid">
 <div class="acc-menu-card" onclick="openTaskModal()" style="display:flex;gap:12px;align-items:center;">
 <span style="font-size:24px;">📊</span>
@@ -357,7 +346,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- BOTTOM NAVIGATION BAR -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
 <button class="nav-item active" onclick="switchNav('home', this)"><span>🏠</span>Home</button>
 <button class="nav-item" onclick="switchNav('activity', this)"><span>🛍️</span>Activity</button>
@@ -366,9 +355,8 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <button class="nav-item" onclick="switchNav('account', this)"><span>👤</span>Account</button>
 </nav>
 
-<!-- TASK PROGRESS & REWARDS MODAL -->
-<div class="modal" id="taskModal">
-<div class="box">
+<!-- MODALS -->
+<div class="modal" id="taskModal"><div class="box">
 <button class="close" onclick="closeModal('taskModal')">×</button>
 <h2>📊 Task Progress & Rewards</h2>
 <div class="task-header-box">
@@ -379,18 +367,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div style="font-size:14px;font-weight:900;" id="modalCoinsEarned">1325 Coins earned</div>
 <div style="font-size:10px;color:#cbd5e1;" id="modalTaskStatus">Great job! You completed tasks!</div>
 </div>
-<div class="circular-progress">
-<div class="circular-inner"><span id="percentText">75%</span></div>
-</div>
+<div class="circular-progress"><div class="circular-inner"><span id="percentText">75%</span></div></div>
 </div>
 </div>
 <div style="font-size:13px;font-weight:900;margin-bottom:6px;">🎁 Rewards Timeline</div>
 <div class="timeline" id="timelineList"></div>
 <button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:16px;padding:12px;" onclick="closeModal('taskModal')">Continue →</button>
-</div>
-</div>
+</div></div>
 
-<!-- WHEEL MODAL -->
 <div class="modal" id="wheelModal"><div class="box">
 <button class="close" onclick="closeModal('wheelModal')">×</button>
 <h2>🎡 Pro Lucky Spin</h2>
@@ -422,7 +406,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <p id="quizResult" style="text-align:center;margin-top:12px;font-weight:900;font-size:13px"></p>
 </div></div>
 
-<!-- WITHDRAWAL MODAL WITH NEW CONVERSION & RATE INFO -->
 <div class="modal" id="withdrawModal"><div class="box">
 <button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal (24 Hours Limit)</h2>
 <p style="color:#fde047;text-align:center;font-size:12px;margin-bottom:4px">Rates: 3100 Coins = ₹10 | 6200 Coins = ₹20</p>
@@ -474,6 +457,23 @@ const vipTiers = {
 
 const today = () => new Date().toISOString().slice(0, 10);
 
+// GLOBAL / MULTI-DEVICE SHARED DB SIMULATOR
+function getUsersDB() {
+    let cloudData = localStorage.getItem("coinRushGlobalUsers");
+    if(!cloudData) {
+        let initial = {
+            "9999999999": { password: "password123", coins: 500, vipLevel: 1, wheelRotation: 0, withdrawals: [] }
+        };
+        localStorage.setItem("coinRushGlobalUsers", JSON.stringify(initial));
+        return initial;
+    }
+    return JSON.parse(cloudData);
+}
+
+function saveUsersDB(db) {
+    localStorage.setItem("coinRushGlobalUsers", JSON.stringify(db));
+}
+
 window.onload = function() {
 let isAdmin = localStorage.getItem("isAdminSession");
 if(isAdmin === "true") {
@@ -483,7 +483,7 @@ return;
 }
 
 if(currentUser) {
-let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+let usersDB = getUsersDB();
 if(usersDB[currentUser]) {
 loadUserData(currentUser);
 document.getElementById("loginContainer").style.display = "none";
@@ -516,7 +516,7 @@ toast("Password must be 4+ characters");
 return;
 }
 
-let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+let usersDB = getUsersDB();
 
 if(!usersDB[number]) {
 toast("❌ Yeh mobile number registered nahi hai! Kripya Register par click karein.");
@@ -550,7 +550,7 @@ toast("Password must be 4+ characters");
 return;
 }
 
-let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+let usersDB = getUsersDB();
 
 if(usersDB[number]) {
 toast("⚠️ Yeh number pehle se registered hai! Kripya LOGIN karein.");
@@ -564,7 +564,7 @@ vipLevel: 1,
 wheelRotation: 0,
 withdrawals: []
 };
-localStorage.setItem("coinRushUsers", JSON.stringify(usersDB));
+saveUsersDB(usersDB);
 
 currentUser = number;
 localStorage.setItem("currentUser", currentUser);
@@ -576,7 +576,7 @@ toast("Account Created & Logged In!");
 }
 
 function loadUserData(number) {
-let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+let usersDB = getUsersDB();
 let uData = usersDB[number] || { coins: 0, vipLevel: 1, wheelRotation: 0 };
 
 coins = Number(uData.coins || 0);
@@ -592,13 +592,12 @@ save();
 
 function save() {
 if(currentUser) {
-let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+let usersDB = getUsersDB();
 if(usersDB[currentUser]) {
 usersDB[currentUser].coins = coins;
 usersDB[currentUser].vipLevel = vipLevel;
 usersDB[currentUser].wheelRotation = wheelRotation;
-usersDB[currentUser].withdrawals = JSON.parse(localStorage.getItem("withdrawals") || "[]");
-localStorage.setItem("coinRushUsers", JSON.stringify(usersDB));
+saveUsersDB(usersDB);
 }
 }
 
@@ -619,28 +618,41 @@ location.reload();
 }
 
 function renderAdminRequests() {
-let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
+let usersDB = getUsersDB();
+let allWithdrawals = [];
+for(let num in usersDB) {
+if(usersDB[num].withdrawals) {
+usersDB[num].withdrawals.forEach(w => {
+w.user = num;
+allWithdrawals.push(w);
+});
+}
+}
+
 let box = document.getElementById("adminWithdrawList");
-if(!arr.length) {
+if(!allWithdrawals.length) {
 box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>No pending requests.</p>";
 return;
 }
-box.innerHTML = arr.map((x, i) => `
+box.innerHTML = allWithdrawals.map((x, i) => `
 <div class="admin-card">
 <p><b>User:</b> +91 ${x.user}</p>
 <p><b>UPI:</b> ${x.upi}</p>
 <p><b>Amount:</b> ${x.amount} Coins (₹${x.rupees})</p>
 <p><b>Date:</b> ${x.date}</p>
 <p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
-<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw(${i})">APPROVE / PAID ✓</button>
+<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw('${x.user}', ${x.amount})">APPROVE / PAID ✓</button>
 </div>
 `).join("");
 }
 
-function approveWithdraw(index) {
-let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
-arr[index].status = "Paid ✓";
-localStorage.setItem("withdrawals", JSON.stringify(arr));
+function approveWithdraw(userNum, amount) {
+let usersDB = getUsersDB();
+if(usersDB[userNum] && usersDB[userNum].withdrawals) {
+let req = usersDB[userNum].withdrawals.find(w => w.amount === amount);
+if(req) req.status = "Paid ✓";
+saveUsersDB(usersDB);
+}
 renderAdminRequests();
 toast("Approved!");
 }
@@ -788,13 +800,7 @@ b.textContent="🎁 Daily Bonus";b.disabled=false;
 }
 }
 
-const adNetworks = [
-"https://www.monetag.com",
-"https://www.adsterra.com",
-"https://cpx-research.com",
-"https://bitlabs.ai",
-"https://www.pollfish.com"
-];
+const adNetworks = ["https://www.monetag.com","https://www.adsterra.com","https://cpx-research.com","https://bitlabs.ai","https://www.pollfish.com"];
 
 function watchAd(){
 let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
@@ -802,7 +808,7 @@ let targetAdUrl = adNetworks[adIndex % adNetworks.length];
 localStorage.setItem("nextAdIndex", adIndex + 1);
 window.open(targetAdUrl, "_blank");
 setTimeout(() => {
-addCoins(10); // Updated to 10 coins
+addCoins(10);
 toast("📺 +10 Coins added!");
 celebrate();
 }, 1000);
@@ -822,7 +828,7 @@ let targetUrl = playStoreApps[appIndex % playStoreApps.length];
 localStorage.setItem("nextAppIndex", appIndex + 1);
 window.open(targetUrl, "_blank");
 setTimeout(() => {
-addCoins(10); // Updated to 10 coins
+addCoins(10);
 celebrate();
 toast("🎉 +10 Coins credited!");
 }, 1200);
@@ -983,9 +989,9 @@ box.appendChild(b);
 function answer(i,correct){
 let result=document.getElementById("quizResult");
 if(i===correct){
-result.textContent="🎉 Correct! +10 Coins"; // Updated to 10 coins
+result.textContent="🎉 Correct! +10 Coins";
 result.style.color="#4ade80";
-addCoins(10); // Updated to 10 coins
+addCoins(10);
 celebrate();
 }else{
 result.textContent="❌ Wrong answer!";
@@ -1063,7 +1069,6 @@ function submitWithdraw(){
 let amount = Number(document.getElementById("withdrawCoins").value);
 let upi = document.getElementById("upi").value.trim();
 
-// Conversion & Validation Logic based on 3100 = 10 Rs, 6200 = 20 Rs, Max 100 Rs (= 31000 coins) per 24 hours
 if(amount < 3100) {
     toast("Minimum withdrawal is 3,100 coins (= ₹10)");
     return;
@@ -1081,18 +1086,17 @@ if(!upi || !upi.includes("@")) {
     return;
 }
 
-// Calculate corresponding rupees
-let calculatedRupees = Math.floor(amount / 310); // e.g. 3100/310 = 10, 6200/310 = 20
-
+let calculatedRupees = Math.floor(amount / 310); 
 coins -= amount;
 save();
 
 let msg = `🚨 *New Withdrawal Request* 🚨%0A📱 User: +91 ${currentUser}%0A🪙 Amount: ${amount} Coins (₹${calculatedRupees})%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
 window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
 
-let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
-arr.unshift({user: currentUser, amount: amount, rupees: calculatedRupees, upi: upi, date: today(), status: "Pending ⏳"});
-localStorage.setItem("withdrawals", JSON.stringify(arr));
+let usersDB = getUsersDB();
+if(!usersDB[currentUser].withdrawals) usersDB[currentUser].withdrawals = [];
+usersDB[currentUser].withdrawals.unshift({user: currentUser, amount: amount, rupees: calculatedRupees, upi: upi, date: today(), status: "Pending ⏳"});
+saveUsersDB(usersDB);
 
 closeModal("withdrawModal");
 toast("✅ Request submitted & WhatsApp opened!");
@@ -1100,8 +1104,8 @@ toast("✅ Request submitted & WhatsApp opened!");
 
 function openHistory(){
 openModal("historyModal");
-let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
-let userArr = arr.filter(x => x.user === currentUser);
+let usersDB = getUsersDB();
+let userArr = (usersDB[currentUser] && usersDB[currentUser].withdrawals) ? usersDB[currentUser].withdrawals : [];
 let box=document.getElementById("historyList");
 if(!userArr.length){box.innerHTML="<p style='text-align:center;color:#aaa;font-size:12px'>No history yet.</p>";return;}
 box.innerHTML=userArr.map(x=>"<div style='margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)'>💰 <b>"+x.amount+" Coins (₹"+x.rupees+")</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
