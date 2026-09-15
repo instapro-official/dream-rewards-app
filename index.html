@@ -64,12 +64,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .nav-item.active{color:#c084fc;text-shadow:0 0 12px rgba(192,132,252,0.8)}
 .nav-item span:first-child{font-size:20px}
 
-/* ACCOUNT / PROFILE PAGE STYLES - PROFESSIONAL BACK BUTTON */
+/* ACCOUNT / PROFILE PAGE STYLES */
 .account-page{display:none;position:fixed;inset:0;background:#0d1137;z-index:35;overflow:auto;padding-bottom:90px}
 .account-page.show{display:block}
 .acc-header{background:linear-gradient(135deg,#1e1b4b,#311060,#4c1d95);padding:20px;border-bottom:1px solid rgba(255,255,255,0.15);position:relative;}
-
-/* UPDATED PROFESSIONAL BACK BUTTON DESIGN */
 .acc-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .acc-back-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:8px 14px;border-radius:30px;font-size:12px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s;}
 .acc-back-btn:active{transform:scale(0.95);background:rgba(255,255,255,0.2);}
@@ -81,7 +79,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-uid{font-size:12px;color:#cbd5e1;margin-top:4px;display:flex;align-items:center;gap:6px}
 .acc-login-time{font-size:11px;color:#94a3b8;margin-top:2px}
 
-/* ACC WALLET SECTION */
 .acc-wallet{margin:16px;padding:20px;border-radius:22px;background:linear-gradient(135deg,#2563eb,#1d4ed8,#3b82f6);box-shadow:0 10px 30px rgba(37,99,235,0.5);border:1px solid rgba(255,255,255,0.25)}
 .acc-wallet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .acc-wallet-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:center}
@@ -89,7 +86,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-wallet-item span{font-size:20px;display:block;margin-bottom:4px}
 .acc-wallet-item p{font-size:10px;font-weight:800}
 
-/* ACC LIST MENU */
 .acc-menu-list{padding:0 16px;display:grid;gap:12px}
 .acc-menu-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:16px;display:flex;justify-content:between;align-items:center;cursor:pointer}
 .acc-menu-card:active{background:rgba(255,255,255,0.12)}
@@ -105,7 +101,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .admin-panel.show{display:block}
 .admin-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:16px;margin-top:12px;font-size:13px}
 
-/* TASK TIMELINE & OTHER MODALS */
+/* MODALS */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:40;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(10px)}
 .modal.show{display:flex}
 .box{width:100%;max-width:440px;background:linear-gradient(145deg,#1e1b4b,#0f1035);border:1px solid rgba(255,255,255,0.22);border-radius:28px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 60px rgba(0,0,0,0.9)}
@@ -122,7 +118,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .timeline-dot{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#22c55e;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;border:2px solid #1e1b4b;box-shadow:0 0 8px rgba(34,197,94,0.7)}
 .timeline-dot.pending{background:#64748b}
 
-/* SPIN WHEEL */
+/* SPIN WHEEL WITH 12 SEGMENTS REPRESENTING 10, 15, 20, 100 COINS */
 .wheel-wrap{position:relative;width:280px;height:280px;margin:15px auto;filter:drop-shadow(0 0 25px rgba(139,92,246,0.7))}
 #wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4.5s cubic-bezier(0.15,0.85,0.12,1);border:10px solid #111;box-shadow:inset 0 0 15px rgba(0,0,0,0.8),0 0 25px rgba(255,255,255,0.3);background:conic-gradient(#ef4444 0deg 30deg,#3b82f6 30deg 60deg,#10b981 60deg 90deg,#a855f7 90deg 120deg,#f59e0b 120deg 150deg,#ef4444 150deg 180deg,#3b82f6 180deg 210deg,#10b981 210deg 240deg,#a855f7 240deg 270deg,#f59e0b 270deg 300deg,#ef4444 300deg 330deg,#22d3ee 330deg 360deg)}
 #wheel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:radial-gradient(circle,#333 40%,#111 100%);border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px rgba(0,0,0,0.9);z-index:4}
@@ -159,7 +155,10 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <p>Enter your mobile number and password</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
 <input id="loginPassword" type="password" placeholder="Password">
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;">
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:12px;font-size:13px;margin:0;" onclick="handleLogin()">LOGIN</button>
+<button class="card-btn" style="background:linear-gradient(135deg,#059669,#10b981);padding:12px;font-size:13px;margin:0;" onclick="handleRegister()">REGISTER</button>
+</div>
 </div>
 </div>
 
@@ -178,7 +177,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <header>
 <div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
 <div class="avatar">👦🏽</div>
-<div><div class="name" id="userName">MEMBERNNGDX9M5</div><div class="id" id="userPhone">UID | 20925778</div></div>
+<div><div class="name" id="userName">MEMBER</div><div class="id" id="userPhone">UID | 20925778</div></div>
 </div>
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
@@ -218,7 +217,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div class="icon-box">🎡</div>
 <h3>Lucky Spin</h3>
 <p>Spin & win exciting rewards every day.</p>
-<button class="card-btn" onclick="openModal('wheelModal')">SPIN ➔</button>
+<button class="card-btn" onclick="openModal('wheelModal'); updateSpinText();">SPIN ➔</button>
 </div>
 
 <div class="card card-green">
@@ -267,7 +266,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <!-- FULL ACCOUNT / PROFILE PAGE -->
 <div class="account-page" id="accountPage">
 <div class="acc-header">
-<!-- PROFESSIONAL BACK BUTTON DESIGN -->
 <div class="acc-top-bar">
 <button class="acc-back-btn" onclick="switchNav('home', document.querySelector('.bottom-nav button:first-child'))">
 <span>←</span> Back to Home
@@ -276,14 +274,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
-<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
+<h2><span id="accUsername">MEMBER</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
 <div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
-<div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 11:13:35</div>
+<div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 17:15:44</div>
 </div>
 </div>
 </div>
 
-<!-- VIP LEVEL UPGRADE SECTION (FREE REWARD SYSTEM) -->
+<!-- VIP LEVEL UPGRADE SECTION -->
 <div style="margin:16px;padding:18px;border-radius:22px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:1px solid rgba(255,255,255,0.25);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
 <div>
@@ -392,7 +390,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<!-- WHEEL MODAL -->
+<!-- WHEEL MODAL (15 & 20 & 100 COINS VALUES) -->
 <div class="modal" id="wheelModal"><div class="box">
 <button class="close" onclick="closeModal('wheelModal')">×</button>
 <h2>🎡 Pro Lucky Spin</h2>
@@ -463,6 +461,7 @@ let currentUser = localStorage.getItem("currentUser") || "";
 let coins = 0;
 let vipLevel = 1;
 let wheelRotation = 0;
+let spinning = false;
 
 const vipTiers = {
     1: { cost: 0, reward: 0, title: "VIP Level 1" },
@@ -482,13 +481,19 @@ return;
 }
 
 if(currentUser) {
+let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+if(usersDB[currentUser]) {
 loadUserData(currentUser);
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
+} else {
+localStorage.removeItem("currentUser");
+}
 }
 updateVipUI();
 };
 
+// LOGIN FUNCTION (Strict Check)
 function handleLogin() {
 let number = document.getElementById("loginNumber").value.trim();
 let password = document.getElementById("loginPassword").value.trim();
@@ -512,20 +517,16 @@ return;
 
 let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
 
-if(usersDB[number]) {
+// Agar number database me nahi hai, toh login rok do aur error do
+if(!usersDB[number]) {
+toast("❌ Yeh mobile number registered nahi hai! Kripya Register par click karein.");
+return;
+}
+
+// Agar password galat hai
 if(usersDB[number].password !== password) {
 toast("❌ Galt password! Kripya sahi password dalein.");
 return;
-}
-} else {
-usersDB[number] = {
-password: password,
-coins: 0,
-vipLevel: 1,
-wheelRotation: 0,
-withdrawals: []
-};
-localStorage.setItem("coinRushUsers", JSON.stringify(usersDB));
 }
 
 currentUser = number;
@@ -535,6 +536,45 @@ loadUserData(currentUser);
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
 toast("Login Successful!");
+}
+
+// REGISTER FUNCTION (For new accounts)
+function handleRegister() {
+let number = document.getElementById("loginNumber").value.trim();
+let password = document.getElementById("loginPassword").value.trim();
+
+if(number.length !== 10 || isNaN(number)) {
+toast("Enter valid 10-digit mobile number");
+return;
+}
+if(password.length < 4) {
+toast("Password must be 4+ characters");
+return;
+}
+
+let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
+
+if(usersDB[number]) {
+toast("⚠️ Yeh number pehle se registered hai! Kripya LOGIN karein.");
+return;
+}
+
+usersDB[number] = {
+password: password,
+coins: 0,
+vipLevel: 1,
+wheelRotation: 0,
+withdrawals: []
+};
+localStorage.setItem("coinRushUsers", JSON.stringify(usersDB));
+
+currentUser = number;
+localStorage.setItem("currentUser", currentUser);
+loadUserData(currentUser);
+
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
+toast("Account Created & Logged In!");
 }
 
 function loadUserData(number) {
@@ -555,14 +595,13 @@ save();
 function save() {
 if(currentUser) {
 let usersDB = JSON.parse(localStorage.getItem("coinRushUsers") || "{}");
-if(!usersDB[currentUser]) {
-usersDB[currentUser] = { password: "123" };
-}
+if(usersDB[currentUser]) {
 usersDB[currentUser].coins = coins;
 usersDB[currentUser].vipLevel = vipLevel;
 usersDB[currentUser].wheelRotation = wheelRotation;
 usersDB[currentUser].withdrawals = JSON.parse(localStorage.getItem("withdrawals") || "[]");
 localStorage.setItem("coinRushUsers", JSON.stringify(usersDB));
+}
 }
 
 document.getElementById("coins").textContent = coins;
@@ -816,11 +855,12 @@ localStorage.setItem(spinCountKey,"0");
 }
 }
 
+// EXACT SPIN WHEEL CONFIGURATION (2 spins per day max, exact value reward matching segment indices)
 function spinWheel(){
 resetSpin();
 let spinCountKey = "spinCount_" + currentUser;
 let count=Number(localStorage.getItem(spinCountKey)||0);
-if(count>=5){toast("🔒 5 spins completed today");return;}
+if(count >= 2){toast("🔒 Daily limit reached! (2 spins max)");return;}
 if(spinning)return;
 spinning=true;
 
@@ -831,24 +871,18 @@ let result=document.getElementById("spinResult");
 button.disabled=true;
 result.classList.remove("show");
 
-let randChance = Math.random();
-let reward = 10;
-let targetSegmentIndex = 0;
-
-if(randChance < 0.01) {
-reward = 100;
-targetSegmentIndex = 11;
-} else {
-let smallOptions = [
-{val:10, idx:0}, {val:15, idx:1}, {val:20, idx:2},
-{val:10, idx:3}, {val:15, idx:4}, {val:20, idx:5},
-{val:10, idx:6}, {val:15, idx:7}, {val:20, idx:8},
-{val:15, idx:9}, {val:10, idx:10}
+// 12 Segments mapping: Index 0 to 11
+// Segments with 15, 20, 100 configured precisely
+let possibleRewards = [
+  {val: 10, idx: 0}, {val: 15, idx: 1}, {val: 20, idx: 2},
+  {val: 10, idx: 3}, {val: 15, idx: 4}, {val: 20, idx: 5},
+  {val: 10, idx: 6}, {val: 15, idx: 7}, {val: 20, idx: 8},
+  {val: 15, idx: 9}, {val: 10, idx: 10}, {val: 100, idx: 11}
 ];
-let chosen = smallOptions[Math.floor(Math.random() * smallOptions.length)];
-reward = chosen.val;
-targetSegmentIndex = chosen.idx;
-}
+
+let chosen = possibleRewards[Math.floor(Math.random() * possibleRewards.length)];
+let reward = chosen.val;
+let targetSegmentIndex = chosen.idx;
 
 let extraSpins = 6 + Math.floor(Math.random()*3);
 let sliceAngle = targetSegmentIndex * 30 + 15;
@@ -858,7 +892,6 @@ wheel.style.transform = "rotate(" + wheelRotation + "deg)";
 
 count++;
 localStorage.setItem(spinCountKey, count);
-updateSpinText();
 
 setTimeout(()=>{
 coins += reward;
@@ -876,10 +909,15 @@ function updateSpinText(){
 resetSpin();
 let spinCountKey = "spinCount_" + currentUser;
 let c=Number(localStorage.getItem(spinCountKey)||0);
-document.getElementById("spinLeft").textContent=(5-c)+" spins left today";
+document.getElementById("spinLeft").textContent=(2 - c) + " spins left today (Max 2)";
 let b=document.getElementById("spinButton");
-if(c>=5){b.textContent="🔒 COMPLETED";b.disabled=true;}
-else{b.textContent="🎡 SPIN NOW • "+(5-c)+" LEFT";}
+if(c >= 2){
+b.textContent="🔒 LOCKED (2/2 COMPLETED)";
+b.disabled=true;
+} else {
+b.textContent="🎡 SPIN NOW • "+(2 - c)+" LEFT";
+b.disabled=false;
+}
 }
 
 function openLucky(){
@@ -921,6 +959,7 @@ const gk=[
 ["Gas humans need to breathe?",["Carbon Dioxide","Nitrogen","Oxygen","Hydrogen"],2]
 ];
 
+let quizIndex = 0;
 function startQuiz(){
 quizIndex=0;
 openModal("quizModal");
@@ -1001,7 +1040,7 @@ if(done>=5){
 list.innerHTML="<div class='survey'><b>🔒 Daily Limit Reached</b><small>Come back tomorrow!</small></div>";
 return;
 }
-surveys.forEach((s,i)=>{
+surveys.forEach((s)=>{
 let d=document.createElement("div");
 d.className="survey";
 d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}")'>START SURVEY (+25) ➔</button>`;
