@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>CoinRush Pro - Local Edition</title>
+<title>CoinRush Pro - Local Edition with Secret Admin</title>
 
 <style>
 *{
@@ -60,7 +60,9 @@ button{
   font-weight:900;
   color:#ffd54a;
   text-shadow:0 0 20px rgba(255,213,74,.35);
-  margin-bottom:5px
+  margin-bottom:5px;
+  user-select:none;
+  cursor:pointer
 }
 .sublogo{
   color:#aeb6e8;
@@ -331,37 +333,6 @@ button{
   font-size:18px
 }
 
-/* SPIN */
-.wheel-wrap{
-  display:flex;
-  justify-content:center;
-  margin:10px 0 18px;
-  position:relative
-}
-#wheel{
-  width:275px;
-  height:275px;
-  border-radius:50%;
-  border:9px solid #ffd84c;
-  box-shadow:0 0 30px rgba(255,215,70,.25);
-  transition:transform 4s cubic-bezier(.12,.65,.13,1)
-}
-.pointer{
-  position:absolute;
-  top:-4px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:2;
-  color:#ffdf57;
-  font-size:27px
-}
-.spin-count{
-  text-align:center;
-  color:#a6add8;
-  font-size:12px;
-  margin-bottom:12px
-}
-
 /* QUIZ */
 .quiz-q{font-size:18px;font-weight:900;line-height:1.4;margin:15px 0}
 .quiz-options{display:grid;gap:10px}
@@ -484,7 +455,7 @@ button{
 <!-- AUTH -->
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
-    <div class="logo">🪙 CoinRush Pro</div>
+    <div class="logo" onclick="handleSecretAdminClick()">🪙 CoinRush Pro</div>
     <div class="sublogo">Local Phone Storage Edition</div>
     <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Quick Login</div>
     <div style="font-size:12px;color:#aeb6e8;margin-bottom:15px;">Enter Mobile Number & Password to start</div>
@@ -507,9 +478,12 @@ button{
           <div class="uid" id="headerUid">UID: --------</div>
         </div>
       </div>
-      <div class="header-balance">
-        <small>COINS</small>
-        <strong id="headerCoins">0</strong>
+      <div class="header-right">
+        <!-- Admin Button completely hidden from UI -->
+        <div class="header-balance">
+          <small>COINS</small>
+          <strong id="headerCoins">0</strong>
+        </div>
       </div>
     </div>
   </header>
@@ -531,10 +505,10 @@ button{
         <div class="card-bottom"><span class="reward">+10</span><button class="small-btn" onclick="watchAd()">Watch</button></div>
       </div>
       <div class="card earn-card">
-        <div class="icon">🎡</div>
-        <h3>Lucky Spin</h3>
-        <p>Spin & win exact wheel reward.</p>
-        <div class="card-bottom"><span class="reward">+10–100</span><button class="small-btn" onclick="openSpin()">Spin</button></div>
+        <div class="icon">🎟️</div>
+        <h3>Promo Code</h3>
+        <p>Enter daily telegram admin promo code.</p>
+        <div class="card-bottom"><span class="reward">+200</span><button class="small-btn" onclick="openPromoModal()">Redeem</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">📲</div>
@@ -636,12 +610,25 @@ button{
 </div>
 
 <!-- MODALS -->
-<div id="spinModal" class="modal hidden">
+<div id="promoModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-head"><h2>🎡 Pro Lucky Spin</h2><button class="close" onclick="closeModal('spinModal')">×</button></div>
-    <div class="spin-count" id="spinCountText">5 spins remaining</div>
-    <div class="wheel-wrap"><div class="pointer">▼</div><canvas id="wheel" width="275" height="275"></canvas></div>
-    <button class="primary" id="spinButton" onclick="spinWheel()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800">SPIN NOW</button>
+    <div class="modal-head"><h2>🎟️ Telegram Promo Code</h2><button class="close" onclick="closeModal('promoModal')">×</button></div>
+    <p style="font-size:12px;color:#929bd0;margin-bottom:12px">Enter the daily promo code provided in your Telegram channel to get 200 coins.</p>
+    <input type="text" id="promoInput" placeholder="Enter Code (e.g. DAILY200)" style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase">
+    <button class="primary" onclick="redeemPromoCode()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800;margin-top:15px">Redeem Code</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL MODAL -->
+<div id="adminModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><h2>⚙️ Admin Control Panel</h2><button class="close" onclick="closeModal('adminModal')">×</button></div>
+    <p style="font-size:12px;color:#929bd0;margin-bottom:12px">Yahan se aap naya promo code set kar sakte hain jo app me live ho jayega.</p>
+    <div class="field" style="margin-bottom:12px">
+      <label style="font-size:12px;color:#8992c4">Set New Daily Promo Code</label>
+      <input type="text" id="adminNewCode" placeholder="e.g. COIN300" style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase;margin-top:6px">
+    </div>
+    <button class="primary" onclick="saveAdminPromo()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#157a61,#35df9b);color:#fff;font-weight:800;margin-top:5px">Publish Promo Code</button>
   </div>
 </div>
 
@@ -720,14 +707,13 @@ let userData = {
   password: "",
   uid: "20931332",
   coins: 750,
-  spinCount: 0,
-  spinDate: "",
   adCount: 0,
   adDate: "",
   quizCount: 0,
   quizDate: "",
   downloadCount: 0,
   downloadDate: "",
+  promoDate: "",
   luckyDate: "",
   lastBonus: "",
   history: []
@@ -735,17 +721,33 @@ let userData = {
 
 let selectedWithdrawCoins = 0;
 let selectedWithdrawRupees = 0;
-let spinRotation = 0;
 let currentQuiz = null;
 let isQuestionAnswered = false;
 let activeQuizList = [];
 
-const MAX_SPINS = 5;
+// Secret Admin click counter
+let logoClickCount = 0;
+let logoClickTimer = null;
+
+function handleSecretAdminClick(){
+  logoClickCount++;
+  clearTimeout(logoClickTimer);
+  
+  if(logoClickCount >= 5){
+    logoClickCount = 0;
+    openAdminModal();
+    showToast("🔓 Secret Admin Panel Unlocked!");
+  } else {
+    logoClickTimer = setTimeout(() => {
+      logoClickCount = 0;
+    }, 1000);
+  }
+}
+
 const MAX_ADS = 40;
 const MAX_QUIZ = 40;
 const MAX_DOWNLOAD_APPS = 10;
 
-const spinRewards = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 const luckyCardRewards = [30, 50, 75, 100];
 
 const playApps = [
@@ -785,6 +787,31 @@ const quizQuestionsPool = [
   {q:"Computer ka dimag kise kehte hain?", options:["Monitor", "CPU", "Keyboard", "Mouse"], answer:1},
   {q:"Suraj kis disha se ugta hai?", options:["Pashchim (West)", "Purab (East)", "Uttar", "Dakshin"], answer:1}
 ];
+
+function getActivePromoCode(){
+  let code = localStorage.getItem("admin_active_promo");
+  if(!code){
+    code = "COIN200";
+    localStorage.setItem("admin_active_promo", code);
+  }
+  return code;
+}
+
+function openAdminModal(){
+  document.getElementById("adminNewCode").value = getActivePromoCode();
+  document.getElementById("adminModal").classList.remove("hidden");
+}
+
+function saveAdminPromo(){
+  const newCode = document.getElementById("adminNewCode").value.trim().toUpperCase();
+  if(!newCode){
+    showToast("Please enter a valid promo code");
+    return;
+  }
+  localStorage.setItem("admin_active_promo", newCode);
+  closeModal("adminModal");
+  showToast("Success! New promo code '" + newCode + "' is now live.");
+}
 
 function today(){
   const d = new Date();
@@ -857,7 +884,6 @@ function saveLocal(){
 
 function checkDailyReset(){
   const d = today();
-  if(userData.spinDate !== d){ userData.spinCount = 0; userData.spinDate = d; }
   if(userData.adDate !== d){ userData.adCount = 0; userData.adDate = d; }
   if(userData.quizDate !== d){ userData.quizCount = 0; userData.quizDate = d; }
   if(userData.downloadDate !== d){ userData.downloadCount = 0; userData.downloadDate = d; }
@@ -923,6 +949,35 @@ function watchAd(){
   }, 1500);
 }
 
+function openPromoModal(){
+  document.getElementById("promoInput").value = "";
+  document.getElementById("promoModal").classList.remove("hidden");
+}
+
+function redeemPromoCode(){
+  checkDailyReset();
+  if(userData.promoDate === today()){
+    showToast("You have already used a promo code today!");
+    return;
+  }
+  const enteredCode = document.getElementById("promoInput").value.trim().toUpperCase();
+  if(!enteredCode){
+    showToast("Please enter a promo code");
+    return;
+  }
+
+  const activePromo = getActivePromoCode();
+  if(enteredCode === activePromo){
+    userData.promoDate = today();
+    addCoins(200, "Promo Code", "Telegram Promo Code reward (+200 coins)");
+    saveLocal();
+    closeModal("promoModal");
+    showToast("🎉 Promo code redeemed successfully! +200 coins added");
+  } else {
+    showToast("❌ Invalid or expired promo code!");
+  }
+}
+
 function downloadApp(){
   checkDailyReset();
   if(userData.downloadCount >= MAX_DOWNLOAD_APPS){
@@ -939,76 +994,6 @@ function downloadApp(){
     saveLocal();
     showToast("🎉 +20 coins earned (" + userData.downloadCount + "/10)");
   }, 1500);
-}
-
-function drawWheel(){
-  const canvas = document.getElementById("wheel");
-  if(!canvas) return;
-  const ctx = canvas.getContext("2d");
-  const size = canvas.width;
-  const center = size/2;
-  const radius = size/2 - 5;
-  const count = spinRewards.length;
-
-  ctx.clearRect(0,0,size,size);
-  for(let i=0;i<count;i++){
-    const start = (i/count)*Math.PI*2;
-    const end = ((i+1)/count)*Math.PI*2;
-    ctx.beginPath();
-    ctx.moveTo(center,center);
-    ctx.arc(center,center,radius,start,end);
-    ctx.closePath();
-    ctx.fillStyle = i%2 ? "#7358e8" : "#3159d9";
-    ctx.fill();
-    ctx.strokeStyle = "#ffffff33";
-    ctx.stroke();
-
-    ctx.save();
-    ctx.translate(center,center);
-    ctx.rotate(start + (end-start)/2);
-    ctx.fillStyle="#fff";
-    ctx.font="bold 14px Arial";
-    ctx.textAlign="center";
-    ctx.fillText(spinRewards[i], radius*.68, 5);
-    ctx.restore();
-  }
-}
-
-function openSpin(){
-  drawWheel();
-  checkDailyReset();
-  const count = Math.max(0, MAX_SPINS - userData.spinCount);
-  document.getElementById("spinCountText").textContent = count + " spins remaining";
-  document.getElementById("spinButton").disabled = count <= 0;
-  document.getElementById("spinModal").classList.remove("hidden");
-}
-
-function spinWheel(){
-  checkDailyReset();
-  if(userData.spinCount >= MAX_SPINS){
-    showToast("Today's 5 spins are completed");
-    return;
-  }
-  const index = Math.floor(Math.random()*spinRewards.length);
-  const reward = spinRewards[index];
-  const segment = 360/spinRewards.length;
-  const target = 360*6 + (360 - (index * segment + segment / 2));
-  spinRotation += target;
-
-  const wheel = document.getElementById("wheel");
-  wheel.style.transform = `rotate(${spinRotation}deg)`;
-  document.getElementById("spinButton").disabled = true;
-
-  setTimeout(()=>{
-    userData.spinCount++;
-    addCoins(reward, "Lucky Spin", "Lucky Spin exact reward (" + reward + " coins)");
-    saveLocal();
-    showToast("🎉 Lucky Spin: +" + reward + " coins");
-
-    const remaining = MAX_SPINS - userData.spinCount;
-    document.getElementById("spinCountText").textContent = remaining + " spins remaining";
-    document.getElementById("spinButton").disabled = remaining <= 0;
-  }, 4200);
 }
 
 function openLuckyCard(){
@@ -1072,7 +1057,7 @@ function answerQuiz(index){
     return;
   }
 
-  isQuestionAnswered = true; // Anti-spam double click protection
+  isQuestionAnswered = true;
 
   if(index === currentQuiz.answer){
     userData.quizCount++;
