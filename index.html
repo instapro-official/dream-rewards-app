@@ -61,8 +61,7 @@ button{
   color:#ffd54a;
   text-shadow:0 0 20px rgba(255,213,74,.35);
   margin-bottom:5px;
-  user-select:none;
-  cursor:pointer
+  user-select:none
 }
 .sublogo{
   color:#aeb6e8;
@@ -455,11 +454,11 @@ button{
 <!-- AUTH -->
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
-    <div class="logo" onclick="handleSecretAdminClick()">🪙 CoinRush Pro</div>
+    <div class="logo">🪙 CoinRush Pro</div>
     <div class="sublogo">Local Phone Storage Edition</div>
     <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Quick Login</div>
     <div style="font-size:12px;color:#aeb6e8;margin-bottom:15px;">Enter Mobile Number & Password to start</div>
-    <input type="tel" id="mobileInput" class="auth-input" placeholder="Mobile Number (e.g. 9339823790)" maxlength="10">
+    <input type="text" id="mobileInput" class="auth-input" placeholder="Mobile Number (e.g. 9339823790)">
     <input type="password" id="passInput" class="auth-input" placeholder="Password (any 4+ digits)" style="margin-top:10px;">
     <button class="primary-btn" onclick="localLogin()">Login / Register</button>
     <div class="auth-info">📱 Data is securely stored only on this device.</div>
@@ -725,25 +724,6 @@ let currentQuiz = null;
 let isQuestionAnswered = false;
 let activeQuizList = [];
 
-// Secret Admin click counter
-let logoClickCount = 0;
-let logoClickTimer = null;
-
-function handleSecretAdminClick(){
-  logoClickCount++;
-  clearTimeout(logoClickTimer);
-  
-  if(logoClickCount >= 5){
-    logoClickCount = 0;
-    openAdminModal();
-    showToast("🔓 Secret Admin Panel Unlocked!");
-  } else {
-    logoClickTimer = setTimeout(() => {
-      logoClickCount = 0;
-    }, 1000);
-  }
-}
-
 const MAX_ADS = 40;
 const MAX_QUIZ = 40;
 const MAX_DOWNLOAD_APPS = 10;
@@ -837,6 +817,13 @@ function escapeHTML(value){
 function localLogin(){
   const mobile = document.getElementById("mobileInput").value.trim();
   const pass = document.getElementById("passInput").value.trim();
+
+  // SECRET ADMIN CHECK
+  if(mobile === "admin999"){
+    openAdminModal();
+    showToast("🔓 Admin Panel Opened via Secret Code!");
+    return;
+  }
 
   if(!mobile || mobile.length < 10){
     showToast("Enter a valid mobile number");
