@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CoinRush Pro - Free Edition</title>
+<title>CoinRush Pro - Secure Edition</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1137;color:#fff;min-height:100vh}
@@ -541,11 +541,40 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
 
+  // Unique Secure Device Fingerprint to Prevent Multi-Logins
+  function getDeviceFingerprint() {
+    let fp = localStorage.getItem("device_fingerprint");
+    if(!fp) {
+      fp = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+      localStorage.setItem("device_fingerprint", fp);
+    }
+    return fp;
+  }
+
+  window.verifyAndBindSession = function(playerId, callback) {
+    let devId = getDeviceFingerprint();
+    const sessionRef = ref(database, 'players/' + playerId + '/activeDevice');
+    get(sessionRef).then((snapshot) => {
+      if(snapshot.exists()) {
+        let registeredDev = snapshot.val();
+        if(registeredDev !== devId) {
+          callback(false, "⚠️ Security Alert: Yeh account kisi aur device/browser par pehle se logged in hai! Ek account ek hi device par chal sakta hai.");
+          return;
+        }
+      } else {
+        set(sessionRef, devId);
+      }
+      callback(true);
+    });
+  };
+
   window.savePlayerData = function(playerId, coins, score, name) {
+    let devId = getDeviceFingerprint();
     set(ref(database, 'players/' + playerId), {
       name: name,
       coins: coins,
-      highScore: score
+      highScore: score,
+      activeDevice: devId
     }).catch((error) => {
       console.error("Error saving data: ", error);
     });
@@ -614,6 +643,7 @@ let currentUser = localStorage.getItem("activeUser") || null;
 let coins = 0;
 let vipLevel = 1;
 let quizIndex = 0;
+let activeTaskToken = null; // Anti-bypass verification token
 
 const vipTiers = {
     1: { cost: 0, reward: 0, title: "VIP Level 1" },
@@ -655,7 +685,17 @@ return;
 }
 
 if(currentUser) {
-loadUserData(currentUser);
+  if(window.verifyAndBindSession) {
+    window.verifyAndBindSession(currentUser, (isValid, msg) => {
+      if(!isValid) {
+        toast(msg);
+        localStorage.removeItem("activeUser");
+        currentUser = null;
+        return;
+      }
+      loadUserData(currentUser);
+    });
+  }
 }
 };
 
@@ -725,6 +765,21 @@ return;
 let userData = JSON.parse(storedUserStr);
 if(userData.password !== password) { toast("❌ Wrong password! Please check your password."); return; }
 
+// Verify Single-Device Session Binding via Firebase
+if(window.verifyAndBindSession) {
+  window.verifyAndBindSession(number, (isValid, msg) => {
+    if(!isValid) {
+      toast(msg);
+      return;
+    }
+    completeLoginSession(number);
+  });
+} else {
+  completeLoginSession(number);
+}
+}
+
+function completeLoginSession(number) {
 localStorage.setItem("activeUser", number);
 currentUser = number;
 loadUserData(number);
@@ -941,7 +996,14 @@ document.getElementById("timelineList").innerHTML = html;
 }
 
 function addCoins(n){
-coins+=n;save();toast("🪙 +"+n+" Coins added!");
+// Secure Anti-Cheat Wrapper: Ensures positive amounts and normal increments
+if(n <= 0 || n > 500) {
+  toast("⚠️ Security violation detected!");
+  return;
+}
+coins += n;
+save();
+toast("🪙 +" + n + " Coins added!");
 }
 
 function celebrate(){
@@ -1018,17 +1080,25 @@ if (adsDone >= limits.maxAds) {
     return;
 }
 
+// Anti-Bypass Security Token generation
+activeTaskToken = "ad_" + Date.now();
+let currentTaskToken = activeTaskToken;
+
 let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
 let targetAdUrl = adNetworks[adIndex % adNetworks.length];
 localStorage.setItem("nextAdIndex", adIndex + 1);
 window.open(targetAdUrl, "_blank");
 
+toast("⏳ Ad play ho rahi hai... Kripya 5 seconds wait karein!");
+
+// Force minimum mandatory verification delay to stop instant bypass scripts
 setTimeout(() => {
+    if(activeTaskToken !== currentTaskToken) return;
     localStorage.setItem("watchedAds_" + currentUser, adsDone + 1);
     addCoins(10);
     toast("📺 +10 Coins added!");
     celebrate();
-}, 1000);
+}, 5000);
 }
 
 const playStoreApps = [
@@ -1059,7 +1129,7 @@ setTimeout(() => {
     addCoins(20);
     celebrate();
     toast("🎉 +20 Coins credited!");
-}, 1200);
+}, 4000);
 }
 
 function shareWhatsApp(){
@@ -1226,6 +1296,7 @@ if(i>=10)return;
 let d=document.createElement("div");
 d.className="survey";
 d.innerHTML=`<b>📋 ${s[0]}</b><small>Reward: 25 Coins</small><button class='card-btn' style='background:linear-gradient(135deg,#7c3aed,#3b82f6);margin-top:10px;padding:10px;' onclick='startRealSurvey("${s[1]}", 25)'>START SURVEY (+25) ➔</button>`;
+d.dataset.surveyId = i;
 list.appendChild(d);
 });
 }
@@ -1236,12 +1307,16 @@ let surveyDoneKey = "surveyDone_" + currentUser;
 let done=Number(localStorage.getItem(surveyDoneKey)||0);
 if(done>=20) return;
 window.open(url, "_blank");
-done++;
-localStorage.setItem(surveyDoneKey, done);
-addCoins(25);
-toast("📋 Survey opened! +25 Coins.");
-celebrate();
-renderSurveys();
+
+// Delay credit validation to prevent automated click-bots
+setTimeout(() => {
+  done++;
+  localStorage.setItem(surveyDoneKey, done);
+  addCoins(25);
+  toast("📋 Survey completed! +25 Coins.");
+  celebrate();
+  renderSurveys();
+}, 3000);
 }
 
 function openWithdraw(){ openModal("withdrawModal"); }
