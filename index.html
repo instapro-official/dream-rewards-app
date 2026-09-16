@@ -6,7 +6,6 @@
 <title>CoinRush Pro - Global Cloud Edition</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* ========================================================= CSS STYLES ========================================================= */
 *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent } 
 body{ font-family:Segoe UI,Arial,sans-serif; background:#0d1137; color:#fff; min-height:100vh } 
 button,input{ font-family:inherit } 
@@ -166,7 +165,7 @@ button{ border:0; cursor:pointer }
         </button>
       </div>
       <div class="auth-info">
-        Cloud account • Same mobile + password can be used on another phone.<br> No OTP/SMS required.
+        Direct Mobile Login • No OTP or Gmail required.
       </div>
     </div>
   </div>
@@ -557,9 +556,6 @@ function today(){
 function nowText(){
   return new Date().toLocaleString("en-IN", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
 }
-function internalEmail(mobile){
-  return "user_" + mobile + "@coinrush.internal";
-}
 function cleanMobile(){
   return document.getElementById("mobileInput").value.replace(/\D/g,"").slice(0,10);
 }
@@ -609,7 +605,6 @@ async function handleAuth(){
     showToast("Password must be at least 6 characters");
     return;
   }
-  const email = internalEmail(mobile);
   const button = document.getElementById("authButtonText");
   button.textContent = "Please wait...";
 
@@ -621,41 +616,59 @@ async function handleAuth(){
         button.textContent = "Create Account";
         return;
       }
-      const {data,error} = await db.auth.signUp({
-        email, password, options:{ data:{ mobile, name } }
-      });
-      if(error){
-        if(error.message.includes("already registered")){
-          const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
-          if(loginError) throw loginError;
-          if(loginData.user){
-            currentUser = loginData.user;
-            await loadProfile();
-            showToast("Already registered. Logged in successfully");
-            return;
-          }
-        }
-        throw error;
+      // Check if mobile already exists
+      const {data: existing} = await db.from("profiles").select("*").eq("mobile", "+91" + mobile).maybeSingle();
+      if(existing){
+        showToast("Mobile number already registered. Please login.");
+        showLogin();
+        button.textContent = "Login";
+        return;
       }
-      if(data.user){
-        if(data.session){
-          await createOrLoadProfile(data.user, mobile, name);
-          showToast("Account created successfully");
-        }else{
-          const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
-          if(loginError) throw loginError;
-          if(loginData.user){
-            await createOrLoadProfile(loginData.user, mobile, name);
-            showToast("Account created & logged in");
-          }
-        }
+      const uid = makeUID(mobile);
+      const newProfile = {
+        id: 'user_' + mobile,
+        mobile: "+91" + mobile,
+        password: password,
+        name: name,
+        uid: uid,
+        coins: 0,
+        spin_count: 0,
+        spin_date: null,
+        survey_count: 0,
+        survey_date: null,
+        ad_count: 0,
+        ad_date: null,
+        lucky_date: null,
+        last_bonus: null,
+        referral_count: 0,
+        completed_tasks: 3
+      };
+      const {error: insertError} = await db.from("profiles").insert(newProfile);
+      if(insertError) throw insertError;
+      
+      currentUser = newProfile.id;
+      profile = newProfile;
+      updateUI();
+      showApp();
+      showToast("Account created successfully");
+    } else {
+      // Login check
+      const {data: userRecord, error: fetchError} = await db.from("profiles").select("*").eq("mobile", "+91" + mobile).maybeSingle();
+      if(fetchError || !userRecord){
+        showToast("Mobile number not registered");
+        button.textContent = "Login";
+        return;
       }
-    }else{
-      const {data,error} = await db.auth.signInWithPassword({ email, password });
-      if(error) throw error;
-      if(!data.user) throw new Error("Login failed");
-      currentUser = data.user;
-      await loadProfile();
+      if(userRecord.password !== password){
+        showToast("Incorrect password");
+        button.textContent = "Login";
+        return;
+      }
+      currentUser = userRecord.id;
+      profile = userRecord;
+      resetDailyCountersIfNeeded();
+      updateUI();
+      showApp();
       showToast("Login successful");
     }
   }catch(error){
@@ -666,38 +679,6 @@ async function handleAuth(){
   }
 }
 
-async function createOrLoadProfile(user, mobile, name){
-  currentUser = user;
-  const uid = makeUID(mobile);
-  const profileData = {
-    id:user.id, mobile:"+91"+mobile, name:name, uid:uid,
-    coins:0, spin_count:0, spin_date:null, survey_count:0, survey_date:null,
-    ad_count:0, ad_date:null, lucky_date:null, last_bonus:null, referral_count:0, completed_tasks:3
-  };
-  await db.from("profiles").upsert(profileData, { onConflict:"id" });
-  await loadProfile();
-}
-
-async function loadProfile(){
-  if(!currentUser){
-    const {data} = await db.auth.getUser();
-    if(!data.user) return;
-    currentUser = data.user;
-  }
-  const {data,error} = await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
-  if(error) throw error;
-  if(!data){
-    const mobile = currentUser.user_metadata?.mobile || currentUser.email.replace("user_","").replace("@coinrush.internal","");
-    const name = currentUser.user_metadata?.name || "CoinRush Member";
-    await createOrLoadProfile(currentUser, mobile, name);
-    return;
-  }
-  profile = data;
-  resetDailyCountersIfNeeded();
-  updateUI();
-  showApp();
-}
-
 async function resetDailyCountersIfNeeded(){
   if(!profile) return;
   const d = today();
@@ -706,7 +687,7 @@ async function resetDailyCountersIfNeeded(){
   if(profile.survey_date !== d){ updates.survey_count = 0; updates.survey_date = d; }
   if(profile.ad_date !== d){ updates.ad_count = 0; updates.ad_date = d; }
   if(Object.keys(updates).length){
-    const {data} = await db.from("profiles").update(updates).eq("id",currentUser.id).select().single();
+    const {data} = await db.from("profiles").update(updates).eq("id",currentUser).select().single();
     if(data) profile = data;
   }
 }
@@ -754,11 +735,11 @@ async function addCoins(amount, type, description){
   if(!currentUser || !profile) throw new Error("Not logged in");
   if(!amount) return;
   const newCoins = Number(profile.coins || 0) + amount;
-  const {data,error} = await db.from("profiles").update({ coins:newCoins, updated_at:new Date().toISOString() }).eq("id",currentUser.id).select().single();
+  const {data,error} = await db.from("profiles").update({ coins:newCoins, updated_at:new Date().toISOString() }).eq("id",currentUser).select().single();
   if(error) throw error;
   profile = data;
 
-  await db.from("earning_history").insert({ user_id:currentUser.id, type:type, coins:amount, description:description });
+  await db.from("earning_history").insert({ user_id:currentUser, type:type, coins:amount, description:description });
   updateUI();
 }
 
@@ -769,7 +750,7 @@ async function claimBonus(){
   }
   try{
     await addCoins(50, "Daily Bonus", "Daily login bonus");
-    const {data} = await db.from("profiles").update({ last_bonus:today() }).eq("id",currentUser.id).select().single();
+    const {data} = await db.from("profiles").update({ last_bonus:today() }).eq("id",currentUser).select().single();
     if(data) profile = data;
     updateUI();
     showToast("🎁 +50 coins added");
@@ -793,7 +774,7 @@ async function watchAd(){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.ad_count || 0)+1;
-      const {data} = await db.from("profiles").update({ ad_count:newCount, ad_date:today() }).eq("id",currentUser.id).select().single();
+      const {data} = await db.from("profiles").update({ ad_count:newCount, ad_date:today() }).eq("id",currentUser).select().single();
       if(data) profile = data;
       await addCoins(10, "Watch Ads", "Advertisement reward");
       showToast("🎉 +10 coins earned");
@@ -876,7 +857,7 @@ async function spinWheel(){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.spin_count || 0)+1;
-      const {data} = await db.from("profiles").update({ spin_count:newCount, spin_date:today() }).eq("id",currentUser.id).select().single();
+      const {data} = await db.from("profiles").update({ spin_count:newCount, spin_date:today() }).eq("id",currentUser).select().single();
       if(data) profile = data;
       await addCoins(reward, "Lucky Spin", "Lucky Spin reward");
       showToast("🎉 Lucky Spin: +" + reward + " coins");
@@ -902,7 +883,7 @@ async function claimLuckyCard(index){
   }
   const reward = luckyCardRewards[index];
   try{
-    const {data} = await db.from("profiles").update({ lucky_date:today() }).eq("id",currentUser.id).select().single();
+    const {data} = await db.from("profiles").update({ lucky_date:today() }).eq("id",currentUser).select().single();
     if(data) profile = data;
     await addCoins(reward, "Lucky Card", "Lucky Card reward");
     closeModal("cardModal");
@@ -974,7 +955,7 @@ async function startSurvey(index){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.survey_count || 0)+1;
-      const {data} = await db.from("profiles").update({ survey_count:newCount, survey_date:today() }).eq("id",currentUser.id).select().single();
+      const {data} = await db.from("profiles").update({ survey_count:newCount, survey_date:today() }).eq("id",currentUser).select().single();
       if(data) profile = data;
       await addCoins(25, "Survey", survey[0]);
       renderSurveys();
@@ -1005,7 +986,7 @@ async function addReferralReward(){
   try{
     await addCoins(200, "Referral", "Referral share reward");
     const newCount = Number(profile.referral_count || 0)+1;
-    const {data} = await db.from("profiles").update({ referral_count:newCount }).eq("id",currentUser.id).select().single();
+    const {data} = await db.from("profiles").update({ referral_count:newCount }).eq("id",currentUser).select().single();
     if(data) profile = data;
     updateUI();
     showToast("👥 +200 referral coins");
@@ -1047,11 +1028,11 @@ async function requestWithdraw(){
   const newBalance = balance-selectedWithdrawCoins;
 
   try{
-    const {data} = await db.from("profiles").update({ coins:newBalance, updated_at:new Date().toISOString() }).eq("id",currentUser.id).select().single();
+    const {data} = await db.from("profiles").update({ coins:newBalance, updated_at:new Date().toISOString() }).eq("id",currentUser).select().single();
     if(data) profile = data;
 
     await db.from("withdrawals").insert({
-      user_id:currentUser.id, uid:profile.uid, mobile:profile.mobile,
+      user_id:currentUser, uid:profile.uid, mobile:profile.mobile,
       amount_coins:selectedWithdrawCoins, rupees:selectedWithdrawRupees, upi:upi, status:"Pending ⏳"
     });
     updateUI();
@@ -1069,7 +1050,7 @@ async function openHistory(){
   document.getElementById("historyModal").classList.remove("hidden");
   const container = document.getElementById("historyList");
   container.innerHTML = `<div class="loader"></div>`;
-  const {data} = await db.from("earning_history").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+  const {data} = await db.from("earning_history").select("*").eq("user_id",currentUser).order("created_at",{ascending:false}).limit(100);
   if(!data || !data.length){
     container.innerHTML = `<div class="empty">No earning history yet.</div>`;
     return;
@@ -1086,7 +1067,7 @@ async function openWithdrawHistory(){
   document.getElementById("withdrawHistoryModal").classList.remove("hidden");
   const container = document.getElementById("withdrawHistoryList");
   container.innerHTML = `<div class="loader"></div>`;
-  const {data} = await db.from("withdrawals").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+  const {data} = await db.from("withdrawals").select("*").eq("user_id",currentUser).order("created_at",{ascending:false}).limit(100);
   if(!data || !data.length){
     container.innerHTML = `<div class="empty">No withdrawal history yet.</div>`;
     return;
@@ -1116,8 +1097,7 @@ function openSupport(){
   window.open("https://t.me/ROYALNEST00", "_blank");
 }
 
-async function logout(){
-  try{ await db.auth.signOut(); }catch(e){console.error(e);}
+function logout(){
   currentUser = null;
   profile = null;
   document.getElementById("appMain").classList.add("hidden");
@@ -1127,37 +1107,7 @@ async function logout(){
   showToast("Logged out");
 }
 
-async function restoreSession(){
-  try{
-    const {data} = await db.auth.getSession();
-    if(data.session){
-      currentUser = data.session.user;
-      await loadProfile();
-    }else{
-      document.getElementById("authScreen").classList.remove("hidden");
-    }
-  }catch(error){
-    console.error(error);
-    document.getElementById("authScreen").classList.remove("hidden");
-  }
-}
-
-db.auth.onAuthStateChange(async(event,session)=>{
-  if(session){
-    currentUser = session.user;
-    if(event === "SIGNED_IN" && !profile){
-      try{ await loadProfile(); }catch(e){console.error(e);}
-    }
-  }else if(event === "SIGNED_OUT"){
-    currentUser = null;
-    profile = null;
-    document.getElementById("appMain").classList.add("hidden");
-    document.getElementById("authScreen").classList.remove("hidden");
-  }
-});
-
 drawWheel();
-restoreSession();
 </script>
 </body>
 </html>
