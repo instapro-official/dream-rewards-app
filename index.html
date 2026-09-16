@@ -5,188 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>CoinRush Pro - Cloud Admin & Withdrawal System</title>
 
-<!-- Firebase Modular SDKs -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-  // 🔥 Aapka Exact Firebase Configuration & Database URL
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
-    authDomain: "coinrush-pro-ef37b.firebaseapp.com",
-    databaseURL: "https://coinrush-pro-ef37b-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "coinrush-pro-ef37b",
-    storageBucket: "coinrush-pro-ef37b.firebasestorage.app",
-    messagingSenderId: "2523681309",
-    appId: "1:2523681309:web:9bf3bf9164d948010cecf4",
-    measurementId: "G-64DEYLS7LD"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  let currentUser = {
-    mobile: "",
-    uid: "",
-    coins: 1000
-  };
-
-  let selectedWithdrawCoins = 0;
-  let selectedWithdrawRupees = 0;
-  let activePromo = "COIN200";
-
-  // Listen to Global Promo Code from Firebase
-  onValue(ref(db, "settings/promoCode"), (snapshot) => {
-    if(snapshot.exists()) {
-      activePromo = snapshot.val();
-    }
-  });
-
-  window.userLogin = function() {
-    const mobile = document.getElementById("mobileInput").value.trim();
-    
-    if(mobile === "admin999") {
-      openAdminPanel();
-      showToast("Admin Panel Opened");
-      return;
-    }
-
-    if(mobile.length < 10) return showToast("Enter valid mobile number");
-
-    currentUser.mobile = mobile;
-    currentUser.uid = "UID" + Math.floor(100000 + Math.random() * 900000);
-    
-    document.getElementById("authScreen").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    updateUI();
-    showToast("Login Successful");
-  }
-
-  function updateUI() {
-    document.getElementById("headerCoins").textContent = currentUser.coins;
-    document.getElementById("balanceCoins").textContent = currentUser.coins;
-    document.getElementById("withdrawBalance").textContent = currentUser.coins;
-    document.getElementById("headerName").textContent = "User " + currentUser.mobile.slice(-4);
-    document.getElementById("headerUid").textContent = "UID: " + currentUser.uid;
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById("toast");
-    t.textContent = msg;
-    t.classList.add("show");
-    setTimeout(()=>t.classList.remove("show"), 2500);
-  }
-
-  window.closeModal = function(id) { document.getElementById(id).classList.add("hidden"); }
-  window.openPromoModal = function() { document.getElementById("promoModal").classList.remove("hidden"); }
-  window.openWithdraw = function() { document.getElementById("withdrawModal").classList.remove("hidden"); }
-
-  window.redeemPromoCode = function() {
-    const code = document.getElementById("promoInput").value.trim().toUpperCase();
-    if(code === activePromo) {
-      currentUser.coins += 200;
-      updateUI();
-      closeModal("promoModal");
-      showToast("🎉 +200 Coins Added via Promo!");
-    } else {
-      showToast("❌ Invalid Promo Code");
-    }
-  }
-
-  window.claimBonus = function() {
-    currentUser.coins += 50;
-    updateUI();
-    showToast("🎁 +50 Daily Bonus Added");
-  }
-
-  window.selectWithdraw = function(coins, rupees, el) {
-    selectedWithdrawCoins = coins;
-    selectedWithdrawRupees = rupees;
-    document.querySelectorAll(".withdraw-tier").forEach(e=>e.classList.remove("selected"));
-    el.classList.add("selected");
-  }
-
-  window.requestWithdraw = function() {
-    if(!selectedWithdrawCoins) return showToast("Select amount");
-    const upi = document.getElementById("upiInput").value.trim();
-    if(!upi.includes("@")) return showToast("Enter valid UPI ID");
-    if(currentUser.coins < selectedWithdrawCoins) return showToast("Insufficient coins");
-
-    currentUser.coins -= selectedWithdrawCoins;
-    updateUI();
-
-    const requestData = {
-      uid: currentUser.uid,
-      mobile: currentUser.mobile,
-      upi: upi,
-      coins: selectedWithdrawCoins,
-      rupees: selectedWithdrawRupees,
-      promoUsed: activePromo,
-      time: new Date().toLocaleString()
-    };
-
-    push(ref(db, "withdrawRequests"), requestData)
-      .then(() => {
-        closeModal("withdrawModal");
-        showToast("🚀 Withdrawal Request sent to Admin!");
-      })
-      .catch((error) => {
-        showToast("Error sending request: " + error.message);
-      });
-  }
-
-  function openAdminPanel() {
-    document.getElementById("adminModal").classList.remove("hidden");
-    
-    onValue(ref(db, "withdrawRequests"), (snapshot) => {
-      const container = document.getElementById("adminWithdrawRequestsList");
-      if(!snapshot.exists()) {
-        container.innerHTML = `<div style="text-align:center;color:#858ebc;padding:15px;font-size:12px">No pending withdrawal requests.</div>`;
-        return;
-      }
-
-      let html = "";
-      snapshot.forEach((childSnapshot) => {
-        let key = childSnapshot.key;
-        let req = childSnapshot.val();
-        html += `
-          <div class="admin-req-card">
-            <strong>₹${req.rupees} (${req.coins} Coins)</strong>
-            <p>UID: ${req.uid} | Mobile: ${req.mobile}</p>
-            <p>UPI ID: <span style="color:#ffd84e">${req.upi}</span></p>
-            <p>Promo Code Used: <span style="color:#35df9b">${req.promoUsed}</span></p>
-            <p style="font-size:10px;color:#8992c4">Time: ${req.time}</p>
-            <div class="admin-actions">
-              <button class="small-btn green" style="flex:1" onclick="acceptRequest('${key}')">✅ Accept / Paid</button>
-              <button class="small-btn" style="flex:1;background:#c94848" onclick="rejectRequest('${key}')">❌ Reject</button>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    });
-  }
-
-  window.acceptRequest = function(key) {
-    remove(ref(db, "withdrawRequests/" + key))
-      .then(() => showToast("✅ Request Accepted & Cleared"));
-  }
-
-  window.rejectRequest = function(key) {
-    remove(ref(db, "withdrawRequests/" + key))
-      .then(() => showToast("❌ Request Rejected"));
-  }
-
-  window.saveAdminPromo = function() {
-    const newCode = document.getElementById("adminNewCode").value.trim().toUpperCase();
-    if(!newCode) return showToast("Enter code");
-    
-    set(ref(db, "settings/promoCode"), newCode)
-      .then(() => {
-        showToast("Success! Promo code updated globally.");
-      });
-  }
-</script>
+<!-- Firebase SDK Compat -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -319,7 +140,7 @@ button{border:0;cursor:pointer}
   </main>
 
   <nav class="bottom-nav">
-    <button id="navHome" class="nav-btn active">🏠Home</button>
+    <button id="navHome" class="nav-btn active" onclick="nav('home')">🏠Home</button>
   </nav>
 </div>
 
@@ -371,6 +192,191 @@ button{border:0;cursor:pointer}
 </div>
 
 <div id="toast"></div>
+
+<script>
+// 🔥 Aapka Exact Firebase Config & Realtime Database URL
+const firebaseConfig = {
+  apiKey: "AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
+  authDomain: "coinrush-pro-ef37b.firebaseapp.com",
+  databaseURL: "https://coinrush-pro-ef37b-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "coinrush-pro-ef37b",
+  storageBucket: "coinrush-pro-ef37b.firebasestorage.app",
+  messagingSenderId: "2523681309",
+  appId: "1:2523681309:web:9bf3bf9164d948010cecf4",
+  measurementId: "G-64DEYLS7LD"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let currentUser = {
+  mobile: "",
+  uid: "",
+  coins: 1000
+};
+
+let selectedWithdrawCoins = 0;
+let selectedWithdrawRupees = 0;
+let activePromo = "COIN200";
+
+// Listen to Global Promo Code from Firebase
+db.ref("settings/promoCode").on("value", (snapshot) => {
+  if(snapshot.exists()) {
+    activePromo = snapshot.val();
+  }
+});
+
+function userLogin() {
+  const mobile = document.getElementById("mobileInput").value.trim();
+  const pass = document.getElementById("passInput").value.trim();
+
+  // 🔓 ADMIN LOGIN TRIGGER
+  if(mobile === "admin999") {
+    openAdminPanel();
+    showToast("Admin Panel Opened");
+    return;
+  }
+
+  if(mobile.length < 10) return showToast("Enter valid mobile number");
+
+  currentUser.mobile = mobile;
+  currentUser.uid = "UID" + Math.floor(100000 + Math.random() * 900000);
+  
+  document.getElementById("authScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  updateUI();
+  showToast("Login Successful");
+}
+
+function updateUI() {
+  document.getElementById("headerCoins").textContent = currentUser.coins;
+  document.getElementById("balanceCoins").textContent = currentUser.coins;
+  document.getElementById("withdrawBalance").textContent = currentUser.coins;
+  document.getElementById("headerName").textContent = "User " + currentUser.mobile.slice(-4);
+  document.getElementById("headerUid").textContent = "UID: " + currentUser.uid;
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 2500);
+}
+
+function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
+function openPromoModal() { document.getElementById("promoModal").classList.remove("hidden"); }
+function openWithdraw() { document.getElementById("withdrawModal").classList.remove("hidden"); }
+
+function redeemPromoCode() {
+  const code = document.getElementById("promoInput").value.trim().toUpperCase();
+  if(code === activePromo) {
+    currentUser.coins += 200;
+    updateUI();
+    closeModal("promoModal");
+    showToast("🎉 +200 Coins Added via Promo!");
+  } else {
+    showToast("❌ Invalid Promo Code");
+  }
+}
+
+function claimBonus() {
+  currentUser.coins += 50;
+  updateUI();
+  showToast("🎁 +50 Daily Bonus Added");
+}
+
+function selectWithdraw(coins, rupees, el) {
+  selectedWithdrawCoins = coins;
+  selectedWithdrawRupees = rupees;
+  document.querySelectorAll(".withdraw-tier").forEach(e=>e.classList.remove("selected"));
+  el.classList.add("selected");
+}
+
+// 🚀 REALTIME WITHDRAWAL REQUEST SUBMISSION
+function requestWithdraw() {
+  if(!selectedWithdrawCoins) return showToast("Select amount");
+  const upi = document.getElementById("upiInput").value.trim();
+  if(!upi.includes("@")) return showToast("Enter valid UPI ID");
+  if(currentUser.coins < selectedWithdrawCoins) return showToast("Insufficient coins");
+
+  currentUser.coins -= selectedWithdrawCoins;
+  updateUI();
+
+  // Push request to Firebase Realtime Database
+  const requestData = {
+    uid: currentUser.uid,
+    mobile: currentUser.mobile,
+    upi: upi,
+    coins: selectedWithdrawCoins,
+    rupees: selectedWithdrawRupees,
+    promoUsed: activePromo,
+    time: new Date().toLocaleString()
+  };
+
+  db.ref("withdrawRequests").push(requestData)
+    .then(() => {
+      closeModal("withdrawModal");
+      showToast("🚀 Withdrawal Request sent to Admin!");
+    })
+    .catch((error) => {
+      showToast("Error sending request: " + error.message);
+    });
+}
+
+// ⚙️ ADMIN PANEL FUNCTIONS
+function openAdminPanel() {
+  document.getElementById("adminModal").classList.remove("hidden");
+  
+  // Real-time listener for withdrawal requests from all phones
+  db.ref("withdrawRequests").on("value", (snapshot) => {
+    const container = document.getElementById("adminWithdrawRequestsList");
+    if(!snapshot.exists()) {
+      container.innerHTML = `<div style="text-align:center;color:#858ebc;padding:15px;font-size:12px">No pending withdrawal requests.</div>`;
+      return;
+    }
+
+    let html = "";
+    snapshot.forEach((childSnapshot) => {
+      let key = childSnapshot.key;
+      let req = childSnapshot.val();
+      html += `
+        <div class="admin-req-card">
+          <strong>₹${req.rupees} (${req.coins} Coins)</strong>
+          <p>UID: ${req.uid} | Mobile: ${req.mobile}</p>
+          <p>UPI ID: <span style="color:#ffd84e">${req.upi}</span></p>
+          <p>Promo Code Used: <span style="color:#35df9b">${req.promoUsed}</span></p>
+          <p style="font-size:10px;color:#8992c4">Time: ${req.time}</p>
+          <div class="admin-actions">
+            <button class="small-btn green" style="flex:1" onclick="acceptRequest('${key}')">✅ Accept / Paid</button>
+            <button class="small-btn" style="flex:1;background:#c94848" onclick="rejectRequest('${key}')">❌ Reject</button>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  });
+}
+
+function acceptRequest(key) {
+  db.ref("withdrawRequests/" + key).remove()
+    .then(() => showToast("✅ Request Accepted & Cleared"));
+}
+
+function rejectRequest(key) {
+  db.ref("withdrawRequests/" + key).remove()
+    .then(() => showToast("❌ Request Rejected"));
+}
+
+function saveAdminPromo() {
+  const newCode = document.getElementById("adminNewCode").value.trim().toUpperCase();
+  if(!newCode) return showToast("Enter code");
+  
+  db.ref("settings/promoCode").set(newCode)
+    .then(() => {
+      showToast("Success! Promo code updated globally.");
+    });
+}
+</script>
 
 </body>
 </html>
