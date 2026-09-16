@@ -877,7 +877,13 @@ button{
 const SUPABASE_URL = "https://tvsmkqotpwweacgwpdlv.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_502F_XXmtsKAOsi18HXTCg_h8R_E9FH";
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+});
 
 let currentUser = null;
 let profile = null;
@@ -1494,22 +1500,31 @@ async function logout(){
 
 async function restoreSession(){
   try{
-    const {data} = await db.auth.getSession();
-    if(data.session){
-      currentUser = data.session.user;
+    // Fix: Handles OAuth Token Hash fragments automatically when returning from Google login
+    const { data: { session }, error } = await db.auth.getSession();
+    if (error) throw error;
+
+    if (session && session.user) {
+      currentUser = session.user;
       await createOrLoadProfile(currentUser);
+      
+      // Clean up the URL fragment tokens so the URL looks neat
+      if (window.location.hash && window.location.hash.includes('access_token')) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     } else {
       document.getElementById("authScreen").classList.remove("hidden");
     }
   }catch(error){
+    console.error("Session restore error:", error);
     document.getElementById("authScreen").classList.remove("hidden");
   }
 }
 
 db.auth.onAuthStateChange(async(event,session)=>{
-  if(session){
+  if(session && session.user){
     currentUser = session.user;
-    if(event === "SIGNED_IN" || event === "TOKEN_REFRESHED"){
+    if(event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION"){
       await createOrLoadProfile(currentUser);
     }
   } else if(event === "SIGNED_OUT"){
@@ -1526,4 +1541,3 @@ restoreSession();
 
 </body>
 </html>
- Or ye coading me
