@@ -94,11 +94,14 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .acc-menu-card:active{background:rgba(255,255,255,0.12)}
 .acc-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:12px}
 
-/* LOGIN & ADMIN STYLING */
+/* AUTH & ADMIN STYLING */
 .login-container{position:fixed;inset:0;background:#0d1137;display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
 .login-box{width:100%;max-width:380px;background:linear-gradient(145deg,#1e1b4b,#121633);border:1px solid rgba(255,255,255,0.2);border-radius:28px;padding:28px;box-shadow:0 20px 50px rgba(0,0,0,0.9)}
 .login-box h2{text-align:center;margin-bottom:8px;font-size:24px;font-weight:900}
 .login-box p{text-align:center;color:#cbd5e1;font-size:12px;margin-bottom:20px}
+.auth-tabs{display:flex;background:rgba(255,255,255,0.08);border-radius:12px;padding:4px;margin-bottom:16px}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:800;border-radius:10px;cursor:pointer;color:#aaa;background:transparent;border:0}
+.auth-tab.active{background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff}
 
 .admin-panel{display:none;max-width:480px;margin:auto;min-height:100vh;padding:16px;background:#0d1137;z-index:150;position:fixed;inset:0;overflow:auto}
 .admin-panel.show{display:block}
@@ -151,14 +154,32 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN & REGISTRATION CONTAINER -->
 <div class="login-container" id="loginContainer">
 <div class="login-box">
 <h2>🚀 CoinRush Pro</h2>
-<p>Enter your mobile number and password</p>
+<div class="auth-tabs">
+<button class="auth-tab active" id="tabLoginBtn" onclick="switchAuthTab('login')">Login</button>
+<button class="auth-tab" id="tabRegisterBtn" onclick="switchAuthTab('register')">Register</button>
+</div>
+
+<!-- LOGIN FORM -->
+<div id="loginFormSection">
+<p>Enter your mobile number & password</p>
 <input id="loginNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
 <input id="loginPassword" type="password" placeholder="Password">
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN / REGISTER</button>
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;font-size:14px;margin-top:16px;" onclick="handleLogin()">LOGIN</button>
+</div>
+
+<!-- REGISTRATION FORM -->
+<div id="registerFormSection" style="display:none;">
+<p>Create a new account</p>
+<input id="regName" type="text" placeholder="Full Name">
+<input id="regNumber" type="tel" placeholder="Mobile Number (10 digits)" maxlength="10">
+<input id="regPassword" type="password" placeholder="Create Password">
+<button class="card-btn" style="background:linear-gradient(135deg,#059669,#10b981);padding:14px;font-size:14px;margin-top:16px;" onclick="handleRegister()">REGISTER NOW</button>
+</div>
+
 </div>
 </div>
 
@@ -177,7 +198,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <header>
 <div class="profile" onclick="switchNav('account', document.querySelector('.bottom-nav button:last-child'))">
 <div class="avatar">👦🏽</div>
-<div><div class="name" id="userName">MEMBERNNGDX9M5</div><div class="id" id="userPhone">UID | 20925778</div></div>
+<div><div class="name" id="userName">Member</div><div class="id" id="userPhone">UID | 20925778</div></div>
 </div>
 <div class="balance-pill">🪙 <span id="topCoins">0</span></div>
 </header>
@@ -274,7 +295,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <div class="acc-user-row">
 <div class="acc-avatar">👦🏽</div>
 <div class="acc-info">
-<h2><span id="accUsername">MEMBERNNGDX9M5</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
+<h2><span id="accUsername">Member</span> <span class="vip-badge" id="accVipBadge">VIP 1</span></h2>
 <div class="acc-uid">UID <span id="accUidVal">20925778</span> <span style="cursor:pointer" onclick="copyUid()">📋</span></div>
 <div class="acc-login-time" id="accLoginTime">Last login: 2026-09-15 11:13:35</div>
 </div>
@@ -476,9 +497,9 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
 
-  // Global window functions for Firebase Database
-  window.savePlayerData = function(playerId, coins, score) {
+  window.savePlayerData = function(playerId, coins, score, name) {
     set(ref(database, 'players/' + playerId), {
+      name: name,
       coins: coins,
       highScore: score
     }).catch((error) => {
@@ -486,15 +507,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
     });
   }
 
-  window.loadPlayerData = function(playerId) {
-    get(ref(database, 'players/' + playerId)).then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log("Player Data:", snapshot.val());
-      }
-    });
-  }
-
-  // Cloud par withdrawal request save karne ke liye
   window.saveWithdrawToFirebase = function(withdrawData, callback) {
     const newWithdrawRef = push(ref(database, 'withdrawals'));
     set(newWithdrawRef, withdrawData).then(() => {
@@ -505,7 +517,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
     });
   }
 
-  // Admin panel ke liye firebase se saari withdrawals laane ke liye
   window.loadWithdrawalsFromFirebase = function(callback) {
     get(ref(database, 'withdrawals')).then((snapshot) => {
       let list = [];
@@ -514,14 +525,13 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
           list.push({ id: childSnapshot.key, ...childSnapshot.val() });
         });
       }
-      callback(list.reverse()); // Newest first
+      callback(list.reverse());
     }).catch((error) => {
       console.error("Error loading withdrawals: ", error);
       callback([]);
     });
   }
 
-  // Admin status update (Paid karne ke liye)
   window.updateWithdrawStatusFirebase = function(withdrawId, newStatus, callback) {
     update(ref(database, 'withdrawals/' + withdrawId), { status: newStatus }).then(() => {
       if(callback) callback(true);
@@ -529,13 +539,14 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
   }
 </script>
 
-<!-- GAME LOGIC SCRIPT -->
+<!-- GAME & AUTH LOGIC SCRIPT -->
 <script>
-let coins=Number(localStorage.getItem("coins")||0);
-let vipLevel=Number(localStorage.getItem("vipLevel")||1);
-let spinning=false;
-let quizIndex=0;
-let wheelRotation=Number(localStorage.getItem("wheelRotation")||0);
+let currentUser = localStorage.getItem("activeUser") || null;
+let coins = 0;
+let vipLevel = 1;
+let spinning = false;
+let quizIndex = 0;
+let wheelRotation = Number(localStorage.getItem("wheelRotation")||0);
 
 const vipTiers = {
     1: { cost: 0, reward: 0, title: "VIP Level 1" },
@@ -553,17 +564,69 @@ document.getElementById("loginContainer").style.display = "none";
 openAdminPanel();
 return;
 }
-let savedUser = localStorage.getItem("userPhone");
-if(savedUser) {
-document.getElementById("loginContainer").style.display = "none";
-document.getElementById("mainApp").classList.add("show");
-document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(savedUser.slice(-4)));
-document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
-document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
+
+if(currentUser) {
+loadUserData(currentUser);
 }
-updateVipUI();
 };
 
+function switchAuthTab(type) {
+if(type === 'login') {
+document.getElementById('loginFormSection').style.display = 'block';
+document.getElementById('registerFormSection').style.display = 'none';
+document.getElementById('tabLoginBtn').classList.add('active');
+document.getElementById('tabRegisterBtn').classList.remove('active');
+} else {
+document.getElementById('loginFormSection').style.display = 'none';
+document.getElementById('registerFormSection').style.display = 'block';
+document.getElementById('tabRegisterBtn').classList.add('active');
+document.getElementById('tabLoginBtn').classList.remove('active');
+}
+}
+
+// REGISTER VALIDATION: Already registered number check & create account
+function handleRegister() {
+let name = document.getElementById("regName").value.trim();
+let number = document.getElementById("regNumber").value.trim();
+let password = document.getElementById("regPassword").value.trim();
+
+if(!name) {
+toast("Please enter your name");
+return;
+}
+if(number.length !== 10 || isNaN(number)) {
+toast("Enter valid 10-digit mobile number");
+return;
+}
+if(password.length < 4) {
+toast("Password must be 4+ characters");
+return;
+}
+
+// Check if mobile number is already used/registered
+let existingData = localStorage.getItem("user_" + number);
+if(existingData) {
+toast("⚠️ Already used number! This number is already registered.");
+return;
+}
+
+// Save new user data
+let newUserObj = {
+name: name,
+number: number,
+password: password,
+coins: 0,
+vipLevel: 1
+};
+
+localStorage.setItem("user_" + number, JSON.stringify(newUserObj));
+toast("✅ Registration Successful! Please login.");
+switchAuthTab('login');
+document.getElementById("loginNumber").value = number;
+document.getElementById("loginPassword").value = "";
+}
+
+// LOGIN VALIDATION: Account not found or wrong password check
 function handleLogin() {
 let number = document.getElementById("loginNumber").value.trim();
 let password = document.getElementById("loginPassword").value.trim();
@@ -575,21 +638,47 @@ openAdminPanel();
 toast("Welcome Admin!");
 return;
 }
+
 if(number.length !== 10 || isNaN(number)) {
 toast("Enter valid 10-digit mobile number");
 return;
 }
-if(password.length < 4) {
-toast("Password must be 4+ characters");
+
+let storedUserStr = localStorage.getItem("user_" + number);
+if(!storedUserStr) {
+toast("❌ Account not found! Please register first.");
+switchAuthTab('register');
+document.getElementById("regNumber").value = number;
 return;
 }
-localStorage.setItem("userPhone", number);
+
+let userData = JSON.parse(storedUserStr);
+if(userData.password !== password) {
+toast("❌ Wrong password! Please check your password.");
+return;
+}
+
+// Successful login for specific user
+localStorage.setItem("activeUser", number);
+currentUser = number;
+loadUserData(number);
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
+toast("🎉 Login Successful!");
+}
+
+function loadUserData(number) {
+let data = JSON.parse(localStorage.getItem("user_" + number));
+if(data) {
+coins = data.coins || 0;
+vipLevel = data.vipLevel || 1;
+document.getElementById("userName").textContent = data.name;
+document.getElementById("accUsername").textContent = data.name;
 document.getElementById("userPhone").textContent = "UID | " + (20925778 + Number(number.slice(-4)));
 document.getElementById("accUidVal").textContent = document.getElementById("userPhone").textContent.replace("UID | ", "");
-toast("Login Successful!");
-updateVipUI();
+document.getElementById("accLoginTime").textContent = "Last login: " + new Date().toISOString().replace('T', ' ').slice(0, 19);
+save();
+}
 }
 
 function openAdminPanel() {
@@ -614,8 +703,8 @@ if(window.loadWithdrawalsFromFirebase) {
     }
     box.innerHTML = arr.map((x) => `
     <div class="admin-card">
-    <p><b>Phone/User:</b> ${x.user}</p>
-    <p><b>UPI:</b> ${x.upi}</p>
+    <p><b>User:</b> ${x.name || 'User'} (${x.user})</p>
+    <p><b>UPI ID:</b> <span style="color:#fde047; font-weight:bold;">${x.upi || 'N/A'}</span></p>
     <p><b>Amount:</b> ${x.amount} Coins</p>
     <p><b>Date:</b> ${x.date}</p>
     <p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
@@ -640,21 +729,26 @@ if(window.updateWithdrawStatusFirebase) {
 }
 
 function logout() {
-localStorage.removeItem("userPhone");
+localStorage.removeItem("activeUser");
 location.reload();
 }
 
 function save(){
-localStorage.setItem("coins",coins);
-localStorage.setItem("vipLevel",vipLevel);
+if(currentUser) {
+let data = JSON.parse(localStorage.getItem("user_" + currentUser) || "{}");
+data.coins = coins;
+data.vipLevel = vipLevel;
+localStorage.setItem("user_" + currentUser, JSON.stringify(data));
+}
+
 document.getElementById("coins").textContent=coins;
 document.getElementById("topCoins").textContent=coins;
 document.getElementById("accCoins").textContent=coins;
 updateVipUI();
 
-let userPhone = localStorage.getItem("userPhone") || "guest";
-if(window.savePlayerData) {
-  window.savePlayerData(userPhone, coins, coins);
+let nameVal = document.getElementById("userName").textContent;
+if(window.savePlayerData && currentUser) {
+  window.savePlayerData(currentUser, coins, coins, nameVal);
 }
 }
 
@@ -732,7 +826,7 @@ renderTimeline();
 }
 
 function renderTimeline() {
-let completedTasks = Number(localStorage.getItem("completedTasksCount") || 3);
+let completedTasks = Number(localStorage.getItem("completedTasksCount_" + currentUser) || 3);
 let totalCoinsEarned = coins > 1325 ? coins : 1325;
 document.getElementById("modalCoinsEarned").textContent = totalCoinsEarned + " Coins earned";
 document.getElementById("modalTaskStatus").textContent = `Great job! You completed ${completedTasks} / 6 tasks!`;
@@ -778,17 +872,21 @@ setTimeout(()=>e.remove(),1500);
 }
 
 function dailyBonus(){
-if(localStorage.getItem("lastBonus")===today()){
+let bonusKey = "lastBonus_" + currentUser;
+if(localStorage.getItem(bonusKey)===today()){
 toast("🎁 Already claimed today");return;
 }
-localStorage.setItem("lastBonus",today());
+localStorage.setItem(bonusKey,today());
 addCoins(100);celebrate();updateBonus();
 }
 
 function updateBonus(){
+let bonusKey = "lastBonus_" + currentUser;
 let b=document.getElementById("heroBonusBtn");
-if(localStorage.getItem("lastBonus")===today()){
+if(localStorage.getItem(bonusKey)===today()){
 b.textContent="CLAIMED ✓";b.disabled=true;
+} else {
+b.textContent="🎁 Daily Bonus";b.disabled=false;
 }
 }
 
@@ -849,15 +947,18 @@ toast("Link copied & Telegram opened!");
 }
 
 function resetSpin(){
-if(localStorage.getItem("spinDate")!==today()){
-localStorage.setItem("spinDate",today());
-localStorage.setItem("spinCount","0");
+let spinDateKey = "spinDate_" + currentUser;
+let spinCountKey = "spinCount_" + currentUser;
+if(localStorage.getItem(spinDateKey)!==today()){
+localStorage.setItem(spinDateKey,today());
+localStorage.setItem(spinCountKey,"0");
 }
 }
 
 function spinWheel(){
 resetSpin();
-let count=Number(localStorage.getItem("spinCount")||0);
+let spinCountKey = "spinCount_" + currentUser;
+let count=Number(localStorage.getItem(spinCountKey)||0);
 if(count>=5){toast("🔒 5 spins completed today");return;}
 if(spinning)return;
 spinning=true;
@@ -896,7 +997,7 @@ localStorage.setItem("wheelRotation", wheelRotation);
 wheel.style.transform = "rotate(" + wheelRotation + "deg)";
 
 count++;
-localStorage.setItem("spinCount", count);
+localStorage.setItem(spinCountKey, count);
 updateSpinText();
 
 setTimeout(()=>{
@@ -913,7 +1014,8 @@ updateSpinText();
 
 function updateSpinText(){
 resetSpin();
-let c=Number(localStorage.getItem("spinCount")||0);
+let spinCountKey = "spinCount_" + currentUser;
+let c=Number(localStorage.getItem(spinCountKey)||0);
 document.getElementById("spinLeft").textContent=(5-c)+" spins left today";
 let b=document.getElementById("spinButton");
 if(c>=5){b.textContent="🔒 COMPLETED";b.disabled=true;}
@@ -922,15 +1024,17 @@ else{b.textContent="🎡 SPIN NOW • "+(5-c)+" LEFT";}
 
 function openLucky(){
 openModal("luckyModal");
-let used=localStorage.getItem("luckyDate")===today();
+let luckyDateKey = "luckyDate_" + currentUser;
+let used=localStorage.getItem(luckyDateKey)===today();
 document.getElementById("luckyBtn").disabled=used;
 document.getElementById("luckyBtn").textContent=used?"USED TODAY":"REVEAL CARD";
 document.getElementById("luckyResult").textContent=used?"Come back tomorrow!":"Pick your lucky reward 🎁";
 }
 
 function chooseLucky(){
-if(localStorage.getItem("luckyDate")===today())return;
-localStorage.setItem("luckyDate",today());
+let luckyDateKey = "luckyDate_" + currentUser;
+if(localStorage.getItem(luckyDateKey)===today())return;
+localStorage.setItem(luckyDateKey,today());
 let rewards=[30,50,75,100];
 let reward=rewards[Math.floor(Math.random()*rewards.length)];
 document.getElementById("luckyCard").textContent="🪙 "+reward;
@@ -1013,9 +1117,11 @@ const surveys=[
 ];
 
 function surveyReset(){
-if(localStorage.getItem("surveyDate")!==today()){
-localStorage.setItem("surveyDate",today());
-localStorage.setItem("surveyDone","0");
+let surveyDateKey = "surveyDate_" + currentUser;
+let surveyDoneKey = "surveyDone_" + currentUser;
+if(localStorage.getItem(surveyDateKey)!==today()){
+localStorage.setItem(surveyDateKey,today());
+localStorage.setItem(surveyDoneKey,"0");
 }
 }
 
@@ -1031,7 +1137,8 @@ document.getElementById("surveyPage").classList.remove("show");
 
 function renderSurveys(){
 surveyReset();
-let done=Number(localStorage.getItem("surveyDone")||0);
+let surveyDoneKey = "surveyDone_" + currentUser;
+let done=Number(localStorage.getItem(surveyDoneKey)||0);
 document.getElementById("surveyCount").textContent=done+" / 20 surveys completed today";
 let list=document.getElementById("surveyList");
 list.innerHTML="";
@@ -1050,11 +1157,12 @@ list.appendChild(d);
 
 function startRealSurvey(url){
 surveyReset();
-let done=Number(localStorage.getItem("surveyDone")||0);
+let surveyDoneKey = "surveyDone_" + currentUser;
+let done=Number(localStorage.getItem(surveyDoneKey)||0);
 if(done>=20) return;
 window.open(url, "_blank");
 done++;
-localStorage.setItem("surveyDone", done);
+localStorage.setItem(surveyDoneKey, done);
 addCoins(25);
 toast("📋 Survey opened! +25 Coins.");
 celebrate();
@@ -1066,7 +1174,8 @@ function openWithdraw(){ openModal("withdrawModal"); }
 function submitWithdraw(){
 let amount=Number(document.getElementById("withdrawCoins").value);
 let upi=document.getElementById("upi").value.trim();
-let userPhone=localStorage.getItem("userPhone")||"Unknown";
+let userData = JSON.parse(localStorage.getItem("user_" + currentUser) || "{}");
+let userName = userData.name || "User";
 
 if(amount<4000){toast("Minimum withdrawal is 4,000 coins");return;}
 if(amount>20000){toast("Maximum daily limit is 20,000");return;}
@@ -1077,14 +1186,14 @@ coins-=amount;
 save();
 
 let withdrawObj = {
-  user: "+91 " + userPhone,
+  name: userName,
+  user: "+91 " + currentUser,
   amount: amount,
   upi: upi,
   date: today(),
   status: "Pending ⏳"
 };
 
-// Cloud Firebase par save karein
 if(window.saveWithdrawToFirebase) {
   window.saveWithdrawToFirebase(withdrawObj, (success) => {
     if(success) {
@@ -1093,12 +1202,13 @@ if(window.saveWithdrawToFirebase) {
   });
 }
 
-let msg = `🚨 *New Withdrawal Request* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
+let msg = `🚨 *New Withdrawal Request* 🚨%0A👤 Name: ${userName}%0A📱 User: +91 ${currentUser}%0A💰 Amount: ${amount} Coins%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
 window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
 
-let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
+let historyKey = "withdrawals_" + currentUser;
+let arr=JSON.parse(localStorage.getItem(historyKey)||"[]");
 arr.unshift(withdrawObj);
-localStorage.setItem("withdrawals",JSON.stringify(arr));
+localStorage.setItem(historyKey,JSON.stringify(arr));
 
 closeModal("withdrawModal");
 toast("✅ Request submitted & saved on cloud!");
@@ -1106,16 +1216,19 @@ toast("✅ Request submitted & saved on cloud!");
 
 function openHistory(){
 openModal("historyModal");
-let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
+let historyKey = "withdrawals_" + currentUser;
+let arr=JSON.parse(localStorage.getItem(historyKey)||"[]");
 let box=document.getElementById("historyList");
 if(!arr.length){box.innerHTML="<p style='text-align:center;color:#aaa;font-size:12px'>No history yet.</p>";return;}
 box.innerHTML=arr.map(x=>"<div style='margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)'>💰 <b>"+x.amount+" Coins</b><br>UPI: "+x.upi+"<br>📅 "+x.date+"<br>Status: "+x.status+"</div>").join("");
 }
 
-save();
+if(currentUser) {
+document.getElementById("loginContainer").style.display = "none";
+document.getElementById("mainApp").classList.add("show");
 updateBonus();
 updateSpinText();
-document.getElementById("wheel").style.transform="rotate("+(wheelRotation%360)+"deg)";
+}
 </script>
 
 </body>
