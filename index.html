@@ -558,7 +558,7 @@ function nowText(){
   return new Date().toLocaleString("en-IN", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
 }
 function internalEmail(mobile){
-  return "user_" + mobile + "@gmail.com";
+  return "user_" + mobile + "@coinrush.internal";
 }
 function cleanMobile(){
   return document.getElementById("mobileInput").value.replace(/\D/g,"").slice(0,10);
@@ -624,18 +624,30 @@ async function handleAuth(){
       const {data,error} = await db.auth.signUp({
         email, password, options:{ data:{ mobile, name } }
       });
-      if(error) throw error;
-      if(!data.user) throw new Error("Account could not be created");
-
-      if(data.session){
-        await createOrLoadProfile(data.user, mobile, name);
-        showToast("Account created successfully");
-      }else{
-        const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
-        if(loginError) throw loginError;
-        if(loginData.user){
-          await createOrLoadProfile(loginData.user, mobile, name);
-          showToast("Account created & logged in");
+      if(error){
+        if(error.message.includes("already registered")){
+          const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
+          if(loginError) throw loginError;
+          if(loginData.user){
+            currentUser = loginData.user;
+            await loadProfile();
+            showToast("Already registered. Logged in successfully");
+            return;
+          }
+        }
+        throw error;
+      }
+      if(data.user){
+        if(data.session){
+          await createOrLoadProfile(data.user, mobile, name);
+          showToast("Account created successfully");
+        }else{
+          const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
+          if(loginError) throw loginError;
+          if(loginData.user){
+            await createOrLoadProfile(loginData.user, mobile, name);
+            showToast("Account created & logged in");
+          }
         }
       }
     }else{
@@ -675,7 +687,7 @@ async function loadProfile(){
   const {data,error} = await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
   if(error) throw error;
   if(!data){
-    const mobile = currentUser.user_metadata?.mobile || currentUser.email.replace("user_","").replace("@gmail.com","");
+    const mobile = currentUser.user_metadata?.mobile || currentUser.email.replace("user_","").replace("@coinrush.internal","");
     const name = currentUser.user_metadata?.name || "CoinRush Member";
     await createOrLoadProfile(currentUser, mobile, name);
     return;
