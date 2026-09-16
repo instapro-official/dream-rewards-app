@@ -124,15 +124,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .timeline-dot{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#22c55e;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#fff;border:2px solid #1e1b4b;box-shadow:0 0 8px rgba(34,197,94,0.7)}
 .timeline-dot.pending{background:#64748b}
 
-/* SPIN WHEEL */
-.wheel-wrap{position:relative;width:280px;height:280px;margin:15px auto;filter:drop-shadow(0 0 25px rgba(139,92,246,0.7))}
-#wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4.5s cubic-bezier(0.15,0.85,0.12,1);border:10px solid #111;box-shadow:inset 0 0 15px rgba(0,0,0,0.8),0 0 25px rgba(255,255,255,0.3);background:conic-gradient(#ef4444 0deg 30deg,#3b82f6 30deg 60deg,#10b981 60deg 90deg,#a855f7 90deg 120deg,#f59e0b 120deg 150deg,#ef4444 150deg 180deg,#3b82f6 180deg 210deg,#10b981 210deg 240deg,#a855f7 240deg 270deg,#f59e0b 270deg 300deg,#ef4444 300deg 330deg,#22d3ee 330deg 360deg)}
-#wheel::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:radial-gradient(circle,#333 40%,#111 100%);border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px rgba(0,0,0,0.9);z-index:4}
-#wheel span{position:absolute;left:50%;top:50%;width:65px;text-align:center;font-size:14px;font-weight:900;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,0.9);transform-origin:0 0}
-.s1{transform:rotate(15deg) translateX(65px)}.s2{transform:rotate(45deg) translateX(65px)}.s3{transform:rotate(75deg) translateX(65px)}.s4{transform:rotate(105deg) translateX(65px)}.s5{transform:rotate(135deg) translateX(65px)}.s6{transform:rotate(165deg) translateX(65px)}.s7{transform:rotate(195deg) translateX(65px)}.s8{transform:rotate(225deg) translateX(65px)}.s9{transform:rotate(255deg) translateX(65px)}.s10{transform:rotate(285deg) translateX(65px)}.s11{transform:rotate(315deg) translateX(65px)}.s12{transform:rotate(345deg) translateX(65px)}
-.pointer{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:30px solid #facc15;z-index:6;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.7))}
-
-.result{text-align:center;display:none;padding:12px;background:rgba(34,197,94,0.25);border:1px solid rgba(34,197,94,0.6);border-radius:14px;margin-top:12px;font-size:13px}.result.show{display:block}.result strong{font-size:20px}
 .lucky{height:150px;border-radius:20px;background:linear-gradient(135deg,#f59e0b,#ec4899,#7c3aed);display:grid;place-items:center;font-size:50px;box-shadow:0 10px 30px rgba(245,158,11,0.4)}
 .quiz-q{font-size:15px;font-weight:800;text-align:center;background:rgba(255,255,255,0.08);padding:16px;border-radius:16px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.15)}
 .answers{display:grid;gap:10px}.answers button{padding:14px;border-radius:14px;background:rgba(255,255,255,0.1);color:#fff;text-align:left;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,0.15);transition:0.2s}
@@ -189,6 +180,16 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <h2>🛡️ Owner Admin Panel</h2>
 <button class="card-btn" style="width:auto;padding:8px 14px;background:#ef4444;" onclick="closeAdmin()">LOGOUT</button>
 </div>
+
+<!-- ADMIN PROMOCODE GENERATOR SECTION -->
+<div class="admin-card" style="background:rgba(124,58,237,0.2); border-color:rgba(124,58,237,0.5); margin-bottom:16px;">
+  <h3 style="margin-bottom:8px; color:#fde047;">🎟️ Daily Promocode Manager</h3>
+  <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">Set today's promocode for users to claim 200 free coins daily:</p>
+  <input id="adminPromoInput" type="text" placeholder="Enter Promocode (e.g. DAILY200)">
+  <button class="card-btn" style="background:linear-gradient(135deg,#22c55e,#10b981); margin-top:8px; padding:10px;" onclick="saveAdminPromo()">UPDATE CODE & SAVE</button>
+  <p id="adminCurrentPromoDisplay" style="font-size:12px; margin-top:8px; color:#a78bfa;"></p>
+</div>
+
 <p style="color:#aaa;margin-bottom:12px;font-size:12px">Live Withdrawal requests (from Firebase):</p>
 <div id="adminWithdrawList"></div>
 </div>
@@ -214,7 +215,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 </div>
 </section>
 
-<!-- BANNER AD SECTION -->
+<!-- BANNER AD CONTAINER -->
 <div class="banner-ad-container">
   <span>Advertisement (Banner Ad)</span>
   <div style="margin-top:4px; font-weight:bold; color:#fde047;">[ Ad Space Ready ]</div>
@@ -226,31 +227,31 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="grid">
 <div class="card card-blue">
-<div class="badge-tag">Earn 25 Coins</div>
+<div class="badge-tag">Earn 10 Coins</div>
 <div class="icon-box">📺</div>
 <h3>Watch Ads</h3>
 <p>Watch sponsor ads & earn coins instantly.</p>
-<button class="card-btn" onclick="watchAd()">EARN 25 ➔</button>
+<button class="card-btn" onclick="watchAd()">EARN 10 ➔</button>
 </div>
 
 <div class="card card-purple">
-<div class="badge-tag">Up to 100 Coins</div>
-<div class="icon-box">🎡</div>
-<h3>Lucky Spin</h3>
-<p>Spin & win exciting rewards every day.</p>
-<button class="card-btn" onclick="openModal('wheelModal')">SPIN ➔</button>
+<div class="badge-tag">Earn 200 Coins</div>
+<div class="icon-box">🎟️</div>
+<h3>Daily Promocode</h3>
+<p>Enter admin code & claim daily reward coins.</p>
+<button class="card-btn" onclick="openModal('promoModal')">CLAIM ➔</button>
 </div>
 
 <div class="card card-green">
-<div class="badge-tag">Earn 100 Coins</div>
+<div class="badge-tag">Earn 20 Coins</div>
 <div class="icon-box">📥</div>
 <h3>Download App</h3>
 <p>Earn high coins on downloading new apps.</p>
-<button class="card-btn" onclick="openDownloadTask()">EARN 100 ➔</button>
+<button class="card-btn" onclick="openDownloadTask()">EARN 20 ➔</button>
 </div>
 
 <div class="card card-orange">
-<div class="badge-tag">Earn 25 Coins</div>
+<div class="badge-tag">Earn 10 Coins</div>
 <div class="icon-box">🧠</div>
 <h3>Unlimited Quiz</h3>
 <p>Easy Math & GK questions challenge.</p>
@@ -411,20 +412,13 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 </div>
 </div>
 
-<div class="modal" id="wheelModal"><div class="box">
-<button class="close" onclick="closeModal('wheelModal')">×</button>
-<h2>🎡 Pro Lucky Spin</h2>
-<div class="wheel-wrap">
-<div class="pointer"></div>
-<div id="wheel">
-<span class="s1">10</span><span class="s2">15</span><span class="s3">20</span><span class="s4">10</span>
-<span class="s5">15</span><span class="s6">20</span><span class="s7">10</span><span class="s8">15</span>
-<span class="s9">20</span><span class="s10">15</span><span class="s11">10</span><span class="s12">100</span>
-</div>
-</div>
-<div class="result" id="spinResult"><strong id="spinWon"></strong><br>🎉 Congratulations!</div>
-<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" id="spinButton" onclick="spinWheel()">🎡 SPIN NOW</button>
-<p id="spinLeft" style="text-align:center;color:#aaa;margin-top:10px;font-size:12px"></p>
+<!-- PROMOCODE MODAL -->
+<div class="modal" id="promoModal"><div class="box">
+<button class="close" onclick="closeModal('promoModal')">×</button>
+<h2>🎟️ Daily Promocode</h2>
+<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:14px">Enter admin daily code to claim 200 free coins!</p>
+<input id="userPromoInput" type="text" placeholder="Enter Promocode">
+<button class="card-btn" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);padding:14px;margin-top:16px;" onclick="claimPromocode()">CLAIM 200 COINS</button>
 </div></div>
 
 <div class="modal" id="luckyModal"><div class="box">
@@ -444,8 +438,8 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 
 <div class="modal" id="withdrawModal"><div class="box">
 <button class="close" onclick="closeModal('withdrawModal')">×</button><h2>💰 Withdrawal</h2>
-<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:12px">Min 4,000 • Max 20,000 coins/day</p>
-<input id="withdrawCoins" type="number" placeholder="Enter coins">
+<p style="color:#aaa;text-align:center;font-size:12px;margin-bottom:12px">First Withdrawal: ₹30 (9,000 coins required)<br>Range: ₹30 to ₹100 (Max 20,000 coins/day)</p>
+<input id="withdrawCoins" type="number" placeholder="Enter coins (Min 9000 for ₹30)">
 <input id="upi" type="text" placeholder="Enter UPI ID (e.g. ybl@okhdfc)">
 <button class="card-btn" style="background:linear-gradient(135deg,#f59e0b,#ef4444);padding:14px;margin-top:16px;" onclick="submitWithdraw()">REQUEST & SEND WHATSAPP</button>
 </div></div>
@@ -537,6 +531,22 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
       if(callback) callback(true);
     });
   }
+
+  window.saveAdminPromoFirebase = function(code, callback) {
+    set(ref(database, 'admin/promocode'), { code: code }).then(() => {
+      if(callback) callback(true);
+    });
+  }
+
+  window.loadAdminPromoFirebase = function(callback) {
+    get(ref(database, 'admin/promocode')).then((snapshot) => {
+      if(snapshot.exists()) {
+        callback(snapshot.val().code);
+      } else {
+        callback("DAILY200");
+      }
+    });
+  }
 </script>
 
 <!-- GAME & AUTH LOGIC SCRIPT -->
@@ -544,9 +554,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 let currentUser = localStorage.getItem("activeUser") || null;
 let coins = 0;
 let vipLevel = 1;
-let spinning = false;
 let quizIndex = 0;
-let wheelRotation = Number(localStorage.getItem("wheelRotation")||0);
 
 const vipTiers = {
     1: { cost: 0, reward: 0, title: "VIP Level 1" },
@@ -556,6 +564,28 @@ const vipTiers = {
 };
 
 const today=()=>new Date().toISOString().slice(0,10);
+
+function checkAndResetDailyLimits() {
+    if(!currentUser) return;
+    let todayDate = today();
+    let lastReset = localStorage.getItem("lastResetDate_" + currentUser);
+
+    if (lastReset !== todayDate) {
+        localStorage.setItem("lastResetDate_" + currentUser, todayDate);
+        localStorage.setItem("watchedAds_" + currentUser, "0");
+        localStorage.setItem("solvedQuiz_" + currentUser, "0");
+        localStorage.setItem("downloadApps_" + currentUser, "0");
+    }
+}
+
+function getMaxLimits() {
+    let currentVip = vipLevel;
+    return {
+        maxAds: 30 + ((currentVip - 1) * 10),
+        maxQuiz: 30 + ((currentVip - 1) * 10),
+        maxDownloads: 10 + ((currentVip - 1) * 5)
+    };
+}
 
 window.onload = function() {
 let isAdmin = localStorage.getItem("isAdminSession");
@@ -584,33 +614,18 @@ document.getElementById('tabLoginBtn').classList.remove('active');
 }
 }
 
-// REGISTER VALIDATION: Already registered number check & create account
 function handleRegister() {
 let name = document.getElementById("regName").value.trim();
 let number = document.getElementById("regNumber").value.trim();
 let password = document.getElementById("regPassword").value.trim();
 
-if(!name) {
-toast("Please enter your name");
-return;
-}
-if(number.length !== 10 || isNaN(number)) {
-toast("Enter valid 10-digit mobile number");
-return;
-}
-if(password.length < 4) {
-toast("Password must be 4+ characters");
-return;
-}
+if(!name) { toast("Please enter your name"); return; }
+if(number.length !== 10 || isNaN(number)) { toast("Enter valid 10-digit mobile number"); return; }
+if(password.length < 4) { toast("Password must be 4+ characters"); return; }
 
-// Check if mobile number is already used/registered
 let existingData = localStorage.getItem("user_" + number);
-if(existingData) {
-toast("⚠️ Already used number! This number is already registered.");
-return;
-}
+if(existingData) { toast("⚠️ Already used number! This number is already registered."); return; }
 
-// Save new user data
 let newUserObj = {
 name: name,
 number: number,
@@ -626,7 +641,6 @@ document.getElementById("loginNumber").value = number;
 document.getElementById("loginPassword").value = "";
 }
 
-// LOGIN VALIDATION: Account not found or wrong password check
 function handleLogin() {
 let number = document.getElementById("loginNumber").value.trim();
 let password = document.getElementById("loginPassword").value.trim();
@@ -639,10 +653,7 @@ toast("Welcome Admin!");
 return;
 }
 
-if(number.length !== 10 || isNaN(number)) {
-toast("Enter valid 10-digit mobile number");
-return;
-}
+if(number.length !== 10 || isNaN(number)) { toast("Enter valid 10-digit mobile number"); return; }
 
 let storedUserStr = localStorage.getItem("user_" + number);
 if(!storedUserStr) {
@@ -653,12 +664,8 @@ return;
 }
 
 let userData = JSON.parse(storedUserStr);
-if(userData.password !== password) {
-toast("❌ Wrong password! Please check your password.");
-return;
-}
+if(userData.password !== password) { toast("❌ Wrong password! Please check your password."); return; }
 
-// Successful login for specific user
 localStorage.setItem("activeUser", number);
 currentUser = number;
 loadUserData(number);
@@ -684,11 +691,30 @@ save();
 function openAdminPanel() {
 document.getElementById("adminPanel").classList.add("show");
 renderAdminRequests();
+if(window.loadAdminPromoFirebase) {
+  window.loadAdminPromoFirebase((code) => {
+    document.getElementById("adminPromoInput").value = code;
+    document.getElementById("adminCurrentPromoDisplay").textContent = "Current Active Code: " + code;
+  });
+}
 }
 
 function closeAdmin() {
 localStorage.removeItem("isAdminSession");
 location.reload();
+}
+
+function saveAdminPromo() {
+let code = document.getElementById("adminPromoInput").value.trim();
+if(!code) { toast("Enter a valid code"); return; }
+if(window.saveAdminPromoFirebase) {
+  window.saveAdminPromoFirebase(code, (success) => {
+    if(success) {
+      document.getElementById("adminCurrentPromoDisplay").textContent = "Current Active Code: " + code;
+      toast("Promocode updated successfully!");
+    }
+  });
+}
 }
 
 function renderAdminRequests() {
@@ -761,7 +787,7 @@ let nextLevel = vipLevel + 1;
 if(vipTiers[nextLevel]) {
 let req = vipTiers[nextLevel].cost;
 let rew = vipTiers[nextLevel].reward;
-document.getElementById("vipNextInfo").textContent = `Next Level requires ${req.toLocaleString()} Coins (Free Reward: ${rew} Coins)`;
+document.getElementById("vipNextInfo").textContent = `Next Level requires ${req.toLocaleString()} Coins (Free Reward: ${rew} Coins & Limit Boost)`;
 document.getElementById("vipStatusMsg").textContent = coins >= req ? "Ready to Claim Free Reward! 🚀" : "Earn more coins to unlock next level!";
 } else {
 document.getElementById("vipNextInfo").textContent = "Maximum VIP Tier Achieved! 👑";
@@ -890,6 +916,32 @@ b.textContent="🎁 Daily Bonus";b.disabled=false;
 }
 }
 
+// Promocode Claim Feature
+function claimPromocode() {
+let promoKey = "claimedPromo_" + currentUser;
+if(localStorage.getItem(promoKey) === today()) {
+    toast("🔒 Aapne aaj ka promocode pehle hi claim kar liya hai!");
+    return;
+}
+
+let userCode = document.getElementById("userPromoInput").value.trim().toUpperCase();
+if(!userCode) { toast("Kripya promocode enter karein."); return; }
+
+if(window.loadAdminPromoFirebase) {
+  window.loadAdminPromoFirebase((activeCode) => {
+    if(userCode === activeCode.toUpperCase()) {
+      localStorage.setItem(promoKey, today());
+      addCoins(200);
+      celebrate();
+      closeModal('promoModal');
+      toast("🎉 Promocode successful! +200 Coins added.");
+    } else {
+      toast("❌ Galat Promocode hai! Admin se sahi code lein.");
+    }
+  });
+}
+}
+
 const adNetworks = [
 "https://www.monetag.com",
 "https://www.adsterra.com",
@@ -899,14 +951,25 @@ const adNetworks = [
 ];
 
 function watchAd(){
+checkAndResetDailyLimits();
+let limits = getMaxLimits();
+let adsDone = parseInt(localStorage.getItem("watchedAds_" + currentUser)) || 0;
+
+if (adsDone >= limits.maxAds) {
+    toast("🔒 Aaj ki Watch/Reel limit khatam ho gayi hai! VIP Level upgrade karein.");
+    return;
+}
+
 let adIndex = Number(localStorage.getItem("nextAdIndex") || 0);
 let targetAdUrl = adNetworks[adIndex % adNetworks.length];
 localStorage.setItem("nextAdIndex", adIndex + 1);
 window.open(targetAdUrl, "_blank");
+
 setTimeout(() => {
-addCoins(25);
-toast("📺 +25 Coins added!");
-celebrate();
+    localStorage.setItem("watchedAds_" + currentUser, adsDone + 1);
+    addCoins(10);
+    toast("📺 +10 Coins added!");
+    celebrate();
 }, 1000);
 }
 
@@ -919,14 +982,25 @@ const playStoreApps = [
 ];
 
 function openDownloadTask() {
+checkAndResetDailyLimits();
+let limits = getMaxLimits();
+let downloadDone = parseInt(localStorage.getItem("downloadApps_" + currentUser)) || 0;
+
+if (downloadDone >= limits.maxDownloads) {
+    toast("🔒 Aaj ki App Download limit khatam ho gayi hai!");
+    return;
+}
+
 let appIndex = Number(localStorage.getItem("nextAppIndex") || 0);
 let targetUrl = playStoreApps[appIndex % playStoreApps.length];
 localStorage.setItem("nextAppIndex", appIndex + 1);
 window.open(targetUrl, "_blank");
+
 setTimeout(() => {
-addCoins(100);
-celebrate();
-toast("🎉 +100 Coins credited!");
+    localStorage.setItem("downloadApps_" + currentUser, downloadDone + 1);
+    addCoins(20);
+    celebrate();
+    toast("🎉 +20 Coins credited!");
 }, 1200);
 }
 
@@ -944,82 +1018,6 @@ let text = encodeURIComponent("🔥 Best earning app! Join now: " + link);
 window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + text, "_blank");
 navigator.clipboard.writeText(link);
 toast("Link copied & Telegram opened!");
-}
-
-function resetSpin(){
-let spinDateKey = "spinDate_" + currentUser;
-let spinCountKey = "spinCount_" + currentUser;
-if(localStorage.getItem(spinDateKey)!==today()){
-localStorage.setItem(spinDateKey,today());
-localStorage.setItem(spinCountKey,"0");
-}
-}
-
-function spinWheel(){
-resetSpin();
-let spinCountKey = "spinCount_" + currentUser;
-let count=Number(localStorage.getItem(spinCountKey)||0);
-if(count>=5){toast("🔒 5 spins completed today");return;}
-if(spinning)return;
-spinning=true;
-
-let button=document.getElementById("spinButton");
-let wheel=document.getElementById("wheel");
-let result=document.getElementById("spinResult");
-
-button.disabled=true;
-result.classList.remove("show");
-
-let randChance = Math.random();
-let reward = 10;
-let targetSegmentIndex = 0;
-
-if(randChance < 0.01) {
-reward = 100;
-targetSegmentIndex = 11;
-} else {
-let smallOptions = [
-{val:10, idx:0}, {val:15, idx:1}, {val:20, idx:2},
-{val:10, idx:3}, {val:15, idx:4}, {val:20, idx:5},
-{val:10, idx:6}, {val:15, idx:7}, {val:20, idx:8},
-{val:15, idx:9}, {val:10, idx:10}
-];
-let chosen = smallOptions[Math.floor(Math.random() * smallOptions.length)];
-reward = chosen.val;
-targetSegmentIndex = chosen.idx;
-}
-
-let extraSpins = 6 + Math.floor(Math.random()*3);
-let sliceAngle = targetSegmentIndex * 30 + 15;
-wheelRotation += extraSpins * 360 + (360 - sliceAngle);
-
-localStorage.setItem("wheelRotation", wheelRotation);
-wheel.style.transform = "rotate(" + wheelRotation + "deg)";
-
-count++;
-localStorage.setItem(spinCountKey, count);
-updateSpinText();
-
-setTimeout(()=>{
-coins += reward;
-save();
-document.getElementById("spinWon").textContent = "You won " + reward + " Coins!";
-result.classList.add("show");
-celebrate();
-spinning = false;
-button.disabled = false;
-updateSpinText();
-}, 4500);
-}
-
-function updateSpinText(){
-resetSpin();
-let spinCountKey = "spinCount_" + currentUser;
-let c=Number(localStorage.getItem(spinCountKey)||0);
-document.getElementById("spinLeft").textContent=(5-c)+" spins left today";
-let b=document.getElementById("spinButton");
-if(c>=5){b.textContent="🔒 COMPLETED";b.disabled=true;}
-else{b.textContent="🎡 SPIN NOW • "+(5-c)+" LEFT";}
 }
 
 function openLucky(){
@@ -1062,6 +1060,15 @@ const gk=[
 ];
 
 function startQuiz(){
+checkAndResetDailyLimits();
+let limits = getMaxLimits();
+let quizDone = parseInt(localStorage.getItem("solvedQuiz_" + currentUser)) || 0;
+
+if (quizDone >= limits.maxQuiz) {
+    toast("🔒 Aaj ki Quiz limit khatam ho gayi hai! VIP Level upgrade karein.");
+    return;
+}
+
 quizIndex=0;
 openModal("quizModal");
 nextQuestion();
@@ -1088,10 +1095,20 @@ box.appendChild(b);
 
 function answer(i,correct){
 let result=document.getElementById("quizResult");
+let quizDone = parseInt(localStorage.getItem("solvedQuiz_" + currentUser)) || 0;
+let limits = getMaxLimits();
+
+if (quizDone >= limits.maxQuiz) {
+    toast("🔒 Limit reached!");
+    closeModal("quizModal");
+    return;
+}
+
 if(i===correct){
-result.textContent="🎉 Correct! +25 Coins";
+result.textContent="🎉 Correct! +10 Coins";
 result.style.color="#4ade80";
-addCoins(25);
+localStorage.setItem("solvedQuiz_" + currentUser, quizDone + 1);
+addCoins(10);
 celebrate();
 }else{
 result.textContent="❌ Wrong answer!";
@@ -1177,9 +1194,10 @@ let upi=document.getElementById("upi").value.trim();
 let userData = JSON.parse(localStorage.getItem("user_" + currentUser) || "{}");
 let userName = userData.name || "User";
 
-if(amount<4000){toast("Minimum withdrawal is 4,000 coins");return;}
-if(amount>20000){toast("Maximum daily limit is 20,000");return;}
-if(amount>coins){toast("Insufficient coins");return;}
+// Updated Rule: First/Starting Withdrawal is 30 Rupees which requires 9000 coins (up to 100 rupees max range)
+if(amount < 9000){toast("Minimum first withdrawal requires 9,000 coins (₹30)");return;}
+if(amount > 30000){toast("Maximum daily withdrawal limit reached");return;}
+if(amount > coins){toast("Insufficient coins balance");return;}
 if(!upi||!upi.includes("@")){toast("Enter valid UPI ID");return;}
 
 coins-=amount;
@@ -1227,7 +1245,6 @@ if(currentUser) {
 document.getElementById("loginContainer").style.display = "none";
 document.getElementById("mainApp").classList.add("show");
 updateBonus();
-updateSpinText();
 }
 </script>
 
