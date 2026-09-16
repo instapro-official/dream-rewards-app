@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>CoinRush Pro - Cloud Admin & Withdrawal System</title>
 
-<!-- Firebase SDK Compat -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
+<!-- Firebase Analytics -->
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -18,7 +21,6 @@ button{border:0;cursor:pointer}
 
 #app{max-width:480px;margin:auto;min-height:100vh;background:radial-gradient(circle at top,#202875 0,#0d1137 35%,#090c29 100%);padding-bottom:80px}
 
-/* AUTH */
 .auth-screen{min-height:100vh;max-width:480px;margin:auto;display:flex;align-items:center;justify-content:center;padding:20px}
 .auth-box{width:100%;background:rgba(25,30,78,.95);border:1px solid rgba(255,255,255,.12);border-radius:25px;padding:35px 20px;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center}
 .logo{font-size:34px;font-weight:900;color:#ffd54a;text-shadow:0 0 20px rgba(255,213,74,.35);margin-bottom:5px;user-select:none}
@@ -26,7 +28,6 @@ button{border:0;cursor:pointer}
 .auth-input{width:100%;padding:14px;border-radius:14px;border:1px solid #343d82;background:#0e1338;color:#fff;font-size:16px;text-align:center;outline:none;margin-top:15px}
 .primary-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-size:16px;font-weight:800;box-shadow:0 8px 25px rgba(0,0,0,.2);margin-top:15px}
 
-/* HEADER */
 .header{position:sticky;top:0;z-index:20;background:rgba(13,17,55,.92);backdrop-filter:blur(14px);padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .header-row{display:flex;align-items:center;justify-content:space-between}
 .user-mini{display:flex;align-items:center;gap:10px}
@@ -37,7 +38,6 @@ button{border:0;cursor:pointer}
 .header-balance small{display:block;color:#929bca;font-size:10px}
 .header-balance strong{color:#ffd84e;font-size:18px}
 
-/* CONTENT */
 .page{padding:14px}
 .balance-card{padding:22px;border-radius:23px;background:linear-gradient(135deg,#3158dd,#7145df 55%,#9b36d7);box-shadow:0 18px 45px rgba(64,55,200,.35)}
 .balance-label{font-size:12px;opacity:.8}
@@ -55,20 +55,17 @@ button{border:0;cursor:pointer}
 .small-btn{padding:8px 10px;border-radius:9px;color:#fff;background:#5148c9;font-size:11px;font-weight:800}
 .green{background:#157a61}
 
-/* NAV */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:68px;background:rgba(13,17,55,.97);border-top:1px solid rgba(255,255,255,.1);display:flex;z-index:50}
 .nav-btn{flex:1;background:transparent;color:#7780ae;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px}
 .nav-btn.active{color:#9d8dff}
 
-/* MODALS */
 .modal{position:fixed;inset:0;z-index:100;background:rgba(3,5,20,.78);display:flex;align-items:flex-end;justify-content:center}
 .modal-box{width:min(480px,100%);max-height:90vh;overflow:auto;background:#151a48;border-radius:25px 25px 0 0;padding:20px;border:1px solid rgba(255,255,255,.1)}
 .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
 .modal-head h2{font-size:19px}
 .close{width:34px;height:34px;border-radius:50%;background:#292f67;color:#fff;font-size:18px}
 
-/* ADMIN PANEL */
-.admin-req-card{background:#1b2154;border:1px solid #363d80;border-radius:14px;padding:14px;margin-bottom:10px;}
+.admin-req-card{background:#1b2154;border:1px solid #363d80;border-radius:14px;padding:14px;margin-bottom:10px}
 .admin-req-card strong{color:#ffd84e;font-size:14px}
 .admin-req-card p{font-size:11px;color:#a3aaf2;margin:4px 0}
 .admin-actions{display:flex;gap:8px;margin-top:10px}
@@ -84,298 +81,927 @@ button{border:0;cursor:pointer}
 
 <body>
 
-<!-- AUTH -->
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
     <div class="logo">🪙 CoinRush Pro</div>
     <div class="sublogo">Cloud Live Edition</div>
+
     <input type="text" id="mobileInput" class="auth-input" placeholder="Mobile Number">
     <input type="password" id="passInput" class="auth-input" placeholder="Password" style="margin-top:10px;">
+
     <button class="primary-btn" onclick="userLogin()">Login / Register</button>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" class="hidden">
+
   <header class="header">
     <div class="header-row">
+
       <div class="user-mini">
         <div class="avatar" id="headerAvatar">C</div>
+
         <div>
           <div class="member-name" id="headerName">Member</div>
           <div class="uid" id="headerUid">UID: --------</div>
         </div>
       </div>
+
       <div class="header-right">
         <div class="header-balance">
           <small>COINS</small>
           <strong id="headerCoins">0</strong>
         </div>
       </div>
+
     </div>
   </header>
 
-  <!-- HOME -->
   <main id="homePage" class="page">
+
     <div class="balance-card">
+
       <div class="balance-label">Total Wallet Balance</div>
+
       <div class="balance" id="balanceCoins">0</div>
-      <button class="bonus-btn" onclick="claimBonus()">🎁 Daily Bonus (+50)</button>
+
+      <button class="bonus-btn" onclick="claimBonus()">
+        🎁 Daily Bonus (+50)
+      </button>
+
     </div>
+
     <div class="section-title">⚡ Earn & Redeem</div>
+
     <div class="grid">
+
       <div class="card earn-card">
+
         <div class="icon">🎟️</div>
+
         <h3>Promo Code</h3>
+
         <p>Redeem admin promo code.</p>
-        <div class="card-bottom"><span class="reward">+200</span><button class="small-btn" onclick="openPromoModal()">Redeem</button></div>
+
+        <div class="card-bottom">
+          <span class="reward">+200</span>
+          <button class="small-btn" onclick="openPromoModal()">Redeem</button>
+        </div>
+
       </div>
+
       <div class="card earn-card">
+
         <div class="icon">💸</div>
+
         <h3>Withdraw</h3>
+
         <p>Redeem coins via UPI.</p>
-        <div class="card-bottom"><span class="reward">₹10+</span><button class="small-btn green" onclick="openWithdraw()">Redeem</button></div>
+
+        <div class="card-bottom">
+          <span class="reward">₹10+</span>
+          <button class="small-btn green" onclick="openWithdraw()">Redeem</button>
+        </div>
+
       </div>
+
     </div>
+
   </main>
 
   <nav class="bottom-nav">
-    <button id="navHome" class="nav-btn active" onclick="nav('home')">🏠Home</button>
+    <button id="navHome" class="nav-btn active" onclick="nav('home')">
+      🏠Home
+    </button>
   </nav>
+
 </div>
 
 <!-- PROMO MODAL -->
 <div id="promoModal" class="modal hidden">
+
   <div class="modal-box">
-    <div class="modal-head"><h2>🎟️ Promo Code</h2><button class="close" onclick="closeModal('promoModal')">×</button></div>
-    <input type="text" id="promoInput" placeholder="Enter Code" style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase">
-    <button class="primary" onclick="redeemPromoCode()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800;margin-top:15px">Redeem Code</button>
+
+    <div class="modal-head">
+      <h2>🎟️ Promo Code</h2>
+      <button class="close" onclick="closeModal('promoModal')">×</button>
+    </div>
+
+    <input
+      type="text"
+      id="promoInput"
+      placeholder="Enter Code"
+      style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase"
+    >
+
+    <button
+      class="primary"
+      onclick="redeemPromoCode()"
+      style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800;margin-top:15px"
+    >
+      Redeem Code
+    </button>
+
   </div>
+
 </div>
 
-<!-- ADMIN PANEL MODAL -->
+<!-- ADMIN PANEL -->
 <div id="adminModal" class="modal hidden">
+
   <div class="modal-box" style="max-height:95vh;">
-    <div class="modal-head"><h2>⚙️ Live Cloud Admin Panel</h2><button class="close" onclick="closeModal('adminModal')">×</button></div>
-    
-    <div style="margin-bottom:15px;background:#1b2154;padding:12px;border-radius:12px;">
-      <label style="font-size:12px;color:#8992c4">Set Active Promo Code</label>
-      <input type="text" id="adminNewCode" placeholder="e.g. COIN300" style="width:100%;padding:12px;border-radius:10px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase;margin-top:6px">
-      <button class="primary" onclick="saveAdminPromo()" style="width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,#157a61,#35df9b);color:#fff;font-weight:800;margin-top:10px">Update Promo Code</button>
+
+    <div class="modal-head">
+      <h2>⚙️ Live Cloud Admin Panel</h2>
+      <button class="close" onclick="closeModal('adminModal')">×</button>
     </div>
 
-    <h3 style="font-size:16px;margin:15px 0 10px;color:#ffd84e">📥 Live User Withdrawal Requests</h3>
-    <div id="adminWithdrawRequestsList">
-      <div style="text-align:center;color:#858ebc;padding:15px;font-size:12px">Loading live requests...</div>
+    <div style="margin-bottom:15px;background:#1b2154;padding:12px;border-radius:12px;">
+
+      <label style="font-size:12px;color:#8992c4">
+        Set Active Promo Code
+      </label>
+
+      <input
+        type="text"
+        id="adminNewCode"
+        placeholder="e.g. COIN300"
+        style="width:100%;padding:12px;border-radius:10px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none;text-transform:uppercase;margin-top:6px"
+      >
+
+      <button
+        class="primary"
+        onclick="saveAdminPromo()"
+        style="width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,#157a61,#35df9b);color:#fff;font-weight:800;margin-top:10px"
+      >
+        Update Promo Code
+      </button>
+
     </div>
+
+    <h3 style="font-size:16px;margin:15px 0 10px;color:#ffd84e">
+      📥 Live User Withdrawal Requests
+    </h3>
+
+    <div id="adminWithdrawRequestsList">
+      <div style="text-align:center;color:#858ebc;padding:15px;font-size:12px">
+        Loading live requests...
+      </div>
+    </div>
+
   </div>
+
 </div>
 
 <!-- WITHDRAW MODAL -->
 <div id="withdrawModal" class="modal hidden">
+
   <div class="modal-box">
-    <div class="modal-head"><h2>💸 Redeem Coins</h2><button class="close" onclick="closeModal('withdrawModal')">×</button></div>
+
+    <div class="modal-head">
+      <h2>💸 Redeem Coins</h2>
+      <button class="close" onclick="closeModal('withdrawModal')">×</button>
+    </div>
+
     <div style="text-align:center;padding:15px;background:#20265f;border-radius:14px;margin-bottom:13px">
+
       <small style="color:#8e97c7">Available Coins</small>
-      <div id="withdrawBalance" style="font-size:28px;font-weight:900;color:#ffd84e">0</div>
+
+      <div id="withdrawBalance" style="font-size:28px;font-weight:900;color:#ffd84e">
+        0
+      </div>
+
     </div>
+
     <div id="withdrawTiers">
-      <div class="withdraw-tier" onclick="selectWithdraw(3100,10,this)"><div><strong>₹10</strong></div><b>3100 Coins</b></div>
-      <div class="withdraw-tier" onclick="selectWithdraw(6200,20,this)"><div><strong>₹20</strong></div><b>6200 Coins</b></div>
+
+      <div class="withdraw-tier" onclick="selectWithdraw(3100,10,this)">
+        <div><strong>₹10</strong></div>
+        <b>3100 Coins</b>
+      </div>
+
+      <div class="withdraw-tier" onclick="selectWithdraw(6200,20,this)">
+        <div><strong>₹20</strong></div>
+        <b>6200 Coins</b>
+      </div>
+
     </div>
+
     <div class="field" style="margin-top:15px">
+
       <label>UPI ID</label>
-      <input id="upiInput" type="text" placeholder="example@upi" style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none">
+
+      <input
+        id="upiInput"
+        type="text"
+        placeholder="example@upi"
+        style="width:100%;padding:14px;border-radius:13px;border:1px solid #343d82;background:#0e1338;color:#fff;outline:none"
+      >
+
     </div>
-    <button class="primary" onclick="requestWithdraw()" style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800;margin-top:15px">Request Withdrawal</button>
+
+    <button
+      class="primary"
+      onclick="requestWithdraw()"
+      style="width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800;margin-top:15px"
+    >
+      Request Withdrawal
+    </button>
+
   </div>
+
 </div>
 
 <div id="toast"></div>
 
 <script>
-// 🔥 Aapka Exact Firebase Config & Realtime Database URL
+
+/* =========================================================
+   FIREBASE CONFIG
+   ========================================================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
-  authDomain: "coinrush-pro-ef37b.firebaseapp.com",
-  databaseURL: "https://coinrush-pro-ef37b-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "coinrush-pro-ef37b",
-  storageBucket: "coinrush-pro-ef37b.firebasestorage.app",
-  messagingSenderId: "2523681309",
-  appId: "1:2523681309:web:9bf3bf9164d948010cecf4",
-  measurementId: "G-64DEYLS7LD"
+
+  apiKey: "YOUR_API_KEY",
+
+  authDomain:
+    "coinrush-pro-ef37b.firebaseapp.com",
+
+  databaseURL:
+    "https://coinrush-pro-ef37b-default-rtdb.asia-southeast1.firebasedatabase.app/",
+
+  projectId:
+    "coinrush-pro-ef37b",
+
+  storageBucket:
+    "coinrush-pro-ef37b.appspot.com",
+
+  messagingSenderId:
+    "YOUR_MESSAGING_SENDER_ID",
+
+  appId:
+    "YOUR_APP_ID"
 };
+
+
+/* Initialize Firebase */
 
 firebase.initializeApp(firebaseConfig);
+
+
+/* Realtime Database */
+
 const db = firebase.database();
 
+
+/* =========================================================
+   ANALYTICS
+   ========================================================= */
+
+let analyticsInstance = null;
+
+try {
+
+  if(
+    typeof firebase !== "undefined" &&
+    firebase.analytics
+  ){
+
+    analyticsInstance = firebase.analytics();
+
+  }
+
+} catch(error){
+
+  console.log("Analytics initialization skipped:", error);
+
+}
+
+
+/* =========================================================
+   USER DATA
+   ========================================================= */
+
 let currentUser = {
+
   mobile: "",
+
   uid: "",
+
   coins: 1000
+
 };
 
+
 let selectedWithdrawCoins = 0;
+
 let selectedWithdrawRupees = 0;
+
 let activePromo = "COIN200";
 
-// Listen to Global Promo Code from Firebase
+
+/* =========================================================
+   GLOBAL PROMO LISTENER
+   ========================================================= */
+
 db.ref("settings/promoCode").on("value", (snapshot) => {
-  if(snapshot.exists()) {
+
+  if(snapshot.exists()){
+
     activePromo = snapshot.val();
+
   }
+
 });
 
-function userLogin() {
-  const mobile = document.getElementById("mobileInput").value.trim();
-  const pass = document.getElementById("passInput").value.trim();
 
-  // 🔓 ADMIN LOGIN TRIGGER
-  if(mobile === "admin999") {
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+function userLogin(){
+
+  const mobile =
+    document.getElementById("mobileInput").value.trim();
+
+  const pass =
+    document.getElementById("passInput").value.trim();
+
+
+  /* ADMIN LOGIN */
+
+  if(mobile === "admin999"){
+
     openAdminPanel();
+
     showToast("Admin Panel Opened");
+
     return;
+
   }
 
-  if(mobile.length < 10) return showToast("Enter valid mobile number");
+
+  if(mobile.length < 10){
+
+    return showToast("Enter valid mobile number");
+
+  }
+
 
   currentUser.mobile = mobile;
-  currentUser.uid = "UID" + Math.floor(100000 + Math.random() * 900000);
-  
-  document.getElementById("authScreen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
+
+  currentUser.uid =
+    "UID" +
+    Math.floor(100000 + Math.random() * 900000);
+
+
+  document
+    .getElementById("authScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+
   updateUI();
+
   showToast("Login Successful");
+
 }
 
-function updateUI() {
-  document.getElementById("headerCoins").textContent = currentUser.coins;
-  document.getElementById("balanceCoins").textContent = currentUser.coins;
-  document.getElementById("withdrawBalance").textContent = currentUser.coins;
-  document.getElementById("headerName").textContent = "User " + currentUser.mobile.slice(-4);
-  document.getElementById("headerUid").textContent = "UID: " + currentUser.uid;
+
+/* =========================================================
+   UI UPDATE
+   ========================================================= */
+
+function updateUI(){
+
+  document.getElementById("headerCoins").textContent =
+    currentUser.coins;
+
+  document.getElementById("balanceCoins").textContent =
+    currentUser.coins;
+
+  document.getElementById("withdrawBalance").textContent =
+    currentUser.coins;
+
+  document.getElementById("headerName").textContent =
+    "User " + currentUser.mobile.slice(-4);
+
+  document.getElementById("headerUid").textContent =
+    "UID: " + currentUser.uid;
+
 }
 
-function showToast(msg) {
-  const t = document.getElementById("toast");
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(msg){
+
+  const t =
+    document.getElementById("toast");
+
   t.textContent = msg;
+
   t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"), 2500);
+
+  setTimeout(
+    () => t.classList.remove("show"),
+    2500
+  );
+
 }
 
-function closeModal(id) { document.getElementById(id).classList.add("hidden"); }
-function openPromoModal() { document.getElementById("promoModal").classList.remove("hidden"); }
-function openWithdraw() { document.getElementById("withdrawModal").classList.remove("hidden"); }
 
-function redeemPromoCode() {
-  const code = document.getElementById("promoInput").value.trim().toUpperCase();
-  if(code === activePromo) {
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+function closeModal(id){
+
+  document
+    .getElementById(id)
+    .classList.add("hidden");
+
+}
+
+
+function openPromoModal(){
+
+  document
+    .getElementById("promoModal")
+    .classList.remove("hidden");
+
+}
+
+
+function openWithdraw(){
+
+  document
+    .getElementById("withdrawModal")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   PROMO
+   ========================================================= */
+
+function redeemPromoCode(){
+
+  const code =
+    document
+      .getElementById("promoInput")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  if(code === activePromo){
+
     currentUser.coins += 200;
+
     updateUI();
+
     closeModal("promoModal");
-    showToast("🎉 +200 Coins Added via Promo!");
-  } else {
+
+    showToast(
+      "🎉 +200 Coins Added via Promo!"
+    );
+
+  }else{
+
     showToast("❌ Invalid Promo Code");
+
   }
+
 }
 
-function claimBonus() {
+
+/* =========================================================
+   DAILY BONUS
+   ========================================================= */
+
+function claimBonus(){
+
   currentUser.coins += 50;
+
   updateUI();
-  showToast("🎁 +50 Daily Bonus Added");
+
+  showToast(
+    "🎁 +50 Daily Bonus Added"
+  );
+
 }
 
-function selectWithdraw(coins, rupees, el) {
+
+/* =========================================================
+   WITHDRAW TIER
+   ========================================================= */
+
+function selectWithdraw(coins, rupees, el){
+
   selectedWithdrawCoins = coins;
+
   selectedWithdrawRupees = rupees;
-  document.querySelectorAll(".withdraw-tier").forEach(e=>e.classList.remove("selected"));
+
+
+  document
+    .querySelectorAll(".withdraw-tier")
+    .forEach(e =>
+      e.classList.remove("selected")
+    );
+
+
   el.classList.add("selected");
+
 }
 
-// 🚀 REALTIME WITHDRAWAL REQUEST SUBMISSION
-function requestWithdraw() {
-  if(!selectedWithdrawCoins) return showToast("Select amount");
-  const upi = document.getElementById("upiInput").value.trim();
-  if(!upi.includes("@")) return showToast("Enter valid UPI ID");
-  if(currentUser.coins < selectedWithdrawCoins) return showToast("Insufficient coins");
 
-  currentUser.coins -= selectedWithdrawCoins;
-  updateUI();
+/* =========================================================
+   REAL-TIME WITHDRAWAL REQUEST
+   ========================================================= */
 
-  // Push request to Firebase Realtime Database
+function requestWithdraw(){
+
+  if(!selectedWithdrawCoins){
+
+    return showToast(
+      "Select withdrawal amount"
+    );
+
+  }
+
+
+  const upi =
+    document
+      .getElementById("upiInput")
+      .value
+      .trim();
+
+
+  if(!upi.includes("@")){
+
+    return showToast(
+      "Enter valid UPI ID"
+    );
+
+  }
+
+
+  if(currentUser.coins < selectedWithdrawCoins){
+
+    return showToast(
+      "Insufficient coins"
+    );
+
+  }
+
+
   const requestData = {
+
     uid: currentUser.uid,
+
     mobile: currentUser.mobile,
+
     upi: upi,
+
     coins: selectedWithdrawCoins,
+
     rupees: selectedWithdrawRupees,
+
     promoUsed: activePromo,
-    time: new Date().toLocaleString()
+
+    time: new Date().toLocaleString(),
+
+    status: "pending"
+
   };
 
-  db.ref("withdrawRequests").push(requestData)
+
+  /*
+   * Firebase push creates a unique request ID.
+   * The admin listener below receives it in real time.
+   */
+
+  db.ref("withdrawRequests")
+    .push(requestData)
+
     .then(() => {
+
+      currentUser.coins -= selectedWithdrawCoins;
+
+      updateUI();
+
       closeModal("withdrawModal");
-      showToast("🚀 Withdrawal Request sent to Admin!");
+
+      showToast(
+        "🚀 Withdrawal Request sent to Admin!"
+      );
+
+
+      /* Reset selection */
+
+      selectedWithdrawCoins = 0;
+
+      selectedWithdrawRupees = 0;
+
+      document.getElementById("upiInput").value = "";
+
+
     })
+
     .catch((error) => {
-      showToast("Error sending request: " + error.message);
+
+      showToast(
+        "Error sending request: " +
+        error.message
+      );
+
     });
+
 }
 
-// ⚙️ ADMIN PANEL FUNCTIONS
-function openAdminPanel() {
-  document.getElementById("adminModal").classList.remove("hidden");
-  
-  // Real-time listener for withdrawal requests from all phones
-  db.ref("withdrawRequests").on("value", (snapshot) => {
-    const container = document.getElementById("adminWithdrawRequestsList");
-    if(!snapshot.exists()) {
-      container.innerHTML = `<div style="text-align:center;color:#858ebc;padding:15px;font-size:12px">No pending withdrawal requests.</div>`;
-      return;
+
+/* =========================================================
+   ADMIN PANEL
+   ========================================================= */
+
+function openAdminPanel(){
+
+  document
+    .getElementById("adminModal")
+    .classList.remove("hidden");
+
+
+  /*
+   * IMPORTANT:
+   * This listener stays connected to Firebase.
+   *
+   * Whenever ANY user sends a new withdrawal request,
+   * the admin panel updates automatically.
+   */
+
+  db.ref("withdrawRequests").on(
+    "value",
+    (snapshot) => {
+
+      const container =
+        document.getElementById(
+          "adminWithdrawRequestsList"
+        );
+
+
+      if(!snapshot.exists()){
+
+        container.innerHTML = `
+          <div style="
+            text-align:center;
+            color:#858ebc;
+            padding:15px;
+            font-size:12px
+          ">
+            No pending withdrawal requests.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      let html = "";
+
+
+      snapshot.forEach(
+        (childSnapshot) => {
+
+          const key =
+            childSnapshot.key;
+
+          const req =
+            childSnapshot.val();
+
+
+          html += `
+
+            <div class="admin-req-card">
+
+              <strong>
+                ₹${req.rupees}
+                (${req.coins} Coins)
+              </strong>
+
+              <p>
+                UID: ${req.uid}
+                |
+                Mobile: ${req.mobile}
+              </p>
+
+              <p>
+                UPI ID:
+                <span style="color:#ffd84e">
+                  ${req.upi}
+                </span>
+              </p>
+
+              <p>
+                Promo Code Used:
+                <span style="color:#35df9b">
+                  ${req.promoUsed}
+                </span>
+              </p>
+
+              <p style="
+                font-size:10px;
+                color:#8992c4
+              ">
+                Time: ${req.time}
+              </p>
+
+              <div class="admin-actions">
+
+                <button
+                  class="small-btn green"
+                  style="flex:1"
+                  onclick="acceptRequest('${key}')"
+                >
+                  ✅ Accept / Paid
+                </button>
+
+                <button
+                  class="small-btn"
+                  style="
+                    flex:1;
+                    background:#c94848
+                  "
+                  onclick="rejectRequest('${key}')"
+                >
+                  ❌ Reject
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      );
+
+
+      container.innerHTML = html;
+
+    },
+
+    (error) => {
+
+      console.error(
+        "Admin listener error:",
+        error
+      );
+
+      showToast(
+        "Firebase permission error"
+      );
+
     }
 
-    let html = "";
-    snapshot.forEach((childSnapshot) => {
-      let key = childSnapshot.key;
-      let req = childSnapshot.val();
-      html += `
-        <div class="admin-req-card">
-          <strong>₹${req.rupees} (${req.coins} Coins)</strong>
-          <p>UID: ${req.uid} | Mobile: ${req.mobile}</p>
-          <p>UPI ID: <span style="color:#ffd84e">${req.upi}</span></p>
-          <p>Promo Code Used: <span style="color:#35df9b">${req.promoUsed}</span></p>
-          <p style="font-size:10px;color:#8992c4">Time: ${req.time}</p>
-          <div class="admin-actions">
-            <button class="small-btn green" style="flex:1" onclick="acceptRequest('${key}')">✅ Accept / Paid</button>
-            <button class="small-btn" style="flex:1;background:#c94848" onclick="rejectRequest('${key}')">❌ Reject</button>
-          </div>
-        </div>
-      `;
-    });
-    container.innerHTML = html;
+  );
+
+}
+
+
+/* =========================================================
+   ACCEPT REQUEST
+   ========================================================= */
+
+function acceptRequest(key){
+
+  db.ref(
+    "withdrawRequests/" + key
+  )
+  .remove()
+
+  .then(() => {
+
+    showToast(
+      "✅ Request Accepted & Cleared"
+    );
+
+  })
+
+  .catch(error => {
+
+    showToast(
+      "Error: " + error.message
+    );
+
   });
+
 }
 
-function acceptRequest(key) {
-  db.ref("withdrawRequests/" + key).remove()
-    .then(() => showToast("✅ Request Accepted & Cleared"));
+
+/* =========================================================
+   REJECT REQUEST
+   ========================================================= */
+
+function rejectRequest(key){
+
+  db.ref(
+    "withdrawRequests/" + key
+  )
+  .remove()
+
+  .then(() => {
+
+    showToast(
+      "❌ Request Rejected"
+    );
+
+  })
+
+  .catch(error => {
+
+    showToast(
+      "Error: " + error.message
+    );
+
+  });
+
 }
 
-function rejectRequest(key) {
-  db.ref("withdrawRequests/" + key).remove()
-    .then(() => showToast("❌ Request Rejected"));
-}
 
-function saveAdminPromo() {
-  const newCode = document.getElementById("adminNewCode").value.trim().toUpperCase();
-  if(!newCode) return showToast("Enter code");
-  
-  db.ref("settings/promoCode").set(newCode)
+/* =========================================================
+   ADMIN PROMO
+   ========================================================= */
+
+function saveAdminPromo(){
+
+  const newCode =
+    document
+      .getElementById("adminNewCode")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  if(!newCode){
+
+    return showToast(
+      "Enter code"
+    );
+
+  }
+
+
+  db.ref("settings/promoCode")
+    .set(newCode)
+
     .then(() => {
-      showToast("Success! Promo code updated globally.");
+
+      showToast(
+        "Success! Promo code updated globally."
+      );
+
+      document.getElementById(
+        "adminNewCode"
+      ).value = "";
+
+    })
+
+    .catch(error => {
+
+      showToast(
+        "Error: " + error.message
+      );
+
     });
+
 }
+
+
+/* =========================================================
+   NAV
+   ========================================================= */
+
+function nav(page){
+
+  if(page === "home"){
+
+    document
+      .getElementById("homePage")
+      .classList.remove("hidden");
+
+  }
+
+}
+
 </script>
 
 </body>
