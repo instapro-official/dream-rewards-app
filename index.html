@@ -539,14 +539,14 @@ button{
       <div class="card earn-card">
         <div class="icon">📲</div>
         <h3>Download App</h3>
-        <p>Daily limit 10 app installs.</p>
-        <div class="card-bottom"><span class="reward">+100</span><button class="small-btn" onclick="downloadApp()">Open</button></div>
+        <p>Daily limit 10 app installs (+20 coins).</p>
+        <div class="card-bottom"><span class="reward">+20</span><button class="small-btn" onclick="downloadApp()">Open</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">🧠</div>
         <h3>Daily Quiz</h3>
         <p>Class 1 math & GK (Max 40 / day).</p>
-        <div class="card-bottom"><span class="reward">+25</span><button class="small-btn" onclick="openQuiz()">Play</button></div>
+        <div class="card-bottom"><span class="reward">+10</span><button class="small-btn" onclick="openQuiz()">Play</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">📝</div>
@@ -737,6 +737,8 @@ let selectedWithdrawCoins = 0;
 let selectedWithdrawRupees = 0;
 let spinRotation = 0;
 let currentQuiz = null;
+let isQuestionAnswered = false;
+let activeQuizList = [];
 
 const MAX_SPINS = 5;
 const MAX_ADS = 40;
@@ -766,7 +768,7 @@ const surveys = [
   ["BitLabs Market Research", "https://bitlabs.ai"]
 ];
 
-const quizQuestions = [
+const quizQuestionsPool = [
   {q:"2 + 2 = ?", options:["3","4","5","6"], answer:1},
   {q:"5 + 3 = ?", options:["6","7","8","9"], answer:2},
   {q:"Which one is a fruit?", options:["Apple","Chair","Book","Car"], answer:0},
@@ -776,7 +778,12 @@ const quizQuestions = [
   {q:"Which is the color of the sky on a clear day?", options:["Blue","Black","Green","Pink"], answer:0},
   {q:"3 × 2 = ?", options:["5","6","7","8"], answer:1},
   {q:"1 + 1 = ?", options:["1","2","3","4"], answer:1},
-  {q:"4 - 2 = ?", options:["1","2","3","4"], answer:1}
+  {q:"4 - 2 = ?", options:["1","2","3","4"], answer:1},
+  {q:"Bharat ki rajdhani kya hai?", options:["Mumbai", "Delhi", "Kolkata", "Chennai"], answer:1},
+  {q:"National bird of India kya hai?", options:["Mor (Peacock)", "Tota", "Kabutar", "Baaz"], answer:0},
+  {q:"Cricket mein ek team mein kitne khiladi hote hain?", options:["9", "10", "11", "12"], answer:2},
+  {q:"Computer ka dimag kise kehte hain?", options:["Monitor", "CPU", "Keyboard", "Mouse"], answer:1},
+  {q:"Suraj kis disha se ugta hai?", options:["Pashchim (West)", "Purab (East)", "Uttar", "Dakshin"], answer:1}
 ];
 
 function today(){
@@ -910,7 +917,7 @@ function watchAd(){
 
   setTimeout(()=>{
     userData.adCount++;
-    addCoins(10, "Watch Ads", "Sponsor ad reward");
+    addCoins(10, "Watch Ads", "Sponsor ad reward (+10 coins)");
     saveLocal();
     showToast("🎉 +10 coins earned (" + userData.adCount + "/40)");
   }, 1500);
@@ -919,7 +926,7 @@ function watchAd(){
 function downloadApp(){
   checkDailyReset();
   if(userData.downloadCount >= MAX_DOWNLOAD_APPS){
-    showToast("Daily download limit (10) reached");
+    showToast("Daily download limit (10/10) reached");
     return;
   }
   const app = playApps[Math.floor(Math.random() * playApps.length)];
@@ -928,9 +935,9 @@ function downloadApp(){
 
   setTimeout(()=>{
     userData.downloadCount++;
-    addCoins(100, "Download App", app[0] + " reward");
+    addCoins(20, "Download App", app[0] + " reward (+20 coins)");
     saveLocal();
-    showToast("🎉 +100 coins earned (" + userData.downloadCount + "/10)");
+    showToast("🎉 +20 coins earned (" + userData.downloadCount + "/10)");
   }, 1500);
 }
 
@@ -983,7 +990,7 @@ function spinWheel(){
     return;
   }
   const index = Math.floor(Math.random()*spinRewards.length);
-  const reward = spinRewards[index]; // Wheel par jo number aayega wahi exact reward banega
+  const reward = spinRewards[index];
   const segment = 360/spinRewards.length;
   const target = 360*6 + (360 - (index * segment + segment / 2));
   spinRotation += target;
@@ -994,7 +1001,7 @@ function spinWheel(){
 
   setTimeout(()=>{
     userData.spinCount++;
-    addCoins(reward, "Lucky Spin", "Lucky Spin reward (" + reward + " coins)");
+    addCoins(reward, "Lucky Spin", "Lucky Spin exact reward (" + reward + " coins)");
     saveLocal();
     showToast("🎉 Lucky Spin: +" + reward + " coins");
 
@@ -1026,18 +1033,27 @@ function openQuiz(){
     showToast("Daily quiz limit (40) reached");
     return;
   }
+  activeQuizList = [...quizQuestionsPool].sort(() => Math.random() - 0.5);
+  currentQuizIndex = 0;
   loadRandomQuiz();
   document.getElementById("quizModal").classList.remove("hidden");
 }
 
+let currentQuizIndex = 0;
+
 function loadRandomQuiz(){
-  currentQuiz = quizQuestions[Math.floor(Math.random()*quizQuestions.length)];
+  if(currentQuizIndex >= activeQuizList.length){
+    activeQuizList = [...quizQuestionsPool].sort(() => Math.random() - 0.5);
+    currentQuizIndex = 0;
+  }
+  currentQuiz = activeQuizList[currentQuizIndex];
+  isQuestionAnswered = false;
   renderQuiz();
 }
 
 function renderQuiz(){
   document.getElementById("quizCountText").textContent = userData.quizCount + "/40 completed today";
-  let html = `<div style="color:#8f98c7;font-size:11px">Class 1 level easy question • Correct answer = +25 coins</div><div class="quiz-q">${escapeHTML(currentQuiz.q)}</div><div class="quiz-options">`;
+  let html = `<div style="color:#8f98c7;font-size:11px">Unlimited randomized questions • Correct answer = +10 coins</div><div class="quiz-q">${escapeHTML(currentQuiz.q)}</div><div class="quiz-options">`;
   currentQuiz.options.forEach((option,index)=>{
     html += `<button class="quiz-option" onclick="answerQuiz(${index})">${escapeHTML(option)}</button>`;
   });
@@ -1051,12 +1067,18 @@ function answerQuiz(index){
     showToast("Daily quiz limit (40) reached");
     return;
   }
+  if(isQuestionAnswered){
+    showToast("You have already answered this question!");
+    return;
+  }
+
+  isQuestionAnswered = true; // Anti-spam double click protection
 
   if(index === currentQuiz.answer){
     userData.quizCount++;
-    addCoins(25, "Daily Quiz", "Correct quiz answer");
+    addCoins(10, "Daily Quiz", "Correct quiz answer (+10 coins)");
     saveLocal();
-    showToast("✅ Correct! +25 coins (" + userData.quizCount + "/40)");
+    showToast("✅ Correct! +10 coins (" + userData.quizCount + "/40)");
 
     if(userData.quizCount >= MAX_QUIZ){
       showToast("Daily quiz limit completed!");
@@ -1064,11 +1086,16 @@ function answerQuiz(index){
       return;
     }
 
+    currentQuizIndex++;
     setTimeout(()=>{
       loadRandomQuiz();
     }, 700);
   } else {
-    showToast("❌ Wrong answer! Try again.");
+    showToast("❌ Wrong answer! Try next.");
+    currentQuizIndex++;
+    setTimeout(()=>{
+      loadRandomQuiz();
+    }, 900);
   }
 }
 
