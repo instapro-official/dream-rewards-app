@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>CoinRush Pro - Global Cloud Edition</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<title>CoinRush Pro - Local Edition</title>
 
 <style>
 *{
@@ -269,47 +267,6 @@ button{
   font-weight:800
 }
 .green{background:#157a61}
-.red{background:#c0392b}
-
-/* TASK */
-.task-card{
-  padding:15px;
-  border-radius:18px;
-  background:#171c4b;
-  border:1px solid rgba(255,255,255,.08)
-}
-.progress-line{
-  height:8px;
-  background:#0d1137;
-  border-radius:10px;
-  overflow:hidden;
-  margin:10px 0
-}
-.progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,#6a5cff,#c14cff);
-  width:50%
-}
-.task-row{
-  display:flex;
-  gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid rgba(255,255,255,.06)
-}
-.task-row:last-child{border-bottom:0}
-.check{
-  width:29px;
-  height:29px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#292f69;
-  flex:none
-}
-.done{background:#149a70}
-.task-row strong{display:block;font-size:13px}
-.task-row span{display:block;color:#8e97c7;font-size:11px;margin-top:3px}
 
 /* NAV */
 .bottom-nav{
@@ -463,9 +420,7 @@ button{
   align-items:center;
   justify-content:center;
   font-size:30px;
-  font-weight:900;
-  cursor:pointer;
-  user-select:none
+  font-weight:900
 }
 .profile-card h2{margin-top:10px}
 .profile-card p{color:#8993c4;font-size:11px;margin-top:4px}
@@ -506,19 +461,6 @@ button{
   transform:translateX(-50%) translateY(0)
 }
 
-.loader{
-  width:25px;
-  height:25px;
-  border:3px solid #4a518b;
-  border-top-color:#fff;
-  border-radius:50%;
-  animation:rot 1s linear infinite;
-  margin:10px auto
-}
-@keyframes rot{to{transform:rotate(360deg)}}
-
-.empty{text-align:center;color:#858ebc;padding:25px 10px;font-size:12px}
-
 .withdraw-tier{
   padding:14px;
   border:1px solid #363d80;
@@ -543,12 +485,13 @@ button{
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
     <div class="logo">🪙 CoinRush Pro</div>
-    <div class="sublogo">Global Cloud Edition</div>
-    <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Sign in with Mobile</div>
-    <div style="font-size:12px;color:#aeb6e8;margin-bottom:15px;">Enter your mobile number to continue</div>
-    <input type="tel" id="mobileInput" class="auth-input" placeholder="Enter Mobile Number" maxlength="10">
-    <button class="primary-btn" onclick="loginWithMobile()">Login / Register</button>
-    <div class="auth-info">📱 Direct mobile login.<br>No password or OTP required.</div>
+    <div class="sublogo">Local Phone Storage Edition</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Quick Login</div>
+    <div style="font-size:12px;color:#aeb6e8;margin-bottom:15px;">Enter Mobile Number & Password to start</div>
+    <input type="tel" id="mobileInput" class="auth-input" placeholder="Mobile Number (e.g. 9339823790)" maxlength="10">
+    <input type="password" id="passInput" class="auth-input" placeholder="Password (any 4+ digits)" style="margin-top:10px;">
+    <button class="primary-btn" onclick="localLogin()">Login / Register</button>
+    <div class="auth-info">📱 Data is securely stored only on this device.</div>
   </div>
 </div>
 
@@ -576,7 +519,7 @@ button{
     <div class="balance-card">
       <div class="balance-label">Total Wallet Balance</div>
       <div class="balance" id="balanceCoins">0</div>
-      <button class="bonus-btn" onclick="claimBonus()">🎁 Daily Bonus</button>
+      <button class="bonus-btn" onclick="claimBonus()">🎁 Daily Bonus (+50)</button>
     </div>
     <div class="banner">📢 Advertisement Space</div>
     <div class="section-title">⚡ Earn Now</div>
@@ -584,25 +527,25 @@ button{
       <div class="card earn-card">
         <div class="icon">📺</div>
         <h3>Watch Ads</h3>
-        <p>Watch promotional content and earn coins.</p>
+        <p>Daily watch ads (Max 40 / day).</p>
         <div class="card-bottom"><span class="reward">+10</span><button class="small-btn" onclick="watchAd()">Watch</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">🎡</div>
         <h3>Lucky Spin</h3>
-        <p>Spin the wheel up to 5 times daily.</p>
+        <p>Spin & win exact wheel reward.</p>
         <div class="card-bottom"><span class="reward">+10–100</span><button class="small-btn" onclick="openSpin()">Spin</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">📲</div>
         <h3>Download App</h3>
-        <p>Visit app page and earn reward.</p>
+        <p>Daily limit 10 app installs.</p>
         <div class="card-bottom"><span class="reward">+100</span><button class="small-btn" onclick="downloadApp()">Open</button></div>
       </div>
       <div class="card earn-card">
         <div class="icon">🧠</div>
-        <h3>Unlimited Quiz</h3>
-        <p>Class 1 easy math & GK questions challenge.</p>
+        <h3>Daily Quiz</h3>
+        <p>Class 1 math & GK (Max 40 / day).</p>
         <div class="card-bottom"><span class="reward">+25</span><button class="small-btn" onclick="openQuiz()">Play</button></div>
       </div>
       <div class="card earn-card">
@@ -630,36 +573,15 @@ button{
         <div class="card-bottom"><span class="reward">₹10+</span><button class="small-btn green" onclick="openWithdraw()">Redeem</button></div>
       </div>
     </div>
-    <div class="section-title">🏆 Task Progress</div>
-    <div class="task-card">
-      <div style="display:flex;justify-content:space-between">
-        <strong>Progress & Rewards</strong>
-        <span id="taskProgressText" style="font-size:11px;color:#929bd0">3/6 Tasks</span>
-      </div>
-      <div class="progress-line">
-        <div id="taskProgress" class="progress-fill"></div>
-      </div>
-      <div class="task-row"><div class="check done">✓</div><div><strong>Install 1 Game</strong><span>Reward +100 coins</span></div></div>
-      <div class="task-row"><div class="check done">✓</div><div><strong>Install 2 Games</strong><span>Reward +100 coins</span></div></div>
-      <div class="task-row"><div class="check done">✓</div><div><strong>Earn 100K Coins</strong><span>Reward +375 coins</span></div></div>
-      <div class="task-row"><div id="task4Check" class="check">4</div><div><strong>Complete 5 Daily Surveys</strong><span>Reward +250 coins</span></div></div>
-      <div class="task-row"><div id="task5Check" class="check">5</div><div><strong>Refer 3 Friends</strong><span>Reward +500 coins</span></div></div>
-    </div>
   </main>
 
   <!-- ACTIVITY -->
   <main id="activityPage" class="page hidden">
     <div class="section-title">📊 Activity</div>
     <div class="card">
-      <h3>Recent Earning Activity</h3>
-      <p style="margin-top:5px">Your cloud-synced earning history.</p>
+      <h3>Recent Earning History</h3>
+      <p style="margin-top:5px">Local history of earned coins on this device.</p>
       <button class="small-btn" style="margin-top:15px" onclick="openHistory()">View Full History</button>
-    </div>
-    <div class="section-title">💸 Withdrawals</div>
-    <div class="card">
-      <h3>Withdrawal History</h3>
-      <p style="margin-top:5px">Cloud-synced withdrawal records.</p>
-      <button class="small-btn green" style="margin-top:15px" onclick="openWithdrawHistory()">View Withdrawals</button>
     </div>
   </main>
 
@@ -670,10 +592,6 @@ button{
       <div class="balance-label">Target Reward</div>
       <div class="balance">₹500</div>
       <div style="font-size:12px;opacity:.8">Complete available tasks and grow your wallet.</div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>How it works</h3>
-      <p style="margin-top:8px">Earn coins from ads, spin, quiz, surveys, lucky card and referrals. Redeem eligible coin balance through UPI.</p>
     </div>
   </main>
 
@@ -692,36 +610,18 @@ button{
   <main id="accountPage" class="page hidden">
     <div class="section-title">👤 Account</div>
     <div class="profile-card">
-      <div class="big-avatar" id="bigAvatar" onclick="handleSecretAdminTap()">C</div>
+      <div class="big-avatar" id="bigAvatar">C</div>
       <h2 id="profileName">Member</h2>
       <p id="profileUid">UID: --------</p>
       <p id="profileMobile">Mobile: --</p>
-      <p id="lastLogin">Last Login: --</p>
     </div>
 
     <div class="account-list">
       <div class="account-item"><span>💰 Wallet Balance</span><strong id="accountCoins">0</strong></div>
       <div class="account-item"><span>📜 Game History</span><button onclick="openHistory()">Open ›</button></div>
-      <div class="account-item"><span>💳 Transaction</span><button onclick="openHistory()">Open ›</button></div>
-      <div class="account-item"><span>💸 Withdraw History</span><button onclick="openWithdrawHistory()">Open ›</button></div>
-      <div class="account-item"><span>🔔 Notification</span><button onclick="showToast('No new notifications')">Open ›</button></div>
-      <div class="account-item"><span>🎁 Gifts & Rewards</span><button onclick="nav('get')">Open ›</button></div>
       <div class="account-item"><span>🛟 Help Support</span><button onclick="nav('support')">Open ›</button></div>
       <div class="account-item"><span>🚪 Logout</span><button style="color:#ff7190" onclick="logout()">Logout</button></div>
     </div>
-  </main>
-
-  <!-- ADMIN PANEL PAGE -->
-  <main id="adminPage" class="page hidden">
-    <div class="section-title">🛠️ Admin Control Panel</div>
-    <div class="card" style="margin-bottom:14px;">
-      <h3>Pending Withdrawals</h3>
-      <p style="font-size:11px;color:#929bd0;margin-top:4px;">Approve or reject user payout requests.</p>
-      <div id="adminWithdrawalsList" style="margin-top:12px;">
-        <div class="loader"></div>
-      </div>
-    </div>
-    <button class="small-btn" style="width:100%;padding:14px;background:#3158dd;" onclick="nav('account')">← Back to Account</button>
   </main>
 
   <!-- BOTTOM NAV -->
@@ -760,8 +660,8 @@ button{
 
 <div id="quizModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-head"><h2>🧠 Quiz Challenge</h2><button class="close" onclick="closeModal('quizModal')">×</button></div>
-    <div class="spin-count" id="quizCountText">0/50 completed today</div>
+    <div class="modal-head"><h2>🧠 Daily Quiz (Max 40)</h2><button class="close" onclick="closeModal('quizModal')">×</button></div>
+    <div class="spin-count" id="quizCountText">0/40 completed today</div>
     <div id="quizContent"></div>
   </div>
 </div>
@@ -780,12 +680,7 @@ button{
       <p>Your referral link</p>
       <input id="referralInput" readonly style="width:100%;margin-top:10px;padding:12px;border-radius:11px;border:1px solid #343d82;background:#0e1338;color:#fff">
       <button class="primary" style="margin-top:12px;width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#6257ff,#a63dff);color:#fff;font-weight:800" onclick="copyReferral()">📋 Copy Link</button>
-      <div class="grid" style="margin-top:10px">
-        <button class="small-btn green" onclick="shareWhatsApp()">WhatsApp</button>
-        <button class="small-btn" onclick="shareTelegram()">Telegram</button>
-      </div>
     </div>
-    <div style="margin-top:12px;text-align:center;color:#8d96c6;font-size:11px">Referral reward: +200 coins</div>
   </div>
 </div>
 
@@ -817,38 +712,37 @@ button{
   </div>
 </div>
 
-<div id="withdrawHistoryModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-head"><h2>💸 Withdrawal History</h2><button class="close" onclick="closeModal('withdrawHistoryModal')">×</button></div>
-    <div id="withdrawHistoryList"></div>
-  </div>
-</div>
-
 <div id="toast"></div>
 
 <script>
-const SUPABASE_URL = "https://tvsmkqotpwweacgwpdlv.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_502F_XXmtsKAOsi18HXTCg_h8R_E9FH";
+let userData = {
+  mobile: "",
+  password: "",
+  uid: "20931332",
+  coins: 750,
+  spinCount: 0,
+  spinDate: "",
+  adCount: 0,
+  adDate: "",
+  quizCount: 0,
+  quizDate: "",
+  downloadCount: 0,
+  downloadDate: "",
+  luckyDate: "",
+  lastBonus: "",
+  history: []
+};
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-let currentMobile = null;
-let profile = null;
 let selectedWithdrawCoins = 0;
 let selectedWithdrawRupees = 0;
 let spinRotation = 0;
 let currentQuiz = null;
-let quizIndex = 0;
-let lastRewardAction = 0;
+
 const MAX_SPINS = 5;
-const MAX_ADS = 50;
-const MAX_QUIZ = 50;
+const MAX_ADS = 40;
+const MAX_QUIZ = 40;
 const MAX_DOWNLOAD_APPS = 10;
 
-let adminTapCount = 0;
-let adminTapTimer = null;
-
-// Wheel Segments & exact rewards matching slice values
 const spinRewards = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 const luckyCardRewards = [30, 50, 75, 100];
 
@@ -872,7 +766,6 @@ const surveys = [
   ["BitLabs Market Research", "https://bitlabs.ai"]
 ];
 
-// Class 1 simple questions
 const quizQuestions = [
   {q:"2 + 2 = ?", options:["3","4","5","6"], answer:1},
   {q:"5 + 3 = ?", options:["6","7","8","9"], answer:2},
@@ -891,23 +784,6 @@ function today(){
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 
-function nowText(){
-  return new Date().toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
-}
-
-function makeUID(mobile){
-  let hash = 0;
-  for (let i = 0; i < mobile.length; i++) {
-    hash = ((hash << 5) - hash) + mobile.charCodeAt(i);
-    hash |= 0;
-  }
-  return "209" + Math.abs(hash).toString().slice(-6);
-}
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-
 function showToast(message){
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -920,84 +796,65 @@ function closeModal(id){
   document.getElementById(id).classList.add("hidden");
 }
 
-/* ================= MOBILE LOGIN ================= */
-async function loginWithMobile(){
-  const mobileInput = document.getElementById("mobileInput").value.trim();
-  if(!mobileInput || mobileInput.length < 10){
-    showToast("Please enter a valid 10-digit mobile number");
-    return;
-  }
-
-  currentMobile = mobileInput;
-  localStorage.setItem("coinrush_mobile", currentMobile);
-
-  const uid = makeUID(currentMobile);
-  const name = "User " + currentMobile.slice(-4);
-
-  const { data: existingProfile } = await db.from("profiles").select("*").eq("email", currentMobile + "@mobile.local").maybeSingle();
-
-  if(!existingProfile){
-    const profileData = {
-      id: "m_" + currentMobile,
-      email: currentMobile + "@mobile.local",
-      name: name,
-      uid: uid,
-      coins: 0,
-      spin_count: 0,
-      spin_date: null,
-      survey_count: 0,
-      survey_date: null,
-      ad_count: 0,
-      ad_date: null,
-      quiz_count: 0,
-      quiz_date: null,
-      download_count: 0,
-      download_date: null,
-      lucky_date: null,
-      last_bonus: null,
-      referral_count: 0,
-      completed_tasks: 3
-    };
-    await db.from("profiles").upsert(profileData, { onConflict: "id" });
-  }
-
-  await loadProfile();
+function escapeHTML(value){
+  return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
 
-async function loadProfile(){
-  if(!currentMobile) return;
+function localLogin(){
+  const mobile = document.getElementById("mobileInput").value.trim();
+  const pass = document.getElementById("passInput").value.trim();
 
-  const {data, error} = await db.from("profiles").select("*").eq("email", currentMobile + "@mobile.local").maybeSingle();
-  if(error) {
-    showToast("Error loading profile");
+  if(!mobile || mobile.length < 10){
+    showToast("Enter a valid mobile number");
+    return;
+  }
+  if(!pass){
+    showToast("Enter password");
     return;
   }
 
-  if(!data){
-    showToast("Profile not found");
-    return;
+  const saved = localStorage.getItem("coinrush_local_user");
+  if(saved){
+    const parsed = JSON.parse(saved);
+    if(parsed.mobile === mobile){
+      if(parsed.password !== pass){
+        showToast("Incorrect password for this mobile number");
+        return;
+      }
+      userData = parsed;
+    } else {
+      userData.mobile = mobile;
+      userData.password = pass;
+      userData.uid = "209" + Math.floor(100000 + Math.random() * 900000);
+      userData.coins = 750;
+      userData.history = [];
+    }
+  } else {
+    userData.mobile = mobile;
+    userData.password = pass;
+    userData.uid = "209" + Math.floor(100000 + Math.random() * 900000);
+    userData.coins = 750;
+    userData.history = [];
   }
 
-  profile = data;
-  resetDailyCountersIfNeeded();
+  saveLocal();
+  checkDailyReset();
   updateUI();
   showApp();
+  showToast("Logged in successfully!");
 }
 
-async function resetDailyCountersIfNeeded(){
-  if(!profile) return;
-  const d = today();
-  const updates = {};
-  if(profile.spin_date !== d){ updates.spin_count = 0; updates.spin_date = d; }
-  if(profile.survey_date !== d){ updates.survey_count = 0; updates.survey_date = d; }
-  if(profile.ad_date !== d){ updates.ad_count = 0; updates.ad_date = d; }
-  if(profile.quiz_date !== d){ updates.quiz_count = 0; updates.quiz_date = d; }
-  if(profile.download_date !== d){ updates.download_count = 0; updates.download_date = d; }
+function saveLocal(){
+  localStorage.setItem("coinrush_local_user", JSON.stringify(userData));
+}
 
-  if(Object.keys(updates).length){
-    const {data} = await db.from("profiles").update(updates).eq("id", profile.id).select().single();
-    if(data) profile = data;
-  }
+function checkDailyReset(){
+  const d = today();
+  if(userData.spinDate !== d){ userData.spinCount = 0; userData.spinDate = d; }
+  if(userData.adDate !== d){ userData.adCount = 0; userData.adDate = d; }
+  if(userData.quizDate !== d){ userData.quizCount = 0; userData.quizDate = d; }
+  if(userData.downloadDate !== d){ userData.downloadCount = 0; userData.downloadDate = d; }
+  saveLocal();
 }
 
 function showApp(){
@@ -1006,169 +863,75 @@ function showApp(){
 }
 
 function updateUI(){
-  if(!profile) return;
-  const coins = Number(profile.coins || 0);
-  const name = profile.name || "Member";
+  const name = "User " + userData.mobile.slice(-4);
   const initial = name.charAt(0).toUpperCase();
 
   document.getElementById("headerAvatar").textContent = initial;
   document.getElementById("bigAvatar").textContent = initial;
   document.getElementById("headerName").textContent = name;
   document.getElementById("profileName").textContent = name;
-  document.getElementById("headerUid").textContent = "UID: " + (profile.uid || "--------");
-  document.getElementById("profileUid").textContent = "UID: " + (profile.uid || "--------");
-  document.getElementById("profileMobile").textContent = "Mobile: " + currentMobile;
-  document.getElementById("headerCoins").textContent = coins.toLocaleString();
-  document.getElementById("balanceCoins").textContent = coins.toLocaleString();
-  document.getElementById("accountCoins").textContent = coins.toLocaleString();
-  document.getElementById("lastLogin").textContent = "Last Login: " + nowText();
-
-  const completed = Number(profile.completed_tasks || 3);
-  const progress = Math.min(100,(completed/6)*100);
-  document.getElementById("taskProgress").style.width = progress + "%";
-  document.getElementById("taskProgressText").textContent = completed + "/6 Tasks";
-}
-
-/* ================= SECRET ADMIN TAP HANDLER ================= */
-function handleSecretAdminTap(){
-  adminTapCount++;
-  clearTimeout(adminTapTimer);
-  adminTapTimer = setTimeout(() => {
-    adminTapCount = 0;
-  }, 2000);
-
-  if(adminTapCount === 6){
-    adminTapCount = 0;
-    showToast("🔓 Admin Panel Unlocked!");
-    openAdminPanel();
-  } else if(adminTapCount >= 3){
-    showToast(`Tap ${6 - adminTapCount} more times...`);
-  }
-}
-
-function openAdminPanel(){
-  nav('admin');
-  loadAdminWithdrawals();
-}
-
-async function loadAdminWithdrawals(){
-  const container = document.getElementById("adminWithdrawalsList");
-  container.innerHTML = `<div class="loader"></div>`;
-
-  const { data, error } = await db.from("withdrawals").select("*").eq("status", "Pending ⏳").order("created_at", { ascending: false });
+  document.getElementById("headerUid").textContent = "UID: " + userData.uid;
+  document.getElementById("profileUid").textContent = "UID: " + userData.uid;
+  document.getElementById("profileMobile").textContent = "Mobile: " + userData.mobile;
   
-  if (error || !data || !data.length) {
-    container.innerHTML = `<div class="empty">No pending withdrawals.</div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(item => `
-    <div class="withdraw-tier" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <div>
-        <strong>₹${item.rupees} (${item.amount_coins} Coins)</strong>
-        <div style="font-size:10px;color:#8992c2">UPI: ${escapeHTML(item.upi)} | Mobile: ${escapeHTML(item.mobile)}</div>
-      </div>
-      <div>
-        <button class="small-btn green" onclick="updateWithdrawStatus('${item.id}', 'Paid ✅')">Approve</button>
-      </div>
-    </div>
-  `).join("");
+  const coinsNum = Number(userData.coins || 0);
+  document.getElementById("headerCoins").textContent = coinsNum.toLocaleString();
+  document.getElementById("balanceCoins").textContent = coinsNum.toLocaleString();
+  document.getElementById("accountCoins").textContent = coinsNum.toLocaleString();
 }
 
-async function updateWithdrawStatus(id, status){
-  const { error } = await db.from("withdrawals").update({ status: status }).eq("id", id);
-  if (error) {
-    showToast("Failed to update status");
-  } else {
-    showToast("Withdrawal marked as " + status);
-    loadAdminWithdrawals();
-  }
-}
-
-async function addCoins(amount, type, description){
-  amount = Number(amount);
-  if(!currentMobile || !profile) throw new Error("Not logged in");
-  if(!amount) return;
-
-  const newCoins = Number(profile.coins || 0) + amount;
-  const {data, error} = await db.from("profiles").update({coins: newCoins, updated_at: new Date().toISOString()}).eq("id", profile.id).select().single();
-  if(error) throw error;
-  profile = data;
-
-  await db.from("earning_history").insert({
-    user_id: profile.id,
-    type: type,
-    coins: amount,
-    description: description
-  });
-
+function addCoins(amount, type, desc){
+  userData.coins = Number(userData.coins || 0) + Number(amount);
+  if(!userData.history) userData.history = [];
+  userData.history.unshift({type, description: desc, coins: amount, time: new Date().toLocaleString()});
+  saveLocal();
   updateUI();
 }
 
-async function claimBonus(){
-  if(profile.last_bonus === today()){
-    showToast("Daily bonus already claimed");
+function claimBonus(){
+  if(userData.lastBonus === today()){
+    showToast("Daily bonus already claimed today");
     return;
   }
-  try{
-    await addCoins(50, "Daily Bonus", "Daily login bonus");
-    const {data} = await db.from("profiles").update({last_bonus: today()}).eq("id", profile.id).select().single();
-    profile = data;
-    updateUI();
-    showToast("🎁 +50 coins added");
-  }catch(error){
-    showToast("Bonus failed");
-  }
+  userData.lastBonus = today();
+  addCoins(50, "Daily Bonus", "Daily login bonus");
+  showToast("🎁 +50 coins added");
 }
 
-async function watchAd(){
-  if(profile.ad_date !== today()) profile.ad_count = 0;
-  if(Number(profile.ad_count || 0) >= MAX_ADS){
-    showToast("Daily ad limit (50) reached");
+function watchAd(){
+  checkDailyReset();
+  if(userData.adCount >= MAX_ADS){
+    showToast("Daily watch ad limit (40) reached");
     return;
   }
-  if(Date.now() - lastRewardAction < 1500) return;
-  lastRewardAction = Date.now();
-
-  const link = adLinks[Number(profile.ad_count || 0) % adLinks.length];
-  window.open(link,"_blank");
+  const link = adLinks[userData.adCount % adLinks.length];
+  window.open(link, "_blank");
   showToast("Ad opened. Please wait...");
 
-  setTimeout(async()=>{
-    try{
-      const newCount = Number(profile.ad_count || 0)+1;
-      const {data} = await db.from("profiles").update({ad_count: newCount, ad_date: today()}).eq("id", profile.id).select().single();
-      profile = data;
-      await addCoins(10, "Watch Ads", "Advertisement reward");
-      showToast("🎉 +10 coins earned (" + newCount + "/50)");
-    }catch(error){
-      showToast("Reward failed");
-    }
-  },1800);
+  setTimeout(()=>{
+    userData.adCount++;
+    addCoins(10, "Watch Ads", "Sponsor ad reward");
+    saveLocal();
+    showToast("🎉 +10 coins earned (" + userData.adCount + "/40)");
+  }, 1500);
 }
 
-async function downloadApp(){
-  if(profile.download_date !== today()) profile.download_count = 0;
-  if(Number(profile.download_count || 0) >= MAX_DOWNLOAD_APPS){
-    showToast("Daily download app limit (10) reached");
+function downloadApp(){
+  checkDailyReset();
+  if(userData.downloadCount >= MAX_DOWNLOAD_APPS){
+    showToast("Daily download limit (10) reached");
     return;
   }
-  const index = Math.floor(Math.random()*playApps.length);
-  const app = playApps[index];
-  window.open(app[1],"_blank");
+  const app = playApps[Math.floor(Math.random() * playApps.length)];
+  window.open(app[1], "_blank");
   showToast(app[0] + " opened. Please wait...");
 
-  setTimeout(async()=>{
-    try{
-      const newCount = Number(profile.download_count || 0)+1;
-      const {data} = await db.from("profiles").update({download_count: newCount, download_date: today()}).eq("id", profile.id).select().single();
-      profile = data;
-      await addCoins(100, "Download App", app[0] + " reward");
-      showToast("🎉 +100 coins earned (" + newCount + "/10)");
-    }catch(error){
-      showToast("Reward failed");
-    }
-  },1500);
+  setTimeout(()=>{
+    userData.downloadCount++;
+    addCoins(100, "Download App", app[0] + " reward");
+    saveLocal();
+    showToast("🎉 +100 coins earned (" + userData.downloadCount + "/10)");
+  }, 1500);
 }
 
 function drawWheel(){
@@ -1206,21 +969,22 @@ function drawWheel(){
 
 function openSpin(){
   drawWheel();
-  const count = Math.max(0, MAX_SPINS - Number(profile.spin_count || 0));
+  checkDailyReset();
+  const count = Math.max(0, MAX_SPINS - userData.spinCount);
   document.getElementById("spinCountText").textContent = count + " spins remaining";
   document.getElementById("spinButton").disabled = count <= 0;
   document.getElementById("spinModal").classList.remove("hidden");
 }
 
-async function spinWheel(){
-  if(Number(profile.spin_count || 0) >= MAX_SPINS){
+function spinWheel(){
+  checkDailyReset();
+  if(userData.spinCount >= MAX_SPINS){
     showToast("Today's 5 spins are completed");
     return;
   }
   const index = Math.floor(Math.random()*spinRewards.length);
-  const reward = spinRewards[index];
+  const reward = spinRewards[index]; // Wheel par jo number aayega wahi exact reward banega
   const segment = 360/spinRewards.length;
-  // Exact alignment so pointer points precisely to chosen segment index
   const target = 360*6 + (360 - (index * segment + segment / 2));
   spinRotation += target;
 
@@ -1228,49 +992,38 @@ async function spinWheel(){
   wheel.style.transform = `rotate(${spinRotation}deg)`;
   document.getElementById("spinButton").disabled = true;
 
-  setTimeout(async()=>{
-    try{
-      const newCount = Number(profile.spin_count || 0)+1;
-      const {data} = await db.from("profiles").update({spin_count: newCount, spin_date: today()}).eq("id", profile.id).select().single();
-      profile = data;
-      await addCoins(reward, "Lucky Spin", "Lucky Spin reward");
-      showToast("🎉 Lucky Spin: +" + reward + " coins");
+  setTimeout(()=>{
+    userData.spinCount++;
+    addCoins(reward, "Lucky Spin", "Lucky Spin reward (" + reward + " coins)");
+    saveLocal();
+    showToast("🎉 Lucky Spin: +" + reward + " coins");
 
-      const remaining = MAX_SPINS - newCount;
-      document.getElementById("spinCountText").textContent = remaining + " spins remaining";
-      document.getElementById("spinButton").disabled = remaining <= 0;
-    }catch(error){
-      showToast("Spin reward failed");
-      document.getElementById("spinButton").disabled = false;
-    }
-  },4200);
+    const remaining = MAX_SPINS - userData.spinCount;
+    document.getElementById("spinCountText").textContent = remaining + " spins remaining";
+    document.getElementById("spinButton").disabled = remaining <= 0;
+  }, 4200);
 }
 
 function openLuckyCard(){
   document.getElementById("cardModal").classList.remove("hidden");
 }
 
-async function claimLuckyCard(index){
-  if(profile.lucky_date === today()){
+function claimLuckyCard(index){
+  if(userData.luckyDate === today()){
     showToast("Lucky Card already used today");
     return;
   }
   const reward = luckyCardRewards[index];
-  try{
-    const {data} = await db.from("profiles").update({lucky_date: today()}).eq("id", profile.id).select().single();
-    profile = data;
-    await addCoins(reward, "Lucky Card", "Lucky Card reward");
-    closeModal("cardModal");
-    showToast("🃏 Lucky Card: +" + reward + " coins");
-  }catch(error){
-    showToast("Lucky Card failed");
-  }
+  userData.luckyDate = today();
+  addCoins(reward, "Lucky Card", "Lucky Card reward");
+  closeModal("cardModal");
+  showToast("🃏 Lucky Card: +" + reward + " coins");
 }
 
 function openQuiz(){
-  if(profile.quiz_date !== today()) profile.quiz_count = 0;
-  if(Number(profile.quiz_count || 0) >= MAX_QUIZ){
-    showToast("Daily quiz limit (50) reached");
+  checkDailyReset();
+  if(userData.quizCount >= MAX_QUIZ){
+    showToast("Daily quiz limit (40) reached");
     return;
   }
   loadRandomQuiz();
@@ -1278,15 +1031,12 @@ function openQuiz(){
 }
 
 function loadRandomQuiz(){
-  quizIndex = Math.floor(Math.random()*quizQuestions.length);
+  currentQuiz = quizQuestions[Math.floor(Math.random()*quizQuestions.length)];
   renderQuiz();
 }
 
 function renderQuiz(){
-  currentQuiz = quizQuestions[quizIndex];
-  const completed = Number(profile.quiz_count || 0);
-  document.getElementById("quizCountText").textContent = completed + "/50 completed today";
-  
+  document.getElementById("quizCountText").textContent = userData.quizCount + "/40 completed today";
   let html = `<div style="color:#8f98c7;font-size:11px">Class 1 level easy question • Correct answer = +25 coins</div><div class="quiz-q">${escapeHTML(currentQuiz.q)}</div><div class="quiz-options">`;
   currentQuiz.options.forEach((option,index)=>{
     html += `<button class="quiz-option" onclick="answerQuiz(${index})">${escapeHTML(option)}</button>`;
@@ -1295,129 +1045,67 @@ function renderQuiz(){
   document.getElementById("quizContent").innerHTML = html;
 }
 
-async function answerQuiz(index){
-  if(profile.quiz_date !== today()) profile.quiz_count = 0;
-  if(Number(profile.quiz_count || 0) >= MAX_QUIZ){
-    showToast("Daily quiz limit (50) reached");
+function answerQuiz(index){
+  checkDailyReset();
+  if(userData.quizCount >= MAX_QUIZ){
+    showToast("Daily quiz limit (40) reached");
     return;
   }
 
   if(index === currentQuiz.answer){
-    try{
-      const newCount = Number(profile.quiz_count || 0) + 1;
-      const {data} = await db.from("profiles").update({quiz_count: newCount, quiz_date: today()}).eq("id", profile.id).select().single();
-      profile = data;
-      await addCoins(25, "Daily Quiz", "Correct quiz answer");
-      showToast("✅ Correct! +25 coins (" + newCount + "/50)");
+    userData.quizCount++;
+    addCoins(25, "Daily Quiz", "Correct quiz answer");
+    saveLocal();
+    showToast("✅ Correct! +25 coins (" + userData.quizCount + "/40)");
 
-      if(newCount >= MAX_QUIZ){
-        showToast("Daily quiz limit completed!");
-        closeModal("quizModal");
-        return;
-      }
-
-      setTimeout(()=>{
-        loadRandomQuiz();
-      },700);
-    }catch(error){
-      showToast("Reward failed");
+    if(userData.quizCount >= MAX_QUIZ){
+      showToast("Daily quiz limit completed!");
+      closeModal("quizModal");
+      return;
     }
-  }else{
-    // Wrong answer: do not change question, force user to pick correct answer
+
+    setTimeout(()=>{
+      loadRandomQuiz();
+    }, 700);
+  } else {
     showToast("❌ Wrong answer! Try again.");
   }
 }
 
 function openSurvey(){
-  if(profile.survey_date !== today()) profile.survey_count = 0;
-  renderSurveys();
-  document.getElementById("surveyModal").classList.remove("hidden");
-}
-
-function renderSurveys(){
-  const used = Number(profile.survey_count || 0);
-  const remaining = Math.max(0,15-used);
-  let html = `<div style="padding:10px;background:#20265f;border-radius:12px;margin-bottom:12px;font-size:11px;color:#9ba4d2">Today: ${used}/15 completed • ${remaining} remaining</div>`;
+  let html = `<div style="padding:10px;background:#20265f;border-radius:12px;margin-bottom:12px;font-size:11px;color:#9ba4d2">Complete surveys to earn coins</div>`;
   surveys.forEach((survey,index)=>{
     html += `<div class="survey-item"><div><strong>${escapeHTML(survey[0])}</strong><p>Market research • +25 coins</p></div><button class="small-btn" onclick="startSurvey(${index})">Start</button></div>`;
   });
   document.getElementById("surveyList").innerHTML = html;
+  document.getElementById("surveyModal").classList.remove("hidden");
 }
 
-async function startSurvey(index){
-  if(Number(profile.survey_count || 0) >= 15){
-    showToast("Daily survey limit reached");
-    return;
-  }
+function startSurvey(index){
   const survey = surveys[index];
-  window.open(survey[1],"_blank");
+  window.open(survey[1], "_blank");
   showToast(survey[0] + " opened. Please wait...");
 
-  setTimeout(async()=>{
-    try{
-      const newCount = Number(profile.survey_count || 0)+1;
-      const {data} = await db.from("profiles").update({survey_count: newCount, survey_date: today()}).eq("id", profile.id).select().single();
-      profile = data;
-      await addCoins(25, "Survey", survey[0]);
-      renderSurveys();
-      showToast("🎉 +25 coins earned");
-    }catch(error){
-      showToast("Survey reward failed");
-    }
-  },1500);
-}
-
-function getReferralLink(){
-  return "https://play.google.com/store/apps/details?id=com.coinrush.reward&ref=" + encodeURIComponent(profile.uid);
+  setTimeout(()=>{
+    addCoins(25, "Survey", survey[0]);
+    showToast("🎉 +25 coins earned");
+  }, 1500);
 }
 
 function openReferral(){
-  document.getElementById("referralInput").value = getReferralLink();
+  document.getElementById("referralInput").value = "https://play.google.com/store/apps/details?id=com.coinrush.reward&ref=" + userData.uid;
   document.getElementById("referralModal").classList.remove("hidden");
 }
 
-function shareWhatsApp(){
-  const text = "Join CoinRush Pro and earn rewards!\n\n" + getReferralLink();
-  window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(text),"_blank");
-  addReferralReward();
-}
-
-function shareTelegram(){
-  const link = getReferralLink();
-  const text = "Join CoinRush Pro and earn rewards!";
-  window.open("https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + encodeURIComponent(text),"_blank");
-  addReferralReward();
-}
-
-async function addReferralReward(){
-  try{
-    await addCoins(200, "Referral", "Referral share reward");
-    const newCount = Number(profile.referral_count || 0)+1;
-    const {data} = await db.from("profiles").update({referral_count: newCount}).eq("id", profile.id).select().single();
-    profile = data;
-    updateUI();
-    showToast("👥 +200 referral coins");
-  }catch(error){
-    console.error(error);
-  }
-}
-
-async function copyReferral(){
-  try{
-    await navigator.clipboard.writeText(getReferralLink());
-    showToast("Referral link copied");
-  }catch{
-    const input = document.getElementById("referralInput");
-    input.select();
-    document.execCommand("copy");
-    showToast("Referral link copied");
-  }
+function copyReferral(){
+  navigator.clipboard.writeText(document.getElementById("referralInput").value);
+  showToast("Referral link copied");
 }
 
 function openWithdraw(){
   selectedWithdrawCoins = 0;
   selectedWithdrawRupees = 0;
-  document.getElementById("withdrawBalance").textContent = Number(profile.coins || 0).toLocaleString();
+  document.getElementById("withdrawBalance").textContent = Number(userData.coins || 0).toLocaleString();
   document.getElementById("upiInput").value = "";
   document.querySelectorAll(".withdraw-tier").forEach(el=>el.classList.remove("selected"));
   document.getElementById("withdrawModal").classList.remove("hidden");
@@ -1430,7 +1118,7 @@ function selectWithdraw(coins, rupees, element){
   element.classList.add("selected");
 }
 
-async function requestWithdraw(){
+function requestWithdraw(){
   if(!selectedWithdrawCoins){
     showToast("Select withdrawal amount");
     return;
@@ -1440,90 +1128,52 @@ async function requestWithdraw(){
     showToast("Enter valid UPI ID");
     return;
   }
-  const balance = Number(profile.coins || 0);
-  if(balance < selectedWithdrawCoins){
-    showToast("Insufficient coins");
+  if(Number(userData.coins || 0) < selectedWithdrawCoins){
+    showToast("Insufficient coins in wallet");
     return;
   }
 
-  const newBalance = balance - selectedWithdrawCoins;
-  try{
-    const {data, error} = await db.from("profiles").update({coins: newBalance, updated_at: new Date().toISOString()}).eq("id", profile.id).select().single();
-    if(error) throw error;
-    profile = data;
+  userData.coins -= selectedWithdrawCoins;
+  if(!userData.history) userData.history = [];
+  userData.history.unshift({type: "Withdrawal", description: `₹${selectedWithdrawRupees} to ${upi}`, coins: -selectedWithdrawCoins, time: new Date().toLocaleString()});
+  saveLocal();
+  updateUI();
 
-    const {error:withdrawError} = await db.from("withdrawals").insert({
-      user_id: profile.id,
-      uid: profile.uid,
-      mobile: currentMobile,
-      amount_coins: selectedWithdrawCoins,
-      rupees: selectedWithdrawRupees,
-      upi: upi,
-      status: "Pending ⏳"
-    });
-
-    if(withdrawError){
-      await db.from("profiles").update({coins: balance}).eq("id", profile.id);
-      profile.coins = balance;
-      throw withdrawError;
-    }
-
-    updateUI();
-    const message = `CoinRush Pro Withdrawal Request\n\nUID: ${profile.uid}\nMobile: ${currentMobile}\nAmount: ₹${selectedWithdrawRupees}\nCoins: ${selectedWithdrawCoins}\nUPI: ${upi}\nStatus: Pending`;
-    window.open("https://wa.me/919339823790?text=" + encodeURIComponent(message),"_blank");
-    closeModal("withdrawModal");
-    showToast("Withdrawal request saved to cloud");
-  }catch(error){
-    showToast(error.message || "Withdrawal failed");
-  }
+  const message = `CoinRush Pro Withdrawal\nUID: ${userData.uid}\nMobile: ${userData.mobile}\nAmount: ₹${selectedWithdrawRupees}\nCoins: ${selectedWithdrawCoins}\nUPI: ${upi}`;
+  window.open("https://wa.me/919339823790?text=" + encodeURIComponent(message), "_blank");
+  closeModal("withdrawModal");
+  showToast("Withdrawal request sent!");
 }
 
-async function openHistory(){
+function openHistory(){
   document.getElementById("historyModal").classList.remove("hidden");
   const container = document.getElementById("historyList");
-  container.innerHTML = `<div class="loader"></div>`;
-
-  const {data} = await db.from("earning_history").select("*").eq("user_id", profile.id).order("created_at",{ascending:false}).limit(100);
-  if(!data || !data.length){
-    container.innerHTML = `<div class="empty">No earning history yet.</div>`;
+  
+  if(!userData.history || !userData.history.length){
+    container.innerHTML = `<div style="text-align:center;color:#858ebc;padding:25px;font-size:12px">No history yet.</div>`;
     return;
   }
 
-  container.innerHTML = data.map(item=>{
-    const date = new Date(item.created_at).toLocaleString("en-IN");
-    return `<div class="history-item"><div class="history-left"><strong>${escapeHTML(item.type)}</strong><span>${escapeHTML(item.description || "")}<br>${date}</span></div><div class="plus">+${Number(item.coins)}</div></div>`;
-  }).join("");
-}
-
-async function openWithdrawHistory(){
-  document.getElementById("withdrawHistoryModal").classList.remove("hidden");
-  const container = document.getElementById("withdrawHistoryList");
-  container.innerHTML = `<div class="loader"></div>`;
-
-  const {data} = await db.from("withdrawals").select("*").eq("user_id", profile.id).order("created_at",{ascending:false}).limit(100);
-  if(!data || !data.length){
-    container.innerHTML = `<div class="empty">No withdrawal history yet.</div>`;
-    return;
-  }
-
-  container.innerHTML = data.map(item=>{
-    const date = new Date(item.created_at).toLocaleString("en-IN");
-    return `<div class="history-item"><div class="history-left"><strong>₹${Number(item.rupees)}</strong><span>${escapeHTML(item.upi)}<br>${date}</span></div><div style="color:#ffd84e;font-size:11px;font-weight:800;text-align:right">${escapeHTML(item.status)}<br><span style="color:#7f88bb;font-size:9px">${Number(item.amount_coins)} coins</span></div></div>`;
-  }).join("");
+  container.innerHTML = userData.history.map(item => `
+    <div class="history-item">
+      <div class="history-left">
+        <strong>${escapeHTML(item.type)}</strong>
+        <span>${escapeHTML(item.description)}<br>${escapeHTML(item.time)}</span>
+      </div>
+      <div class="${item.coins > 0 ? 'plus' : ''}" style="color:${item.coins > 0 ? '#35df9b' : '#ff7190'};font-weight:900">
+        ${item.coins > 0 ? '+' : ''}${item.coins}
+      </div>
+    </div>
+  `).join("");
 }
 
 function nav(page){
-  const pages = ["home","activity","get","support","account","admin"];
-  pages.forEach(p=>{
-    const el = document.getElementById(p+"Page");
-    if(el) el.classList.add("hidden");
+  ["home","activity","get","support","account"].forEach(p=>{
+    document.getElementById(p+"Page").classList.add("hidden");
     const btn = document.getElementById("nav" + p.charAt(0).toUpperCase() + p.slice(1));
     if(btn) btn.classList.remove("active");
   });
-
-  const targetPage = document.getElementById(page+"Page");
-  if(targetPage) targetPage.classList.remove("hidden");
-  
+  document.getElementById(page+"Page").classList.remove("hidden");
   const btn = document.getElementById("nav" + page.charAt(0).toUpperCase() + page.slice(1));
   if(btn) btn.classList.add("active");
   window.scrollTo({top:0, behavior:"smooth"});
@@ -1534,25 +1184,31 @@ function openSupport(){
 }
 
 function logout(){
-  localStorage.removeItem("coinrush_mobile");
-  currentMobile = null;
-  profile = null;
+  localStorage.removeItem("coinrush_local_active");
   document.getElementById("app").classList.add("hidden");
   document.getElementById("authScreen").classList.remove("hidden");
   showToast("Logged out");
 }
 
 function restoreSession(){
-  const savedMobile = localStorage.getItem("coinrush_mobile");
-  if(savedMobile){
-    currentMobile = savedMobile;
-    loadProfile();
+  const active = localStorage.getItem("coinrush_local_active");
+  const saved = localStorage.getItem("coinrush_local_user");
+  if(active && saved){
+    userData = JSON.parse(saved);
+    checkDailyReset();
+    updateUI();
+    showApp();
   } else {
     document.getElementById("authScreen").classList.remove("hidden");
   }
 }
 
-drawWheel();
+const oldSave = saveLocal;
+saveLocal = function(){
+  oldSave();
+  localStorage.setItem("coinrush_local_active", "true");
+};
+
 restoreSession();
 </script>
 
