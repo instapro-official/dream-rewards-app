@@ -168,7 +168,7 @@ input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,2
 <h2>🛡️ Owner Admin Panel</h2>
 <button class="card-btn" style="width:auto;padding:8px 14px;background:#ef4444;" onclick="closeAdmin()">LOGOUT</button>
 </div>
-<p style="color:#aaa;margin-bottom:12px;font-size:12px">Withdrawal requests:</p>
+<p style="color:#aaa;margin-bottom:12px;font-size:12px">Live Withdrawal requests (from Firebase):</p>
 <div id="adminWithdrawList"></div>
 </div>
 
@@ -459,7 +459,7 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+  import { getDatabase, ref, set, get, push, update } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
@@ -481,8 +481,6 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
     set(ref(database, 'players/' + playerId), {
       coins: coins,
       highScore: score
-    }).then(() => {
-      console.log("Data successfully saved!");
     }).catch((error) => {
       console.error("Error saving data: ", error);
     });
@@ -492,9 +490,41 @@ EARN NOW <span onclick="openTaskModal()">View Timeline & Tasks →</span>
     get(ref(database, 'players/' + playerId)).then((snapshot) => {
       if (snapshot.exists()) {
         console.log("Player Data:", snapshot.val());
-      } else {
-        console.log("No data available");
       }
+    });
+  }
+
+  // Cloud par withdrawal request save karne ke liye
+  window.saveWithdrawToFirebase = function(withdrawData, callback) {
+    const newWithdrawRef = push(ref(database, 'withdrawals'));
+    set(newWithdrawRef, withdrawData).then(() => {
+      if(callback) callback(true);
+    }).catch((error) => {
+      console.error("Error saving withdrawal: ", error);
+      if(callback) callback(false);
+    });
+  }
+
+  // Admin panel ke liye firebase se saari withdrawals laane ke liye
+  window.loadWithdrawalsFromFirebase = function(callback) {
+    get(ref(database, 'withdrawals')).then((snapshot) => {
+      let list = [];
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          list.push({ id: childSnapshot.key, ...childSnapshot.val() });
+        });
+      }
+      callback(list.reverse()); // Newest first
+    }).catch((error) => {
+      console.error("Error loading withdrawals: ", error);
+      callback([]);
+    });
+  }
+
+  // Admin status update (Paid karne ke liye)
+  window.updateWithdrawStatusFirebase = function(withdrawId, newStatus, callback) {
+    update(ref(database, 'withdrawals/' + withdrawId), { status: newStatus }).then(() => {
+      if(callback) callback(true);
     });
   }
 </script>
@@ -573,29 +603,40 @@ location.reload();
 }
 
 function renderAdminRequests() {
-let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
 let box = document.getElementById("adminWithdrawList");
-if(!arr.length) {
-box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>No pending requests.</p>";
-return;
+box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>Loading live requests...</p>";
+
+if(window.loadWithdrawalsFromFirebase) {
+  window.loadWithdrawalsFromFirebase((arr) => {
+    if(!arr.length) {
+      box.innerHTML = "<p style='text-align:center;color:#aaa;font-size:12px'>No pending requests found on cloud.</p>";
+      return;
+    }
+    box.innerHTML = arr.map((x) => `
+    <div class="admin-card">
+    <p><b>Phone/User:</b> ${x.user}</p>
+    <p><b>UPI:</b> ${x.upi}</p>
+    <p><b>Amount:</b> ${x.amount} Coins</p>
+    <p><b>Date:</b> ${x.date}</p>
+    <p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
+    ${x.status.includes('Pending') ? `<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw('${x.id}')">APPROVE / PAID ✓</button>` : ''}
+    </div>
+    `).join("");
+  });
 }
-box.innerHTML = arr.map((x, i) => `
-<div class="admin-card">
-<p><b>UPI:</b> ${x.upi}</p>
-<p><b>Amount:</b> ${x.amount} Coins</p>
-<p><b>Date:</b> ${x.date}</p>
-<p><b>Status:</b> <span style="color:${x.status.includes('Paid')?'#22c55e':'#f59e0b'}">${x.status}</span></p>
-<button class="card-btn" style="background:#22c55e;margin-top:8px;padding:8px;" onclick="approveWithdraw(${i})">APPROVE / PAID ✓</button>
-</div>
-`).join("");
 }
 
-function approveWithdraw(index) {
-let arr = JSON.parse(localStorage.getItem("withdrawals") || "[]");
-arr[index].status = "Paid ✓";
-localStorage.setItem("withdrawals", JSON.stringify(arr));
-renderAdminRequests();
-toast("Approved!");
+function approveWithdraw(id) {
+if(window.updateWithdrawStatusFirebase) {
+  window.updateWithdrawStatusFirebase(id, "Paid ✓", (success) => {
+    if(success) {
+      renderAdminRequests();
+      toast("Approved Successfully!");
+    } else {
+      toast("Error updating status");
+    }
+  });
+}
 }
 
 function logout() {
@@ -611,7 +652,6 @@ document.getElementById("topCoins").textContent=coins;
 document.getElementById("accCoins").textContent=coins;
 updateVipUI();
 
-// Agar Firebase database function available hai to cloud par bhi save kar do
 let userPhone = localStorage.getItem("userPhone") || "guest";
 if(window.savePlayerData) {
   window.savePlayerData(userPhone, coins, coins);
@@ -1036,15 +1076,32 @@ if(!upi||!upi.includes("@")){toast("Enter valid UPI ID");return;}
 coins-=amount;
 save();
 
+let withdrawObj = {
+  user: "+91 " + userPhone,
+  amount: amount,
+  upi: upi,
+  date: today(),
+  status: "Pending ⏳"
+};
+
+// Cloud Firebase par save karein
+if(window.saveWithdrawToFirebase) {
+  window.saveWithdrawToFirebase(withdrawObj, (success) => {
+    if(success) {
+      console.log("Withdrawal saved to cloud!");
+    }
+  });
+}
+
 let msg = `🚨 *New Withdrawal Request* 🚨%0A📱 User: +91 ${userPhone}%0A💰 Amount: ${amount} Coins%0A💳 UPI: ${upi}%0A📅 Date: ${today()}`;
 window.open(`https://wa.me/919339823790?text=${msg}`, "_blank");
 
 let arr=JSON.parse(localStorage.getItem("withdrawals")||"[]");
-arr.unshift({amount:amount, upi:upi, date:today(), status:"Pending ⏳"});
+arr.unshift(withdrawObj);
 localStorage.setItem("withdrawals",JSON.stringify(arr));
 
 closeModal("withdrawModal");
-toast("✅ Request submitted & WhatsApp opened!");
+toast("✅ Request submitted & saved on cloud!");
 }
 
 function openHistory(){
