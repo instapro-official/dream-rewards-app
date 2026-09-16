@@ -171,9 +171,8 @@ button{ border:0; cursor:pointer }
     </div>
   </div>
 
-  <!-- MAIN APP (HIDDEN UNTIL LOGIN) -->
+  <!-- MAIN APP -->
   <div id="appMain" class="hidden">
-    <!-- HEADER -->
     <div class="header">
       <div class="header-row">
         <div class="user-mini">
@@ -190,7 +189,6 @@ button{ border:0; cursor:pointer }
       </div>
     </div>
 
-    <!-- PAGES -->
     <div id="homePage" class="page">
       <div class="balance-card">
         <div class="balance-label">Total Wallet Balance</div>
@@ -364,7 +362,6 @@ button{ border:0; cursor:pointer }
       </div>
     </div>
 
-    <!-- BOTTOM NAV -->
     <div class="bottom-nav">
       <button id="navHome" class="nav-btn active" onclick="nav('home')"><span class="nav-icon">🏠</span> Home</button>
       <button id="navActivity" class="nav-btn" onclick="nav('activity')"><span class="nav-icon">📊</span> Activity</button>
@@ -505,12 +502,10 @@ button{ border:0; cursor:pointer }
 <div id="toast"></div>
 
 <script>
-/* ========================================================= SUPABASE ========================================================= */
 const SUPABASE_URL = "https://tvsmkqotpwweacgwpdlv.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_502F_XXmtsKAOsi18HXTCg_h8R_E9FH";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ========================================================= APP STATE ========================================================= */
 let currentUser = null;
 let profile = null;
 let authMode = "login";
@@ -555,7 +550,6 @@ const quizQuestions = [
   { q:"3 × 2 = ?", options:["5","6","7","8"], answer:1 }
 ];
 
-/* ========================================================= HELPERS ========================================================= */
 function today(){
   const d = new Date();
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
@@ -564,7 +558,7 @@ function nowText(){
   return new Date().toLocaleString("en-IN", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
 }
 function internalEmail(mobile){
-  return mobile + "@coinrush.local";
+  return "user_" + mobile + "@gmail.com";
 }
 function cleanMobile(){
   return document.getElementById("mobileInput").value.replace(/\D/g,"").slice(0,10);
@@ -589,7 +583,6 @@ function closeModal(id){
   document.getElementById(id).classList.add("hidden");
 }
 
-/* ========================================================= AUTH UI ========================================================= */
 function showLogin(){
   authMode = "login";
   document.getElementById("loginTab").classList.add("active");
@@ -638,7 +631,12 @@ async function handleAuth(){
         await createOrLoadProfile(data.user, mobile, name);
         showToast("Account created successfully");
       }else{
-        showToast("Supabase Confirm Email ko OFF karo, phir register karo.");
+        const {data: loginData, error: loginError} = await db.auth.signInWithPassword({ email, password });
+        if(loginError) throw loginError;
+        if(loginData.user){
+          await createOrLoadProfile(loginData.user, mobile, name);
+          showToast("Account created & logged in");
+        }
       }
     }else{
       const {data,error} = await db.auth.signInWithPassword({ email, password });
@@ -656,7 +654,6 @@ async function handleAuth(){
   }
 }
 
-/* ========================================================= PROFILE ========================================================= */
 async function createOrLoadProfile(user, mobile, name){
   currentUser = user;
   const uid = makeUID(mobile);
@@ -665,8 +662,7 @@ async function createOrLoadProfile(user, mobile, name){
     coins:0, spin_count:0, spin_date:null, survey_count:0, survey_date:null,
     ad_count:0, ad_date:null, lucky_date:null, last_bonus:null, referral_count:0, completed_tasks:3
   };
-  const {error} = await db.from("profiles").upsert(profileData, { onConflict:"id" });
-  if(error) throw error;
+  await db.from("profiles").upsert(profileData, { onConflict:"id" });
   await loadProfile();
 }
 
@@ -679,9 +675,8 @@ async function loadProfile(){
   const {data,error} = await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
   if(error) throw error;
   if(!data){
-    const mobile = currentUser.user_metadata?.mobile || "";
+    const mobile = currentUser.user_metadata?.mobile || currentUser.email.replace("user_","").replace("@gmail.com","");
     const name = currentUser.user_metadata?.name || "CoinRush Member";
-    if(!mobile) throw new Error("Profile data missing");
     await createOrLoadProfile(currentUser, mobile, name);
     return;
   }
@@ -699,8 +694,8 @@ async function resetDailyCountersIfNeeded(){
   if(profile.survey_date !== d){ updates.survey_count = 0; updates.survey_date = d; }
   if(profile.ad_date !== d){ updates.ad_count = 0; updates.ad_date = d; }
   if(Object.keys(updates).length){
-    const {data,error} = await db.from("profiles").update(updates).eq("id",currentUser.id).select().single();
-    if(!error && data) profile = data;
+    const {data} = await db.from("profiles").update(updates).eq("id",currentUser.id).select().single();
+    if(data) profile = data;
   }
 }
 
@@ -733,16 +728,15 @@ function updateUI(){
   document.getElementById("taskProgressText").textContent = completed + "/6 Tasks";
 
   if(completed >= 4){
-    const el = document.getElementById("task4Check");
-    el.classList.add("done"); el.textContent = "✓";
+    document.getElementById("task4Check").classList.add("done");
+    document.getElementById("task4Check").textContent = "✓";
   }
   if(completed >= 5){
-    const el = document.getElementById("task5Check");
-    el.classList.add("done"); el.textContent = "✓";
+    document.getElementById("task5Check").classList.add("done");
+    document.getElementById("task5Check").textContent = "✓";
   }
 }
 
-/* ========================================================= CLOUD COIN + HISTORY ========================================================= */
 async function addCoins(amount, type, description){
   amount = Number(amount);
   if(!currentUser || !profile) throw new Error("Not logged in");
@@ -756,7 +750,6 @@ async function addCoins(amount, type, description){
   updateUI();
 }
 
-/* ========================================================= DAILY BONUS ========================================================= */
 async function claimBonus(){
   if(profile.last_bonus === today()){
     showToast("Daily bonus already claimed");
@@ -764,9 +757,8 @@ async function claimBonus(){
   }
   try{
     await addCoins(50, "Daily Bonus", "Daily login bonus");
-    const {data,error} = await db.from("profiles").update({ last_bonus:today() }).eq("id",currentUser.id).select().single();
-    if(error) throw error;
-    profile = data;
+    const {data} = await db.from("profiles").update({ last_bonus:today() }).eq("id",currentUser.id).select().single();
+    if(data) profile = data;
     updateUI();
     showToast("🎁 +50 coins added");
   }catch(error){
@@ -775,7 +767,6 @@ async function claimBonus(){
   }
 }
 
-/* ========================================================= ADS & OTHER EARNINGS ========================================================= */
 async function watchAd(){
   if(profile.ad_date !== today()) profile.ad_count = 0;
   if(Number(profile.ad_count || 0) >= 30){
@@ -790,9 +781,8 @@ async function watchAd(){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.ad_count || 0)+1;
-      const {data,error} = await db.from("profiles").update({ ad_count:newCount, ad_date:today() }).eq("id",currentUser.id).select().single();
-      if(error) throw error;
-      profile = data;
+      const {data} = await db.from("profiles").update({ ad_count:newCount, ad_date:today() }).eq("id",currentUser.id).select().single();
+      if(data) profile = data;
       await addCoins(10, "Watch Ads", "Advertisement reward");
       showToast("🎉 +10 coins earned");
     }catch(error){
@@ -818,7 +808,6 @@ async function downloadApp(){
   },1500);
 }
 
-/* SPIN WHEEL */
 function drawWheel(){
   const canvas = document.getElementById("wheel");
   if(!canvas) return;
@@ -875,9 +864,8 @@ async function spinWheel(){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.spin_count || 0)+1;
-      const {data,error} = await db.from("profiles").update({ spin_count:newCount, spin_date:today() }).eq("id",currentUser.id).select().single();
-      if(error) throw error;
-      profile = data;
+      const {data} = await db.from("profiles").update({ spin_count:newCount, spin_date:today() }).eq("id",currentUser.id).select().single();
+      if(data) profile = data;
       await addCoins(reward, "Lucky Spin", "Lucky Spin reward");
       showToast("🎉 Lucky Spin: +" + reward + " coins");
       const remaining = MAX_SPINS-newCount;
@@ -902,9 +890,8 @@ async function claimLuckyCard(index){
   }
   const reward = luckyCardRewards[index];
   try{
-    const {data,error} = await db.from("profiles").update({ lucky_date:today() }).eq("id",currentUser.id).select().single();
-    if(error) throw error;
-    profile = data;
+    const {data} = await db.from("profiles").update({ lucky_date:today() }).eq("id",currentUser.id).select().single();
+    if(data) profile = data;
     await addCoins(reward, "Lucky Card", "Lucky Card reward");
     closeModal("cardModal");
     showToast("🃏 Lucky Card: +" + reward + " coins");
@@ -914,7 +901,6 @@ async function claimLuckyCard(index){
   }
 }
 
-/* QUIZ */
 function openQuiz(){
   quizIndex = Math.floor(Math.random()*quizQuestions.length);
   renderQuiz();
@@ -949,7 +935,6 @@ async function answerQuiz(index){
   }
 }
 
-/* SURVEY */
 function openSurvey(){
   if(profile.survey_date !== today()) profile.survey_count = 0;
   renderSurveys();
@@ -977,9 +962,8 @@ async function startSurvey(index){
   setTimeout(async()=>{
     try{
       const newCount = Number(profile.survey_count || 0)+1;
-      const {data,error} = await db.from("profiles").update({ survey_count:newCount, survey_date:today() }).eq("id",currentUser.id).select().single();
-      if(error) throw error;
-      profile = data;
+      const {data} = await db.from("profiles").update({ survey_count:newCount, survey_date:today() }).eq("id",currentUser.id).select().single();
+      if(data) profile = data;
       await addCoins(25, "Survey", survey[0]);
       renderSurveys();
       showToast("🎉 +25 coins earned");
@@ -990,7 +974,6 @@ async function startSurvey(index){
   },1500);
 }
 
-/* REFERRAL */
 function getReferralLink(){
   return "https://play.google.com/store/apps/details?id=com.coinrush.reward&ref=" + encodeURIComponent(profile.uid);
 }
@@ -1010,9 +993,8 @@ async function addReferralReward(){
   try{
     await addCoins(200, "Referral", "Referral share reward");
     const newCount = Number(profile.referral_count || 0)+1;
-    const {data,error} = await db.from("profiles").update({ referral_count:newCount }).eq("id",currentUser.id).select().single();
-    if(error) throw error;
-    profile = data;
+    const {data} = await db.from("profiles").update({ referral_count:newCount }).eq("id",currentUser.id).select().single();
+    if(data) profile = data;
     updateUI();
     showToast("👥 +200 referral coins");
   }catch(error){ console.error(error); }
@@ -1028,7 +1010,6 @@ async function copyReferral(){
   }
 }
 
-/* WITHDRAW */
 function openWithdraw(){
   selectedWithdrawCoins = 0;
   selectedWithdrawRupees = 0;
@@ -1054,19 +1035,13 @@ async function requestWithdraw(){
   const newBalance = balance-selectedWithdrawCoins;
 
   try{
-    const {data,error} = await db.from("profiles").update({ coins:newBalance, updated_at:new Date().toISOString() }).eq("id",currentUser.id).select().single();
-    if(error) throw error;
-    profile = data;
+    const {data} = await db.from("profiles").update({ coins:newBalance, updated_at:new Date().toISOString() }).eq("id",currentUser.id).select().single();
+    if(data) profile = data;
 
-    const {error:withdrawError} = await db.from("withdrawals").insert({
+    await db.from("withdrawals").insert({
       user_id:currentUser.id, uid:profile.uid, mobile:profile.mobile,
       amount_coins:selectedWithdrawCoins, rupees:selectedWithdrawRupees, upi:upi, status:"Pending ⏳"
     });
-    if(withdrawError){
-      await db.from("profiles").update({ coins:balance }).eq("id",currentUser.id);
-      profile.coins = balance;
-      throw withdrawError;
-    }
     updateUI();
     const message = `CoinRush Pro Withdrawal Request\n\nUID: ${profile.uid}\nMobile: ${profile.mobile}\nAmount: ₹${selectedWithdrawRupees}\nCoins: ${selectedWithdrawCoins}\nUPI: ${upi}\nStatus: Pending`;
     window.open("https://wa.me/919339823790?text=" + encodeURIComponent(message), "_blank");
@@ -1078,13 +1053,12 @@ async function requestWithdraw(){
   }
 }
 
-/* HISTORY */
 async function openHistory(){
   document.getElementById("historyModal").classList.remove("hidden");
   const container = document.getElementById("historyList");
   container.innerHTML = `<div class="loader"></div>`;
-  const {data,error} = await db.from("earning_history").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
-  if(error || !data || !data.length){
+  const {data} = await db.from("earning_history").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+  if(!data || !data.length){
     container.innerHTML = `<div class="empty">No earning history yet.</div>`;
     return;
   }
@@ -1100,8 +1074,8 @@ async function openWithdrawHistory(){
   document.getElementById("withdrawHistoryModal").classList.remove("hidden");
   const container = document.getElementById("withdrawHistoryList");
   container.innerHTML = `<div class="loader"></div>`;
-  const {data,error} = await db.from("withdrawals").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
-  if(error || !data || !data.length){
+  const {data} = await db.from("withdrawals").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+  if(!data || !data.length){
     container.innerHTML = `<div class="empty">No withdrawal history yet.</div>`;
     return;
   }
@@ -1113,7 +1087,6 @@ async function openWithdrawHistory(){
   `).join("");
 }
 
-/* NAVIGATION */
 function nav(page){
   const pages = ["home", "activity", "get", "support", "account"];
   pages.forEach(p=>{
