@@ -616,7 +616,6 @@ async function handleAuth(){
         button.textContent = "Create Account";
         return;
       }
-      // Check if mobile already exists
       const {data: existing} = await db.from("profiles").select("*").eq("mobile", "+91" + mobile).maybeSingle();
       if(existing){
         showToast("Mobile number already registered. Please login.");
@@ -652,7 +651,6 @@ async function handleAuth(){
       showApp();
       showToast("Account created successfully");
     } else {
-      // Login check
       const {data: userRecord, error: fetchError} = await db.from("profiles").select("*").eq("mobile", "+91" + mobile).maybeSingle();
       if(fetchError || !userRecord){
         showToast("Mobile number not registered");
