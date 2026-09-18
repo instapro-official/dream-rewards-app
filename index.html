@@ -292,7 +292,7 @@ header{
   display:block;
 }
 
-/* modal */
+/* MODAL */
 
 .modal{
   position:fixed;
@@ -439,7 +439,7 @@ header{
   transform:translateX(-50%) translateY(0);
 }
 
-/* login */
+/* LOGIN */
 
 #loginScreen{
   min-height:100vh;
@@ -511,7 +511,7 @@ header{
   line-height:1.6;
 }
 
-/* quiz */
+/* QUIZ */
 
 .quiz-question{
   margin-top:10px;
@@ -547,7 +547,7 @@ header{
   line-height:1.6;
 }
 
-/* account */
+/* ACCOUNT */
 
 .account-head{
   text-align:center;
@@ -610,7 +610,7 @@ header{
   color:var(--muted);
 }
 
-/* admin */
+/* ADMIN */
 
 .admin-list{
   display:grid;
@@ -676,6 +676,7 @@ header{
 }
 
 @media(max-width:430px){
+
   .grid{
     gap:9px;
   }
@@ -699,61 +700,123 @@ header{
 
   <div class="login-box">
 
-    <div class="login-logo">CoinRush <span>Pro</span></div>
-    <div class="login-sub">Play • Complete Tasks • Earn Coins</div>
+    <div class="login-logo">
+      CoinRush <span>Pro</span>
+    </div>
+
+    <div class="login-sub">
+      Play • Complete Tasks • Earn Coins
+    </div>
 
     <div class="tabs">
-      <button class="tab active" id="loginTab" onclick="switchAuth('login')">Login</button>
-      <button class="tab" id="registerTab" onclick="switchAuth('register')">Register</button>
+
+      <button
+        class="tab active"
+        id="loginTab"
+        onclick="switchAuth('login')">
+        Login
+      </button>
+
+      <button
+        class="tab"
+        id="registerTab"
+        onclick="switchAuth('register')">
+        Register
+      </button>
+
     </div>
 
     <div class="field">
+
       <label>Mobile / Account ID</label>
-      <input id="authMobile" class="input" type="text" maxlength="30" placeholder="Enter mobile number">
+
+      <input
+        id="authMobile"
+        class="input"
+        type="text"
+        maxlength="30"
+        placeholder="Enter mobile number">
+
     </div>
 
     <div class="field">
+
       <label>Password</label>
-      <input id="authPassword" class="input" type="password" placeholder="Enter password">
+
+      <input
+        id="authPassword"
+        class="input"
+        type="password"
+        placeholder="Enter password">
+
     </div>
 
     <div id="registerNameBox" class="field hidden">
+
       <label>Full Name</label>
-      <input id="authName" class="input" type="text" maxlength="40" placeholder="Enter your name">
+
+      <input
+        id="authName"
+        class="input"
+        type="text"
+        maxlength="40"
+        placeholder="Enter your name">
+
     </div>
 
-    <button class="primary" id="authButton" onclick="submitAuth()">LOGIN</button>
+    <button
+      class="primary"
+      id="authButton"
+      onclick="submitAuth()">
+      LOGIN
+    </button>
 
     <div class="notice">
-      One account should be used by one user. Do not create fake,
-      duplicate or automated accounts.
+      One account should be used by one user.
+      Do not create fake, duplicate or automated accounts.
     </div>
 
   </div>
 
 </div>
 
+
 <!-- ================= MAIN APP ================= -->
 
 <div id="app" class="app hidden">
 
 <header>
+
   <div class="header-inner">
 
-    <div class="logo">CoinRush <span>Pro</span></div>
+    <div class="logo">
+      CoinRush <span>Pro</span>
+    </div>
 
     <div class="profile-mini">
-      <div class="coin-pill">🪙 <span id="headerCoins">0</span></div>
-      <div class="avatar" id="headerAvatar">C</div>
+
+      <div class="coin-pill">
+        🪙 <span id="headerCoins">0</span>
+      </div>
+
+      <div
+        class="avatar"
+        id="headerAvatar">
+        C
+      </div>
+
     </div>
 
   </div>
+
 </header>
 
-<!-- HOME -->
+
+<!-- ================= HOME ================= -->
 
 <section id="homePage" class="page active">
 
+  <!-- HERO -->
   <div class="hero">
 
     <small>Welcome back</small>
@@ -762,242 +825,550 @@ header{
       <span id="userName">Player</span>
     </h1>
 
-    <div class="vip" id="vipText">⭐ VIP 1</div>
-
-    <div class="stat-grid">
-
-      <div class="stat">
-        <small>Coin Balance</small>
-        <strong id="heroCoins">0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Quiz Today</small>
-        <strong><span id="quizCountHome">0</span>/40</strong>
-      </div>
-
+    <div
+      class="vip"
+      id="vipText">
+      ⭐ VIP 1
     </div>
 
   </div>
 
-  <div class="section-title">🔥 Daily Earning</div>
+
+  <!-- DAILY EARNING -->
+
+  <div class="section-title">
+    🔥 Daily Earning
+  </div>
 
   <div class="grid">
 
+    <!-- DAILY BONUS -->
+
     <div class="card">
+
       <div class="icon">🎁</div>
+
       <h3>Daily Bonus</h3>
-      <p>Claim your daily reward</p>
-      <div class="reward">+100 Coins</div>
-      <button id="bonusBtn" class="card-btn gold" onclick="claimBonus()">CLAIM</button>
+
+      <p>
+        Claim your daily reward
+      </p>
+
+      <div class="reward">
+        +100 Coins
+      </div>
+
+      <button
+        id="bonusBtn"
+        class="card-btn gold"
+        onclick="claimBonus()">
+        CLAIM
+      </button>
+
     </div>
 
+
+    <!-- WATCH ADS -->
+
     <div class="card">
+
       <div class="icon">📺</div>
+
       <h3>Watch Ads</h3>
-      <p>Complete available ad tasks</p>
-      <div class="reward">+10 Coins</div>
-      <button class="card-btn" onclick="watchAd()">EARN</button>
+
+      <p>
+        Complete available ad tasks
+      </p>
+
+      <div class="reward">
+        +10 Coins
+      </div>
+
+      <button
+        class="card-btn"
+        onclick="watchAd()">
+        EARN
+      </button>
+
     </div>
 
+
+    <!-- LUCKY CARD -->
+
     <div class="card">
+
       <div class="icon">🃏</div>
+
       <h3>Lucky Card</h3>
-      <p>Try your daily lucky reward</p>
-      <div class="reward">30–100 Coins</div>
-      <button id="luckyBtn" class="card-btn" onclick="luckyCard()">OPEN</button>
+
+      <p>
+        Try your daily lucky reward
+      </p>
+
+      <div class="reward">
+        30–100 Coins
+      </div>
+
+      <button
+        id="luckyBtn"
+        class="card-btn"
+        onclick="luckyCard()">
+        OPEN
+      </button>
+
     </div>
 
+
+    <!-- QUIZ -->
+
     <div class="card">
+
       <div class="icon">🧠</div>
+
       <h3>Quiz</h3>
-      <p>Math + General Knowledge</p>
-      <div class="reward">+10 Coins</div>
-      <button class="card-btn green" onclick="openQuiz()">PLAY QUIZ</button>
+
+      <p>
+        Math + General Knowledge
+      </p>
+
+      <div class="reward">
+        +10 Coins
+      </div>
+
+      <!-- QUIZ COUNT AB YAHIN HAI -->
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          margin-top:10px;
+          color:var(--muted);
+          font-size:12px;
+        ">
+
+        <span>Quiz Today</span>
+
+        <b
+          id="quizCountHome"
+          style="color:#fff">
+          0/40
+        </b>
+
+      </div>
+
+      <button
+        class="card-btn green"
+        onclick="openQuiz()">
+        PLAY QUIZ
+      </button>
+
     </div>
 
   </div>
 
-  <div class="section-title">🎯 More Tasks</div>
+
+  <!-- MORE TASKS -->
+
+  <div class="section-title">
+    🎯 More Tasks
+  </div>
 
   <div class="grid">
 
+
+    <!-- SURVEY -->
+
     <div class="card">
+
       <div class="icon">📋</div>
+
       <h3>Survey Center</h3>
-      <p>Complete available surveys</p>
-      <div class="reward">+25 Coins</div>
-      <button class="card-btn" onclick="openModal('surveyModal')">OPEN</button>
+
+      <p>
+        Complete available surveys
+      </p>
+
+      <div class="reward">
+        +25 Coins
+      </div>
+
+      <button
+        class="card-btn"
+        onclick="openModal('surveyModal')">
+        OPEN
+      </button>
+
     </div>
 
+
+    <!-- PROMO -->
+
     <div class="card">
+
       <div class="icon">🎟️</div>
+
       <h3>Daily Promo</h3>
-      <p>Claim valid daily code</p>
-      <div class="reward">+200 Coins</div>
-      <button class="card-btn gold" onclick="openModal('promoModal')">CLAIM</button>
+
+      <p>
+        Claim valid daily code
+      </p>
+
+      <div class="reward">
+        +200 Coins
+      </div>
+
+      <button
+        class="card-btn gold"
+        onclick="openModal('promoModal')">
+        CLAIM
+      </button>
+
     </div>
 
+
+    <!-- DOWNLOAD -->
+
     <div class="card">
+
       <div class="icon">📱</div>
+
       <h3>Download Task</h3>
-      <p>Complete today's task</p>
-      <div class="reward">+20 Coins</div>
-      <button id="downloadBtn" class="card-btn" onclick="downloadTask()">START</button>
+
+      <p>
+        Complete today's task
+      </p>
+
+      <div class="reward">
+        +20 Coins
+      </div>
+
+      <button
+        id="downloadBtn"
+        class="card-btn"
+        onclick="downloadTask()">
+        START
+      </button>
+
     </div>
 
+
+    <!-- REFERRAL -->
+
     <div class="card">
+
       <div class="icon">👥</div>
+
       <h3>Referral</h3>
-      <p>Invite friends</p>
-      <div class="reward">Share & Earn</div>
-      <button class="card-btn" onclick="openModal('referralModal')">INVITE</button>
+
+      <p>
+        Invite friends
+      </p>
+
+      <div class="reward">
+        Share & Earn
+      </div>
+
+      <button
+        class="card-btn"
+        onclick="openModal('referralModal')">
+        INVITE
+      </button>
+
     </div>
 
   </div>
+
+
+  <!-- QUIZ PROGRESS -->
 
   <div class="progress-box">
 
     <div class="progress-top">
-      <span>Daily Quiz Progress</span>
-      <span><b id="quizProgressText">0/40</b></span>
+
+      <span>
+        Daily Quiz Progress
+      </span>
+
+      <span>
+        <b id="quizProgressText">
+          0/40
+        </b>
+      </span>
+
     </div>
 
     <div class="progress">
+
       <div id="quizProgress"></div>
+
     </div>
 
   </div>
 
 </section>
 
-<!-- WALLET -->
+
+<!-- ================= WALLET ================= -->
 
 <section id="walletPage" class="page">
 
-  <div class="section-title">💰 My Wallet</div>
+  <div class="section-title">
+    💰 My Wallet
+  </div>
 
   <div class="hero">
 
-    <small>Available Coins</small>
-    <h1><span id="walletCoins">0</span> 🪙</h1>
+    <small>
+      Available Coins
+    </small>
+
+    <h1>
+      <span id="walletCoins">0</span> 🪙
+    </h1>
 
     <p style="color:var(--muted);margin-top:7px">
       9,000 Coins = ₹30
     </p>
 
-    <button class="primary" onclick="openModal('withdrawModal')">
-      WITHDRAW COINS
+    <!-- WITHDRAWAL -> REDEEM COIN -->
+
+    <button
+      class="primary"
+      onclick="openModal('withdrawModal')">
+      REDEEM COINS
     </button>
 
   </div>
 
-  <div class="section-title">📜 Withdrawal History</div>
 
-  <div id="historyList" style="padding:0 15px"></div>
+  <div class="section-title">
+    📜 Redeem History
+  </div>
+
+  <div
+    id="historyList"
+    style="padding:0 15px">
+  </div>
 
 </section>
 
-<!-- ACCOUNT -->
+
+<!-- ================= ACCOUNT ================= -->
 
 <section id="accountPage" class="page">
 
-  <div class="section-title">👤 My Account</div>
+  <div class="section-title">
+    👤 My Account
+  </div>
 
   <div class="account-head">
 
-    <div class="big-avatar" id="accountAvatar">C</div>
+    <div
+      class="big-avatar"
+      id="accountAvatar">
+      C
+    </div>
 
-    <h2 id="accountName">Player</h2>
-    <p id="accountId">Account</p>
+    <h2 id="accountName">
+      Player
+    </h2>
 
-    <div class="vip" id="accountVip">⭐ VIP 1</div>
+    <p id="accountId">
+      Account
+    </p>
+
+    <div
+      class="vip"
+      id="accountVip">
+      ⭐ VIP 1
+    </div>
 
   </div>
 
-  <div class="stat-grid" style="padding:0 15px">
+
+  <div
+    class="stat-grid"
+    style="padding:0 15px">
 
     <div class="stat">
-      <small>Total Coins</small>
-      <strong id="accountCoins">0</strong>
+
+      <small>
+        Total Coins
+      </small>
+
+      <strong id="accountCoins">
+        0
+      </strong>
+
     </div>
 
     <div class="stat">
-      <small>Quiz Today</small>
-      <strong><span id="accountQuiz">0</span>/40</strong>
+
+      <small>
+        Quiz Today
+      </small>
+
+      <strong>
+        <span id="accountQuiz">0</span>/40
+      </strong>
+
     </div>
 
   </div>
 
-  <div class="menu" style="padding:0 15px">
+
+  <div
+    class="menu"
+    style="padding:0 15px">
+
 
     <button onclick="openModal('withdrawModal')">
+
       <span class="menu-left">
-        <span class="menu-icon">💸</span>
-        <span>Withdraw Coins</span>
+
+        <span class="menu-icon">
+          💎
+        </span>
+
+        <span>
+          Redeem Coin
+        </span>
+
       </span>
+
       <span>›</span>
+
     </button>
 
-    <button onclick="openModal('historyModal');renderHistory()">
+
+    <button
+      onclick="openModal('historyModal');renderHistory()">
+
       <span class="menu-left">
-        <span class="menu-icon">📜</span>
-        <span>Withdrawal History</span>
+
+        <span class="menu-icon">
+          📜
+        </span>
+
+        <span>
+          Redeem History
+        </span>
+
       </span>
+
       <span>›</span>
+
     </button>
+
 
     <button onclick="openModal('rulesModal')">
+
       <span class="menu-left">
-        <span class="menu-icon">📜</span>
-        <span>Game Rules</span>
+
+        <span class="menu-icon">
+          📜
+        </span>
+
+        <span>
+          Game Rules
+        </span>
+
       </span>
+
       <span>›</span>
+
     </button>
+
 
     <button onclick="openModal('referralModal')">
+
       <span class="menu-left">
-        <span class="menu-icon">👥</span>
-        <span>Referral</span>
+
+        <span class="menu-icon">
+          👥
+        </span>
+
+        <span>
+          Referral
+        </span>
+
       </span>
+
       <span>›</span>
+
     </button>
 
+
     <button onclick="logout()">
+
       <span class="menu-left">
-        <span class="menu-icon">🚪</span>
-        <span>Logout</span>
+
+        <span class="menu-icon">
+          🚪
+        </span>
+
+        <span>
+          Logout
+        </span>
+
       </span>
+
       <span>›</span>
+
     </button>
 
   </div>
 
 </section>
 
-<!-- NAV -->
+
+<!-- ================= NAV ================= -->
 
 <nav class="bottom-nav">
 
-  <button class="nav-btn active" onclick="showPage('homePage',this)">
-    <div>🏠</div>Home
+  <button
+    class="nav-btn active"
+    onclick="showPage('homePage',this)">
+
+    <div>🏠</div>
+    Home
+
   </button>
 
-  <button class="nav-btn" onclick="showPage('walletPage',this)">
-    <div>💰</div>Wallet
+
+  <button
+    class="nav-btn"
+    onclick="showPage('walletPage',this)">
+
+    <div>💰</div>
+    Wallet
+
   </button>
 
-  <button class="nav-btn" onclick="openQuiz()">
-    <div>🧠</div>Quiz
+
+  <button
+    class="nav-btn"
+    onclick="openQuiz()">
+
+    <div>🧠</div>
+    Quiz
+
   </button>
 
-  <button class="nav-btn" onclick="showPage('accountPage',this)">
-    <div>👤</div>Account
+
+  <button
+    class="nav-btn"
+    onclick="showPage('accountPage',this)">
+
+    <div>👤</div>
+    Account
+
   </button>
 
 </nav>
 
 </div>
+
 
 <!-- ================= QUIZ MODAL ================= -->
 
@@ -1005,19 +1376,42 @@ header{
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('quizModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('quizModal')">
+      ×
+    </button>
 
-    <div class="modal-title">🧠 CoinRush Quiz</div>
+    <div class="modal-title">
+      🧠 CoinRush Quiz
+    </div>
 
-    <div class="progress-box" style="margin:0">
+    <div
+      class="progress-box"
+      style="margin:0">
+
       <div class="progress-top">
-        <span>Today's Questions</span>
-        <span><b id="quizModalCount">0/40</b></span>
+
+        <span>
+          Today's Questions
+        </span>
+
+        <span>
+          <b id="quizModalCount">
+            0/40
+          </b>
+        </span>
+
       </div>
 
       <div class="progress">
-        <div id="quizModalProgress"></div>
+
+        <div
+          id="quizModalProgress">
+        </div>
+
       </div>
+
     </div>
 
     <div id="quizContent"></div>
@@ -1026,39 +1420,83 @@ header{
 
 </div>
 
-<!-- ================= WITHDRAW ================= -->
+
+<!-- ================= REDEEM COIN ================= -->
 
 <div id="withdrawModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('withdrawModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('withdrawModal')">
+      ×
+    </button>
 
-    <div class="modal-title">💸 Withdraw Coins</div>
-
-    <div class="row">
-      <h3>Withdrawal Rules</h3>
-      <p>
-        Minimum: <b style="color:#fff">9,000 coins</b><br>
-        Conversion: <b style="color:#fff">9,000 coins = ₹30</b><br>
-        Daily maximum: <b style="color:#fff">20,000 coins</b><br>
-        Processing: <b style="color:#fff">24–72 hours</b>
-      </p>
+    <div class="modal-title">
+      💎 Redeem Coin
     </div>
 
-    <input id="withdrawCoins" class="input" type="number"
-           placeholder="Enter coin amount">
+    <div class="row">
 
-    <input id="upi" class="input" type="text"
-           placeholder="Enter UPI ID">
+      <h3>
+        Redeem Coin Rules
+      </h3>
 
-    <button class="primary" onclick="submitWithdrawal()">
-      SUBMIT WITHDRAWAL
+      <p>
+
+        Minimum:
+        <b style="color:#fff">
+          9,000 coins
+        </b>
+        <br>
+
+        Conversion:
+        <b style="color:#fff">
+          9,000 coins = ₹30
+        </b>
+        <br>
+
+        Daily maximum:
+        <b style="color:#fff">
+          20,000 coins
+        </b>
+        <br>
+
+        Processing:
+        <b style="color:#fff">
+          24–72 hours
+        </b>
+
+      </p>
+
+    </div>
+
+
+    <input
+      id="withdrawCoins"
+      class="input"
+      type="number"
+      placeholder="Enter coin amount">
+
+
+    <input
+      id="upi"
+      class="input"
+      type="text"
+      placeholder="Enter UPI ID">
+
+
+    <button
+      class="primary"
+      onclick="submitWithdrawal()">
+      SUBMIT REDEEM REQUEST
     </button>
 
   </div>
 
 </div>
+
 
 <!-- ================= SURVEY ================= -->
 
@@ -1066,9 +1504,15 @@ header{
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('surveyModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('surveyModal')">
+      ×
+    </button>
 
-    <div class="modal-title">📋 Survey Center</div>
+    <div class="modal-title">
+      📋 Survey Center
+    </div>
 
     <div id="surveyList"></div>
 
@@ -1076,25 +1520,46 @@ header{
 
 </div>
 
+
 <!-- ================= PROMO ================= -->
 
 <div id="promoModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('promoModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('promoModal')">
+      ×
+    </button>
 
-    <div class="modal-title">🎟️ Daily Promocode</div>
-
-    <div class="row">
-      <h3>Today's Reward</h3>
-      <p>Valid daily promocode gives <b style="color:#fff">200 coins</b>.</p>
+    <div class="modal-title">
+      🎟️ Daily Promocode
     </div>
 
-    <input id="promoInput" class="input"
-           placeholder="Enter promocode">
+    <div class="row">
 
-    <button class="primary" onclick="claimPromo()">
+      <h3>
+        Today's Reward
+      </h3>
+
+      <p>
+        Valid daily promocode gives
+        <b style="color:#fff">
+          200 coins
+        </b>.
+      </p>
+
+    </div>
+
+    <input
+      id="promoInput"
+      class="input"
+      placeholder="Enter promocode">
+
+    <button
+      class="primary"
+      onclick="claimPromo()">
       CLAIM 200 COINS
     </button>
 
@@ -1102,28 +1567,54 @@ header{
 
 </div>
 
+
 <!-- ================= REFERRAL ================= -->
 
 <div id="referralModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('referralModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('referralModal')">
+      ×
+    </button>
 
-    <div class="modal-title">👥 Referral</div>
-
-    <div class="row">
-      <h3>Your Referral Code</h3>
-      <p id="referralCode" style="color:#fff;font-size:18px;font-weight:900"></p>
+    <div class="modal-title">
+      👥 Referral
     </div>
 
-    <input id="referralLink" class="input" readonly>
+    <div class="row">
 
-    <button class="primary" onclick="copyReferral()">
+      <h3>
+        Your Referral Code
+      </h3>
+
+      <p
+        id="referralCode"
+        style="
+          color:#fff;
+          font-size:18px;
+          font-weight:900
+        ">
+      </p>
+
+    </div>
+
+    <input
+      id="referralLink"
+      class="input"
+      readonly>
+
+    <button
+      class="primary"
+      onclick="copyReferral()">
       COPY LINK
     </button>
 
-    <button class="secondary" onclick="shareReferral()">
+    <button
+      class="secondary"
+      onclick="shareReferral()">
       SHARE ON WHATSAPP
     </button>
 
@@ -1131,15 +1622,22 @@ header{
 
 </div>
 
+
 <!-- ================= HISTORY ================= -->
 
 <div id="historyModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('historyModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('historyModal')">
+      ×
+    </button>
 
-    <div class="modal-title">📜 Withdrawal History</div>
+    <div class="modal-title">
+      📜 Redeem History
+    </div>
 
     <div id="modalHistory"></div>
 
@@ -1147,28 +1645,46 @@ header{
 
 </div>
 
+
 <!-- ================= RULES ================= -->
 
 <div id="rulesModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('rulesModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('rulesModal')">
+      ×
+    </button>
 
-    <div class="modal-title">📜 CoinRush Pro — Game Rules</div>
+    <div class="modal-title">
+      📜 CoinRush Pro — Game Rules
+    </div>
+
 
     <div class="row">
-      <h3>🎯 1. General Rules</h3>
+
+      <h3>
+        🎯 1. General Rules
+      </h3>
+
       <p>
         CoinRush Pro is a reward-based task and quiz platform.
         Users can complete available activities and earn coins.
-        Coins can be used for eligible withdrawals according to the
-        withdrawal rules.
+        Coins can be used for eligible redemption according to
+        the redeem rules.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>👤 2. Account Rules</h3>
+
+      <h3>
+        👤 2. Account Rules
+      </h3>
+
       <p>
         • One account should be used by one user.<br>
         • Do not create duplicate or fake accounts.<br>
@@ -1176,153 +1692,252 @@ header{
         • Account information should be kept accurate.<br>
         • Suspicious or abusive activity may result in account review.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🎁 3. Daily Bonus</h3>
+
+      <h3>
+        🎁 3. Daily Bonus
+      </h3>
+
       <p>
         • Daily Bonus can be claimed once per day.<br>
-        • Daily Bonus reward: <b>100 coins</b>.<br>
+        • Daily Bonus reward:
+        <b>100 coins</b>.<br>
         • After claiming, the bonus remains locked until the next day.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>📺 4. Watch Ads</h3>
+
+      <h3>
+        📺 4. Watch Ads
+      </h3>
+
       <p>
         • Users can complete available advertisement tasks.<br>
-        • Reward: <b>10 coins</b> per completed task in this version.<br>
+        • Reward:
+        <b>10 coins</b> per completed task in this version.<br>
         • Daily task limits may apply.<br>
         • Do not use bots, auto-clickers or artificial activity.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🧠 5. Quiz Rules</h3>
+
+      <h3>
+        🧠 5. Quiz Rules
+      </h3>
+
       <p>
         • Quiz contains Math and GK questions.<br>
         • Questions are generated/selected from a large question pool.<br>
         • Maximum <b>40 questions per day</b>.<br>
-        • Correct answer reward: <b>10 coins</b>.<br>
+        • Correct answer reward:
+        <b>10 coins</b>.<br>
         • Wrong answer does not give coins.<br>
-        • After 40 questions, Quiz becomes <b>LOCKED</b> for that day.<br>
+        • After 40 questions, Quiz becomes
+        <b>LOCKED</b> for that day.<br>
         • Quiz limit resets on the next day.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>📋 6. Survey Center</h3>
+
+      <h3>
+        📋 6. Survey Center
+      </h3>
+
       <p>
         • Available survey tasks can be completed from Survey Center.<br>
-        • Reward: <b>25 coins</b> per completed survey in this version.<br>
-        • Maximum <b>20 survey tasks per day</b>.<br>
+        • Reward:
+        <b>25 coins</b> per completed survey.<br>
+        • Maximum
+        <b>20 survey tasks per day</b>.<br>
         • Survey availability may change.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🃏 7. Lucky Card</h3>
+
+      <h3>
+        🃏 7. Lucky Card
+      </h3>
+
       <p>
         • Lucky Card can be used once per day.<br>
-        • Possible rewards include <b>30, 50, 75 and 100 coins</b>.<br>
+        • Possible rewards include
+        <b>30, 50, 75 and 100 coins</b>.<br>
         • Once used, it remains locked until the next day.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🎟️ 8. Daily Promocode</h3>
+
+      <h3>
+        🎟️ 8. Daily Promocode
+      </h3>
+
       <p>
         • A valid daily promocode can be claimed once per day.<br>
-        • Daily promocode reward: <b>200 coins</b>.<br>
+        • Daily promocode reward:
+        <b>200 coins</b>.<br>
         • One user cannot claim the same daily reward repeatedly.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>📱 9. Download Task</h3>
+
+      <h3>
+        📱 9. Download Task
+      </h3>
+
       <p>
-        • Download task can be completed once per day in this version.<br>
-        • Reward: <b>20 coins</b>.<br>
+        • Download task can be completed once per day.<br>
+        • Reward:
+        <b>20 coins</b>.<br>
         • Repeated submissions may be rejected.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>👥 10. Referral Rules</h3>
+
+      <h3>
+        👥 10. Referral Rules
+      </h3>
+
       <p>
         • Each user has a referral link based on their account ID.<br>
         • Referral links can be shared with friends.<br>
         • Referral rewards should only be given for genuine eligible referrals.<br>
         • Self-referrals and fake accounts are not allowed.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>💸 11. Withdrawal Rules</h3>
+
+      <h3>
+        💎 11. Redeem Coin Rules
+      </h3>
+
       <p>
-        • Minimum withdrawal: <b>9,000 coins</b>.<br>
-        • 9,000 coins = <b>₹30</b> in the current conversion.<br>
-        • Maximum withdrawal: <b>20,000 coins per day</b>.<br>
+        • Minimum redemption:
+        <b>9,000 coins</b>.<br>
+        • 9,000 coins =
+        <b>₹30</b> in the current conversion.<br>
+        • Maximum redemption:
+        <b>20,000 coins per day</b>.<br>
         • A valid UPI ID is required.<br>
-        • Withdrawal requests are sent to the admin panel.<br>
-        • Normal processing time: <b>24–72 hours</b>.<br>
+        • Redeem requests are sent to the admin panel.<br>
+        • Normal processing time:
+        <b>24–72 hours</b>.<br>
         • Admin can mark a request as Paid or Rejected.<br>
         • Incorrect UPI details can delay or prevent payment.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>⏱️ 12. Withdrawal Processing</h3>
+
+      <h3>
+        ⏱️ 12. Redeem Processing
+      </h3>
+
       <p>
-        Every withdrawal request is recorded with the user's
+        Every redeem request is recorded with the user's
         name, mobile/account ID, UID, coin amount, rupee amount,
         UPI ID, date and status for admin processing.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🚫 13. Prohibited Activities</h3>
+
+      <h3>
+        🚫 13. Prohibited Activities
+      </h3>
+
       <p>
         • Bots or automated clicking<br>
         • Fake accounts<br>
         • Duplicate/fraudulent activity<br>
         • Manipulating coins or rewards<br>
         • Exploiting bugs intentionally<br>
-        • False or misleading withdrawal information
+        • False or misleading redemption information
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>⭐ 14. VIP Levels</h3>
+
+      <h3>
+        ⭐ 14. VIP Levels
+      </h3>
+
       <p>
-        VIP status is displayed according to the current CoinRush
-        reward system. VIP-related benefits or limits may change
-        when the reward system is updated.
+        VIP status is displayed according to the current
+        CoinRush reward system. VIP-related benefits or limits
+        may change when the reward system is updated.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>🔐 15. Security & Account Safety</h3>
+
+      <h3>
+        🔐 15. Security & Account Safety
+      </h3>
+
       <p>
         Keep your login credentials private. Do not share your
-        password or account access. Coin balances and withdrawal
+        password or account access. Coin balances and redemption
         eligibility are subject to the application's verification
         and reward rules.
       </p>
+
     </div>
 
+
     <div class="row">
-      <h3>⚠️ 16. Important</h3>
+
+      <h3>
+        ⚠️ 16. Important
+      </h3>
+
       <p>
-        Coin rewards, task availability, limits and withdrawal
+        Coin rewards, task availability, limits and redemption
         processing may be updated by the CoinRush administrator.
         Always check the latest rules shown inside the application.
       </p>
+
     </div>
 
   </div>
 
 </div>
+
 
 <!-- ================= ADMIN ================= -->
 
@@ -1330,29 +1945,51 @@ header{
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal('adminModal')">×</button>
+    <button
+      class="close"
+      onclick="closeModal('adminModal')">
+      ×
+    </button>
 
-    <div class="modal-title">🛡️ Admin Withdrawal Panel</div>
-
-    <div class="row">
-      <h3>🔥 Firebase Realtime</h3>
-      <p>
-        New withdrawal requests are loaded automatically when
-        they are added to Firebase.
-      </p>
+    <div class="modal-title">
+      🛡️ Admin Redeem Panel
     </div>
 
-    <div id="adminStats" class="stat-grid"></div>
+    <div class="row">
 
-    <div id="adminWithdrawList" class="admin-list">
-      <div class="row">Loading withdrawal requests...</div>
+      <h3>
+        🔥 Firebase Realtime
+      </h3>
+
+      <p>
+        New redeem requests are loaded automatically
+        when they are added to Firebase.
+      </p>
+
+    </div>
+
+    <div
+      id="adminStats"
+      class="stat-grid">
+    </div>
+
+    <div
+      id="adminWithdrawList"
+      class="admin-list">
+
+      <div class="row">
+        Loading redeem requests...
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
+
 <div id="toast" class="toast"></div>
+
 
 <!-- ================= FIREBASE ================= -->
 
@@ -1376,16 +2013,35 @@ import {
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
+/* ================= FIREBASE CONFIG ================= */
+
 const firebaseConfig = {
-  apiKey:"AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
-  authDomain:"coinrush-pro-ef37b.firebaseapp.com",
-  projectId:"coinrush-pro-ef37b",
-  storageBucket:"coinrush-pro-ef37b.firebasestorage.app",
-  messagingSenderId:"2523681309",
-  appId:"1:2523681309:web:9bf3bf9164d948010cecf4",
-  measurementId:"G-64DEYLS7LD",
-  databaseURL:"https://coinrush-pro-ef37b-default-rtdb.firebaseio.com/"
+
+  apiKey:
+    "AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
+
+  authDomain:
+    "coinrush-pro-ef37b.firebaseapp.com",
+
+  projectId:
+    "coinrush-pro-ef37b",
+
+  storageBucket:
+    "coinrush-pro-ef37b.firebasestorage.app",
+
+  messagingSenderId:
+    "2523681309",
+
+  appId:
+    "1:2523681309:web:9bf3bf9164d948010cecf4",
+
+  measurementId:
+    "G-64DEYLS7LD",
+
+  databaseURL:
+    "https://coinrush-pro-ef37b-default-rtdb.firebaseio.com/"
 };
+
 
 const app=initializeApp(firebaseConfig);
 
@@ -1395,15 +2051,39 @@ try{
 
 const database=getDatabase(app);
 
+window.database=database;
+
 
 /* ================= GLOBAL ================= */
 
-window.database=database;
+let currentUser=
+  localStorage.getItem("activeUser")||null;
 
-let currentUser=localStorage.getItem("activeUser")||null;
 let authMode="login";
 
+let adminLoggedIn=false;
+
+
+/* ================= SPECIAL LOGIN ================= */
+
+/*
+  ADMIN LOGIN
+
+  Number: 9999999999
+  Password: admin999
+
+  OWNER LOGIN
+
+  Number: 8942095676
+  Password: 1234567
+*/
+
+const ADMIN_NUMBER="9999999999";
 const ADMIN_PASSWORD="admin999";
+
+const OWNER_NUMBER="8942095676";
+const OWNER_PASSWORD="1234567";
+
 
 const QUIZ_DAILY_LIMIT=40;
 const QUIZ_REWARD=10;
@@ -1418,7 +2098,10 @@ const COIN_TO_RUPEE=30/9000;
 
 function today(){
 
-  const d=new Date(Date.now()+330*60000);
+  const d=
+    new Date(
+      Date.now()+330*60000
+    );
 
   return d.toISOString().slice(0,10);
 }
@@ -1431,7 +2114,9 @@ function getUser(){
   if(!currentUser)return null;
 
   return JSON.parse(
-    localStorage.getItem("user_"+currentUser)||"null"
+    localStorage.getItem(
+      "user_"+currentUser
+    )||"null"
   );
 }
 
@@ -1449,7 +2134,8 @@ function saveUser(u){
 
 function toast(message){
 
-  const el=document.getElementById("toast");
+  const el=
+    document.getElementById("toast");
 
   el.textContent=message;
 
@@ -1469,10 +2155,10 @@ function addCoins(amount){
 
   if(!u)return;
 
-  u.coins=Number(u.coins||0)+Number(amount);
+  u.coins=
+    Number(u.coins||0)+Number(amount);
 
   saveUser(u);
-
 }
 
 
@@ -1495,27 +2181,51 @@ window.switchAuth=function(mode){
 
   authMode=mode;
 
-  document.getElementById("loginTab")
-    .classList.toggle("active",mode==="login");
+  document
+    .getElementById("loginTab")
+    .classList.toggle(
+      "active",
+      mode==="login"
+    );
 
-  document.getElementById("registerTab")
-    .classList.toggle("active",mode==="register");
+  document
+    .getElementById("registerTab")
+    .classList.toggle(
+      "active",
+      mode==="register"
+    );
 
-  document.getElementById("registerNameBox")
-    .classList.toggle("hidden",mode!=="register");
+  document
+    .getElementById("registerNameBox")
+    .classList.toggle(
+      "hidden",
+      mode!=="register"
+    );
 
-  document.getElementById("authButton").textContent=
-    mode==="register"?"REGISTER":"LOGIN";
+  document
+    .getElementById("authButton")
+    .textContent=
+      mode==="register"
+        ?"REGISTER"
+        :"LOGIN";
 };
 
 
+/* ================= AUTH SUBMIT ================= */
+
 window.submitAuth=function(){
 
-  const id=document.getElementById("authMobile")
-    .value.trim();
+  const id=
+    document
+      .getElementById("authMobile")
+      .value
+      .trim();
 
-  const pass=document.getElementById("authPassword")
-    .value;
+  const pass=
+    document
+      .getElementById("authPassword")
+      .value;
+
 
   if(!id||!pass){
 
@@ -1524,10 +2234,129 @@ window.submitAuth=function(){
     return;
   }
 
+
+  /*
+    ADMIN LOGIN
+  */
+
+  if(
+    authMode==="login" &&
+    id===ADMIN_NUMBER &&
+    pass===ADMIN_PASSWORD
+  ){
+
+    adminLoggedIn=true;
+
+    document
+      .getElementById("loginScreen")
+      .classList.add("hidden");
+
+    document
+      .getElementById("app")
+      .classList.add("hidden");
+
+    openModal("adminModal");
+
+    listenAdminWithdrawals();
+
+    toast("Admin login successful");
+
+    return;
+  }
+
+
+  /*
+    OWNER LOGIN
+
+    Automatically creates owner's local
+    account if it doesn't already exist.
+  */
+
+  if(
+    authMode==="login" &&
+    id===OWNER_NUMBER &&
+    pass===OWNER_PASSWORD
+  ){
+
+    let owner=
+      JSON.parse(
+        localStorage.getItem(
+          "user_"+OWNER_NUMBER
+        )||"null"
+      );
+
+
+    if(!owner){
+
+      owner={
+
+        id:OWNER_NUMBER,
+
+        name:"Bishal prasad",
+
+        password:OWNER_PASSWORD,
+
+        coins:0,
+
+        createdAt:Date.now(),
+
+        quizDate:today(),
+
+        quizCount:0,
+
+        bonusDate:"",
+
+        luckyDate:"",
+
+        promoDate:"",
+
+        downloadDate:"",
+
+        adsDate:today(),
+
+        adsCount:0,
+
+        surveyDate:today(),
+
+        surveyCount:0
+
+      };
+
+      localStorage.setItem(
+        "user_"+OWNER_NUMBER,
+        JSON.stringify(owner)
+      );
+
+    }
+
+
+    currentUser=OWNER_NUMBER;
+
+    localStorage.setItem(
+      "activeUser",
+      OWNER_NUMBER
+    );
+
+    toast("Owner login successful");
+
+    showApp();
+
+    return;
+  }
+
+
+  /*
+    NORMAL REGISTER
+  */
+
   if(authMode==="register"){
 
-    const name=document.getElementById("authName")
-      .value.trim();
+    const name=
+      document
+        .getElementById("authName")
+        .value
+        .trim();
+
 
     if(!name){
 
@@ -1536,76 +2365,140 @@ window.submitAuth=function(){
       return;
     }
 
-    if(localStorage.getItem("user_"+id)){
 
-      toast("This account already exists");
+    if(
+      localStorage.getItem(
+        "user_"+id
+      )
+    ){
+
+      toast(
+        "This account already exists"
+      );
 
       return;
     }
 
+
     const user={
+
       id,
+
       name,
+
       password:pass,
+
       coins:0,
+
       createdAt:Date.now(),
+
       quizDate:today(),
+
       quizCount:0,
+
       bonusDate:"",
+
       luckyDate:"",
+
       promoDate:"",
+
       downloadDate:"",
+
       adsDate:today(),
+
       adsCount:0,
+
       surveyDate:today(),
+
       surveyCount:0
+
     };
+
 
     localStorage.setItem(
       "user_"+id,
       JSON.stringify(user)
     );
 
+
     currentUser=id;
 
-    localStorage.setItem("activeUser",id);
+    localStorage.setItem(
+      "activeUser",
+      id
+    );
 
-    toast("Registration successful");
+
+    toast(
+      "Registration successful"
+    );
 
   }else{
 
-    const user=JSON.parse(
-      localStorage.getItem("user_"+id)||"null"
-    );
 
-    if(!user||user.password!==pass){
+    /*
+      NORMAL USER LOGIN
+    */
 
-      toast("Invalid account or password");
+    const user=
+      JSON.parse(
+        localStorage.getItem(
+          "user_"+id
+        )||"null"
+      );
+
+
+    if(
+      !user ||
+      user.password!==pass
+    ){
+
+      toast(
+        "Invalid account or password"
+      );
 
       return;
     }
 
+
     currentUser=id;
 
-    localStorage.setItem("activeUser",id);
+    localStorage.setItem(
+      "activeUser",
+      id
+    );
 
-    toast("Login successful");
+
+    toast(
+      "Login successful"
+    );
+
   }
 
+
   showApp();
+
 };
 
 
+/* ================= LOGOUT ================= */
+
 window.logout=function(){
 
-  localStorage.removeItem("activeUser");
+  localStorage.removeItem(
+    "activeUser"
+  );
 
   currentUser=null;
 
-  document.getElementById("app")
+  adminLoggedIn=false;
+
+  document
+    .getElementById("app")
     .classList.add("hidden");
 
-  document.getElementById("loginScreen")
+  document
+    .getElementById("loginScreen")
     .classList.remove("hidden");
 
 };
@@ -1615,10 +2508,12 @@ window.logout=function(){
 
 function showApp(){
 
-  document.getElementById("loginScreen")
+  document
+    .getElementById("loginScreen")
     .classList.add("hidden");
 
-  document.getElementById("app")
+  document
+    .getElementById("app")
     .classList.remove("hidden");
 
   updateUI();
@@ -1640,94 +2535,189 @@ function updateUI(){
 
   resetDailyCounters(u);
 
-  const coins=Number(u.coins||0);
+  const coins=
+    Number(u.coins||0);
 
-  document.getElementById("headerCoins")
-    .textContent=coins.toLocaleString();
 
-  document.getElementById("heroCoins")
-    .textContent=coins.toLocaleString();
+  document
+    .getElementById("headerCoins")
+    .textContent=
+      coins.toLocaleString();
 
-  document.getElementById("walletCoins")
-    .textContent=coins.toLocaleString();
 
-  document.getElementById("accountCoins")
-    .textContent=coins.toLocaleString();
+  /*
+    Hero coin balance removed.
+    Only header + wallet + account show balance.
+  */
 
-  document.getElementById("userName")
-    .textContent=u.name;
 
-  document.getElementById("accountName")
-    .textContent=u.name;
+  document
+    .getElementById("walletCoins")
+    .textContent=
+      coins.toLocaleString();
 
-  document.getElementById("accountId")
-    .textContent="Account: "+u.id;
 
-  const first=(u.name||"C").charAt(0).toUpperCase();
+  document
+    .getElementById("accountCoins")
+    .textContent=
+      coins.toLocaleString();
 
-  document.getElementById("headerAvatar")
-    .textContent=first;
 
-  document.getElementById("accountAvatar")
-    .textContent=first;
+  document
+    .getElementById("userName")
+    .textContent=
+      u.name;
+
+
+  document
+    .getElementById("accountName")
+    .textContent=
+      u.name;
+
+
+  document
+    .getElementById("accountId")
+    .textContent=
+      "Account: "+u.id;
+
+
+  const first=
+    (u.name||"C")
+      .charAt(0)
+      .toUpperCase();
+
+
+  document
+    .getElementById("headerAvatar")
+    .textContent=
+      first;
+
+
+  document
+    .getElementById("accountAvatar")
+    .textContent=
+      first;
+
 
   const vip=getVip(coins);
 
-  document.getElementById("vipText")
-    .textContent="⭐ "+vip;
 
-  document.getElementById("accountVip")
-    .textContent="⭐ "+vip;
+  document
+    .getElementById("vipText")
+    .textContent=
+      "⭐ "+vip;
+
+
+  document
+    .getElementById("accountVip")
+    .textContent=
+      "⭐ "+vip;
+
 
   const count=getQuizCount();
 
-  document.getElementById("quizCountHome")
-    .textContent=count;
 
-  document.getElementById("accountQuiz")
-    .textContent=count;
+  document
+    .getElementById("quizCountHome")
+    .textContent=
+      count+"/40";
 
-  document.getElementById("quizProgressText")
-    .textContent=count+"/40";
 
-  document.getElementById("quizProgress")
-    .style.width=(count/40*100)+"%";
+  document
+    .getElementById("accountQuiz")
+    .textContent=
+      count;
 
-  document.getElementById("downloadBtn").textContent=
-    u.downloadDate===today()?"CLAIMED":"START";
 
-  document.getElementById("bonusBtn").textContent=
-    u.bonusDate===today()?"CLAIMED":"CLAIM";
+  document
+    .getElementById("quizProgressText")
+    .textContent=
+      count+"/40";
 
-  document.getElementById("luckyBtn").textContent=
-    u.luckyDate===today()?"CLAIMED":"OPEN";
+
+  document
+    .getElementById("quizProgress")
+    .style.width=
+      (count/40*100)+"%";
+
+
+  document
+    .getElementById("downloadBtn")
+    .textContent=
+      u.downloadDate===today()
+        ?"CLAIMED"
+        :"START";
+
+
+  document
+    .getElementById("bonusBtn")
+    .textContent=
+      u.bonusDate===today()
+        ?"CLAIMED"
+        :"CLAIM";
+
+
+  document
+    .getElementById("bonusBtn")
+    .disabled=
+      u.bonusDate===today();
+
+
+  document
+    .getElementById("luckyBtn")
+    .textContent=
+      u.luckyDate===today()
+        ?"CLAIMED"
+        :"OPEN";
+
+
+  document
+    .getElementById("luckyBtn")
+    .disabled=
+      u.luckyDate===today();
+
 }
 
 
 function resetDailyCounters(u){
 
+  if(!u)return;
+
   let changed=false;
+
 
   if(u.quizDate!==today()){
 
     u.quizDate=today();
+
     u.quizCount=0;
+
     changed=true;
+
   }
+
 
   if(u.adsDate!==today()){
 
     u.adsDate=today();
+
     u.adsCount=0;
+
     changed=true;
+
   }
+
 
   if(u.surveyDate!==today()){
 
     u.surveyDate=today();
+
     u.surveyCount=0;
+
     changed=true;
+
   }
+
 
   if(changed){
 
@@ -1735,38 +2725,63 @@ function resetDailyCounters(u){
       "user_"+currentUser,
       JSON.stringify(u)
     );
+
   }
+
 }
 
 
 function getVip(coins){
 
-  if(coins>=100000)return"VIP 4";
+  if(coins>=100000)
+    return "VIP 4";
 
-  if(coins>=50000)return"VIP 3";
+  if(coins>=50000)
+    return "VIP 3";
 
-  if(coins>=20000)return"VIP 2";
+  if(coins>=20000)
+    return "VIP 2";
 
-  return"VIP 1";
+  return "VIP 1";
+
 }
 
 
 /* ================= NAV ================= */
 
-window.showPage=function(id,button){
+window.showPage=function(
+  id,
+  button
+){
 
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+  document
+    .querySelectorAll(".page")
+    .forEach(p=>
+      p.classList.remove("active")
+    );
 
-  document.getElementById(id)
+
+  document
+    .getElementById(id)
     .classList.add("active");
 
-  document.querySelectorAll(".nav-btn")
-    .forEach(b=>b.classList.remove("active"));
 
-  if(button)button.classList.add("active");
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(b=>
+      b.classList.remove("active")
+    );
 
-  window.scrollTo({top:0,behavior:"smooth"});
+
+  if(button)
+    button.classList.add("active");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 };
 
 
@@ -1774,7 +2789,8 @@ window.showPage=function(id,button){
 
 window.openModal=function(id){
 
-  document.getElementById(id)
+  document
+    .getElementById(id)
     .classList.add("show");
 
 };
@@ -1782,32 +2798,86 @@ window.openModal=function(id){
 
 window.closeModal=function(id){
 
-  document.getElementById(id)
+  document
+    .getElementById(id)
     .classList.remove("show");
 
 };
 
 
-/* ================= DAILY BONUS ================= */
+/* ================= DAILY BONUS FIX ================= */
 
 window.claimBonus=function(){
 
   const u=getUser();
 
-  if(u.bonusDate===today()){
 
-    toast("Daily Bonus already claimed");
+  if(!u){
+
+    toast(
+      "Please login first"
+    );
 
     return;
   }
 
-  addCoins(100);
 
-  u.bonusDate=today();
+  const currentDate=today();
+
+
+  if(u.bonusDate===currentDate){
+
+    toast(
+      "Daily Bonus already claimed"
+    );
+
+    return;
+  }
+
+
+  /*
+    IMPORTANT FIX:
+    Directly add 100 coins to the same
+    user object and save it once.
+  */
+
+  u.coins=
+    Number(u.coins||0)+100;
+
+
+  u.bonusDate=
+    currentDate;
+
 
   saveUser(u);
 
-  toast("+100 coins added 🎉");
+
+  /*
+    Force UI refresh
+  */
+
+  updateUI();
+
+
+  const btn=
+    document.getElementById(
+      "bonusBtn"
+    );
+
+
+  if(btn){
+
+    btn.textContent="CLAIMED";
+
+    btn.disabled=true;
+
+  }
+
+
+  toast(
+    "+100 Coins Added 🎉"
+  );
+
 };
 
 
@@ -1817,30 +2887,50 @@ window.watchAd=function(){
 
   const u=getUser();
 
+  if(!u)return;
+
   resetDailyCounters(u);
+
 
   if(u.adsCount>=20){
 
-    toast("Today's ad limit reached");
+    toast(
+      "Today's ad limit reached"
+    );
 
     return;
   }
 
-  toast("Ad task started...");
+
+  toast(
+    "Ad task started..."
+  );
+
 
   setTimeout(()=>{
 
     const latest=getUser();
 
-    latest.adsCount++;
+    if(!latest)return;
+
+
+    latest.adsCount=
+      Number(latest.adsCount||0)+1;
+
 
     latest.adsDate=today();
 
-    latest.coins=Number(latest.coins||0)+10;
+
+    latest.coins=
+      Number(latest.coins||0)+10;
+
 
     saveUser(latest);
 
-    toast("+10 coins earned 📺");
+
+    toast(
+      "+10 coins earned 📺"
+    );
 
   },2500);
 
@@ -1853,25 +2943,50 @@ window.luckyCard=function(){
 
   const u=getUser();
 
+  if(!u)return;
+
+
   if(u.luckyDate===today()){
 
-    toast("Lucky Card already used today");
+    toast(
+      "Lucky Card already used today"
+    );
 
     return;
   }
 
-  const rewards=[30,50,75,100];
+
+  const rewards=[
+    30,
+    50,
+    75,
+    100
+  ];
+
 
   const reward=
-    rewards[Math.floor(Math.random()*rewards.length)];
+    rewards[
+      Math.floor(
+        Math.random()*rewards.length
+      )
+    ];
+
 
   u.luckyDate=today();
 
-  u.coins=Number(u.coins||0)+reward;
+
+  u.coins=
+    Number(u.coins||0)+reward;
+
 
   saveUser(u);
 
-  toast("Lucky Card: +"+reward+" coins 🃏");
+
+  toast(
+    "Lucky Card: +"+
+    reward+
+    " coins 🃏"
+  );
 
 };
 
@@ -1882,26 +2997,47 @@ window.downloadTask=function(){
 
   const u=getUser();
 
-  if(u.downloadDate===today()){
+  if(!u)return;
 
-    toast("Today's download task completed");
+
+  if(
+    u.downloadDate===today()
+  ){
+
+    toast(
+      "Today's download task completed"
+    );
 
     return;
   }
 
-  toast("Download task completed");
+
+  toast(
+    "Download task completed"
+  );
+
 
   setTimeout(()=>{
 
     const latest=getUser();
 
-    latest.downloadDate=today();
+    if(!latest)return;
 
-    latest.coins=Number(latest.coins||0)+20;
+
+    latest.downloadDate=
+      today();
+
+
+    latest.coins=
+      Number(latest.coins||0)+20;
+
 
     saveUser(latest);
 
-    toast("+20 coins earned 📱");
+
+    toast(
+      "+20 coins earned 📱"
+    );
 
   },1200);
 
@@ -1912,26 +3048,130 @@ window.downloadTask=function(){
 
 const GK_QUESTIONS=[
 
- ["What is the capital of India?",["Mumbai","New Delhi","Kolkata","Chennai"],"New Delhi"],
- ["Which planet is known as the Red Planet?",["Earth","Mars","Venus","Jupiter"],"Mars"],
- ["How many days are there in a leap year?",["365","366","364","367"],"366"],
- ["Which is the largest ocean?",["Indian","Atlantic","Pacific","Arctic"],"Pacific"],
- ["What is H2O commonly called?",["Oxygen","Water","Hydrogen","Salt"],"Water"],
- ["Which gas do plants absorb?",["Oxygen","Nitrogen","Carbon Dioxide","Helium"],"Carbon Dioxide"],
- ["How many continents are there?",["5","6","7","8"],"7"],
- ["Which animal is called the King of the Jungle?",["Tiger","Lion","Elephant","Bear"],"Lion"],
- ["What is the currency of India?",["Dollar","Rupee","Yen","Euro"],"Rupee"],
- ["Which is the fastest land animal?",["Lion","Horse","Cheetah","Tiger"],"Cheetah"],
- ["How many sides does a triangle have?",["2","3","4","5"],"3"],
- ["Which organ pumps blood?",["Brain","Liver","Heart","Lung"],"Heart"],
- ["Which month has 28 days normally?",["January","February","March","April"],"February"],
- ["What is the largest planet?",["Earth","Mars","Jupiter","Saturn"],"Jupiter"],
- ["Which language is mainly used to structure web pages?",["HTML","SQL","Python","C"],"HTML"],
- ["Which device is used to measure temperature?",["Barometer","Thermometer","Speedometer","Compass"],"Thermometer"],
- ["How many hours are in one day?",["12","24","36","48"],"24"],
- ["Which metal is liquid at room temperature?",["Iron","Mercury","Copper","Gold"],"Mercury"],
- ["Which is the nearest star to Earth?",["Moon","Sun","Mars","Venus"],"Sun"],
- ["What does CPU stand for?",["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing User"],"Central Processing Unit"]
+ [
+  "What is the capital of India?",
+  ["Mumbai","New Delhi","Kolkata","Chennai"],
+  "New Delhi"
+ ],
+
+ [
+  "Which planet is known as the Red Planet?",
+  ["Earth","Mars","Venus","Jupiter"],
+  "Mars"
+ ],
+
+ [
+  "How many days are there in a leap year?",
+  ["365","366","364","367"],
+  "366"
+ ],
+
+ [
+  "Which is the largest ocean?",
+  ["Indian","Atlantic","Pacific","Arctic"],
+  "Pacific"
+ ],
+
+ [
+  "What is H2O commonly called?",
+  ["Oxygen","Water","Hydrogen","Salt"],
+  "Water"
+ ],
+
+ [
+  "Which gas do plants absorb?",
+  ["Oxygen","Nitrogen","Carbon Dioxide","Helium"],
+  "Carbon Dioxide"
+ ],
+
+ [
+  "How many continents are there?",
+  ["5","6","7","8"],
+  "7"
+ ],
+
+ [
+  "Which animal is called the King of the Jungle?",
+  ["Tiger","Lion","Elephant","Bear"],
+  "Lion"
+ ],
+
+ [
+  "What is the currency of India?",
+  ["Dollar","Rupee","Yen","Euro"],
+  "Rupee"
+ ],
+
+ [
+  "Which is the fastest land animal?",
+  ["Lion","Horse","Cheetah","Tiger"],
+  "Cheetah"
+ ],
+
+ [
+  "How many sides does a triangle have?",
+  ["2","3","4","5"],
+  "3"
+ ],
+
+ [
+  "Which organ pumps blood?",
+  ["Brain","Liver","Heart","Lung"],
+  "Heart"
+ ],
+
+ [
+  "Which month has 28 days normally?",
+  ["January","February","March","April"],
+  "February"
+ ],
+
+ [
+  "What is the largest planet?",
+  ["Earth","Mars","Jupiter","Saturn"],
+  "Jupiter"
+ ],
+
+ [
+  "Which language is mainly used to structure web pages?",
+  ["HTML","SQL","Python","C"],
+  "HTML"
+ ],
+
+ [
+  "Which device is used to measure temperature?",
+  ["Barometer","Thermometer","Speedometer","Compass"],
+  "Thermometer"
+ ],
+
+ [
+  "How many hours are in one day?",
+  ["12","24","36","48"],
+  "24"
+ ],
+
+ [
+  "Which metal is liquid at room temperature?",
+  ["Iron","Mercury","Copper","Gold"],
+  "Mercury"
+ ],
+
+ [
+  "Which is the nearest star to Earth?",
+  ["Moon","Sun","Mars","Venus"],
+  "Sun"
+ ],
+
+ [
+  "What does CPU stand for?",
+  [
+    "Central Processing Unit",
+    "Computer Personal Unit",
+    "Central Program Utility",
+    "Control Processing User"
+  ],
+  "Central Processing Unit"
+ ]
 
 ];
 
@@ -1944,118 +3184,201 @@ function getQuizCount(){
 
   resetDailyCounters(u);
 
-  return Number(u.quizCount||0);
+  return Number(
+    u.quizCount||0
+  );
+
 }
 
 
 function generateMathQuestion(){
 
-  const type=Math.floor(Math.random()*5);
+  const type=
+    Math.floor(
+      Math.random()*5
+    );
+
 
   let question;
+
   let answer;
+
 
   if(type===0){
 
     const a=rand(10,99);
+
     const b=rand(10,99);
 
-    question=a+" + "+b+" = ?";
+    question=
+      a+" + "+b+" = ?";
+
     answer=a+b;
-
-  }else if(type===1){
-
-    const a=rand(50,150);
-    const b=rand(10,a-1);
-
-    question=a+" − "+b+" = ?";
-    answer=a-b;
-
-  }else if(type===2){
-
-    const a=rand(5,25);
-    const b=rand(2,15);
-
-    question=a+" × "+b+" = ?";
-    answer=a*b;
-
-  }else if(type===3){
-
-    const b=rand(2,15);
-    const answerTemp=rand(5,25);
-
-    const a=b*answerTemp;
-
-    question=a+" ÷ "+b+" = ?";
-    answer=answerTemp;
-
-  }else{
-
-    const percent=[10,20,25,50,75][
-      Math.floor(Math.random()*5)
-    ];
-
-    const base=rand(4,40)*10;
-
-    question=percent+"% of "+base+" = ?";
-    answer=(base*percent)/100;
 
   }
 
-  const options=new Set([answer]);
+  else if(type===1){
+
+    const a=rand(50,150);
+
+    const b=rand(10,a-1);
+
+    question=
+      a+" − "+b+" = ?";
+
+    answer=a-b;
+
+  }
+
+  else if(type===2){
+
+    const a=rand(5,25);
+
+    const b=rand(2,15);
+
+    question=
+      a+" × "+b+" = ?";
+
+    answer=a*b;
+
+  }
+
+  else if(type===3){
+
+    const b=rand(2,15);
+
+    const answerTemp=
+      rand(5,25);
+
+    const a=
+      b*answerTemp;
+
+    question=
+      a+" ÷ "+b+" = ?";
+
+    answer=answerTemp;
+
+  }
+
+  else{
+
+    const percentValues=[
+      10,20,25,50,75
+    ];
+
+    const percent=
+      percentValues[
+        Math.floor(
+          Math.random()*
+          percentValues.length
+        )
+      ];
+
+    const base=
+      rand(4,40)*10;
+
+    question=
+      percent+
+      "% of "+
+      base+
+      " = ?";
+
+    answer=
+      (base*percent)/100;
+
+  }
+
+
+  const options=
+    new Set([answer]);
+
 
   while(options.size<4){
 
-    const variation=rand(
-      Math.max(0,answer-15),
-      answer+15
+    const variation=
+      rand(
+        Math.max(0,answer-15),
+        answer+15
+      );
+
+    options.add(
+      variation
     );
 
-    options.add(variation);
   }
 
-  const arr=[...options];
+
+  const arr=[
+    ...options
+  ];
+
 
   shuffle(arr);
 
+
   return{
+
     type:"Math",
+
     question,
-    options:arr.map(String),
-    answer:String(answer)
+
+    options:
+      arr.map(String),
+
+    answer:
+      String(answer)
+
   };
+
 }
 
 
 function rand(min,max){
 
   return Math.floor(
-    Math.random()*(max-min+1)
+    Math.random()*
+    (max-min+1)
   )+min;
+
 }
 
 
 function shuffle(arr){
 
-  for(let i=arr.length-1;i>0;i--){
+  for(
+    let i=arr.length-1;
+    i>0;
+    i--
+  ){
 
-    const j=Math.floor(Math.random()*(i+1));
+    const j=
+      Math.floor(
+        Math.random()*(i+1)
+      );
 
-    [arr[i],arr[j]]=[arr[j],arr[i]];
+    [
+      arr[i],
+      arr[j]
+    ]=[
+      arr[j],
+      arr[i]
+    ];
+
   }
 
   return arr;
+
 }
 
 
 function generateQuizQuestion(){
 
-  const count=getQuizCount();
+  const count=
+    getQuizCount();
+
 
   /*
-    Alternating Math and GK.
-    Math is dynamically generated, creating
-    thousands of possible combinations.
+    Alternating Math and GK
   */
 
   if(count%2===0){
@@ -2064,188 +3387,329 @@ function generateQuizQuestion(){
 
   }
 
+
   const item=
     GK_QUESTIONS[
-      Math.floor(Math.random()*GK_QUESTIONS.length)
+      Math.floor(
+        Math.random()*
+        GK_QUESTIONS.length
+      )
     ];
 
+
   return{
+
     type:"GK",
+
     question:item[0],
-    options:shuffle([...item[1]]),
+
+    options:
+      shuffle([...item[1]]),
+
     answer:item[2]
+
   };
+
 }
 
 
 window.openQuiz=function(){
 
-  const count=getQuizCount();
-
-  openModal("quizModal");
-
-  if(count>=QUIZ_DAILY_LIMIT){
-
-    document.getElementById("quizContent").innerHTML=`
-
-      <div class="row">
-
-        <h3 style="font-size:22px">🔒 Quiz Locked</h3>
-
-        <p>
-          You have completed all
-          <b style="color:#fff">40 questions</b>
-          for today.
-          <br><br>
-          Quiz will unlock again tomorrow.
-        </p>
-
-      </div>
-    `;
-
-    updateQuizProgress();
-
-    return;
-  }
-
-  loadQuiz();
-};
+  const count=
+    getQuizCount();
 
 
-function loadQuiz(){
-
-  const q=generateQuizQuestion();
-
-  window.currentQuiz=q;
-
-  const count=getQuizCount();
-
-  updateQuizProgress();
-
-  document.getElementById("quizContent").innerHTML=`
-
-    <div class="row">
-
-      <div style="color:#6fd3ff;font-weight:900">
-        ${q.type} Question
-      </div>
-
-      <div class="quiz-question">
-        ${safeText(q.question)}
-      </div>
-
-      <div class="quiz-options">
-
-        ${q.options.map((option,index)=>`
-
-          <button
-            class="quiz-option"
-            onclick="answerQuiz(${index})">
-
-            ${safeText(option)}
-
-          </button>
-
-        `).join("")}
-
-      </div>
-
-      <div id="quizResult"></div>
-
-    </div>
-
-  `;
-}
+  openModal(
+    "quizModal"
+  );
 
 
-window.answerQuiz=function(index){
+  if(
+    count>=QUIZ_DAILY_LIMIT
+  ){
 
-  const q=window.currentQuiz;
-
-  if(!q)return;
-
-  const buttons=document
-    .querySelectorAll(".quiz-option");
-
-  buttons.forEach(b=>b.disabled=true);
-
-  const selected=q.options[index];
-
-  const result=document.getElementById("quizResult");
-
-  const u=getUser();
-
-  u.quizCount=Number(u.quizCount||0)+1;
-
-  const correct=String(selected)===String(q.answer);
-
-  if(correct){
-
-    u.coins=Number(u.coins||0)+QUIZ_REWARD;
-
-    result.innerHTML=`
-
-      <div class="quiz-result"
-           style="border:1px solid rgba(34,228,154,.3)">
-
-        <div style="font-size:25px;font-weight:900">
-          🎉 Congratulations!
-        </div>
-
-        <div style="color:#22e49a;margin-top:6px">
-          Correct Answer — +10 Coins
-        </div>
-
-      </div>
-    `;
-
-  }else{
-
-    result.innerHTML=`
-
-      <div class="quiz-result"
-           style="border:1px solid rgba(255,85,119,.3)">
-
-        <div style="font-size:20px;font-weight:900">
-          ❌ Try Again
-        </div>
-
-        <div style="color:#ff8ba4;margin-top:6px">
-          Correct answer:
-          <b>${safeText(q.answer)}</b>
-        </div>
-
-      </div>
-    `;
-  }
-
-  saveUser(u);
-
-  updateQuizProgress();
-
-  setTimeout(()=>{
-
-    if(getQuizCount()>=QUIZ_DAILY_LIMIT){
-
-      document.getElementById("quizContent").innerHTML=`
+    document
+      .getElementById(
+        "quizContent"
+      )
+      .innerHTML=`
 
         <div class="row">
 
           <h3 style="font-size:22px">
-            🔒 Today's Quiz Completed
+            🔒 Quiz Locked
           </h3>
 
           <p>
-            You completed all 40 questions today.
-            Quiz will unlock tomorrow.
+            You have completed all
+            <b style="color:#fff">
+              40 questions
+            </b>
+            for today.
+            <br><br>
+            Quiz will unlock again tomorrow.
           </p>
 
         </div>
 
       `;
 
+
+    updateQuizProgress();
+
+    return;
+
+  }
+
+
+  loadQuiz();
+
+};
+
+
+function loadQuiz(){
+
+  const q=
+    generateQuizQuestion();
+
+
+  window.currentQuiz=q;
+
+
+  const count=
+    getQuizCount();
+
+
+  updateQuizProgress();
+
+
+  document
+    .getElementById(
+      "quizContent"
+    )
+    .innerHTML=`
+
+      <div class="row">
+
+        <div
+          style="
+            color:#6fd3ff;
+            font-weight:900
+          ">
+
+          ${q.type} Question
+
+        </div>
+
+
+        <div class="quiz-question">
+
+          ${safeText(q.question)}
+
+        </div>
+
+
+        <div class="quiz-options">
+
+          ${q.options
+            .map(
+              (option,index)=>`
+
+                <button
+                  class="quiz-option"
+                  onclick="answerQuiz(${index})">
+
+                  ${safeText(option)}
+
+                </button>
+
+              `
+            )
+            .join("")}
+
+        </div>
+
+
+        <div id="quizResult"></div>
+
+      </div>
+
+    `;
+
+}
+
+
+window.answerQuiz=function(index){
+
+  const q=
+    window.currentQuiz;
+
+
+  if(!q)return;
+
+
+  const buttons=
+    document.querySelectorAll(
+      ".quiz-option"
+    );
+
+
+  buttons.forEach(
+    b=>b.disabled=true
+  );
+
+
+  const selected=
+    q.options[index];
+
+
+  const result=
+    document.getElementById(
+      "quizResult"
+    );
+
+
+  const u=getUser();
+
+
+  if(!u)return;
+
+
+  u.quizCount=
+    Number(u.quizCount||0)+1;
+
+
+  const correct=
+    String(selected)===
+    String(q.answer);
+
+
+  if(correct){
+
+    u.coins=
+      Number(u.coins||0)+
+      QUIZ_REWARD;
+
+
+    result.innerHTML=`
+
+      <div
+        class="quiz-result"
+        style="
+          border:
+            1px solid
+            rgba(34,228,154,.3)
+        ">
+
+        <div
+          style="
+            font-size:25px;
+            font-weight:900
+          ">
+
+          🎉 Congratulations!
+
+        </div>
+
+        <div
+          style="
+            color:#22e49a;
+            margin-top:6px
+          ">
+
+          Correct Answer — +10 Coins
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  else{
+
+    result.innerHTML=`
+
+      <div
+        class="quiz-result"
+        style="
+          border:
+            1px solid
+            rgba(255,85,119,.3)
+        ">
+
+        <div
+          style="
+            font-size:20px;
+            font-weight:900
+          ">
+
+          ❌ Try Again
+
+        </div>
+
+        <div
+          style="
+            color:#ff8ba4;
+            margin-top:6px
+          ">
+
+          Correct answer:
+          <b>
+            ${safeText(q.answer)}
+          </b>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  saveUser(u);
+
+  updateQuizProgress();
+
+
+  setTimeout(()=>{
+
+    if(
+      getQuizCount()>=
+      QUIZ_DAILY_LIMIT
+    ){
+
+      document
+        .getElementById(
+          "quizContent"
+        )
+        .innerHTML=`
+
+          <div class="row">
+
+            <h3
+              style="font-size:22px">
+
+              🔒 Today's Quiz Completed
+
+            </h3>
+
+            <p>
+              You completed all 40
+              questions today.
+              Quiz will unlock tomorrow.
+            </p>
+
+          </div>
+
+        `;
+
       return;
+
     }
+
 
     loadQuiz();
 
@@ -2256,15 +3720,29 @@ window.answerQuiz=function(index){
 
 function updateQuizProgress(){
 
-  const count=getQuizCount();
+  const count=
+    getQuizCount();
 
-  const percentage=(count/40)*100;
 
-  document.getElementById("quizModalCount")
-    .textContent=count+"/40";
+  const percentage=
+    (count/40)*100;
 
-  document.getElementById("quizModalProgress")
-    .style.width=percentage+"%";
+
+  document
+    .getElementById(
+      "quizModalCount"
+    )
+    .textContent=
+      count+"/40";
+
+
+  document
+    .getElementById(
+      "quizModalProgress"
+    )
+    .style.width=
+      percentage+"%";
+
 }
 
 
@@ -2273,140 +3751,250 @@ function updateQuizProgress(){
 function loadSurveys(){
 
   const list=[
+
     "Quick Lifestyle Survey",
+
     "Technology Usage Survey",
+
     "Shopping Preferences Survey",
+
     "Entertainment Survey",
+
     "General Opinion Survey"
+
   ];
 
-  document.getElementById("surveyList").innerHTML=
-    list.map((name,i)=>`
 
-      <div class="row">
+  document
+    .getElementById(
+      "surveyList"
+    )
+    .innerHTML=
 
-        <h3>📋 ${safeText(name)}</h3>
+    list
+      .map(
+        (name,i)=>`
 
-        <p>
-          Complete this available survey task.
-        </p>
+          <div class="row">
 
-        <button class="primary"
-                onclick="completeSurvey(${i})">
+            <h3>
+              📋 ${safeText(name)}
+            </h3>
 
-          EARN 25 COINS
+            <p>
+              Complete this available
+              survey task.
+            </p>
 
-        </button>
+            <button
+              class="primary"
+              onclick="completeSurvey(${i})">
 
-      </div>
+              EARN 25 COINS
 
-    `).join("");
+            </button>
+
+          </div>
+
+        `
+      )
+      .join("");
+
 }
 
 
-window.completeSurvey=function(index){
+window.completeSurvey=
+function(index){
 
   const u=getUser();
 
+  if(!u)return;
+
+
   resetDailyCounters(u);
+
 
   if(u.surveyCount>=20){
 
-    toast("Today's survey limit reached");
+    toast(
+      "Today's survey limit reached"
+    );
 
     return;
+
   }
 
-  const key="survey_"+index+"_"+today();
+
+  const key=
+    "survey_"+
+    index+
+    "_"+
+    today();
+
 
   const doneKey=
-    "surveyDone_"+currentUser+"_"+key;
+    "surveyDone_"+
+    currentUser+
+    "_"+
+    key;
 
-  if(localStorage.getItem(doneKey)){
 
-    toast("Survey already completed");
+  if(
+    localStorage.getItem(
+      doneKey
+    )
+  ){
+
+    toast(
+      "Survey already completed"
+    );
 
     return;
+
   }
 
-  localStorage.setItem(doneKey,"1");
+
+  localStorage.setItem(
+    doneKey,
+    "1"
+  );
+
 
   u.surveyCount++;
 
-  u.coins=Number(u.coins||0)+25;
+
+  u.coins=
+    Number(u.coins||0)+25;
+
 
   saveUser(u);
 
-  toast("+25 coins earned 📋");
+
+  toast(
+    "+25 coins earned 📋"
+  );
 
 };
 
 
 /* ================= PROMO ================= */
 
-window.claimPromo=async function(){
+window.claimPromo=
+async function(){
 
   const u=getUser();
 
-  if(u.promoDate===today()){
+  if(!u)return;
 
-    toast("Today's promo already claimed");
+
+  if(
+    u.promoDate===today()
+  ){
+
+    toast(
+      "Today's promo already claimed"
+    );
 
     return;
+
   }
 
-  const code=document.getElementById("promoInput")
-    .value.trim();
+
+  const code=
+    document
+      .getElementById(
+        "promoInput"
+      )
+      .value
+      .trim();
+
 
   if(!code){
 
-    toast("Enter promocode");
+    toast(
+      "Enter promocode"
+    );
 
     return;
+
   }
+
 
   try{
 
-    const snap=await get(
-      ref(database,"admin/promocode")
-    );
+    const snap=
+      await get(
+        ref(
+          database,
+          "admin/promocode"
+        )
+      );
 
-    const data=snap.exists()?snap.val():null;
+
+    const data=
+      snap.exists()
+        ?snap.val()
+        :null;
+
 
     const validCode=
       typeof data==="string"
         ?data
         :(data?.code||"");
 
+
     if(!validCode){
 
-      toast("No active promocode");
+      toast(
+        "No active promocode"
+      );
 
       return;
+
     }
 
-    if(code.toUpperCase()!==String(validCode).toUpperCase()){
 
-      toast("Invalid promocode");
+    if(
+      code.toUpperCase()!==
+      String(validCode).toUpperCase()
+    ){
+
+      toast(
+        "Invalid promocode"
+      );
 
       return;
+
     }
+
 
     u.promoDate=today();
 
-    u.coins=Number(u.coins||0)+200;
+
+    u.coins=
+      Number(u.coins||0)+200;
+
 
     saveUser(u);
 
-    toast("+200 coins added 🎟️");
 
-    closeModal("promoModal");
+    toast(
+      "+200 coins added 🎟️"
+    );
 
-  }catch(e){
+
+    closeModal(
+      "promoModal"
+    );
+
+  }
+  catch(e){
 
     console.error(e);
 
-    toast("Promo service unavailable");
+    toast(
+      "Promo service unavailable"
+    );
 
   }
 
@@ -2417,70 +4005,129 @@ window.claimPromo=async function(){
 
 function setupReferral(){
 
-  const code="CR-"+currentUser;
+  const code=
+    "CR-"+currentUser;
+
 
   const link=
     location.origin+
     location.pathname+
-    "?ref="+encodeURIComponent(code);
+    "?ref="+
+    encodeURIComponent(code);
 
-  document.getElementById("referralCode")
-    .textContent=code;
 
-  document.getElementById("referralLink")
-    .value=link;
+  document
+    .getElementById(
+      "referralCode"
+    )
+    .textContent=
+      code;
+
+
+  document
+    .getElementById(
+      "referralLink"
+    )
+    .value=
+      link;
+
 }
 
 
 window.copyReferral=function(){
 
-  const input=document.getElementById("referralLink");
+  const input=
+    document.getElementById(
+      "referralLink"
+    );
 
-  navigator.clipboard.writeText(input.value)
-    .then(()=>toast("Referral link copied"));
+
+  navigator.clipboard
+    .writeText(input.value)
+    .then(
+      ()=>toast(
+        "Referral link copied"
+      )
+    );
 
 };
 
 
 window.shareReferral=function(){
 
-  const link=document.getElementById("referralLink").value;
+  const link=
+    document
+      .getElementById(
+        "referralLink"
+      )
+      .value;
+
 
   const text=
-    "Join CoinRush Pro and start earning coins! "+link;
+    "Join CoinRush Pro and start earning coins! "+
+    link;
+
 
   location.href=
-    "https://wa.me/?text="+encodeURIComponent(text);
+    "https://wa.me/?text="+
+    encodeURIComponent(text);
 
 };
 
 
-/* ================= WITHDRAW ================= */
+/* ================= REDEEM ================= */
 
 function getTodayWithdrawnCoins(){
 
-  const key="withdrawCoins_"+currentUser;
+  const key=
+    "withdrawCoins_"+
+    currentUser;
 
-  const data=JSON.parse(
-    localStorage.getItem(key)||"{}"
-  );
 
-  if(data.date!==today())return 0;
+  const data=
+    JSON.parse(
+      localStorage.getItem(
+        key
+      )||"{}"
+    );
 
-  return Number(data.amount)||0;
+
+  if(
+    data.date!==today()
+  )
+    return 0;
+
+
+  return Number(
+    data.amount
+  )||0;
+
 }
 
 
-function addTodayWithdrawnCoins(amount){
+function addTodayWithdrawnCoins(
+  amount
+){
 
-  const key="withdrawCoins_"+currentUser;
+  const key=
+    "withdrawCoins_"+
+    currentUser;
+
 
   localStorage.setItem(
+
     key,
+
     JSON.stringify({
+
       date:today(),
-      amount:getTodayWithdrawnCoins()+Number(amount)
+
+      amount:
+        getTodayWithdrawnCoins()+
+        Number(amount)
+
     })
+
   );
 
 }
@@ -2488,108 +4135,209 @@ function addTodayWithdrawnCoins(amount){
 
 function validUpi(upi){
 
-  return /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi);
+  return /^[\w.\-]{2,}@[a-zA-Z]{2,}$/
+    .test(upi);
+
 }
 
 
-window.submitWithdrawal=async function(){
+window.submitWithdrawal=
+async function(){
 
   const u=getUser();
 
+  if(!u){
+
+    toast(
+      "Please login first"
+    );
+
+    return;
+
+  }
+
+
   const coinsInput=
-    document.getElementById("withdrawCoins");
+    document.getElementById(
+      "withdrawCoins"
+    );
+
 
   const upiInput=
-    document.getElementById("upi");
+    document.getElementById(
+      "upi"
+    );
 
-  const coins=Number(coinsInput.value);
 
-  const upi=upiInput.value.trim();
+  const coins=
+    Number(
+      coinsInput.value
+    );
+
+
+  const upi=
+    upiInput.value.trim();
+
 
   if(!Number.isFinite(coins)){
 
-    toast("Enter coin amount");
+    toast(
+      "Enter coin amount"
+    );
 
     return;
+
   }
 
-  if(coins<MIN_WITHDRAW){
 
-    toast("Minimum withdrawal is 9,000 coins");
+  if(
+    coins<MIN_WITHDRAW
+  ){
+
+    toast(
+      "Minimum redeem is 9,000 coins"
+    );
 
     return;
+
   }
 
-  if(coins>MAX_WITHDRAW_DAILY){
 
-    toast("Maximum withdrawal is 20,000 coins/day");
+  if(
+    coins>MAX_WITHDRAW_DAILY
+  ){
+
+    toast(
+      "Maximum redeem is 20,000 coins/day"
+    );
 
     return;
+
   }
 
-  if(!validUpi(upi)){
 
-    toast("Enter a valid UPI ID");
+  if(
+    !validUpi(upi)
+  ){
+
+    toast(
+      "Enter a valid UPI ID"
+    );
 
     return;
+
   }
 
-  const alreadyToday=getTodayWithdrawnCoins();
 
-  if(alreadyToday+coins>MAX_WITHDRAW_DAILY){
+  const alreadyToday=
+    getTodayWithdrawnCoins();
+
+
+  if(
+    alreadyToday+coins>
+    MAX_WITHDRAW_DAILY
+  ){
 
     const remaining=
-      MAX_WITHDRAW_DAILY-alreadyToday;
+      MAX_WITHDRAW_DAILY-
+      alreadyToday;
+
 
     toast(
       "Today's remaining limit: "+
-      Math.max(0,remaining).toLocaleString()+
+      Math.max(
+        0,
+        remaining
+      ).toLocaleString()+
       " coins"
     );
 
     return;
+
   }
 
-  if(Number(u.coins||0)<coins){
 
-    toast("Insufficient coins");
+  if(
+    Number(u.coins||0)<
+    coins
+  ){
+
+    toast(
+      "Insufficient coins"
+    );
 
     return;
+
   }
 
+
   const rupees=
-    Math.round(coins*COIN_TO_RUPEE*100)/100;
+    Math.round(
+      coins*
+      COIN_TO_RUPEE*
+      100
+    )/100;
+
 
   const request={
+
     userId:u.id,
+
     name:u.name,
+
     uid:"LOCAL-"+u.id,
+
     mobile:u.id,
+
     coins,
+
     rupees,
+
     upi,
+
     date:today(),
+
     timestamp:Date.now(),
+
     status:"Pending"
+
   };
+
 
   try{
 
     const newRef=
-      push(ref(database,"withdrawals"));
+      push(
+        ref(
+          database,
+          "withdrawals"
+        )
+      );
 
-    await set(newRef,request);
+
+    await set(
+      newRef,
+      request
+    );
+
 
     /*
-      Deduct only after Firebase successfully
-      accepted the withdrawal request.
+      Firebase accepted request.
+      Now deduct coins.
     */
 
-    u.coins-=coins;
+    u.coins=
+      Number(u.coins||0)-
+      coins;
+
 
     saveUser(u);
 
-    addTodayWithdrawnCoins(coins);
+
+    addTodayWithdrawnCoins(
+      coins
+    );
+
 
     const history=
       JSON.parse(
@@ -2598,30 +4346,50 @@ window.submitWithdrawal=async function(){
         )||"[]"
       );
 
+
     history.unshift({
+
       ...request,
+
       id:newRef.key
+
     });
 
+
     localStorage.setItem(
+
       "history_"+currentUser,
+
       JSON.stringify(history)
+
     );
 
+
     coinsInput.value="";
+
     upiInput.value="";
 
-    closeModal("withdrawModal");
+
+    closeModal(
+      "withdrawModal"
+    );
+
 
     renderHistory();
 
-    toast("Withdrawal request submitted 💸");
 
-  }catch(e){
+    toast(
+      "Redeem request submitted 💎"
+    );
+
+  }
+  catch(e){
 
     console.error(e);
 
-    toast("Unable to submit withdrawal");
+    toast(
+      "Unable to submit redeem request"
+    );
 
   }
 
@@ -2639,49 +4407,84 @@ function renderHistory(){
       )||"[]"
     );
 
+
   const container=
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
+
 
   if(!history.length){
 
     container.innerHTML=`
+
       <div class="row">
-        <p>No withdrawal history yet.</p>
+
+        <p>
+          No redeem history yet.
+        </p>
+
       </div>
+
     `;
 
-  }else{
+  }
+  else{
 
     container.innerHTML=
-      history.map(item=>`
 
-        <div class="withdraw-card"
-             style="margin-bottom:10px">
+      history
+        .map(
+          item=>`
 
-          <b>🪙 ${Number(item.coins).toLocaleString()} Coins</b>
+            <div
+              class="withdraw-card"
+              style="margin-bottom:10px">
 
-          <div class="muted">
-            ₹${item.rupees} • ${safeText(item.upi)}
-          </div>
+              <b>
+                💎
+                ${Number(
+                  item.coins
+                ).toLocaleString()}
+                Coins
+              </b>
 
-          <div class="muted">
-            ${safeText(item.date)}
-          </div>
+              <div class="muted">
+                ₹${item.rupees}
+                •
+                ${safeText(item.upi)}
+              </div>
 
-          <span class="status ${
-            String(item.status||"Pending").toLowerCase()
-          }">
-            ${safeText(item.status||"Pending")}
-          </span>
+              <div class="muted">
+                ${safeText(item.date)}
+              </div>
 
-        </div>
+              <span
+                class="status ${
+                  String(
+                    item.status||"Pending"
+                  ).toLowerCase()
+                }">
 
-      `).join("");
+                ${safeText(
+                  item.status||"Pending"
+                )}
+
+              </span>
+
+            </div>
+
+          `
+        )
+        .join("");
+
   }
+
 }
 
 
-window.renderHistory=function(){
+window.renderHistory=
+function(){
 
   const history=
     JSON.parse(
@@ -2690,85 +4493,132 @@ window.renderHistory=function(){
       )||"[]"
     );
 
+
   const container=
-    document.getElementById("modalHistory");
+    document.getElementById(
+      "modalHistory"
+    );
+
 
   if(!history.length){
 
     container.innerHTML=`
+
       <div class="row">
-        No withdrawal history yet.
+        No redeem history yet.
       </div>
+
     `;
 
     return;
+
   }
 
+
   container.innerHTML=
-    history.map(item=>`
 
-      <div class="withdraw-card"
-           style="margin-bottom:10px">
+    history
+      .map(
+        item=>`
 
-        <b>${Number(item.coins).toLocaleString()} Coins</b>
+          <div
+            class="withdraw-card"
+            style="margin-bottom:10px">
 
-        <div class="muted">
-          ₹${item.rupees}
-        </div>
+            <b>
+              ${Number(
+                item.coins
+              ).toLocaleString()}
+              Coins
+            </b>
 
-        <div class="muted">
-          UPI: ${safeText(item.upi)}
-        </div>
+            <div class="muted">
+              ₹${item.rupees}
+            </div>
 
-        <div class="muted">
-          ${safeText(item.date)}
-        </div>
+            <div class="muted">
+              UPI:
+              ${safeText(item.upi)}
+            </div>
 
-        <span class="status ${
-          String(item.status||"Pending").toLowerCase()
-        }">
-          ${safeText(item.status||"Pending")}
-        </span>
+            <div class="muted">
+              ${safeText(item.date)}
+            </div>
 
-      </div>
+            <span
+              class="status ${
+                String(
+                  item.status||"Pending"
+                ).toLowerCase()
+              }">
 
-    `).join("");
+              ${safeText(
+                item.status||"Pending"
+              )}
+
+            </span>
+
+          </div>
+
+        `
+      )
+      .join("");
 
 };
 
 
 /* ================= FIREBASE REALTIME ADMIN ================= */
 
-window.listenWithdrawalsRealtime=function(callback){
+window.listenWithdrawalsRealtime=
+function(callback){
 
   return onValue(
-    ref(database,"withdrawals"),
+
+    ref(
+      database,
+      "withdrawals"
+    ),
+
     snapshot=>{
 
       const list=[];
 
+
       if(snapshot.exists()){
 
-        snapshot.forEach(child=>{
+        snapshot.forEach(
+          child=>{
 
-          list.push({
-            id:child.key,
-            ...child.val()
-          });
+            list.push({
 
-        });
+              id:child.key,
+
+              ...child.val()
+
+            });
+
+          }
+        );
 
       }
 
+
       list.sort(
         (a,b)=>
-          Number(b.timestamp||0)-
-          Number(a.timestamp||0)
+          Number(
+            b.timestamp||0
+          )-
+          Number(
+            a.timestamp||0
+          )
       );
+
 
       callback(list);
 
     },
+
+
     error=>{
 
       console.error(error);
@@ -2776,20 +4626,34 @@ window.listenWithdrawalsRealtime=function(callback){
       callback([]);
 
     }
+
   );
 
 };
 
 
 window.updateWithdrawStatusFirebase=
-async function(id,newStatus){
+async function(
+  id,
+  newStatus
+){
 
   await update(
-    ref(database,"withdrawals/"+id),
+
+    ref(
+      database,
+      "withdrawals/"+id
+    ),
+
     {
+
       status:newStatus,
-      statusUpdatedAt:Date.now()
+
+      statusUpdatedAt:
+        Date.now()
+
     }
+
   );
 
 };
@@ -2797,69 +4661,77 @@ async function(id,newStatus){
 
 /* ================= ADMIN ================= */
 
-function openAdmin(){
-
-  const pass=prompt("Enter Admin Password");
-
-  if(pass!==ADMIN_PASSWORD){
-
-    toast("Wrong admin password");
-
-    return;
-  }
-
-  openModal("adminModal");
-
-  listenAdminWithdrawals();
-
-}
-
-
 function listenAdminWithdrawals(){
 
   onValue(
-    ref(database,"withdrawals"),
+
+    ref(
+      database,
+      "withdrawals"
+    ),
+
     snapshot=>{
 
       const list=[];
 
+
       if(snapshot.exists()){
 
-        snapshot.forEach(child=>{
+        snapshot.forEach(
+          child=>{
 
-          list.push({
-            id:child.key,
-            ...child.val()
-          });
+            list.push({
 
-        });
+              id:child.key,
+
+              ...child.val()
+
+            });
+
+          }
+        );
 
       }
 
+
       list.sort(
         (a,b)=>
-          Number(b.timestamp||0)-
-          Number(a.timestamp||0)
+          Number(
+            b.timestamp||0
+          )-
+          Number(
+            a.timestamp||0
+          )
       );
+
 
       renderAdmin(list);
 
     },
+
+
     error=>{
 
       console.error(error);
 
-      document.getElementById(
-        "adminWithdrawList"
-      ).innerHTML=`
 
-        <div class="row">
-          Firebase error. Check Realtime Database Rules.
-        </div>
+      document
+        .getElementById(
+          "adminWithdrawList"
+        )
+        .innerHTML=`
 
-      `;
+          <div class="row">
+
+            Firebase error.
+            Check Realtime Database Rules.
+
+          </div>
+
+        `;
 
     }
+
   );
 
 }
@@ -2868,123 +4740,237 @@ function listenAdminWithdrawals(){
 function renderAdmin(list){
 
   const container=
-    document.getElementById("adminWithdrawList");
+    document.getElementById(
+      "adminWithdrawList"
+    );
+
 
   const pending=
-    list.filter(x=>x.status==="Pending").length;
+    list.filter(
+      x=>x.status==="Pending"
+    ).length;
+
 
   const paid=
-    list.filter(x=>x.status==="Paid").length;
+    list.filter(
+      x=>x.status==="Paid"
+    ).length;
+
 
   const rejected=
-    list.filter(x=>x.status==="Rejected").length;
+    list.filter(
+      x=>x.status==="Rejected"
+    ).length;
 
-  document.getElementById("adminStats").innerHTML=`
 
-    <div class="stat">
-      <small>Total</small>
-      <strong>${list.length}</strong>
-    </div>
+  document
+    .getElementById(
+      "adminStats"
+    )
+    .innerHTML=`
 
-    <div class="stat">
-      <small>Pending</small>
-      <strong>${pending}</strong>
-    </div>
+      <div class="stat">
 
-    <div class="stat">
-      <small>Paid</small>
-      <strong>${paid}</strong>
-    </div>
+        <small>
+          Total
+        </small>
 
-    <div class="stat">
-      <small>Rejected</small>
-      <strong>${rejected}</strong>
-    </div>
+        <strong>
+          ${list.length}
+        </strong>
 
-  `;
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Pending
+        </small>
+
+        <strong>
+          ${pending}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Paid
+        </small>
+
+        <strong>
+          ${paid}
+        </strong>
+
+      </div>
+
+
+      <div class="stat">
+
+        <small>
+          Rejected
+        </small>
+
+        <strong>
+          ${rejected}
+        </strong>
+
+      </div>
+
+    `;
+
 
   if(!list.length){
 
     container.innerHTML=`
+
       <div class="row">
-        No withdrawal requests.
+
+        No redeem requests.
+
       </div>
+
     `;
 
     return;
+
   }
 
+
   container.innerHTML=
-    list.map(item=>`
 
-      <div class="withdraw-card">
+    list
+      .map(
+        item=>`
 
-        <b>
-          💸 ${Number(item.coins||0).toLocaleString()}
-          Coins
-        </b>
+          <div class="withdraw-card">
 
-        <div class="muted">
-          Amount: ₹${safeText(item.rupees)}
-        </div>
+            <b>
 
-        <div class="muted">
-          Name: ${safeText(item.name)}
-        </div>
+              💎
+              ${Number(
+                item.coins||0
+              ).toLocaleString()}
 
-        <div class="muted">
-          Mobile/ID: ${safeText(item.mobile)}
-        </div>
+              Coins
 
-        <div class="muted">
-          UID: ${safeText(item.uid)}
-        </div>
+            </b>
 
-        <div class="muted">
-          UPI: ${safeText(item.upi)}
-        </div>
 
-        <div class="muted">
-          Date: ${safeText(item.date)}
-        </div>
+            <div class="muted">
 
-        <span class="status ${
-          String(item.status||"Pending").toLowerCase()
-        }">
-
-          ${safeText(item.status||"Pending")}
-
-        </span>
-
-        ${
-          item.status==="Pending"
-          ?`
-            <div class="admin-actions">
-
-              <button
-                onclick="changeWithdrawalStatus('${safeText(item.id)}','Paid')">
-                ✓ Mark Paid
-              </button>
-
-              <button
-                onclick="changeWithdrawalStatus('${safeText(item.id)}','Rejected')">
-                ✕ Reject
-              </button>
+              Amount:
+              ₹${safeText(item.rupees)}
 
             </div>
-          `
-          :""
-        }
 
-      </div>
 
-    `).join("");
+            <div class="muted">
+
+              Name:
+              ${safeText(item.name)}
+
+            </div>
+
+
+            <div class="muted">
+
+              Mobile/ID:
+              ${safeText(item.mobile)}
+
+            </div>
+
+
+            <div class="muted">
+
+              UID:
+              ${safeText(item.uid)}
+
+            </div>
+
+
+            <div class="muted">
+
+              UPI:
+              ${safeText(item.upi)}
+
+            </div>
+
+
+            <div class="muted">
+
+              Date:
+              ${safeText(item.date)}
+
+            </div>
+
+
+            <span
+              class="status ${
+                String(
+                  item.status||"Pending"
+                ).toLowerCase()
+              }">
+
+              ${safeText(
+                item.status||"Pending"
+              )}
+
+            </span>
+
+
+            ${
+              item.status==="Pending"
+              ?`
+
+                <div class="admin-actions">
+
+                  <button
+                    onclick="
+                      changeWithdrawalStatus(
+                        '${safeText(item.id)}',
+                        'Paid'
+                      )">
+
+                    ✓ Mark Paid
+
+                  </button>
+
+
+                  <button
+                    onclick="
+                      changeWithdrawalStatus(
+                        '${safeText(item.id)}',
+                        'Rejected'
+                      )">
+
+                    ✕ Reject
+
+                  </button>
+
+                </div>
+
+              `
+              :""
+            }
+
+          </div>
+
+        `
+      )
+      .join("");
 
 }
 
 
 window.changeWithdrawalStatus=
-async function(id,status){
+async function(
+  id,
+  status
+){
 
   try{
 
@@ -2993,58 +4979,41 @@ async function(id,status){
       status
     );
 
-    toast("Status updated: "+status);
 
-  }catch(e){
+    toast(
+      "Status updated: "+status
+    );
+
+  }
+  catch(e){
 
     console.error(e);
 
-    toast("Could not update status");
+    toast(
+      "Could not update status"
+    );
 
   }
 
 };
 
 
-/* ================= ADMIN SHORTCUT ================= */
-
-let adminTapCount=0;
-let adminTapTimer=null;
-
-document.addEventListener("keydown",e=>{
-
-  if(e.key.toLowerCase()==="a"){
-
-    adminTapCount++;
-
-    clearTimeout(adminTapTimer);
-
-    adminTapTimer=setTimeout(()=>{
-      adminTapCount=0;
-    },1500);
-
-    if(adminTapCount>=5){
-
-      adminTapCount=0;
-
-      openAdmin();
-
-    }
-
-  }
-
-});
-
-
 /* ================= START ================= */
 
-if(currentUser && getUser()){
+if(
+  currentUser &&
+  getUser()
+){
 
   showApp();
 
-}else{
+}
+else{
 
-  document.getElementById("loginScreen")
+  document
+    .getElementById(
+      "loginScreen"
+    )
     .classList.remove("hidden");
 
 }
