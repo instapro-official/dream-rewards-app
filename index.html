@@ -1,3 +1,5 @@
+Aapke diye gaye saare features (jaise Quiz, Daily Bonus, Lucky Card, Captcha Task, Survey Center, Wallet, aur apka @Luffyxzoroa Telegram support link) ko ek hi complete aur clean code mein combine kar diya gaya hai.
+Yahan aapka final aur updated code hai, jise aap direct copy karke apni website ya app mein use kar sakte hain:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -391,6 +393,10 @@ Do not create fake, duplicate or automated accounts.
 <span class="menu-left"><span class="menu-icon">📜</span><span>Redeem History</span></span><span>›</span>
 </button>
 
+<button onclick="openModal('supportModal')">
+<span class="menu-left"><span class="menu-icon">💬</span><span>Help & Support</span></span><span>›</span>
+</button>
+
 <button onclick="openModal('rulesModal')">
 <span class="menu-left"><span class="menu-icon">📜</span><span>Game Rules</span></span><span>›</span>
 </button>
@@ -498,6 +504,22 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <button class="primary" onclick="copyReferral()">COPY LINK</button>
 <button class="secondary" onclick="shareReferral()">SHARE ON WHATSAPP</button>
 
+</div>
+</div>
+
+
+<!-- SUPPORT MODAL -->
+<div id="supportModal" class="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal('supportModal')">×</button>
+<div class="modal-title">💬 Help & Support</div>
+<div class="row">
+<h3>Need Assistance?</h3>
+<p>Aapko kisi bhi tarah ki problem ho (Jaise bonus ya redeem se related), toh aap humse direct chat kar sakte hain.</p>
+<a href="https://t.me/Luffyxzoroa" target="_blank" style="display:block;margin-top:15px;">
+<button class="primary">💬 Chat on Telegram</button>
+</a>
+</div>
 </div>
 </div>
 
@@ -835,6 +857,7 @@ if(u.bonusDate===today()){ toast("Daily Bonus already claimed"); return; }
 u.coins=Number(u.coins||0)+100;
 u.bonusDate=today();
 saveUser(u);
+updateUI();
 toast("+100 Coins Added 🎉");
 };
 
@@ -848,6 +871,7 @@ const reward=rewards[Math.floor(Math.random()*rewards.length)];
 u.luckyDate=today();
 u.coins=Number(u.coins||0)+reward;
 saveUser(u);
+updateUI();
 toast("Lucky Card: +"+reward+" coins 🃏");
 };
 
@@ -899,7 +923,6 @@ closeModal("quizModal");
 toast("Captcha Task Completed! +15 coins 🤖");
 };
 
-// Class 3 & 4 Standard Questions Only
 const EASY_QUESTIONS=[
 ["Which animal is known as the Ship of the Desert?",["Elephant","Camel","Horse","Lion"],"Camel"],
 ["How many days are there in a normal year?",["365","366","300","350"],"365"],
@@ -988,7 +1011,6 @@ u.coins=Number(u.coins||0)+QUIZ_REWARD;
 saveUser(u);
 updateQuizProgress();
 
-// Disable all options after correct answer
 const buttons=document.querySelectorAll(".quiz-option");
 buttons.forEach(b=>b.disabled=true);
 
@@ -1011,7 +1033,6 @@ loadQuizQuestionContent();
 }, 1000);
 
 }else{
-// Galat jawab par question change nahi hoga, user ko dobara try karne ka mauka milega
 result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Galat jawab! Dobara koshish karein aur sahi option chunein.</div></div>`;
 }
 };
@@ -1253,3 +1274,5 @@ document.getElementById("loginScreen").classList.remove("hidden");
 
 </body>
 </html>
+
+Kya aapko is code mein ab koi aur changes ya testing karni hai?
