@@ -532,7 +532,7 @@ Processing: <b style="color:#fff">24–72 hours</b>
 • Class 3 & 4 simple questions.<br>
 • Maximum <b>70 correct questions per day</b>.<br>
 • Correct answer: <b>10 coins</b>.<br>
-• 30-second wait timer applies *after* a correct answer.
+• Galat jawab par wahi question rahega jab tak sahi na ho jaye. Sahi hone par 30 seconds ka timer aayega.
 </p></div>
 
 </div>
@@ -975,8 +975,6 @@ ${q.options.map((option,index)=>`<button class="quiz-option" onclick="answerQuiz
 window.answerQuiz=function(index){
 const q=window.currentQuiz;
 if(!q)return;
-const buttons=document.querySelectorAll(".quiz-option");
-buttons.forEach(b=>b.disabled=true);
 const selected=q.options[index];
 const result=document.getElementById("quizResult");
 const u=getUser();
@@ -989,6 +987,10 @@ u.quizCount=Number(u.quizCount||0)+1;
 u.coins=Number(u.coins||0)+QUIZ_REWARD;
 saveUser(u);
 updateQuizProgress();
+
+// Disable all options after correct answer
+const buttons=document.querySelectorAll(".quiz-option");
+buttons.forEach(b=>b.disabled=true);
 
 result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(34,228,154,.3)"><div style="font-size:20px;font-weight:900">🎉 Correct!</div><div style="color:#22e49a;margin-top:6px">+10 Coins Added</div><div class="timer-banner" style="margin-top:10px">Next question in: <span id="qSeconds">30</span>s</div></div>`;
 
@@ -1009,7 +1011,8 @@ loadQuizQuestionContent();
 }, 1000);
 
 }else{
-result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Correct answer: <b>${safeText(q.answer)}</b></div><button class="primary" style="margin-top:10px" onclick="loadQuizQuestionContent()">NEXT QUESTION</button></div>`;
+// Galat jawab par question change nahi hoga, user ko dobara try karne ka mauka milega
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Galat jawab! Dobara koshish karein aur sahi option chunein.</div></div>`;
 }
 };
 
@@ -1019,7 +1022,7 @@ const percentage=(count/70)*100;
 const countEl=document.getElementById("quizModalCount");
 if(countEl) countEl.textContent=count+"/70";
 const progEl=document.getElementById("quizModalProgress");
-if(progEl) progEl.style.width=percentage+"%</strong>";
+if(progEl) progEl.style.width=percentage+"%";
 }
 
 const SURVEY_LIST = [
