@@ -8,44 +8,33 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
---bg:#080d27;
---card:#11183d;
---card2:#151e4b;
---blue:#39bfff;
---purple:#8b5cf6;
---green:#22e49a;
---gold:#ffc857;
---red:#ff5577;
---muted:#9aa7d8;
---border:rgba(255,255,255,.08)
+--bg:#080d27;--card:#11183d;--card2:#151e4b;--blue:#39bfff;
+--purple:#8b5cf6;--green:#22e49a;--gold:#ffc857;--red:#ff5577;
+--muted:#9aa7d8;--border:rgba(255,255,255,.08)
 }
 body{
 font-family:Segoe UI,Arial,sans-serif;
 background:
 radial-gradient(circle at 10% 0%,rgba(57,191,255,.13),transparent 30%),
 radial-gradient(circle at 90% 20%,rgba(139,92,246,.15),transparent 30%),
-var(--bg);
-color:#fff;
-min-height:100vh
+var(--bg);color:#fff;min-height:100vh
 }
 button,input{font:inherit}
 button{border:0;cursor:pointer}
-.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:90px}
 .hidden{display:none!important}
+.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:90px}
 header{
-position:sticky;top:0;z-index:20;padding:15px;
-background:rgba(8,13,39,.88);backdrop-filter:blur(18px);
-border-bottom:1px solid var(--border)
+position:sticky;top:0;z-index:20;padding:15px;background:rgba(8,13,39,.88);
+backdrop-filter:blur(18px);border-bottom:1px solid var(--border)
 }
 .header-inner{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:900;letter-spacing:.4px}
-.logo span{color:var(--blue)}
+.logo{font-size:22px;font-weight:900}.logo span{color:var(--blue)}
 .profile-mini{display:flex;align-items:center;gap:9px}
-.avatar{
-width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
-justify-content:center;background:linear-gradient(135deg,var(--blue),var(--purple));
-font-weight:900
+.avatar,.big-avatar{
+display:flex;align-items:center;justify-content:center;
+background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:900
 }
+.avatar{width:40px;height:40px;border-radius:50%}
 .coin-pill{
 background:linear-gradient(135deg,#182557,#202e67);
 border:1px solid rgba(57,191,255,.25);padding:8px 12px;border-radius:20px;font-weight:800
@@ -55,8 +44,7 @@ margin:18px 15px;padding:22px;border-radius:24px;
 background:linear-gradient(135deg,rgba(57,191,255,.16),rgba(139,92,246,.17)),var(--card);
 border:1px solid var(--border);box-shadow:0 18px 50px rgba(0,0,0,.22)
 }
-.hero h1{font-size:26px}
-.hero h1 span{color:var(--gold)}
+.hero h1{font-size:26px}.hero h1 span{color:var(--gold)}
 .vip{
 margin-top:12px;display:inline-flex;padding:6px 11px;border-radius:15px;
 background:rgba(255,200,87,.12);color:var(--gold);font-size:13px;font-weight:800
@@ -64,22 +52,15 @@ background:rgba(255,200,87,.12);color:var(--gold);font-size:13px;font-weight:800
 .section-title{padding:0 15px;margin:22px 0 12px;font-size:18px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 15px}
 .card{
-min-height:145px;padding:16px;border-radius:20px;
-background:linear-gradient(145deg,var(--card),var(--card2));
-border:1px solid var(--border);box-shadow:0 12px 35px rgba(0,0,0,.16);
-position:relative;overflow:hidden
+min-height:145px;padding:16px;border-radius:20px;background:linear-gradient(145deg,var(--card),var(--card2));
+border:1px solid var(--border);box-shadow:0 12px 35px rgba(0,0,0,.16);position:relative;overflow:hidden
 }
-.card:after{
-content:"";position:absolute;width:80px;height:80px;right:-35px;top:-35px;
-border-radius:50%;background:rgba(57,191,255,.08)
-}
-.icon{font-size:30px}
-.card h3{margin-top:10px;font-size:16px}
+.icon{font-size:30px}.card h3{margin-top:10px;font-size:16px}
 .card p{color:var(--muted);font-size:12px;margin-top:5px}
 .reward{margin-top:12px;color:var(--green);font-weight:900}
 .card-btn{
-margin-top:12px;width:100%;padding:10px;border-radius:12px;color:#fff;
-font-weight:800;background:linear-gradient(135deg,#246cff,#8b5cf6)
+margin-top:12px;width:100%;padding:10px;border-radius:12px;color:#fff;font-weight:800;
+background:linear-gradient(135deg,#246cff,#8b5cf6)
 }
 .card-btn.green{background:linear-gradient(135deg,#16b878,#22e49a);color:#061b16}
 .card-btn.gold{background:linear-gradient(135deg,#e7a72e,#ffd86a);color:#271b00}
@@ -89,20 +70,15 @@ margin:15px;padding:15px;border-radius:18px;background:var(--card);border:1px so
 }
 .progress-top{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
 .progress{height:9px;margin-top:10px;border-radius:20px;overflow:hidden;background:#080c20}
-.progress div{
-height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:.3s
-}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:.3s}
 .bottom-nav{
-position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-width:min(760px,100%);z-index:50;display:grid;grid-template-columns:repeat(3,1fr);
-padding:8px;background:rgba(10,15,43,.94);backdrop-filter:blur(18px);
-border-top:1px solid var(--border)
+position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);
+z-index:50;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;
+background:rgba(10,15,43,.94);backdrop-filter:blur(18px);border-top:1px solid var(--border)
 }
 .nav-btn{padding:9px 3px;color:#8491c1;background:none;font-size:11px;font-weight:800}
-.nav-btn.active{color:var(--blue)}
-.nav-btn div{font-size:21px;margin-bottom:3px}
-.page{display:none}
-.page.active{display:block}
+.nav-btn.active{color:var(--blue)}.nav-btn div{font-size:21px;margin-bottom:3px}
+.page{display:none}.page.active{display:block}
 .modal{
 position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;
 background:rgba(0,0,0,.72);backdrop-filter:blur(7px)
@@ -119,16 +95,13 @@ background:#202950;color:#fff;font-size:25px
 }
 .modal-title{font-size:22px;font-weight:900;margin:8px 45px 20px 0}
 .row{
-margin-top:12px;padding:15px;border-radius:17px;background:rgba(255,255,255,.035);
-border:1px solid var(--border)
+margin-top:12px;padding:15px;border-radius:17px;background:rgba(255,255,255,.035);border:1px solid var(--border)
 }
-.row h3{font-size:15px}
-.row p{color:var(--muted);line-height:1.7;margin-top:8px}
+.row h3{font-size:15px}.row p{color:var(--muted);line-height:1.7;margin-top:8px}
 .input{
 width:100%;padding:13px;border-radius:13px;border:1px solid var(--border);
 background:#080d26;color:#fff;outline:none;margin-top:9px
 }
-.input:focus{border-color:var(--blue)}
 .primary{
 width:100%;padding:14px;margin-top:12px;border-radius:14px;
 background:linear-gradient(135deg,#2476ff,#8b5cf6);color:#fff;font-weight:900
@@ -139,34 +112,7 @@ width:100%;padding:13px;margin-top:10px;border-radius:14px;background:#202950;co
 }
 .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
 .stat{padding:15px;border-radius:17px;background:#0b1230;border:1px solid var(--border)}
-.stat small{color:var(--muted)}
-.stat strong{display:block;margin-top:6px;font-size:20px}
-.toast{
-position:fixed;left:50%;bottom:85px;transform:translateX(-50%) translateY(20px);
-z-index:300;opacity:0;pointer-events:none;padding:12px 18px;border-radius:14px;
-background:#202a50;border:1px solid rgba(57,191,255,.25);transition:.3s;
-white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#loginScreen{
-min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px
-}
-.login-box{
-width:min(430px,100%);padding:28px;border-radius:28px;
-background:linear-gradient(145deg,#111941,#0d1432);
-border:1px solid var(--border);box-shadow:0 25px 80px rgba(0,0,0,.4)
-}
-.login-logo{text-align:center;font-size:30px;font-weight:900}
-.login-logo span{color:var(--blue)}
-.login-sub{text-align:center;color:var(--muted);margin:8px 0 25px}
-.tabs{
-display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#080d26;padding:5px;border-radius:13px
-}
-.tab{padding:10px;border-radius:10px;background:none;color:var(--muted)}
-.tab.active{color:#fff;background:#202a54}
-.field{margin-top:13px}
-.field label{color:#aeb9df;font-size:13px}
-.notice{margin-top:15px;color:#8795c6;font-size:12px;line-height:1.6}
+.stat small{color:var(--muted)}.stat strong{display:block;margin-top:6px;font-size:20px}
 .quiz-question{margin-top:10px;font-size:22px;font-weight:900;line-height:1.4}
 .quiz-options{display:grid;gap:10px;margin-top:18px}
 .quiz-option{
@@ -177,20 +123,16 @@ border:1px solid var(--border);text-align:left
 .quiz-result{margin-top:15px;padding:14px;border-radius:14px;background:#0a102b;line-height:1.6}
 .account-head{text-align:center;padding:10px 0 20px}
 .big-avatar{
-width:82px;height:82px;margin:auto;border-radius:50%;display:flex;justify-content:center;
-align-items:center;font-size:30px;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple));
+width:82px;height:82px;margin:auto;border-radius:50%;font-size:30px;
 box-shadow:0 0 35px rgba(57,191,255,.2)
 }
-.account-head h2{margin-top:12px}
-.account-head p{color:var(--muted);margin-top:5px}
+.account-head h2{margin-top:12px}.account-head p{color:var(--muted);margin-top:5px}
 .menu{display:grid;gap:10px;margin-top:18px}
 .menu button{
 width:100%;display:flex;align-items:center;justify-content:space-between;padding:15px;
 border-radius:16px;background:#131b40;color:#fff;border:1px solid var(--border);text-align:left
 }
-.menu-left{display:flex;gap:12px;align-items:center}
-.menu-icon{font-size:22px}
-.menu small{color:var(--muted)}
+.menu-left{display:flex;gap:12px;align-items:center}.menu-icon{font-size:22px}
 .admin-list{display:grid;gap:12px;margin-top:15px}
 .withdraw-card{
 padding:15px;border-radius:17px;background:#0a102b;border:1px solid var(--border)
@@ -212,26 +154,38 @@ flex:1;padding:9px;border-radius:10px;color:#fff;background:#1e294f;font-size:12
 }
 .timer-banner{
 background:rgba(57,191,255,.1);border:1px solid rgba(57,191,255,.3);
-padding:10px;border-radius:12px;text-align:center;margin-bottom:15px;color:var(--blue);
-font-weight:bold;font-size:14px
+padding:10px;border-radius:12px;text-align:center;margin-bottom:15px;color:var(--blue);font-weight:bold;font-size:14px
 }
 .captcha-box{
-background:#0a102b;padding:15px;border-radius:12px;text-align:center;margin:15px 0;
-border:1px solid var(--border)
+background:#0a102b;padding:15px;border-radius:12px;text-align:center;margin:15px 0;border:1px solid var(--border)
 }
 .captcha-text{
 font-size:24px;font-weight:900;letter-spacing:4px;color:var(--gold);margin:10px 0;
 background:#11183d;padding:10px;border-radius:8px
 }
-.firebase-status{
-margin:0 15px;padding:9px 12px;border-radius:12px;font-size:12px;text-align:center;
-background:rgba(34,228,154,.08);border:1px solid rgba(34,228,154,.2);color:var(--green)
+#loginScreen{
+min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px
 }
-@media(max-width:430px){
-.grid{gap:9px}
-.card{padding:13px}
-.hero h1{font-size:22px}
+.login-box{
+width:min(430px,100%);padding:28px;border-radius:28px;
+background:linear-gradient(145deg,#111941,#0d1432);
+border:1px solid var(--border);box-shadow:0 25px 80px rgba(0,0,0,.4)
 }
+.login-logo{text-align:center;font-size:30px;font-weight:900}.login-logo span{color:var(--blue)}
+.login-sub{text-align:center;color:var(--muted);margin:8px 0 25px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#080d26;padding:5px;border-radius:13px}
+.tab{padding:10px;border-radius:10px;background:none;color:var(--muted)}
+.tab.active{color:#fff;background:#202a54}
+.field{margin-top:13px}.field label{color:#aeb9df;font-size:13px}
+.notice{margin-top:15px;color:#8795c6;font-size:12px;line-height:1.6}
+.toast{
+position:fixed;left:50%;bottom:85px;transform:translateX(-50%) translateY(20px);z-index:300;
+opacity:0;pointer-events:none;padding:12px 18px;border-radius:14px;background:#202a50;
+border:1px solid rgba(57,191,255,.25);transition:.3s;white-space:nowrap;max-width:90%;
+overflow:hidden;text-overflow:ellipsis
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:430px){.grid{gap:9px}.card{padding:13px}.hero h1{font-size:22px}}
 </style>
 </head>
 
@@ -279,7 +233,6 @@ Do not create fake, duplicate or automated accounts.
 <header>
 <div class="header-inner">
 <div class="logo">CoinRush <span>Pro</span></div>
-
 <div class="profile-mini">
 <div class="coin-pill">🪙 <span id="headerCoins">0</span></div>
 <div class="avatar" id="headerAvatar">C</div>
@@ -291,7 +244,7 @@ Do not create fake, duplicate or automated accounts.
 <section id="homePage" class="page active">
 
 <div class="hero">
-<div style="color:var(--muted);font-size:13px;margin-bottom:4px;">Welcome back</div>
+<div style="color:var(--muted);font-size:13px;margin-bottom:4px">Welcome back</div>
 <h1><span id="userName">Player</span></h1>
 <div class="vip" id="vipText">⭐ VIP 1</div>
 </div>
@@ -316,16 +269,13 @@ Do not create fake, duplicate or automated accounts.
 <button id="luckyBtn" class="card-btn" onclick="luckyCard()">OPEN</button>
 </div>
 
-<div class="card" style="grid-column:span 2;">
+<div class="card" style="grid-column:span 2">
 <div class="icon">🧠</div>
 <h3>Quiz</h3>
 <p>Class 3 & 4 GK Questions (+10 Coins per correct answer)</p>
-
 <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:12px">
-<span>Quiz Today</span>
-<b id="quizCountHome" style="color:#fff">0/70</b>
+<span>Quiz Today</span><b id="quizCountHome" style="color:#fff">0/70</b>
 </div>
-
 <button class="card-btn green" onclick="openQuiz()">PLAY QUIZ</button>
 </div>
 
@@ -351,7 +301,7 @@ Do not create fake, duplicate or automated accounts.
 <button class="card-btn" onclick="openCaptchaModal()">SOLVE CAPTCHA</button>
 </div>
 
-<div class="card" style="grid-column:span 2;">
+<div class="card" style="grid-column:span 2">
 <div class="icon">👥</div>
 <h3>Referral</h3>
 <p>Invite friends and earn 200 coins</p>
@@ -405,7 +355,6 @@ Do not create fake, duplicate or automated accounts.
 <small>Total Coins</small>
 <strong id="accountCoins">0</strong>
 </div>
-
 <div class="stat">
 <small>Quiz Today</small>
 <strong><span id="accountQuiz">0</span>/70</strong>
@@ -415,33 +364,27 @@ Do not create fake, duplicate or automated accounts.
 <div class="menu" style="padding:0 15px">
 
 <button onclick="openModal('withdrawModal')">
-<span class="menu-left"><span class="menu-icon">💎</span><span>Redeem Coin</span></span>
-<span>›</span>
+<span class="menu-left"><span class="menu-icon">💎</span><span>Redeem Coin</span></span><span>›</span>
 </button>
 
-<button onclick="openModal('historyModal');renderHistory()">
-<span class="menu-left"><span class="menu-icon">📜</span><span>Redeem History</span></span>
-<span>›</span>
+<button onclick="openModal('historyModal');renderHistory();syncCurrentUserWithdrawals()">
+<span class="menu-left"><span class="menu-icon">📜</span><span>Redeem History</span></span><span>›</span>
 </button>
 
 <button onclick="openModal('supportModal')">
-<span class="menu-left"><span class="menu-icon">💬</span><span>Help & Support</span></span>
-<span>›</span>
+<span class="menu-left"><span class="menu-icon">💬</span><span>Help & Support</span></span><span>›</span>
 </button>
 
 <button onclick="openModal('rulesModal')">
-<span class="menu-left"><span class="menu-icon">📜</span><span>Game Rules</span></span>
-<span>›</span>
+<span class="menu-left"><span class="menu-icon">📜</span><span>Game Rules</span></span><span>›</span>
 </button>
 
 <button onclick="openModal('referralModal')">
-<span class="menu-left"><span class="menu-icon">👥</span><span>Referral</span></span>
-<span>›</span>
+<span class="menu-left"><span class="menu-icon">👥</span><span>Referral</span></span><span>›</span>
 </button>
 
 <button onclick="logout()">
-<span class="menu-left"><span class="menu-icon">🚪</span><span>Logout</span></span>
-<span>›</span>
+<span class="menu-left"><span class="menu-icon">🚪</span><span>Logout</span></span><span>›</span>
 </button>
 
 </div>
@@ -449,19 +392,9 @@ Do not create fake, duplicate or automated accounts.
 
 
 <nav class="bottom-nav">
-
-<button class="nav-btn active" onclick="showPage('homePage',this)">
-<div>🏠</div>Home
-</button>
-
-<button class="nav-btn" onclick="showPage('walletPage',this)">
-<div>💰</div>Wallet
-</button>
-
-<button class="nav-btn" onclick="showPage('accountPage',this)">
-<div>👤</div>Account
-</button>
-
+<button class="nav-btn active" onclick="showPage('homePage',this)"><div>🏠</div>Home</button>
+<button class="nav-btn" onclick="showPage('walletPage',this)"><div>💰</div>Wallet</button>
+<button class="nav-btn" onclick="showPage('accountPage',this)"><div>👤</div>Account</button>
 </nav>
 
 </div>
@@ -469,20 +402,15 @@ Do not create fake, duplicate or automated accounts.
 
 <div id="quizModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('quizModal')">×</button>
-
 <div class="modal-title" id="modalMainTitle">🧠 CoinRush Quiz</div>
 
 <div id="modalProgressBarBox" class="progress-box" style="margin:0">
-
 <div class="progress-top">
 <span>Correct Questions Today</span>
 <span><b id="quizModalCount">0/70</b></span>
 </div>
-
 <div class="progress"><div id="quizModalProgress"></div></div>
-
 </div>
 
 <div id="quizContent"></div>
@@ -492,11 +420,9 @@ Do not create fake, duplicate or automated accounts.
 
 <div id="surveyModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('surveyModal')">×</button>
 <div class="modal-title" id="surveyModalTitle">📋 Survey Center</div>
 <div id="surveyContent"></div>
-
 </div>
 </div>
 
@@ -505,24 +431,15 @@ Do not create fake, duplicate or automated accounts.
 <div class="modal-box">
 
 <button class="close" onclick="closeModal('withdrawModal')">×</button>
-
 <div class="modal-title">💎 Redeem Coin</div>
 
 <div class="row">
 <h3>Redeem Coin Rules</h3>
-
 <p>
-Minimum:
-<b style="color:#fff">9,000 coins</b>
-<br>
-Conversion:
-<b style="color:#fff">9,000 coins = ₹30</b>
-<br>
-Daily maximum:
-<b style="color:#fff">20,000 coins</b>
-<br>
-Processing:
-<b style="color:#fff">24–72 hours</b>
+Minimum: <b style="color:#fff">9,000 coins</b><br>
+Conversion: <b style="color:#fff">9,000 coins = ₹30</b><br>
+Daily maximum: <b style="color:#fff">20,000 coins</b><br>
+Processing: <b style="color:#fff">24–72 hours</b>
 </p>
 </div>
 
@@ -539,49 +456,33 @@ SUBMIT REDEEM REQUEST
 
 <div id="referralModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('referralModal')">×</button>
-
 <div class="modal-title">👥 Referral</div>
 
 <div class="row">
 <h3>Your Referral Code</h3>
-
 <p id="referralCode" style="color:#fff;font-size:18px;font-weight:900"></p>
-
-<p style="margin-top:6px">
-Earn <b style="color:var(--green)">200 Coins</b>
-when your friend registers using your link!
-</p>
+<p style="margin-top:6px">Earn <b style="color:var(--green)">200 Coins</b> when your friend registers using your link!</p>
 </div>
 
 <input id="referralLink" class="input" readonly>
-
 <button class="primary" onclick="copyReferral()">COPY LINK</button>
 <button class="secondary" onclick="shareReferral()">SHARE ON WHATSAPP</button>
-
 </div>
 </div>
 
 
 <div id="supportModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('supportModal')">×</button>
-
 <div class="modal-title">💬 Help & Support</div>
 
 <div class="row">
 <h3>Need Assistance?</h3>
-
-<p>
-If you face any problem like bonus or redeem related issue, you can chat with us directly.
-</p>
-
-<a href="https://t.me/Luffyxzoroa" target="_blank" style="display:block;margin-top:15px;">
+<p>If you face any problem like bonus or redeem related issue, you can chat with us directly.</p>
+<a href="https://t.me/Luffyxzoroa" target="_blank" style="display:block;margin-top:15px">
 <button class="primary">💬 Chat on Telegram</button>
 </a>
-
 </div>
 </div>
 </div>
@@ -589,55 +490,38 @@ If you face any problem like bonus or redeem related issue, you can chat with us
 
 <div id="historyModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('historyModal')">×</button>
-
 <div class="modal-title">📜 Redeem History</div>
-
 <div id="modalHistory"></div>
-
 </div>
 </div>
 
 
 <div id="rulesModal" class="modal">
 <div class="modal-box">
-
 <button class="close" onclick="closeModal('rulesModal')">×</button>
-
 <div class="modal-title">📜 CoinRush Pro — Game Rules</div>
 
 <div class="row">
 <h3>🎯 1. General Rules</h3>
-<p>
-CoinRush Pro is a reward-based task and quiz platform. Users can complete available activities and earn coins.
-</p>
+<p>CoinRush Pro is a reward-based task and quiz platform. Users can complete available activities and earn coins.</p>
 </div>
 
 <div class="row">
 <h3>👤 2. Account Rules</h3>
-<p>
-• One account should be used by one user.
-<br>
-• Do not create duplicate or fake accounts.
-</p>
+<p>• One account should be used by one user.<br>• Do not create duplicate or fake accounts.</p>
 </div>
 
 <div class="row">
 <h3>🧠 4. Quiz Rules</h3>
 <p>
-• Class 3 & 4 simple questions.
-<br>
-• Maximum <b>70 correct questions per day</b>.
-<br>
-• Correct answer: <b>10 coins</b>.
-<br>
-• If answer is incorrect, try again.
-<br>
+• Class 3 & 4 simple questions.<br>
+• Maximum <b>70 correct questions per day</b>.<br>
+• Correct answer: <b>10 coins</b>.<br>
+• If answer is incorrect, try again.<br>
 • Upon correct answer, a 30 seconds timer will start.
 </p>
 </div>
-
 </div>
 </div>
 
@@ -646,34 +530,22 @@ CoinRush Pro is a reward-based task and quiz platform. Users can complete availa
 <div class="modal-box">
 
 <button class="close" onclick="closeModal('adminModal')">×</button>
-
 <div class="modal-title">🛡️ Admin Panel</div>
 
 <div id="adminStats" class="stat-grid"></div>
 
-<div class="section-title" style="padding:0;margin-top:22px">
-⚡ Send Coins to Any User
-</div>
+<div class="section-title" style="padding:0;margin-top:22px">⚡ Send Coins to Any User</div>
 
 <div class="row">
-
 <input id="adminTargetUser" class="input" type="text" placeholder="Enter User ID / Name">
 <input id="adminCoinAmount" class="input" type="number" placeholder="Enter Coin Amount">
-
 <button class="primary" onclick="adminSendCoins()">SEND COINS</button>
-
 </div>
 
-<div class="section-title" style="padding:0;margin-top:22px">
-👥 Registered Users & Passwords
-</div>
-
+<div class="section-title" style="padding:0;margin-top:22px">👥 Registered Users & Passwords</div>
 <div id="adminUsersList" class="admin-list"></div>
 
-<div class="section-title" style="padding:0;margin-top:22px">
-💎 Redeem Requests
-</div>
-
+<div class="section-title" style="padding:0;margin-top:22px">💎 Redeem Requests</div>
 <div id="adminWithdrawList" class="admin-list">
 <div class="row">Loading redeem requests...</div>
 </div>
@@ -694,50 +566,27 @@ import {getAnalytics}
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
 import {
-getDatabase,
-ref,
-set,
-get,
-push,
-update,
-onValue
+getDatabase,ref,set,get,push,update,onValue
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-const firebaseConfig = {
-
+const firebaseConfig={
 apiKey:"AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
-
 authDomain:"coinrush-pro-ef37b.firebaseapp.com",
-
 projectId:"coinrush-pro-ef37b",
-
 storageBucket:"coinrush-pro-ef37b.firebasestorage.app",
-
 messagingSenderId:"2523681309",
-
 appId:"1:2523681309:web:9bf3bf9164d948010cecf4",
-
 measurementId:"G-64DEYLS7LD",
-
 databaseURL:"https://coinrush-pro-ef37b-default-rtdb.asia-southeast1.firebasedatabase.app/"
-
 };
-
 
 const app=initializeApp(firebaseConfig);
 
-try{
-getAnalytics(app);
-}catch(e){
-console.log("Analytics unavailable:",e);
-}
+try{getAnalytics(app)}catch(e){console.log("Analytics unavailable:",e)}
 
 const database=getDatabase(app);
-
-window.database=database;
-
 
 let currentUser=localStorage.getItem("activeUser")||null;
 let authMode="login";
@@ -748,118 +597,58 @@ let currentQuizTimer=null;
 
 const ADMIN_NUMBER="9999999999";
 const ADMIN_PASSWORD="admin999";
-
 const OWNER_NUMBER="8942095676";
 const OWNER_PASSWORD="1234567";
 
 const QUIZ_DAILY_LIMIT=70;
 const QUIZ_REWARD=10;
-
 const MIN_WITHDRAW=9000;
 const MAX_WITHDRAW_DAILY=20000;
-
 const COIN_TO_RUPEE=30/9000;
 
 
 function today(){
-
 const d=new Date(Date.now()+330*60000);
-
 return d.toISOString().slice(0,10);
-
 }
-
-window.today=today;
 
 
 function getUser(){
-
-if(!currentUser)
-return null;
-
+if(!currentUser)return null;
 try{
-
-return JSON.parse(
-localStorage.getItem("user_"+currentUser)||"null"
-);
-
-}catch(e){
-
-return null;
-
-}
-
+return JSON.parse(localStorage.getItem("user_"+currentUser)||"null");
+}catch(e){return null}
 }
 
 
 function saveUser(u){
-
-if(!u||!currentUser)
-return;
-
-localStorage.setItem(
-"user_"+currentUser,
-JSON.stringify(u)
-);
-
+if(!u||!currentUser)return;
+localStorage.setItem("user_"+currentUser,JSON.stringify(u));
 updateUI();
-
 }
 
 
 function toast(message){
-
 const el=document.getElementById("toast");
-
 el.textContent=message;
-
 el.classList.add("show");
-
-setTimeout(
-()=>{
-el.classList.remove("show");
-},
-2300
-);
-
+setTimeout(()=>el.classList.remove("show"),2300);
 }
-
-window.toast=toast;
 
 
 function safeText(value){
-
-return String(value??"")
-.replace(
-/[&<>"']/g,
-m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m])
-);
-
+return String(value??"").replace(/[&<>"']/g,m=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[m]));
 }
 
 
 window.switchAuth=function(mode){
-
 authMode=mode;
-
-document.getElementById("loginTab")
-.classList.toggle("active",mode==="login");
-
-document.getElementById("registerTab")
-.classList.toggle("active",mode==="register");
-
-document.getElementById("registerNameBox")
-.classList.toggle("hidden",mode!=="register");
-
-document.getElementById("authButton").textContent=
-mode==="register"?"REGISTER":"LOGIN";
-
+document.getElementById("loginTab").classList.toggle("active",mode==="login");
+document.getElementById("registerTab").classList.toggle("active",mode==="register");
+document.getElementById("registerNameBox").classList.toggle("hidden",mode!=="register");
+document.getElementById("authButton").textContent=mode==="register"?"REGISTER":"LOGIN";
 };
 
 
@@ -868,111 +657,49 @@ window.submitAuth=function(){
 const id=document.getElementById("authMobile").value.trim();
 const pass=document.getElementById("authPassword").value;
 
-if(!id||!pass){
+if(!id||!pass){toast("Please fill all fields");return}
 
-toast("Please fill all fields");
-return;
-
-}
-
-
-/* ADMIN */
-
-if(
-authMode==="login" &&
-id===ADMIN_NUMBER &&
-pass===ADMIN_PASSWORD
-){
-
+if(authMode==="login"&&id===ADMIN_NUMBER&&pass===ADMIN_PASSWORD){
 adminLoggedIn=true;
-
 document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.add("hidden");
-
 openModal("adminModal");
-
 listenAdminWithdrawals();
 renderAdminUsers();
-
 toast("Admin login successful");
-
 return;
-
 }
 
+if(authMode==="login"&&id===OWNER_NUMBER&&pass===OWNER_PASSWORD){
 
-/* OWNER */
-
-if(
-authMode==="login" &&
-id===OWNER_NUMBER &&
-pass===OWNER_PASSWORD
-){
-
-let owner=
-JSON.parse(
-localStorage.getItem("user_"+OWNER_NUMBER)||"null"
-);
+let owner=JSON.parse(localStorage.getItem("user_"+OWNER_NUMBER)||"null");
 
 if(!owner){
-
 owner={
-id:OWNER_NUMBER,
-name:"Bishal prasad",
-password:OWNER_PASSWORD,
-coins:0,
-createdAt:Date.now(),
-quizDate:today(),
-quizCount:0,
-bonusDate:"",
-luckyDate:"",
-surveyDate:today(),
-surveyCount:0,
-captchaDate:today(),
-captchaDone:false
+id:OWNER_NUMBER,name:"Bishal prasad",password:OWNER_PASSWORD,coins:0,
+createdAt:Date.now(),quizDate:today(),quizCount:0,bonusDate:"",
+luckyDate:"",surveyDate:today(),surveyCount:0,captchaDate:today(),captchaDone:false
 };
-
-localStorage.setItem(
-"user_"+OWNER_NUMBER,
-JSON.stringify(owner)
-);
-
+localStorage.setItem("user_"+OWNER_NUMBER,JSON.stringify(owner));
 }
 
 currentUser=OWNER_NUMBER;
-
-localStorage.setItem(
-"activeUser",
-OWNER_NUMBER
-);
-
-toast("Owner login successful");
-
+localStorage.setItem("activeUser",OWNER_NUMBER);
 showApp();
-
+toast("Owner login successful");
 return;
-
 }
 
-
-/* REGISTER */
 
 if(authMode==="register"){
 
 const name=document.getElementById("authName").value.trim();
 
-if(!name){
-
-toast("Please enter your name");
-return;
-
-}
+if(!name){toast("Please enter your name");return}
 
 if(localStorage.getItem("user_"+id)){
-
 toast("This account already exists");
 return;
-
 }
 
 const urlParams=new URLSearchParams(location.search);
@@ -981,200 +708,104 @@ const refCode=urlParams.get("ref");
 let initialCoins=0;
 let referrerId=null;
 
-if(
-refCode &&
-refCode.startsWith("CR-")
-){
-
+if(refCode&&refCode.startsWith("CR-")){
 referrerId=refCode.replace("CR-","");
-
-if(
-referrerId!==id &&
-localStorage.getItem("user_"+referrerId)
-){
-
-initialCoins=50;
-
-}
-
+if(referrerId!==id&&localStorage.getItem("user_"+referrerId))initialCoins=50;
 }
 
 const user={
-id,
-name,
-password:pass,
-coins:initialCoins,
-createdAt:Date.now(),
-quizDate:today(),
-quizCount:0,
-bonusDate:"",
-luckyDate:"",
-surveyDate:today(),
-surveyCount:0,
-captchaDate:today(),
-captchaDone:false
+id,name,password:pass,coins:initialCoins,createdAt:Date.now(),
+quizDate:today(),quizCount:0,bonusDate:"",luckyDate:"",
+surveyDate:today(),surveyCount:0,captchaDate:today(),captchaDone:false
 };
 
-localStorage.setItem(
-"user_"+id,
-JSON.stringify(user)
-);
+localStorage.setItem("user_"+id,JSON.stringify(user));
 
+if(referrerId&&referrerId!==id){
 
-if(
-referrerId &&
-referrerId!==id
-){
-
-const referrerObj=
-JSON.parse(
+const referrerObj=JSON.parse(
 localStorage.getItem("user_"+referrerId)||"null"
 );
 
 if(referrerObj){
-
-referrerObj.coins=
-Number(referrerObj.coins||0)+200;
-
-localStorage.setItem(
-"user_"+referrerId,
-JSON.stringify(referrerObj)
-);
-
+referrerObj.coins=Number(referrerObj.coins||0)+200;
+localStorage.setItem("user_"+referrerId,JSON.stringify(referrerObj));
 }
 
 }
 
 currentUser=id;
-
-localStorage.setItem(
-"activeUser",
-id
-);
-
-toast(
-initialCoins>0
-?
-"Registration successful! +50 Joining Bonus 🎁"
-:
-"Registration successful!"
-);
-
+localStorage.setItem("activeUser",id);
 showApp();
-
+toast(initialCoins>0?"Registration successful! +50 Joining Bonus 🎁":"Registration successful!");
 return;
-
 }
 
 
-/* LOGIN */
-
-const user=
-JSON.parse(
-localStorage.getItem("user_"+id)||"null"
-);
+const user=JSON.parse(localStorage.getItem("user_"+id)||"null");
 
 if(!user||user.password!==pass){
-
 toast("Invalid account or password");
 return;
-
 }
 
 currentUser=id;
-
-localStorage.setItem(
-"activeUser",
-id
-);
-
-toast("Login successful");
-
+localStorage.setItem("activeUser",id);
 showApp();
-
+toast("Login successful");
 };
 
 
 window.logout=function(){
 
 if(currentQuizTimer){
-
 clearInterval(currentQuizTimer);
 currentQuizTimer=null;
-
 }
 
 localStorage.removeItem("activeUser");
-
 currentUser=null;
-
 adminLoggedIn=false;
 
 document.getElementById("app").classList.add("hidden");
-
 document.getElementById("loginScreen").classList.remove("hidden");
-
 };
 
 
 function showApp(){
 
 document.getElementById("loginScreen").classList.add("hidden");
-
 document.getElementById("app").classList.remove("hidden");
 
 updateUI();
-
 renderHistory();
-
 setupReferral();
-
 listenCurrentUserWithdrawals();
+syncCurrentUserWithdrawals();
 
 }
 
 
 function resetDailyCounters(u){
 
-if(!u)
-return;
+if(!u)return;
 
 let changed=false;
 
 if(u.quizDate!==today()){
-
-u.quizDate=today();
-u.quizCount=0;
-
-changed=true;
-
+u.quizDate=today();u.quizCount=0;changed=true;
 }
 
 if(u.surveyDate!==today()){
-
-u.surveyDate=today();
-u.surveyCount=0;
-
-changed=true;
-
+u.surveyDate=today();u.surveyCount=0;changed=true;
 }
 
 if(u.captchaDate!==today()){
-
-u.captchaDate=today();
-u.captchaDone=false;
-
-changed=true;
-
+u.captchaDate=today();u.captchaDone=false;changed=true;
 }
 
 if(changed){
-
-localStorage.setItem(
-"user_"+currentUser,
-JSON.stringify(u)
-);
-
+localStorage.setItem("user_"+currentUser,JSON.stringify(u));
 }
 
 }
@@ -1183,31 +814,18 @@ JSON.stringify(u)
 function updateUI(){
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 resetDailyCounters(u);
 
 const coins=Number(u.coins||0);
 
-document.getElementById("headerCoins").textContent=
-coins.toLocaleString();
-
-document.getElementById("walletCoins").textContent=
-coins.toLocaleString();
-
-document.getElementById("accountCoins").textContent=
-coins.toLocaleString();
-
-document.getElementById("userName").textContent=
-safeText(u.name);
-
-document.getElementById("accountName").textContent=
-u.name;
-
-document.getElementById("accountId").textContent=
-"Account: "+u.id;
+document.getElementById("headerCoins").textContent=coins.toLocaleString();
+document.getElementById("walletCoins").textContent=coins.toLocaleString();
+document.getElementById("accountCoins").textContent=coins.toLocaleString();
+document.getElementById("userName").textContent=u.name;
+document.getElementById("accountName").textContent=u.name;
+document.getElementById("accountId").textContent="Account: "+u.id;
 
 const first=(u.name||"C").charAt(0).toUpperCase();
 
@@ -1224,103 +842,73 @@ const count=getQuizCount();
 document.getElementById("quizCountHome").textContent=count+"/70";
 document.getElementById("accountQuiz").textContent=count;
 document.getElementById("quizProgressText").textContent=count+"/70";
-
-document.getElementById("quizProgress").style.width=
-(count/70*100)+"%";
+document.getElementById("quizProgress").style.width=(count/70*100)+"%";
 
 const bonusClaimed=u.bonusDate===today();
 
-document.getElementById("bonusBtn").textContent=
-bonusClaimed?"CLAIMED":"CLAIM";
-
+document.getElementById("bonusBtn").textContent=bonusClaimed?"CLAIMED":"CLAIM";
 document.getElementById("bonusBtn").disabled=bonusClaimed;
 
 const luckyClaimed=u.luckyDate===today();
 
-document.getElementById("luckyBtn").textContent=
-luckyClaimed?"CLAIMED":"OPEN";
-
+document.getElementById("luckyBtn").textContent=luckyClaimed?"CLAIMED":"OPEN";
 document.getElementById("luckyBtn").disabled=luckyClaimed;
 
 }
 
 
 function getVip(coins){
-
-if(coins>=100000)
-return "VIP 4";
-
-if(coins>=50000)
-return "VIP 3";
-
-if(coins>=20000)
-return "VIP 2";
-
+if(coins>=100000)return "VIP 4";
+if(coins>=50000)return "VIP 3";
+if(coins>=20000)return "VIP 2";
 return "VIP 1";
-
 }
 
 
 window.showPage=function(id,button){
 
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 
-document.querySelectorAll(".nav-btn")
-.forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
 
-if(button)
-button.classList.add("active");
+if(button)button.classList.add("active");
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+window.scrollTo({top:0,behavior:"smooth"});
+
+if(id==="walletPage"){
+syncCurrentUserWithdrawals();
+}
 
 };
 
 
 window.openModal=function(id){
-
 const el=document.getElementById(id);
-
-if(el)
-el.classList.add("show");
-
+if(el)el.classList.add("show");
 };
 
 
 window.closeModal=function(id){
-
 const el=document.getElementById(id);
-
-if(el)
-el.classList.remove("show");
-
+if(el)el.classList.remove("show");
 };
 
 
 window.claimBonus=function(){
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 if(u.bonusDate===today()){
-
 toast("Daily Bonus already claimed");
 return;
-
 }
 
 u.coins=Number(u.coins||0)+100;
 u.bonusDate=today();
 
 saveUser(u);
-
 toast("+100 Coins Added 🎉");
 
 };
@@ -1329,28 +917,20 @@ toast("+100 Coins Added 🎉");
 window.luckyCard=function(){
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 if(u.luckyDate===today()){
-
 toast("Lucky Card already used today");
 return;
-
 }
 
 const rewards=[30,50,75,100];
-
-const reward=
-rewards[Math.floor(Math.random()*rewards.length)];
+const reward=rewards[Math.floor(Math.random()*rewards.length)];
 
 u.luckyDate=today();
-
 u.coins=Number(u.coins||0)+reward;
 
 saveUser(u);
-
 toast("Lucky Card: +"+reward+" coins 🃏");
 
 };
@@ -1359,22 +939,16 @@ toast("Lucky Card: +"+reward+" coins 🃏");
 window.openCaptchaModal=function(){
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 resetDailyCounters(u);
 
 if(u.captchaDone){
-
 toast("Captcha task already completed today!");
 return;
-
 }
 
-document.getElementById("modalMainTitle").textContent=
-"🤖 Captcha Task";
-
+document.getElementById("modalMainTitle").textContent="🤖 Captcha Task";
 document.getElementById("modalProgressBarBox").style.display="none";
 
 openModal("quizModal");
@@ -1387,31 +961,16 @@ window.currentCaptchaAns=num1+num2;
 document.getElementById("quizContent").innerHTML=`
 
 <div class="row">
-
 <h3>Solve Simple Captcha</h3>
-
 <p>What is the sum of these numbers?</p>
 
 <div class="captcha-box">
-
-<div class="captcha-text">
-${num1} + ${num2}
+<div class="captcha-text">${num1} + ${num2}</div>
 </div>
 
-</div>
+<input id="captchaInput" class="input" type="number" placeholder="Enter answer">
 
-<input
-id="captchaInput"
-class="input"
-type="number"
-placeholder="Enter answer">
-
-<button
-class="primary"
-onclick="verifyCaptcha()">
-VERIFY CAPTCHA
-</button>
-
+<button class="primary" onclick="verifyCaptcha()">VERIFY CAPTCHA</button>
 </div>
 
 `;
@@ -1422,34 +981,20 @@ VERIFY CAPTCHA
 window.verifyCaptcha=function(){
 
 const inputEl=document.getElementById("captchaInput");
+if(!inputEl)return;
 
-if(!inputEl)
-return;
-
-const inputVal=inputEl.value.trim();
-
-if(
-!inputVal ||
-Number(inputVal)!==
-window.currentCaptchaAns
-){
-
+if(!inputEl.value.trim()||Number(inputEl.value)!==window.currentCaptchaAns){
 toast("Incorrect answer!");
 return;
-
 }
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 u.captchaDone=true;
-
 u.coins=Number(u.coins||0)+15;
 
 saveUser(u);
-
 closeModal("quizModal");
 
 toast("Captcha Task Completed! +15 coins 🤖");
@@ -1459,95 +1004,50 @@ toast("Captcha Task Completed! +15 coins 🤖");
 
 const EASY_QUESTIONS=[
 
-[
-"Which animal is known as the Ship of the Desert?",
-["Elephant","Camel","Horse","Lion"],
-"Camel"
-],
+["Which animal is known as the Ship of the Desert?",
+["Elephant","Camel","Horse","Lion"],"Camel"],
 
-[
-"How many days are there in a normal year?",
-["365","366","300","350"],
-"365"
-],
+["How many days are there in a normal year?",
+["365","366","300","350"],"365"],
 
-[
-"Which is the national fruit of India?",
-["Apple","Mango","Banana","Orange"],
-"Mango"
-],
+["Which is the national fruit of India?",
+["Apple","Mango","Banana","Orange"],"Mango"],
 
-[
-"Which part of the plant is under the ground?",
-["Leaf","Flower","Root","Stem"],
-"Root"
-],
+["Which part of the plant is under the ground?",
+["Leaf","Flower","Root","Stem"],"Root"],
 
-[
-"How many colors are there in a rainbow?",
-["5","6","7","8"],
-"7"
-],
+["How many colors are there in a rainbow?",
+["5","6","7","8"],"7"],
 
-[
-"Which animal gives us wool?",
-["Cow","Sheep","Dog","Cat"],
-"Sheep"
-],
+["Which animal gives us wool?",
+["Cow","Sheep","Dog","Cat"],"Sheep"],
 
-[
-"What do bees make?",
-["Milk","Honey","Silk","Wool"],
-"Honey"
-],
+["What do bees make?",
+["Milk","Honey","Silk","Wool"],"Honey"],
 
-[
-"Which is the largest mammal on Earth?",
-["Elephant","Blue Whale","Giraffe","Shark"],
-"Blue Whale"
-],
+["Which is the largest mammal on Earth?",
+["Elephant","Blue Whale","Giraffe","Shark"],"Blue Whale"],
 
-[
-"Which direction does the Sun rise from?",
-["West","North","East","South"],
-"East"
-],
+["Which direction does the Sun rise from?",
+["West","North","East","South"],"East"],
 
-[
-"How many hours are there in a single day?",
-["12","24","48","60"],
-"24"
-],
+["How many hours are there in a single day?",
+["12","24","48","60"],"24"],
 
-[
-"Which festival is known as the Festival of Lights?",
-["Holi","Diwali","Eid","Christmas"],
-"Diwali"
-],
+["Which festival is known as the Festival of Lights?",
+["Holi","Diwali","Eid","Christmas"],"Diwali"],
 
-[
-"What do we breathe in to stay alive?",
-["Carbon Dioxide","Oxygen","Nitrogen","Smoke"],
-"Oxygen"
-],
+["What do we breathe in to stay alive?",
+["Carbon Dioxide","Oxygen","Nitrogen","Smoke"],"Oxygen"],
 
-[
-"Which is our national bird?",
-["Pigeon","Sparrow","Peacock","Crow"],
-"Peacock"
-],
+["Which is our national bird?",
+["Pigeon","Sparrow","Peacock","Crow"],"Peacock"],
 
-[
-"How many days are in a week?",
-["5","6","7","10"],
-"7"
-],
+["How many days are in a week?",
+["5","6","7","10"],"7"],
 
-[
-"Which shape has 3 sides?",
-["Square","Rectangle","Triangle","Circle"],
-"Triangle"
-]
+["Which shape has 3 sides?",
+["Square","Rectangle","Triangle","Circle"],"Triangle"]
 
 ];
 
@@ -1555,9 +1055,7 @@ const EASY_QUESTIONS=[
 function getQuizCount(){
 
 const u=getUser();
-
-if(!u)
-return 0;
+if(!u)return 0;
 
 resetDailyCounters(u);
 
@@ -1568,16 +1066,9 @@ return Number(u.quizCount||0);
 
 function shuffle(arr){
 
-for(
-let i=arr.length-1;
-i>0;
-i--
-){
-
+for(let i=arr.length-1;i>0;i--){
 const j=Math.floor(Math.random()*(i+1));
-
 [arr[i],arr[j]]=[arr[j],arr[i]];
-
 }
 
 return arr;
@@ -1592,16 +1083,11 @@ EASY_QUESTIONS[
 Math.floor(Math.random()*EASY_QUESTIONS.length)
 ];
 
-return {
-
+return{
 type:"Class 3-4 GK",
-
 question:item[0],
-
 options:shuffle([...item[1]]),
-
 answer:item[2]
-
 };
 
 }
@@ -1613,9 +1099,7 @@ const count=getQuizCount();
 
 if(count>=QUIZ_DAILY_LIMIT){
 
-document.getElementById("modalMainTitle").textContent=
-"🧠 CoinRush Quiz";
-
+document.getElementById("modalMainTitle").textContent="🧠 CoinRush Quiz";
 document.getElementById("modalProgressBarBox").style.display="block";
 
 openModal("quizModal");
@@ -1623,21 +1107,14 @@ openModal("quizModal");
 document.getElementById("quizContent").innerHTML=`
 
 <div class="row">
-
 <h3>🔒 Quiz Locked</h3>
-
-<p>
-You have completed all 70 correct questions for today.
-</p>
-
+<p>You have completed all 70 correct questions for today.</p>
 </div>
 
 `;
 
 updateQuizProgress();
-
 return;
-
 }
 
 loadQuizQuestionContent();
@@ -1648,15 +1125,11 @@ loadQuizQuestionContent();
 function loadQuizQuestionContent(){
 
 if(currentQuizTimer){
-
 clearInterval(currentQuizTimer);
 currentQuizTimer=null;
-
 }
 
-document.getElementById("modalMainTitle").textContent=
-"🧠 CoinRush Quiz";
-
+document.getElementById("modalMainTitle").textContent="🧠 CoinRush Quiz";
 document.getElementById("modalProgressBarBox").style.display="block";
 
 openModal("quizModal");
@@ -1671,29 +1144,17 @@ document.getElementById("quizContent").innerHTML=`
 
 <div class="row">
 
-<div style="color:#6fd3ff;font-weight:900">
-${q.type}
-</div>
+<div style="color:#6fd3ff;font-weight:900">${q.type}</div>
 
-<div class="quiz-question">
-${safeText(q.question)}
-</div>
+<div class="quiz-question">${safeText(q.question)}</div>
 
 <div class="quiz-options">
 
-${q.options.map(
-(option,index)=>`
-
-<button
-class="quiz-option"
-onclick="answerQuiz(${index})">
-
+${q.options.map((option,index)=>`
+<button class="quiz-option" onclick="answerQuiz(${index})">
 ${safeText(option)}
-
 </button>
-
-`
-).join("")}
+`).join("")}
 
 </div>
 
@@ -1709,52 +1170,34 @@ ${safeText(option)}
 window.answerQuiz=function(index){
 
 const q=window.currentQuiz;
-
-if(!q)
-return;
+if(!q)return;
 
 const selected=q.options[index];
-
 const result=document.getElementById("quizResult");
-
 const u=getUser();
 
-if(!u)
-return;
+if(!u)return;
 
-const correct=String(selected)===String(q.answer);
-
-if(correct){
+if(String(selected)===String(q.answer)){
 
 u.quizCount=Number(u.quizCount||0)+1;
-
 u.coins=Number(u.coins||0)+QUIZ_REWARD;
 
 saveUser(u);
-
 updateQuizProgress();
 
-const buttons=document.querySelectorAll(".quiz-option");
-
-buttons.forEach(b=>b.disabled=true);
+document.querySelectorAll(".quiz-option").forEach(b=>b.disabled=true);
 
 result.innerHTML=`
 
-<div
-class="quiz-result"
-style="border:1px solid rgba(34,228,154,.3)">
+<div class="quiz-result" style="border:1px solid rgba(34,228,154,.3)">
 
-<div style="font-size:20px;font-weight:900">
-🎉 Correct!
-</div>
+<div style="font-size:20px;font-weight:900">🎉 Correct!</div>
 
-<div style="color:#22e49a;margin-top:6px">
-+10 Coins Added
-</div>
+<div style="color:#22e49a;margin-top:6px">+10 Coins Added</div>
 
 <div class="timer-banner" style="margin-top:10px">
-Next question in:
-<span id="qSeconds">30</span>s
+Next question in: <span id="qSeconds">30</span>s
 </div>
 
 </div>
@@ -1768,9 +1211,7 @@ currentQuizTimer=setInterval(()=>{
 timeLeft--;
 
 const secEl=document.getElementById("qSeconds");
-
-if(secEl)
-secEl.textContent=timeLeft;
+if(secEl)secEl.textContent=timeLeft;
 
 if(timeLeft<=0){
 
@@ -1782,21 +1223,13 @@ if(getQuizCount()>=QUIZ_DAILY_LIMIT){
 document.getElementById("quizContent").innerHTML=`
 
 <div class="row">
-
-<h3 style="font-size:22px">
-🔒 Today's Quiz Completed
-</h3>
-
-<p>
-You completed all 70 correct questions today.
-</p>
-
+<h3 style="font-size:22px">🔒 Today's Quiz Completed</h3>
+<p>You completed all 70 correct questions today.</p>
 </div>
 
 `;
 
 return;
-
 }
 
 loadQuizQuestionContent();
@@ -1810,19 +1243,13 @@ loadQuizQuestionContent();
 
 result.innerHTML=`
 
-<div
-class="quiz-result"
-style="border:1px solid rgba(255,85,119,.3)">
+<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)">
 
-<div style="font-size:20px;font-weight:900">
-❌ Incorrect
-</div>
+<div style="font-size:20px;font-weight:900">❌ Incorrect</div>
 
 <div style="color:#ff8ba4;margin-top:6px">
-
-Wrong answer!
+Wrong answer!<br>
 Try again and select the correct option.
-
 </div>
 
 </div>
@@ -1838,17 +1265,11 @@ function updateQuizProgress(){
 
 const count=getQuizCount();
 
-const percentage=(count/70)*100;
-
 const countEl=document.getElementById("quizModalCount");
-
-if(countEl)
-countEl.textContent=count+"/70";
+if(countEl)countEl.textContent=count+"/70";
 
 const progEl=document.getElementById("quizModalProgress");
-
-if(progEl)
-progEl.style.width=percentage+"%";
+if(progEl)progEl.style.width=(count/70*100)+"%";
 
 }
 
@@ -1856,27 +1277,15 @@ progEl.style.width=percentage+"%";
 const SURVEY_LIST=[
 
 {
-id:1,
-title:"Lifestyle & Shopping Survey",
+id:1,title:"Lifestyle & Shopping Survey",
 question:"How often do you shop online?",
-options:[
-"Daily",
-"Weekly",
-"Monthly",
-"Rarely"
-]
+options:["Daily","Weekly","Monthly","Rarely"]
 },
 
 {
-id:2,
-title:"Technology Usage Survey",
+id:2,title:"Technology Usage Survey",
 question:"Which device do you use most for browsing?",
-options:[
-"Smartphone",
-"Laptop",
-"Tablet",
-"Desktop PC"
-]
+options:["Smartphone","Laptop","Tablet","Desktop PC"]
 }
 
 ];
@@ -1885,17 +1294,13 @@ options:[
 window.openSurveyModal=function(){
 
 const u=getUser();
-
-if(!u)
-return;
+if(!u)return;
 
 resetDailyCounters(u);
 
-document.getElementById("surveyModalTitle").textContent=
-"📋 Survey Center";
+document.getElementById("surveyModalTitle").textContent="📋 Survey Center";
 
 openModal("surveyModal");
-
 renderSurveyList();
 
 };
@@ -1906,38 +1311,25 @@ function renderSurveyList(){
 const container=document.getElementById("surveyContent");
 
 container.innerHTML=
-SURVEY_LIST.map(
-survey=>{
+SURVEY_LIST.map(survey=>{
 
 const doneKey=
-"surveyDone_"+
-currentUser+
-"_"+survey.id+
-"_"+today();
+"surveyDone_"+currentUser+"_"+survey.id+"_"+today();
 
-const isDone=
-localStorage.getItem(doneKey)==="1";
+const isDone=localStorage.getItem(doneKey)==="1";
 
 return `
 
 <div class="row">
 
-<h3>
-📋 ${safeText(survey.title)}
-</h3>
+<h3>📋 ${safeText(survey.title)}</h3>
 
-<p>
-Complete this survey to earn 25 coins.
-</p>
+<p>Complete this survey to earn 25 coins.</p>
 
-<button
-class="primary"
-${isDone?"disabled":""}
+<button class="primary" ${isDone?"disabled":""}
 onclick="startSurvey(${survey.id})">
 
-${isDone
-?"COMPLETED"
-:"START SURVEY (+25 Coins)"}
+${isDone?"COMPLETED":"START SURVEY (+25 Coins)"}
 
 </button>
 
@@ -1945,47 +1337,36 @@ ${isDone
 
 `;
 
-}
-).join("");
+}).join("");
 
 }
 
 
 window.startSurvey=function(surveyId){
 
-const survey=
-SURVEY_LIST.find(s=>s.id===surveyId);
+const survey=SURVEY_LIST.find(s=>s.id===surveyId);
+if(!survey)return;
 
-if(!survey)
-return;
-
-document.getElementById("surveyModalTitle").textContent=
-"📋 "+survey.title;
+document.getElementById("surveyModalTitle").textContent="📋 "+survey.title;
 
 document.getElementById("surveyContent").innerHTML=`
 
 <div class="row">
 
-<h3 style="font-size:18px;margin-bottom:10px;">
-Question:
-${safeText(survey.question)}
+<h3 style="font-size:18px;margin-bottom:10px">
+Question: ${safeText(survey.question)}
 </h3>
 
 <div class="quiz-options">
 
-${survey.options.map(
-(opt,i)=>`
+${survey.options.map(opt=>`
 
-<button
-class="quiz-option"
+<button class="quiz-option"
 onclick="submitSurveyAnswer(${survey.id})">
-
 ${safeText(opt)}
-
 </button>
 
-`
-).join("")}
+`).join("")}
 
 </div>
 
@@ -1999,16 +1380,11 @@ ${safeText(opt)}
 window.submitSurveyAnswer=function(surveyId){
 
 const doneKey=
-"surveyDone_"+
-currentUser+
-"_"+surveyId+
-"_"+today();
+"surveyDone_"+currentUser+"_"+surveyId+"_"+today();
 
 if(localStorage.getItem(doneKey)==="1"){
-
 toast("Survey already completed");
 return;
-
 }
 
 localStorage.setItem(doneKey,"1");
@@ -2016,13 +1392,9 @@ localStorage.setItem(doneKey,"1");
 const u=getUser();
 
 if(u){
-
 u.surveyCount=Number(u.surveyCount||0)+1;
-
 u.coins=Number(u.coins||0)+25;
-
 saveUser(u);
-
 }
 
 toast("Survey completed successfully! +25 coins 📋");
@@ -2034,19 +1406,16 @@ openSurveyModal();
 
 function setupReferral(){
 
-if(!currentUser)
-return;
+if(!currentUser)return;
 
 const code="CR-"+currentUser;
 
 const link=
 location.origin+
 location.pathname+
-"?ref="+
-encodeURIComponent(code);
+"?ref="+encodeURIComponent(code);
 
 document.getElementById("referralCode").textContent=code;
-
 document.getElementById("referralLink").value=link;
 
 }
@@ -2071,8 +1440,7 @@ const text=
 document.getElementById("referralLink").value;
 
 location.href=
-"https://wa.me/?text="+
-encodeURIComponent(text);
+"https://wa.me/?text="+encodeURIComponent(text);
 
 };
 
@@ -2084,8 +1452,7 @@ JSON.parse(
 localStorage.getItem("withdrawCoins_"+currentUser)||"{}"
 );
 
-if(data.date!==today())
-return 0;
+if(data.date!==today())return 0;
 
 return Number(data.amount)||0;
 
@@ -2097,13 +1464,8 @@ function addTodayWithdrawnCoins(amount){
 localStorage.setItem(
 "withdrawCoins_"+currentUser,
 JSON.stringify({
-
 date:today(),
-
-amount:
-getTodayWithdrawnCoins()+
-Number(amount)
-
+amount:getTodayWithdrawnCoins()+Number(amount)
 })
 );
 
@@ -2111,9 +1473,7 @@ Number(amount)
 
 
 function validUpi(upi){
-
 return /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi);
-
 }
 
 
@@ -2122,10 +1482,8 @@ window.submitWithdrawal=async function(){
 const u=getUser();
 
 if(!u){
-
 toast("Please login first");
 return;
-
 }
 
 const coinInput=document.getElementById("withdrawCoins");
@@ -2136,54 +1494,38 @@ const coins=Number(coinInput.value);
 const upi=upiInput.value.trim();
 
 if(!Number.isFinite(coins)||coins<=0){
-
 toast("Enter valid coin amount");
 return;
-
 }
 
 if(coins<MIN_WITHDRAW){
-
 toast("Minimum redeem is 9,000 coins");
 return;
-
 }
 
 if(coins>MAX_WITHDRAW_DAILY){
-
 toast("Maximum redeem is 20,000 coins/day");
 return;
-
 }
 
 if(!validUpi(upi)){
-
 toast("Enter a valid UPI ID");
 return;
-
 }
 
-const todayUsed=getTodayWithdrawnCoins();
-
-if(todayUsed+coins>MAX_WITHDRAW_DAILY){
-
+if(getTodayWithdrawnCoins()+coins>MAX_WITHDRAW_DAILY){
 toast("Daily redeem limit exceeded");
 return;
-
 }
 
 if(Number(u.coins||0)<coins){
-
 toast("Insufficient coins");
 return;
-
 }
 
-const rupees=
-Math.round(coins*COIN_TO_RUPEE*100)/100;
+const rupees=Math.round(coins*COIN_TO_RUPEE*100)/100;
 
 const request={
-
 userId:String(u.id),
 name:String(u.name||"User"),
 mobile:String(u.id),
@@ -2193,30 +1535,21 @@ upi:upi,
 date:today(),
 timestamp:Date.now(),
 status:"Pending"
-
 };
 
 if(submitButton){
-
 submitButton.disabled=true;
 submitButton.textContent="SUBMITTING...";
-
 }
 
 try{
 
 const withdrawalsRef=ref(database,"withdrawals");
-
 const newRequestRef=push(withdrawalsRef);
 
-await set(
-newRequestRef,
-request
-);
+await set(newRequestRef,request);
 
-u.coins=
-Number(u.coins||0)-coins;
-
+u.coins=Number(u.coins||0)-coins;
 saveUser(u);
 
 addTodayWithdrawnCoins(coins);
@@ -2240,32 +1573,22 @@ coinInput.value="";
 upiInput.value="";
 
 closeModal("withdrawModal");
-
 renderHistory();
-
 updateUI();
 
 toast("Withdrawal request submitted successfully 💎");
 
 }catch(error){
 
-console.error(
-"FIREBASE WITHDRAWAL ERROR:",
-error
-);
+console.error("FIREBASE WITHDRAWAL ERROR:",error);
 
-toast(
-"Withdrawal failed: "+
-(error.message||"Firebase error")
-);
+toast("Withdrawal failed: "+(error.message||"Firebase error"));
 
 }finally{
 
 if(submitButton){
-
 submitButton.disabled=false;
 submitButton.textContent="SUBMIT REDEEM REQUEST";
-
 }
 
 }
@@ -2273,169 +1596,27 @@ submitButton.textContent="SUBMIT REDEEM REQUEST";
 };
 
 
-/*
-=========================================================
-USER HISTORY
-=========================================================
-*/
+/* =====================================================
+   IMPORTANT FIX:
+   FIREBASE IS THE SOURCE OF TRUTH FOR USER HISTORY
+   ===================================================== */
 
-function renderHistory(){
+async function syncCurrentUserWithdrawals(){
 
-const history=
-JSON.parse(
-localStorage.getItem("history_"+currentUser)||"[]"
+if(!currentUser)return;
+
+try{
+
+const snapshot=
+await get(
+ref(database,"withdrawals")
 );
-
-const container=document.getElementById("historyList");
-
-if(!history.length){
-
-container.innerHTML=`
-
-<div class="row">
-<p>No redeem history yet.</p>
-</div>
-
-`;
-
-return;
-
-}
-
-container.innerHTML=
-history.map(
-item=>`
-
-<div
-class="withdraw-card"
-style="margin-bottom:10px">
-
-<b>
-💎 ${Number(item.coins).toLocaleString()} Coins
-</b>
-
-<div class="muted">
-₹${safeText(item.rupees)}
-• ${safeText(item.upi)}
-</div>
-
-<div class="muted">
-${safeText(item.date)}
-</div>
-
-<span class="status ${String(
-item.status||"Pending"
-).toLowerCase()}">
-
-${safeText(
-item.status||"Pending"
-)}
-
-</span>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-window.renderHistory=function(){
-
-const history=
-JSON.parse(
-localStorage.getItem("history_"+currentUser)||"[]"
-);
-
-const container=document.getElementById("modalHistory");
-
-if(!history.length){
-
-container.innerHTML=`
-
-<div class="row">
-No redeem history yet.
-</div>
-
-`;
-
-return;
-
-}
-
-container.innerHTML=
-history.map(
-item=>`
-
-<div
-class="withdraw-card"
-style="margin-bottom:10px">
-
-<b>
-${Number(item.coins).toLocaleString()} Coins
-</b>
-
-<div class="muted">
-₹${safeText(item.rupees)}
-</div>
-
-<div class="muted">
-UPI: ${safeText(item.upi)}
-</div>
-
-<div class="muted">
-${safeText(item.date)}
-</div>
-
-<span class="status ${String(
-item.status||"Pending"
-).toLowerCase()}">
-
-${safeText(
-item.status||"Pending"
-)}
-
-</span>
-
-</div>
-
-`
-).join("");
-
-};
-
-
-/*
-=========================================================
-USER REALTIME WITHDRAWAL STATUS
-FIXED:
-Firebase Accepted status now always replaces old Pending
-history on user's phone.
-=========================================================
-*/
-
-function listenCurrentUserWithdrawals(){
-
-if(!currentUser||userWithdrawListenerStarted)
-return;
-
-userWithdrawListenerStarted=true;
-
-const withdrawalsRef=ref(database,"withdrawals");
-
-onValue(
-
-withdrawalsRef,
-
-(snapshot)=>{
 
 const firebaseHistory=[];
 
 if(snapshot.exists()){
 
-snapshot.forEach(
-child=>{
+snapshot.forEach(child=>{
 
 const item=child.val()||{};
 
@@ -2444,28 +1625,31 @@ String(item.userId)===
 String(currentUser)
 ){
 
-firebaseHistory.push({
+let status=
+String(item.status||"Pending");
 
+/*
+OLD Paid -> Accepted
+*/
+if(status==="Paid"){
+status="Accepted";
+}
+
+firebaseHistory.push({
 id:child.key,
-...item
+...item,
+status:status
+});
+
+}
 
 });
 
 }
 
-}
-);
-
-}
-
-
 /*
-IMPORTANT:
-Even when Firebase returns an empty list,
-replace local history for the current user.
-This prevents old Pending records from remaining.
+Always replace local history with Firebase history.
 */
-
 firebaseHistory.sort(
 (a,b)=>
 Number(b.timestamp||0)-
@@ -2480,10 +1664,232 @@ JSON.stringify(firebaseHistory)
 renderHistory();
 
 if(
-document
-.getElementById("historyModal")
-.classList
-.contains("show")
+document.getElementById("historyModal") &&
+document.getElementById("historyModal").classList.contains("show")
+){
+window.renderHistory();
+}
+
+}catch(error){
+
+console.error(
+"MANUAL USER HISTORY SYNC ERROR:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   USER HISTORY
+   ===================================================== */
+
+function renderHistory(){
+
+const history=
+JSON.parse(
+localStorage.getItem("history_"+currentUser)||"[]"
+);
+
+const container=document.getElementById("historyList");
+
+if(!container)return;
+
+if(!history.length){
+
+container.innerHTML=`
+<div class="row">
+<p>No redeem history yet.</p>
+</div>
+`;
+
+return;
+}
+
+container.innerHTML=
+history.map(item=>{
+
+let finalStatus=
+String(item.status||"Pending");
+
+if(finalStatus==="Paid"){
+finalStatus="Accepted";
+}
+
+return `
+
+<div class="withdraw-card" style="margin-bottom:10px">
+
+<b>
+💎 ${Number(item.coins||0).toLocaleString()} Coins
+</b>
+
+<div class="muted">
+₹${safeText(item.rupees)}
+</div>
+
+<div class="muted">
+UPI: ${safeText(item.upi)}
+</div>
+
+<div class="muted">
+${safeText(item.date)}
+</div>
+
+<span class="status ${finalStatus.toLowerCase()}">
+${safeText(finalStatus)}
+</span>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+window.renderHistory=function(){
+
+const history=
+JSON.parse(
+localStorage.getItem("history_"+currentUser)||"[]"
+);
+
+const container=document.getElementById("modalHistory");
+
+if(!container)return;
+
+if(!history.length){
+
+container.innerHTML=`
+<div class="row">
+No redeem history yet.
+</div>
+`;
+
+return;
+}
+
+container.innerHTML=
+history.map(item=>{
+
+let finalStatus=
+String(item.status||"Pending");
+
+if(finalStatus==="Paid"){
+finalStatus="Accepted";
+}
+
+return `
+
+<div class="withdraw-card" style="margin-bottom:10px">
+
+<b>
+💎 ${Number(item.coins||0).toLocaleString()} Coins
+</b>
+
+<div class="muted">
+₹${safeText(item.rupees)}
+</div>
+
+<div class="muted">
+UPI: ${safeText(item.upi)}
+</div>
+
+<div class="muted">
+${safeText(item.date)}
+</div>
+
+<span class="status ${finalStatus.toLowerCase()}">
+${safeText(finalStatus)}
+</span>
+
+</div>
+
+`;
+
+}).join("");
+
+};
+
+
+/* =====================================================
+   REALTIME USER LISTENER
+   ===================================================== */
+
+function listenCurrentUserWithdrawals(){
+
+if(!currentUser||userWithdrawListenerStarted)
+return;
+
+userWithdrawListenerStarted=true;
+
+const withdrawalsRef=
+ref(database,"withdrawals");
+
+onValue(
+
+withdrawalsRef,
+
+(snapshot)=>{
+
+const firebaseHistory=[];
+
+if(snapshot.exists()){
+
+snapshot.forEach(child=>{
+
+const item=child.val()||{};
+
+if(
+String(item.userId)===
+String(currentUser)
+){
+
+let status=
+String(item.status||"Pending");
+
+if(status==="Paid"){
+status="Accepted";
+}
+
+firebaseHistory.push({
+id:child.key,
+...item,
+status:status
+});
+
+}
+
+});
+
+}
+
+firebaseHistory.sort(
+(a,b)=>
+Number(b.timestamp||0)-
+Number(a.timestamp||0)
+);
+
+/*
+Firebase latest data overwrites old Pending data.
+*/
+localStorage.setItem(
+"history_"+currentUser,
+JSON.stringify(firebaseHistory)
+);
+
+renderHistory();
+
+const historyModal=
+document.getElementById("historyModal");
+
+if(
+historyModal &&
+historyModal.classList.contains("show")
 ){
 
 window.renderHistory();
@@ -2506,11 +1912,9 @@ error
 }
 
 
-/*
-=========================================================
-ADMIN WITHDRAWAL LISTENER
-=========================================================
-*/
+/* =====================================================
+   ADMIN REALTIME WITHDRAWALS
+   ===================================================== */
 
 function listenAdminWithdrawals(){
 
@@ -2519,7 +1923,8 @@ return;
 
 adminWithdrawListenerStarted=true;
 
-const withdrawalsRef=ref(database,"withdrawals");
+const withdrawalsRef=
+ref(database,"withdrawals");
 
 onValue(
 
@@ -2531,20 +1936,24 @@ const list=[];
 
 if(snapshot.exists()){
 
-snapshot.forEach(
-child=>{
+snapshot.forEach(child=>{
 
 const value=child.val()||{};
 
+let status=
+String(value.status||"Pending");
+
+if(status==="Paid"){
+status="Accepted";
+}
+
 list.push({
-
 id:child.key,
-...value
-
+...value,
+status:status
 });
 
-}
-);
+});
 
 }
 
@@ -2573,16 +1982,8 @@ if(container){
 container.innerHTML=`
 
 <div class="row">
-
 <h3>⚠️ Firebase Error</h3>
-
-<p>
-${safeText(
-error.message||
-"Unable to read withdrawals"
-)}
-</p>
-
+<p>${safeText(error.message||"Unable to read withdrawals")}</p>
 </div>
 
 `;
@@ -2596,12 +1997,9 @@ error.message||
 }
 
 
-/*
-=========================================================
-ADMIN WITHDRAWALS
-ACCEPTED ONLY — NO PAID
-=========================================================
-*/
+/* =====================================================
+   ADMIN PANEL
+   ===================================================== */
 
 function renderAdmin(list){
 
@@ -2610,20 +2008,17 @@ document.getElementById("adminWithdrawList");
 
 const pending=
 list.filter(
-x=>
-String(x.status||"Pending")==="Pending"
+x=>String(x.status||"Pending")==="Pending"
 ).length;
 
 const accepted=
 list.filter(
-x=>
-String(x.status||"")==="Accepted"
+x=>String(x.status||"")==="Accepted"
 ).length;
 
 const rejected=
 list.filter(
-x=>
-String(x.status||"")==="Rejected"
+x=>String(x.status||"")==="Rejected"
 ).length;
 
 document.getElementById("adminStats").innerHTML=`
@@ -2655,77 +2050,58 @@ if(!list.length){
 container.innerHTML=`
 
 <div class="row">
-
 <h3>💎 No Redeem Requests</h3>
-
-<p>
-New withdrawal requests will appear here automatically.
-</p>
-
+<p>New withdrawal requests will appear here automatically.</p>
 </div>
 
 `;
 
 return;
-
 }
 
 container.innerHTML=
-list.map(
-item=>{
+list.map(item=>{
 
 const status=
 String(item.status||"Pending");
-
-const statusClass=
-status.toLowerCase();
 
 return `
 
 <div class="withdraw-card">
 
 <b>
-💎 ${Number(
-item.coins||0
-).toLocaleString()} Coins
+💎 ${Number(item.coins||0).toLocaleString()} Coins
 </b>
 
 <div class="muted">
-Amount:
-₹${safeText(item.rupees)}
+Amount: ₹${safeText(item.rupees)}
 </div>
 
 <div class="muted">
-Name:
-${safeText(item.name)}
+Name: ${safeText(item.name)}
 </div>
 
 <div class="muted">
-User ID:
-${safeText(item.userId)}
+User ID: ${safeText(item.userId)}
 </div>
 
 <div class="muted">
-Mobile/ID:
-${safeText(item.mobile)}
+Mobile/ID: ${safeText(item.mobile)}
 </div>
 
 <div class="muted">
-UPI:
-${safeText(item.upi)}
+UPI: ${safeText(item.upi)}
 </div>
 
 <div class="muted">
-Date:
-${safeText(item.date)}
+Date: ${safeText(item.date)}
 </div>
 
 <div class="muted">
-Request ID:
-${safeText(item.id)}
+Request ID: ${safeText(item.id)}
 </div>
 
-<span class="status ${statusClass}">
+<span class="status ${status.toLowerCase()}">
 ${safeText(status)}
 </span>
 
@@ -2741,9 +2117,7 @@ onclick="changeWithdrawalStatus(
 '${safeText(item.id)}',
 'Accepted'
 )">
-
 ✓ Accept
-
 </button>
 
 <button
@@ -2751,43 +2125,34 @@ onclick="changeWithdrawalStatus(
 '${safeText(item.id)}',
 'Rejected'
 )">
-
 ✕ Reject
-
 </button>
 
 </div>
 
 `
-:
-""
+:""
 }
 
 </div>
 
 `;
 
-}
-).join("");
+}).join("");
 
 }
 
 
-/*
-=========================================================
-UPDATE WITHDRAW STATUS
-=========================================================
-*/
+/* =====================================================
+   ADMIN STATUS UPDATE
+   ===================================================== */
 
 window.updateWithdrawStatusFirebase=
 async function(id,newStatus){
 
-if(!id)
+if(!id){
 throw new Error("Missing withdrawal ID");
-
-/*
-Only these two final statuses are allowed.
-*/
+}
 
 if(
 newStatus!=="Accepted" &&
@@ -2799,36 +2164,22 @@ throw new Error("Invalid withdrawal status");
 }
 
 await update(
-ref(
-database,
-"withdrawals/"+id
-),
+ref(database,"withdrawals/"+id),
 {
-
 status:newStatus,
 statusUpdatedAt:Date.now()
-
 }
 );
 
 };
 
 
-/*
-=========================================================
-CHANGE WITHDRAW STATUS
-=========================================================
-*/
-
 window.changeWithdrawalStatus=
 async function(id,status){
 
 try{
 
-await updateWithdrawStatusFirebase(
-id,
-status
-);
+await updateWithdrawStatusFirebase(id,status);
 
 toast(
 status==="Accepted"
@@ -2839,16 +2190,13 @@ status==="Accepted"
 );
 
 /*
-Firebase onValue listeners automatically refresh
-both admin and user history.
+The user's phone receives this Firebase change
+through onValue() automatically.
 */
 
 }catch(e){
 
-console.error(
-"STATUS UPDATE ERROR:",
-e
-);
+console.error("STATUS UPDATE ERROR:",e);
 
 toast(
 "Could not update status: "+
@@ -2860,11 +2208,9 @@ toast(
 };
 
 
-/*
-=========================================================
-ADMIN USERS
-=========================================================
-*/
+/* =====================================================
+   ADMIN USERS
+   ===================================================== */
 
 window.renderAdminUsers=function(){
 
@@ -2893,8 +2239,7 @@ JSON.parse(
 localStorage.getItem(key)
 );
 
-if(uData)
-users.push(uData);
+if(uData)users.push(uData);
 
 }catch(e){}
 
@@ -2905,20 +2250,14 @@ users.push(uData);
 if(!users.length){
 
 container.innerHTML=`
-
-<div class="row">
-No registered users found.
-</div>
-
+<div class="row">No registered users found.</div>
 `;
 
 return;
-
 }
 
 container.innerHTML=
-users.map(
-u=>`
+users.map(u=>`
 
 <div class="withdraw-card">
 
@@ -2934,62 +2273,37 @@ Password:
 
 <div class="muted">
 Coins:
-<b>
-${Number(u.coins||0).toLocaleString()}
-</b>
+<b>${Number(u.coins||0).toLocaleString()}</b>
 </div>
 
-<div
-class="admin-actions"
-style="margin-top:8px;">
+<div class="admin-actions" style="margin-top:8px">
 
-<button
-onclick="adminQuickAddCoins(
-'${safeText(u.id)}'
-)">
-
+<button onclick="adminQuickAddCoins('${safeText(u.id)}')">
 + Add 1000 Coins
-
 </button>
 
 </div>
 
 </div>
 
-`
-).join("");
+`).join("");
 
 };
 
 
-/*
-=========================================================
-ADMIN SEND COINS
-=========================================================
-*/
-
 window.adminSendCoins=function(){
 
 const targetVal=
-document.getElementById("adminTargetUser")
-.value.trim();
+document.getElementById("adminTargetUser").value.trim();
 
 const amount=
 Number(
-document.getElementById("adminCoinAmount")
-.value
+document.getElementById("adminCoinAmount").value
 );
 
-if(
-!targetVal||
-!amount||
-amount<=0
-){
+if(!targetVal||!amount||amount<=0){
 
-toast(
-"Please enter valid User ID/Name and coin amount"
-);
-
+toast("Please enter valid User ID/Name and coin amount");
 return;
 
 }
@@ -2997,9 +2311,7 @@ return;
 let foundKey=null;
 let uData=null;
 
-if(
-localStorage.getItem("user_"+targetVal)
-){
+if(localStorage.getItem("user_"+targetVal)){
 
 foundKey="user_"+targetVal;
 
@@ -3018,10 +2330,7 @@ i++
 
 const key=localStorage.key(i);
 
-if(
-key &&
-key.startsWith("user_")
-){
+if(key&&key.startsWith("user_")){
 
 try{
 
@@ -3082,12 +2391,6 @@ uData.name+
 };
 
 
-/*
-=========================================================
-ADMIN QUICK ADD
-=========================================================
-*/
-
 window.adminQuickAddCoins=function(userId){
 
 const uData=
@@ -3095,8 +2398,7 @@ JSON.parse(
 localStorage.getItem("user_"+userId)||"null"
 );
 
-if(!uData)
-return;
+if(!uData)return;
 
 uData.coins=
 Number(uData.coins||0)+1000;
@@ -3108,34 +2410,19 @@ JSON.stringify(uData)
 
 renderAdminUsers();
 
-toast(
-"Added 1000 coins to "+
-userId
-);
+toast("Added 1000 coins to "+userId);
 
 };
 
 
-/*
-=========================================================
-START APP
-=========================================================
-*/
+/* =====================================================
+   START
+   ===================================================== */
 
-if(
-currentUser &&
-getUser()
-){
-
+if(currentUser&&getUser()){
 showApp();
-
 }else{
-
-document
-.getElementById("loginScreen")
-.classList
-.remove("hidden");
-
+document.getElementById("loginScreen").classList.remove("hidden");
 }
 
 </script>
