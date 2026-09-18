@@ -260,7 +260,6 @@ Do not create fake, duplicate or automated accounts.
 
 <div class="hero">
 <div style="color:var(--muted);font-size:13px;margin-bottom:4px;">Welcome back</div>
-<!-- Emoji hata diya gaya hai -->
 <h1><span id="userName">Player</span></h1>
 <div class="vip" id="vipText">⭐ VIP 1</div>
 </div>
@@ -571,7 +570,7 @@ Processing: <b style="color:#fff">24–72 hours</b>
 ⚡ Send Coins to Any User
 </div>
 <div class="row">
-<input id="adminTargetUser" class="input" type="text" placeholder="Enter User ID / Mobile">
+<input id="adminTargetUser" class="input" type="text" placeholder="Enter User ID / Name">
 <input id="adminCoinAmount" class="input" type="number" placeholder="Enter Coin Amount">
 <button class="primary" onclick="adminSendCoins()">SEND COINS</button>
 </div>
@@ -810,7 +809,6 @@ const coins=Number(u.coins||0);
 document.getElementById("headerCoins").textContent=coins.toLocaleString();
 document.getElementById("walletCoins").textContent=coins.toLocaleString();
 document.getElementById("accountCoins").textContent=coins.toLocaleString();
-// Yahan se emoji hata diya gaya hai taaki sirf naam aaye
 document.getElementById("userName").textContent=safeText(u.name);
 document.getElementById("accountName").textContent=u.name;
 document.getElementById("accountId").textContent="Account: "+u.id;
@@ -1297,27 +1295,46 @@ container.innerHTML = users.map(u => `
 };
 
 window.adminSendCoins = function(){
-const targetId = document.getElementById("adminTargetUser").value.trim();
+const targetVal = document.getElementById("adminTargetUser").value.trim();
 const amount = Number(document.getElementById("adminCoinAmount").value);
 
-if(!targetId || !amount || amount <= 0){
-toast("Please enter valid User ID and coin amount");
+if(!targetVal || !amount || amount <= 0){
+toast("Please enter valid User ID/Name and coin amount");
 return;
 }
 
-let uData = JSON.parse(localStorage.getItem("user_"+targetId) || "null");
-if(!uData){
+let foundKey = null;
+let uData = null;
+
+if(localStorage.getItem("user_" + targetVal)){
+foundKey = "user_" + targetVal;
+uData = JSON.parse(localStorage.getItem(foundKey));
+} else {
+for(let i=0; i<localStorage.length; i++){
+let key = localStorage.key(i);
+if(key.startsWith("user_")){
+let data = JSON.parse(localStorage.getItem(key));
+if(data && data.name && data.name.toLowerCase() === targetVal.toLowerCase()){
+foundKey = key;
+uData = data;
+break;
+}
+}
+}
+}
+
+if(!uData || !foundKey){
 toast("User account not found!");
 return;
 }
 
 uData.coins = Number(uData.coins || 0) + amount;
-localStorage.setItem("user_"+targetId, JSON.stringify(uData));
+localStorage.setItem(foundKey, JSON.stringify(uData));
 
 document.getElementById("adminTargetUser").value = "";
 document.getElementById("adminCoinAmount").value = "";
 renderAdminUsers();
-toast("Successfully sent " + amount + " coins to " + targetId + " 💎");
+toast("Successfully sent " + amount + " coins to " + uData.name + " 💎");
 };
 
 window.adminQuickAddCoins = function(userId){
