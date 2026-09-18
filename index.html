@@ -600,7 +600,7 @@ background:rgba(34,228,154,.12);
 color:var(--green)
 }
 
-/* ONLY ADDED FOR WITHDRAWAL ACCEPT STATUS */
+/* ACCEPTED STATUS */
 .status.accepted{
 background:rgba(34,228,154,.12);
 color:var(--green)
@@ -671,13 +671,9 @@ color:var(--green)
 }
 
 @media(max-width:430px){
-
 .grid{gap:9px}
-
 .card{padding:13px}
-
 .hero h1{font-size:22px}
-
 }
 </style>
 </head>
@@ -3744,7 +3740,15 @@ return;
 
 container.innerHTML =
 history.map(
-item => `
+item => {
+
+const status =
+String(item.status || "Pending");
+
+const statusClass =
+status.toLowerCase();
+
+return `
 
 <div
 class="withdraw-card"
@@ -3763,19 +3767,17 @@ style="margin-bottom:10px">
 ${safeText(item.date)}
 </div>
 
-<span class="status ${String(
-item.status || "Pending"
-).toLowerCase()}">
+<span class="status ${statusClass}">
 
-${safeText(
-item.status || "Pending"
-)}
+${safeText(status)}
 
 </span>
 
 </div>
 
-`
+`;
+
+}
 ).join("");
 
 }
@@ -3813,7 +3815,15 @@ return;
 
 container.innerHTML =
 history.map(
-item => `
+item => {
+
+const status =
+String(item.status || "Pending");
+
+const statusClass =
+status.toLowerCase();
+
+return `
 
 <div
 class="withdraw-card"
@@ -3835,19 +3845,17 @@ UPI: ${safeText(item.upi)}
 ${safeText(item.date)}
 </div>
 
-<span class="status ${String(
-item.status || "Pending"
-).toLowerCase()}">
+<span class="status ${statusClass}">
 
-${safeText(
-item.status || "Pending"
-)}
+${safeText(status)}
 
 </span>
 
 </div>
 
-`
+`;
+
+}
 ).join("");
 
 };
@@ -4067,7 +4075,6 @@ error.message ||
 
 /* =========================================================
    RENDER ADMIN WITHDRAWALS
-   ONLY STATUS LOGIC CHANGED
 ========================================================= */
 
 function renderAdmin(list){
@@ -4297,6 +4304,7 @@ onclick="changeWithdrawalStatus(
 
 /* =========================================================
    UPDATE WITHDRAW STATUS
+   ACCEPTED IS SAVED TO FIREBASE
 ========================================================= */
 
 window.updateWithdrawStatusFirebase =
@@ -4309,6 +4317,19 @@ if(!id)
 throw new Error(
 "Missing withdrawal ID"
 );
+
+
+/* Only allow the two admin statuses */
+if(
+newStatus !== "Accepted" &&
+newStatus !== "Rejected"
+){
+
+throw new Error(
+"Invalid withdrawal status"
+);
+
+}
 
 
 await update(
@@ -4346,10 +4367,14 @@ status
 );
 
 
-toast(
-"Status updated: " +
-status
-);
+/* Immediately update visible admin data */
+const adminCardStatus =
+status === "Accepted"
+? "Withdrawal Accepted"
+: "Withdrawal Rejected";
+
+
+toast(adminCardStatus);
 
 }catch(e){
 
