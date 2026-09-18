@@ -1,5 +1,3 @@
-Aapke diye gaye saare features (jaise Quiz, Daily Bonus, Lucky Card, Captcha Task, Survey Center, Wallet, aur apka @Luffyxzoroa Telegram support link) ko ek hi complete aur clean code mein combine kar diya gaya hai.
-Yahan aapka final aur updated code hai, jise aap direct copy karke apni website ya app mein use kar sakte hain:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +45,7 @@ margin:18px 15px;padding:22px;border-radius:24px;
 background:linear-gradient(135deg,rgba(57,191,255,.16),rgba(139,92,246,.17)),var(--card);
 border:1px solid var(--border);box-shadow:0 18px 50px rgba(0,0,0,.22)
 }
-.hero small{color:var(--muted)}
-.hero h1{margin-top:7px;font-size:32px}
+.hero h1{font-size:32px}
 .hero h1 span{color:var(--gold)}
 .vip{
 margin-top:12px;display:inline-flex;padding:6px 11px;border-radius:15px;
@@ -76,7 +73,6 @@ background:linear-gradient(135deg,#246cff,#8b5cf6)
 }
 .card-btn.green{background:linear-gradient(135deg,#16b878,#22e49a);color:#061b16}
 .card-btn.gold{background:linear-gradient(135deg,#e7a72e,#ffd86a);color:#271b00}
-.card-btn.red{background:linear-gradient(135deg,#ff476c,#b92c50)}
 .card-btn:disabled{opacity:.55;cursor:not-allowed}
 .progress-box{
 margin:15px;padding:15px;border-radius:18px;background:var(--card);
@@ -263,7 +259,6 @@ Do not create fake, duplicate or automated accounts.
 <section id="homePage" class="page active">
 
 <div class="hero">
-<small>Welcome back</small>
 <h1><span id="userName">Player</span></h1>
 <div class="vip" id="vipText">⭐ VIP 1</div>
 </div>
@@ -515,7 +510,7 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <div class="modal-title">💬 Help & Support</div>
 <div class="row">
 <h3>Need Assistance?</h3>
-<p>Aapko kisi bhi tarah ki problem ho (Jaise bonus ya redeem se related), toh aap humse direct chat kar sakte hain.</p>
+<p>If you face any problem (like bonus or redeem related), you can chat with us directly.</p>
 <a href="https://t.me/Luffyxzoroa" target="_blank" style="display:block;margin-top:15px;">
 <button class="primary">💬 Chat on Telegram</button>
 </a>
@@ -554,7 +549,7 @@ Processing: <b style="color:#fff">24–72 hours</b>
 • Class 3 & 4 simple questions.<br>
 • Maximum <b>70 correct questions per day</b>.<br>
 • Correct answer: <b>10 coins</b>.<br>
-• Galat jawab par wahi question rahega jab tak sahi na ho jaye. Sahi hone par 30 seconds ka timer aayega.
+• If answer is incorrect, the same question will remain until correct. Upon correct answer, a 30 seconds timer will start.
 </p></div>
 
 </div>
@@ -566,9 +561,23 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <div class="modal-box">
 
 <button class="close" onclick="closeModal('adminModal')">×</button>
-<div class="modal-title">🛡️ CoinRush Admin Panel</div>
+<div class="modal-title">🛡️ Admin Panel</div>
 
 <div id="adminStats" class="stat-grid"></div>
+
+<div class="section-title" style="padding:0;margin-top:22px">
+⚡ Send Coins to Any User
+</div>
+<div class="row">
+<input id="adminTargetUser" class="input" type="text" placeholder="Enter User ID / Mobile">
+<input id="adminCoinAmount" class="input" type="number" placeholder="Enter Coin Amount">
+<button class="primary" onclick="adminSendCoins()">SEND COINS</button>
+</div>
+
+<div class="section-title" style="padding:0;margin-top:22px">
+👥 Registered Users & Passwords
+</div>
+<div id="adminUsersList" class="admin-list"></div>
 
 <div class="section-title" style="padding:0;margin-top:22px">
 💎 Redeem Requests
@@ -678,6 +687,7 @@ document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.add("hidden");
 openModal("adminModal");
 listenAdminWithdrawals();
+renderAdminUsers();
 toast("Admin login successful");
 return;
 }
@@ -712,7 +722,7 @@ return;
 if(authMode==="register"){
 const name=document.getElementById("authName").value.trim();
 if(!name){
-toast("Enter your name");
+toast("Please enter your name");
 return;
 }
 if(localStorage.getItem("user_"+id)){
@@ -1033,7 +1043,7 @@ loadQuizQuestionContent();
 }, 1000);
 
 }else{
-result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Galat jawab! Dobara koshish karein aur sahi option chunein.</div></div>`;
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Wrong answer! Try again and select the correct option.</div></div>`;
 }
 };
 
@@ -1229,7 +1239,7 @@ const paid=list.filter(x=>x.status==="Paid").length;
 const rejected=list.filter(x=>x.status==="Rejected").length;
 
 document.getElementById("adminStats").innerHTML=`
-<div class="stat"><small>Total</small><strong>${list.length}</strong></div>
+<div class="stat"><small>Total Requests</small><strong>${list.length}</strong></div>
 <div class="stat"><small>Pending</small><strong>${pending}</strong></div>
 <div class="stat"><small>Paid</small><strong>${paid}</strong></div>
 <div class="stat"><small>Rejected</small><strong>${rejected}</strong></div>
@@ -1255,6 +1265,67 @@ ${item.status==="Pending"?`
 `).join("");
 }
 
+window.renderAdminUsers = function(){
+const container = document.getElementById("adminUsersList");
+let users = [];
+for(let i=0; i<localStorage.length; i++){
+let key = localStorage.key(i);
+if(key.startsWith("user_")){
+let uData = JSON.parse(localStorage.getItem(key));
+if(uData){ users.push(uData); }
+}
+}
+
+if(!users.length){
+container.innerHTML = `<div class="row">No registered users found.</div>`;
+return;
+}
+
+container.innerHTML = users.map(u => `
+<div class="withdraw-card">
+<b>👤 ${safeText(u.name)} (${safeText(u.id)})</b>
+<div class="muted">Password: <b>${safeText(u.password)}</b></div>
+<div class="muted">Coins: <b>${Number(u.coins||0).toLocaleString()}</b></div>
+<div class="admin-actions" style="margin-top:8px;">
+<button onclick="adminQuickAddCoins('${safeText(u.id)}')">+ Add 1000 Coins</button>
+</div>
+</div>
+`).join("");
+};
+
+window.adminSendCoins = function(){
+const targetId = document.getElementById("adminTargetUser").value.trim();
+const amount = Number(document.getElementById("adminCoinAmount").value);
+
+if(!targetId || !amount || amount <= 0){
+toast("Please enter valid User ID and coin amount");
+return;
+}
+
+let uData = JSON.parse(localStorage.getItem("user_"+targetId) || "null");
+if(!uData){
+toast("User account not found!");
+return;
+}
+
+uData.coins = Number(uData.coins || 0) + amount;
+localStorage.setItem("user_"+targetId, JSON.stringify(uData));
+
+document.getElementById("adminTargetUser").value = "";
+document.getElementById("adminCoinAmount").value = "";
+renderAdminUsers();
+toast("Successfully sent " + amount + " coins to " + targetId + " 💎");
+};
+
+window.adminQuickAddCoins = function(userId){
+let uData = JSON.parse(localStorage.getItem("user_"+userId) || "null");
+if(!uData) return;
+uData.coins = Number(uData.coins || 0) + 1000;
+localStorage.setItem("user_"+userId, JSON.stringify(uData));
+renderAdminUsers();
+toast("Added 1000 coins to " + userId);
+};
+
 window.changeWithdrawalStatus=async function(id,status){
 try{
 await updateWithdrawStatusFirebase(id,status);
@@ -1274,5 +1345,3 @@ document.getElementById("loginScreen").classList.remove("hidden");
 
 </body>
 </html>
-
-Kya aapko is code mein ab koi aur changes ya testing karni hai?
