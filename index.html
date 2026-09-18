@@ -87,7 +87,7 @@ height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));
 }
 .bottom-nav{
 position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-width:min(760px,100%);z-index:50;display:grid;grid-template-columns:repeat(4,1fr);
+width:min(760px,100%);z-index:50;display:grid;grid-template-columns:repeat(3,1fr);
 padding:8px;background:rgba(10,15,43,.94);backdrop-filter:blur(18px);
 border-top:1px solid var(--border)
 }
@@ -201,8 +201,9 @@ padding:14px;border-radius:16px;background:#0b1230;border:1px solid var(--border
 .admin-code{
 display:grid;grid-template-columns:1fr 1fr;gap:8px
 }
-.check{
-display:flex;align-items:center;gap:8px;margin-top:10px;color:var(--muted);font-size:13px
+.timer-banner{
+background:rgba(57,191,255,0.1);border:1px solid rgba(57,191,255,0.3);
+padding:10px;border-radius:12px;text-align:center;margin-bottom:15px;color:var(--blue);font-weight:bold;font-size:14px;
 }
 @media(max-width:430px){
 .grid{gap:9px}.card{padding:13px}.hero h1{font-size:27px}.admin-code{grid-template-columns:1fr}
@@ -281,14 +282,6 @@ Do not create fake, duplicate or automated accounts.
 </div>
 
 <div class="card">
-<div class="icon">📺</div>
-<h3>Watch Ads</h3>
-<p>Complete available ad tasks</p>
-<div class="reward">+10 Coins</div>
-<button class="card-btn" onclick="watchAd()">EARN</button>
-</div>
-
-<div class="card">
 <div class="icon">🃏</div>
 <h3>Lucky Card</h3>
 <p>Try your daily lucky reward</p>
@@ -296,11 +289,10 @@ Do not create fake, duplicate or automated accounts.
 <button id="luckyBtn" class="card-btn" onclick="luckyCard()">OPEN</button>
 </div>
 
-<div class="card">
+<div class="card" style="grid-column: span 2;">
 <div class="icon">🧠</div>
 <h3>Quiz</h3>
-<p>Math + General Knowledge</p>
-<div class="reward">+10 Coins</div>
+<p>Math + General Knowledge (+10 Coins per correct answer)</p>
 
 <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:12px">
 <span>Quiz Today</span>
@@ -325,14 +317,6 @@ Do not create fake, duplicate or automated accounts.
 </div>
 
 <div class="card">
-<div class="icon">🎟️</div>
-<h3>Daily Promo</h3>
-<p>Claim valid daily code</p>
-<div class="reward" id="promoRewardHome">Reward set by admin</div>
-<button class="card-btn gold" onclick="openModal('promoModal')">CLAIM</button>
-</div>
-
-<div class="card">
 <div class="icon">📱</div>
 <h3>Download Tasks</h3>
 <p>Up to 10 Play Store task options daily</p>
@@ -340,10 +324,10 @@ Do not create fake, duplicate or automated accounts.
 <button class="card-btn" onclick="openModal('downloadModal');loadDownloadTasks()">OPEN TASKS</button>
 </div>
 
-<div class="card">
+<div class="card" style="grid-column: span 2;">
 <div class="icon">👥</div>
 <h3>Referral</h3>
-<p>Invite friends</p>
+<p>Invite friends and earn together</p>
 <div class="reward">Share & Earn</div>
 <button class="card-btn" onclick="openModal('referralModal')">INVITE</button>
 </div>
@@ -436,10 +420,6 @@ Do not create fake, duplicate or automated accounts.
 <div>💰</div>Wallet
 </button>
 
-<button class="nav-btn" onclick="openQuiz()">
-<div>🧠</div>Quiz
-</button>
-
 <button class="nav-btn" onclick="showPage('accountPage',this)">
 <div>👤</div>Account
 </button>
@@ -503,25 +483,6 @@ Processing: <b style="color:#fff">24–72 hours</b>
 </div>
 
 
-<!-- PROMO -->
-<div id="promoModal" class="modal">
-<div class="modal-box">
-
-<button class="close" onclick="closeModal('promoModal')">×</button>
-<div class="modal-title">🎟️ Daily Promocode</div>
-
-<div class="row">
-<h3>Today's Reward</h3>
-<p id="promoInfo">Enter the active promocode provided by CoinRush.</p>
-</div>
-
-<input id="promoInput" class="input" placeholder="Enter promocode">
-
-<button class="primary" onclick="claimPromo()">CLAIM PROMO REWARD</button>
-</div>
-</div>
-
-
 <!-- DOWNLOAD TASKS -->
 <div id="downloadModal" class="modal">
 <div class="modal-box">
@@ -532,8 +493,7 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <div class="row">
 <h3>Play Store Tasks</h3>
 <p>
-Choose a task only if you genuinely want to use the promoted app.
-The button opens its Play Store listing.
+Clicking a task will open the link and start a 30-second timer. Please wait for the timer to finish to receive your reward.
 </p>
 </div>
 
@@ -589,56 +549,30 @@ The button opens its Play Store listing.
 <p>CoinRush Pro is a reward-based task and quiz platform. Users can complete available activities and earn coins.</p></div>
 
 <div class="row"><h3>👤 2. Account Rules</h3>
-<p>• One account should be used by one user.<br>• Do not create duplicate or fake accounts.<br>• Do not share your password.<br>• Suspicious activity may result in account review.</p></div>
+<p>• One account should be used by one user.<br>• Do not create duplicate or fake accounts.<br>• Do not share your password.</p></div>
 
 <div class="row"><h3>🎁 3. Daily Bonus</h3>
 <p>• Once per day.<br>• Reward: <b>100 coins</b>.</p></div>
 
-<div class="row"><h3>📺 4. Watch Ads</h3>
-<p>• Available ad tasks can be completed.<br>• Reward: <b>10 coins</b> per completed task.<br>• Daily limits may apply.</p></div>
-
-<div class="row"><h3>🧠 5. Quiz Rules</h3>
+<div class="row"><h3>🧠 4. Quiz Rules</h3>
 <p>
 • Math + GK questions.<br>
 • Maximum <b>40 correct questions per day</b>.<br>
 • Correct answer: <b>10 coins</b>.<br>
-• Wrong answers do <b>not</b> increase the daily counter.<br>
-• Quiz locks after 40 correct answers.
+• Requires a 30-second wait timer per question sequence.
 </p></div>
 
-<div class="row"><h3>📋 6. Survey Center</h3>
-<p>• Reward: <b>25 coins</b> per completed survey.<br>• Maximum <b>20 surveys/day</b>.</p></div>
+<div class="row"><h3>📋 5. Survey Center</h3>
+<p>• Reward: <b>25 coins</b> per completed survey.</p></div>
 
-<div class="row"><h3>🃏 7. Lucky Card</h3>
-<p>• Once per day.<br>• Possible rewards: <b>30, 50, 75, 100 coins</b>.</p></div>
+<div class="row"><h3>🃏 6. Lucky Card</h3>
+<p>• Once per day.<br>• 30-second timer before reward unlock.<br>• Possible rewards: <b>30, 50, 75, 100 coins</b>.</p></div>
 
-<div class="row"><h3>🎟️ 8. Promocode</h3>
-<p>• Active promocode is controlled by the administrator.<br>• One promotional reward can be claimed per day.</p></div>
+<div class="row"><h3>📱 7. Download Tasks</h3>
+<p>• 30-second wait timer required to claim coin rewards.</p></div>
 
-<div class="row"><h3>📱 9. Download Tasks</h3>
-<p>
-• Up to 10 Play Store task options can be displayed each day.<br>
-• Tasks open the selected Play Store listing.<br>
-• Coin reward requires a genuine, verifiable completion mechanism; opening the store alone is not treated as an installation.
-</p></div>
-
-<div class="row"><h3>👥 10. Referral</h3>
-<p>• Each user gets a referral link based on account ID.<br>• Self-referrals and fake accounts are not allowed.</p></div>
-
-<div class="row"><h3>💎 11. Redeem</h3>
-<p>
-• Minimum: <b>9,000 coins</b>.<br>
-• 9,000 coins = <b>₹30</b>.<br>
-• Maximum: <b>20,000 coins/day</b>.<br>
-• Valid UPI required.<br>
-• Processing: <b>24–72 hours</b>.
-</p></div>
-
-<div class="row"><h3>🚫 12. Prohibited Activities</h3>
-<p>• Bots<br>• Fake accounts<br>• Duplicate activity<br>• Coin manipulation<br>• Bug exploitation<br>• False redemption information</p></div>
-
-<div class="row"><h3>🔐 13. Security</h3>
-<p>Keep your password private. Account and reward eligibility are subject to the application's rules and verification.</p></div>
+<div class="row"><h3>💎 8. Redeem</h3>
+<p>• Minimum: <b>9,000 coins</b> (₹30).</p></div>
 
 </div>
 </div>
@@ -651,54 +585,14 @@ The button opens its Play Store listing.
 <button class="close" onclick="closeModal('adminModal')">×</button>
 <div class="modal-title">🛡️ CoinRush Admin Panel</div>
 
-<div class="row">
-<h3>🔥 Firebase Realtime</h3>
-<p>Redeem requests and promotional settings are loaded from Firebase.</p>
-</div>
-
 <div id="adminStats" class="stat-grid"></div>
-
-
-<!-- PROMO ADMIN -->
-<div class="row">
-<h3>🎟️ Create / Update Promocode</h3>
-
-<div class="admin-code">
-<input id="adminPromoCode" class="input" placeholder="Promo code e.g. WELCOME200">
-<input id="adminPromoReward" class="input" type="number" min="1" placeholder="Reward coins">
-</div>
-
-<label class="check">
-<input id="adminPromoActive" type="checkbox" checked>
-Active promocode
-</label>
-
-<button class="primary" onclick="savePromoAdmin()">SAVE PROMOCODE</button>
-<button class="secondary" onclick="disablePromoAdmin()">DISABLE PROMOCODE</button>
-
-<div id="adminPromoStatus" class="row" style="margin-top:10px">
-Loading promo settings...
-</div>
-</div>
-
 
 <!-- DOWNLOAD ADMIN -->
 <div class="row">
 <h3>📱 Daily Play Store Tasks</h3>
-
-<p>
-Configure up to 10 task slots. Enter the exact Play Store URL.
-The user can open the listing from the task card.
-</p>
-
 <div id="adminTaskEditor"></div>
-
-<button class="primary" onclick="saveDownloadTasksAdmin()">
-SAVE 10 TASKS
-</button>
-
+<button class="primary" onclick="saveDownloadTasksAdmin()">SAVE 10 TASKS</button>
 </div>
-
 
 <div class="section-title" style="padding:0;margin-top:22px">
 💎 Redeem Requests
@@ -717,23 +611,9 @@ SAVE 10 TASKS
 
 <script type="module">
 
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-import {getAnalytics}
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-
-import {
-getDatabase,
-ref,
-set,
-get,
-push,
-update,
-onValue
-}
-from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {getAnalytics} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
+import {getDatabase, ref, set, get, push, update, onValue} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 const firebaseConfig={
 apiKey:"AIzaSyDFGtCMHWBH9ScOk2YUhk5iJjyh4ug9QSc",
@@ -747,7 +627,6 @@ databaseURL:"https://coinrush-pro-ef37b-default-rtdb.firebaseio.com/"
 };
 
 const app=initializeApp(firebaseConfig);
-
 try{getAnalytics(app)}catch(e){}
 
 const database=getDatabase(app);
@@ -768,17 +647,12 @@ const QUIZ_REWARD=10;
 
 const MIN_WITHDRAW=9000;
 const MAX_WITHDRAW_DAILY=20000;
-
 const COIN_TO_RUPEE=30/9000;
-
-
-/* HELPERS */
 
 function today(){
 const d=new Date(Date.now()+330*60000);
 return d.toISOString().slice(0,10);
 }
-
 window.today=today;
 
 function getUser(){
@@ -797,7 +671,6 @@ el.textContent=message;
 el.classList.add("show");
 setTimeout(()=>el.classList.remove("show"),2300);
 }
-
 window.toast=toast;
 
 function safeText(value){
@@ -806,31 +679,15 @@ return String(value??"").replace(/[&<>"']/g,m=>({
 }[m]));
 }
 
-function addCoins(amount){
-const u=getUser();
-if(!u)return;
-u.coins=Number(u.coins||0)+Number(amount);
-saveUser(u);
-}
-
-
-/* AUTH */
-
 window.switchAuth=function(mode){
-
 authMode=mode;
-
 document.getElementById("loginTab").classList.toggle("active",mode==="login");
 document.getElementById("registerTab").classList.toggle("active",mode==="register");
-
 document.getElementById("registerNameBox").classList.toggle("hidden",mode!=="register");
-
 document.getElementById("authButton").textContent=mode==="register"?"REGISTER":"LOGIN";
 };
 
-
 window.submitAuth=function(){
-
 const id=document.getElementById("authMobile").value.trim();
 const pass=document.getElementById("authPassword").value;
 
@@ -839,36 +696,20 @@ toast("Please fill all fields");
 return;
 }
 
-
-/* ADMIN */
-
 if(authMode==="login"&&id===ADMIN_NUMBER&&pass===ADMIN_PASSWORD){
-
 adminLoggedIn=true;
-
 document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.add("hidden");
-
 openModal("adminModal");
-
 listenAdminWithdrawals();
-loadAdminPromo();
 loadAdminTaskEditor();
-
 toast("Admin login successful");
-
 return;
 }
 
-
-/* OWNER */
-
 if(authMode==="login"&&id===OWNER_NUMBER&&pass===OWNER_PASSWORD){
-
 let owner=JSON.parse(localStorage.getItem("user_"+OWNER_NUMBER)||"null");
-
 if(!owner){
-
 owner={
 id:OWNER_NUMBER,
 name:"Bishal prasad",
@@ -879,44 +720,30 @@ quizDate:today(),
 quizCount:0,
 bonusDate:"",
 luckyDate:"",
-promoDate:"",
-downloadDate:"",
-adsDate:today(),
-adsCount:0,
 surveyDate:today(),
 surveyCount:0,
 downloadTasksDate:today(),
 downloadOpened:{}
 };
-
 localStorage.setItem("user_"+OWNER_NUMBER,JSON.stringify(owner));
 }
-
 currentUser=OWNER_NUMBER;
 localStorage.setItem("activeUser",OWNER_NUMBER);
-
 toast("Owner login successful");
 showApp();
 return;
 }
 
-
-/* REGISTER */
-
 if(authMode==="register"){
-
 const name=document.getElementById("authName").value.trim();
-
 if(!name){
 toast("Enter your name");
 return;
 }
-
 if(localStorage.getItem("user_"+id)){
 toast("This account already exists");
 return;
 }
-
 const user={
 id,
 name,
@@ -927,150 +754,86 @@ quizDate:today(),
 quizCount:0,
 bonusDate:"",
 luckyDate:"",
-promoDate:"",
-downloadDate:"",
-adsDate:today(),
-adsCount:0,
 surveyDate:today(),
 surveyCount:0,
 downloadTasksDate:today(),
 downloadOpened:{}
 };
-
 localStorage.setItem("user_"+id,JSON.stringify(user));
-
 currentUser=id;
 localStorage.setItem("activeUser",id);
-
 toast("Registration successful");
-
 }else{
-
 const user=JSON.parse(localStorage.getItem("user_"+id)||"null");
-
 if(!user||user.password!==pass){
 toast("Invalid account or password");
 return;
 }
-
 currentUser=id;
 localStorage.setItem("activeUser",id);
-
 toast("Login successful");
 }
-
 showApp();
 };
 
-
 window.logout=function(){
-
 localStorage.removeItem("activeUser");
 currentUser=null;
 adminLoggedIn=false;
-
 document.getElementById("app").classList.add("hidden");
 document.getElementById("loginScreen").classList.remove("hidden");
 };
 
-
-/* APP */
-
 function showApp(){
-
 document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.remove("hidden");
-
 updateUI();
 renderHistory();
 loadSurveys();
 setupReferral();
-
 }
 
 function updateUI(){
-
 const u=getUser();
 if(!u)return;
-
 resetDailyCounters(u);
-
 const coins=Number(u.coins||0);
 
 document.getElementById("headerCoins").textContent=coins.toLocaleString();
 document.getElementById("walletCoins").textContent=coins.toLocaleString();
 document.getElementById("accountCoins").textContent=coins.toLocaleString();
-
 document.getElementById("userName").textContent=u.name;
 document.getElementById("accountName").textContent=u.name;
 document.getElementById("accountId").textContent="Account: "+u.id;
 
 const first=(u.name||"C").charAt(0).toUpperCase();
-
 document.getElementById("headerAvatar").textContent=first;
 document.getElementById("accountAvatar").textContent=first;
 
 const vip=getVip(coins);
-
 document.getElementById("vipText").textContent="⭐ "+vip;
 document.getElementById("accountVip").textContent="⭐ "+vip;
 
 const count=getQuizCount();
-
 document.getElementById("quizCountHome").textContent=count+"/40";
 document.getElementById("accountQuiz").textContent=count;
 document.getElementById("quizProgressText").textContent=count+"/40";
 document.getElementById("quizProgress").style.width=(count/40*100)+"%";
 
-document.getElementById("bonusBtn").textContent=
-u.bonusDate===today()?"CLAIMED":"CLAIM";
+document.getElementById("bonusBtn").textContent=u.bonusDate===today()?"CLAIMED":"CLAIM";
+document.getElementById("bonusBtn").disabled=u.bonusDate===today();
 
-document.getElementById("bonusBtn").disabled=
-u.bonusDate===today();
-
-document.getElementById("luckyBtn").textContent=
-u.luckyDate===today()?"CLAIMED":"OPEN";
-
-document.getElementById("luckyBtn").disabled=
-u.luckyDate===today();
-
+document.getElementById("luckyBtn").textContent=u.luckyDate===today()?"CLAIMED":"OPEN";
+document.getElementById("luckyBtn").disabled=u.luckyDate===today();
 }
-
 
 function resetDailyCounters(u){
-
 if(!u)return;
-
 let changed=false;
-
-if(u.quizDate!==today()){
-u.quizDate=today();
-u.quizCount=0;
-changed=true;
-}
-
-if(u.adsDate!==today()){
-u.adsDate=today();
-u.adsCount=0;
-changed=true;
-}
-
-if(u.surveyDate!==today()){
-u.surveyDate=today();
-u.surveyCount=0;
-changed=true;
-}
-
-if(u.downloadTasksDate!==today()){
-u.downloadTasksDate=today();
-u.downloadOpened={};
-changed=true;
-}
-
-if(changed){
-localStorage.setItem("user_"+currentUser,JSON.stringify(u));
-}
-
+if(u.quizDate!==today()){ u.quizDate=today(); u.quizCount=0; changed=true; }
+if(u.surveyDate!==today()){ u.surveyDate=today(); u.surveyCount=0; changed=true; }
+if(u.downloadTasksDate!==today()){ u.downloadTasksDate=today(); u.downloadOpened={}; changed=true; }
+if(changed){ localStorage.setItem("user_"+currentUser,JSON.stringify(u)); }
 }
 
 function getVip(coins){
@@ -1080,330 +843,162 @@ if(coins>=20000)return "VIP 2";
 return "VIP 1";
 }
 
-
-/* NAV */
-
 window.showPage=function(id,button){
-
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById(id).classList.add("active");
-
 document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
-
 if(button)button.classList.add("active");
-
 window.scrollTo({top:0,behavior:"smooth"});
 };
 
-
-/* MODALS */
-
-window.openModal=function(id){
-document.getElementById(id).classList.add("show");
-};
-
-window.closeModal=function(id){
-document.getElementById(id).classList.remove("show");
-};
-
-
-/* BONUS */
+window.openModal=function(id){ document.getElementById(id).classList.add("show"); };
+window.closeModal=function(id){ document.getElementById(id).classList.remove("show"); };
 
 window.claimBonus=function(){
-
 const u=getUser();
-
-if(!u){
-toast("Please login first");
-return;
-}
-
-if(u.bonusDate===today()){
-toast("Daily Bonus already claimed");
-return;
-}
-
+if(!u)return;
+if(u.bonusDate===today()){ toast("Daily Bonus already claimed"); return; }
 u.coins=Number(u.coins||0)+100;
 u.bonusDate=today();
-
 saveUser(u);
-
 toast("+100 Coins Added 🎉");
 };
 
-
-/* ADS */
-
-window.watchAd=function(){
-
-const u=getUser();
-if(!u)return;
-
-resetDailyCounters(u);
-
-if(u.adsCount>=20){
-toast("Today's ad limit reached");
-return;
-}
-
-toast("Ad task started...");
-
-setTimeout(()=>{
-
-const latest=getUser();
-if(!latest)return;
-
-latest.adsCount=Number(latest.adsCount||0)+1;
-latest.adsDate=today();
-latest.coins=Number(latest.coins||0)+10;
-
-saveUser(latest);
-
-toast("+10 coins earned 📺");
-
-},2500);
-};
-
-
-/* LUCKY */
-
+// Lucky Card with 30s timer
 window.luckyCard=function(){
-
 const u=getUser();
 if(!u)return;
+if(u.luckyDate===today()){ toast("Lucky Card already used today"); return; }
 
-if(u.luckyDate===today()){
-toast("Lucky Card already used today");
-return;
-}
+openModal("quizModal");
+let timeLeft = 30;
+document.getElementById("quizContent").innerHTML = `
+<div class="row" style="text-align:center;">
+<h3>🃏 Lucky Card Timer</h3>
+<div class="timer-banner" id="luckyTimerText">Please wait 30 seconds... (<span id="lSeconds">30</span>s)</div>
+<p>Do not close this window while the timer is running.</p>
+</div>
+`;
+
+let timerInterval = setInterval(() => {
+timeLeft--;
+const secEl = document.getElementById("lSeconds");
+if(secEl) secEl.textContent = timeLeft;
+
+if(timeLeft <= 0){
+clearInterval(timerInterval);
+closeModal("quizModal");
 
 const rewards=[30,50,75,100];
 const reward=rewards[Math.floor(Math.random()*rewards.length)];
-
 u.luckyDate=today();
 u.coins=Number(u.coins||0)+reward;
-
 saveUser(u);
-
 toast("Lucky Card: +"+reward+" coins 🃏");
+}
+}, 1000);
 };
 
-
-/* ================= DOWNLOAD TASKS ================= */
-
+/* DOWNLOAD TASKS */
 const DEFAULT_DOWNLOAD_TASKS=[
-{
-id:1,
-name:"App Task 1",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:2,
-name:"App Task 2",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:3,
-name:"App Task 3",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:4,
-name:"App Task 4",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:5,
-name:"App Task 5",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:6,
-name:"App Task 6",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:7,
-name:"App Task 7",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:8,
-name:"App Task 8",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:9,
-name:"App Task 9",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-},
-{
-id:10,
-name:"App Task 10",
-url:"https://play.google.com/store/apps",
-reward:20,
-active:true
-}
+{id:1,name:"App Task 1",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:2,name:"App Task 2",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:3,name:"App Task 3",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:4,name:"App Task 4",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:5,name:"App Task 5",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:6,name:"App Task 6",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:7,name:"App Task 7",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:8,name:"App Task 8",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:9,name:"App Task 9",url:"https://play.google.com/store/apps",reward:20,active:true},
+{id:10,name:"App Task 10",url:"https://play.google.com/store/apps",reward:20,active:true}
 ];
 
-
 async function getDownloadTasks(){
-
 try{
-
 const snap=await get(ref(database,"admin/downloadTasks"));
-
 if(snap.exists()){
-
 const data=snap.val();
-
-if(Array.isArray(data))
-return data;
-
-return Object.values(data);
-
+return Array.isArray(data)?data:Object.values(data);
 }
-
-}catch(e){
-console.error(e);
-}
-
+}catch(e){}
 return DEFAULT_DOWNLOAD_TASKS;
 }
 
-
 window.loadDownloadTasks=async function(){
-
 const container=document.getElementById("downloadTaskList");
-
 container.innerHTML=`<div class="row">Loading tasks...</div>`;
-
 const tasks=await getDownloadTasks();
-
-const activeTasks=tasks
-.filter(x=>x&&x.active!==false)
-.slice(0,10);
+const activeTasks=tasks.filter(x=>x&&x.active!==false).slice(0,10);
 
 if(!activeTasks.length){
-
 container.innerHTML=`<div class="row">No download tasks available today.</div>`;
 return;
-
 }
 
 const u=getUser();
-
 if(u)resetDailyCounters(u);
 
 container.innerHTML=activeTasks.map((task,index)=>{
-
 const taskId=String(task.id||index+1);
-
-const opened=
-u&&u.downloadOpened&&u.downloadOpened[taskId]===today();
-
+const opened=u&&u.downloadOpened&&u.downloadOpened[taskId]===today();
 return`
-
 <div class="task-card">
-
 <h3>📱 ${safeText(task.name||("App Task "+(index+1)))}</h3>
-
-<p>
-Open the selected Play Store listing.
-</p>
-
-<div class="reward">
-+${Number(task.reward||0)} Coins
-</div>
-
-<button
-class="card-btn"
-${opened?"disabled":""}
-onclick="openPlayStoreTask('${safeText(taskId)}')">
-
-${opened?"OPENED TODAY":"OPEN PLAY STORE"}
-
+<p>Open the listing and wait 30 seconds to claim reward.</p>
+<div class="reward">+${Number(task.reward||0)} Coins</div>
+<button class="card-btn" ${opened?"disabled":""} onclick="openPlayStoreTask('${safeText(taskId)}')">
+${opened?"COMPLETED TODAY":"START TASK (30s)"}
 </button>
-
 </div>
-
 `;
-
 }).join("");
-
 };
 
-
+// Download Task with 30s timer
 window.openPlayStoreTask=async function(taskId){
-
 const tasks=await getDownloadTasks();
-
 const task=tasks.find(x=>String(x.id)===String(taskId));
-
-if(!task||task.active===false){
-toast("Task unavailable");
-return;
-}
+if(!task||task.active===false){ toast("Task unavailable"); return; }
 
 const u=getUser();
-
 if(!u)return;
-
 resetDailyCounters(u);
-
 if(!u.downloadOpened)u.downloadOpened={};
+if(u.downloadOpened[String(taskId)]===today()){ toast("Task already completed today"); return; }
 
-if(u.downloadOpened[String(taskId)]===today()){
-toast("This task was already opened today");
-return;
+window.open(task.url,"_blank");
+closeModal("downloadModal");
+openModal("quizModal");
+
+let timeLeft = 30;
+document.getElementById("quizContent").innerHTML = `
+<div class="row" style="text-align:center;">
+<h3>📱 Download Task Timer</h3>
+<div class="timer-banner">Please wait on the store page... (<span id="dSeconds">30</span>s remaining)</div>
+<p>Do not close this window before the timer finishes.</p>
+</div>
+`;
+
+let timerInterval = setInterval(() => {
+timeLeft--;
+const secEl = document.getElementById("dSeconds");
+if(secEl) secEl.textContent = timeLeft;
+
+if(timeLeft <= 0){
+clearInterval(timerInterval);
+closeModal("quizModal");
+
+const latest = getUser();
+if(!latest) return;
+if(!latest.downloadOpened) latest.downloadOpened = {};
+latest.downloadOpened[String(taskId)] = today();
+latest.coins = Number(latest.coins||0) + Number(task.reward||20);
+saveUser(latest);
+
+toast("Task completed! +"+Number(task.reward||20)+" coins 📱");
 }
-
-
-/*
- IMPORTANT:
- We record that the user intentionally opened
- the task, but DO NOT award coins merely because
- Play Store opened.
-
- Actual installation verification requires a
- legitimate attribution/native verification system.
-*/
-
-u.downloadOpened[String(taskId)]=today();
-
-saveUser(u);
-
-window.open(
-task.url,
-"_blank"
-);
-
-toast("Play Store opened 📱");
-
-loadDownloadTasks();
-
+}, 1000);
 };
-
-
-/* QUIZ */
 
 const GK_QUESTIONS=[
 ["What is the capital of India?",["Mumbai","New Delhi","Kolkata","Chennai"],"New Delhi"],
@@ -1415,1328 +1010,375 @@ const GK_QUESTIONS=[
 ["How many continents are there?",["5","6","7","8"],"7"],
 ["Which animal is called the King of the Jungle?",["Tiger","Lion","Elephant","Bear"],"Lion"],
 ["What is the currency of India?",["Dollar","Rupee","Yen","Euro"],"Rupee"],
-["Which is the fastest land animal?",["Lion","Horse","Cheetah","Tiger"],"Cheetah"],
-["How many sides does a triangle have?",["2","3","4","5"],"3"],
-["Which organ pumps blood?",["Brain","Liver","Heart","Lung"],"Heart"],
-["Which month has 28 days normally?",["January","February","March","April"],"February"],
-["What is the largest planet?",["Earth","Mars","Jupiter","Saturn"],"Jupiter"],
-["Which language is mainly used to structure web pages?",["HTML","SQL","Python","C"],"HTML"],
-["Which device is used to measure temperature?",["Barometer","Thermometer","Speedometer","Compass"],"Thermometer"],
-["How many hours are in one day?",["12","24","36","48"],"24"],
-["Which metal is liquid at room temperature?",["Iron","Mercury","Copper","Gold"],"Mercury"],
-["Which is the nearest star to Earth?",["Moon","Sun","Mars","Venus"],"Sun"],
-["What does CPU stand for?",["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing User"],"Central Processing Unit"]
+["Which is the fastest land animal?",["Lion","Horse","Cheetah","Tiger"],"Cheetah"]
 ];
 
-
 function getQuizCount(){
-
 const u=getUser();
 if(!u)return 0;
-
 resetDailyCounters(u);
-
 return Number(u.quizCount||0);
 }
 
-
 function generateMathQuestion(){
-
-const type=Math.floor(Math.random()*5);
-
-let question;
-let answer;
-
+const type=Math.floor(Math.random()*4);
+let question, answer;
 if(type===0){
-
-const a=rand(10,99);
-const b=rand(10,99);
-
-question=a+" + "+b+" = ?";
-answer=a+b;
-
+const a=rand(10,99), b=rand(10,99);
+question=a+" + "+b+" = ?"; answer=a+b;
 }else if(type===1){
-
-const a=rand(50,150);
-const b=rand(10,a-1);
-
-question=a+" − "+b+" = ?";
-answer=a-b;
-
+const a=rand(50,150), b=rand(10,a-1);
+question=a+" − "+b+" = ?"; answer=a-b;
 }else if(type===2){
-
-const a=rand(5,25);
-const b=rand(2,15);
-
-question=a+" × "+b+" = ?";
-answer=a*b;
-
-}else if(type===3){
-
-const b=rand(2,15);
-const answerTemp=rand(5,25);
-const a=b*answerTemp;
-
-question=a+" ÷ "+b+" = ?";
-answer=answerTemp;
-
+const a=rand(5,20), b=rand(2,10);
+question=a+" × "+b+" = ?"; answer=a*b;
 }else{
-
-const percentValues=[10,20,25,50,75];
-
-const percent=
-percentValues[Math.floor(Math.random()*percentValues.length)];
-
-const base=rand(4,40)*10;
-
-question=percent+"% of "+base+" = ?";
-answer=(base*percent)/100;
-
+const b=rand(2,10), ans=rand(5,20), a=b*ans;
+question=a+" ÷ "+b+" = ?"; answer=ans;
 }
-
 const options=new Set([answer]);
-
-while(options.size<4){
-
-const variation=rand(
-Math.max(0,answer-15),
-answer+15
-);
-
-options.add(variation);
-}
-
+while(options.size<4){ options.add(rand(Math.max(0,answer-15),answer+15)); }
 const arr=[...options];
-
 shuffle(arr);
-
-return{
-type:"Math",
-question,
-options:arr.map(String),
-answer:String(answer)
-};
-
+return{type:"Math",question,options:arr.map(String),answer:String(answer)};
 }
 
-
-function rand(min,max){
-
-return Math.floor(Math.random()*(max-min+1))+min;
-
-}
-
-
+function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 function shuffle(arr){
-
 for(let i=arr.length-1;i>0;i--){
-
 const j=Math.floor(Math.random()*(i+1));
-
 [arr[i],arr[j]]=[arr[j],arr[i]];
-
 }
-
 return arr;
-
 }
-
 
 function generateQuizQuestion(){
-
 const count=getQuizCount();
-
-if(count%2===0)
-return generateMathQuestion();
-
-const item=
-GK_QUESTIONS[
-Math.floor(Math.random()*GK_QUESTIONS.length)
-];
-
-return{
-type:"GK",
-question:item[0],
-options:shuffle([...item[1]]),
-answer:item[2]
-};
-
+if(count%2===0) return generateMathQuestion();
+const item=GK_QUESTIONS[Math.floor(Math.random()*GK_QUESTIONS.length)];
+return{type:"GK",question:item[0],options:shuffle([...item[1]]),answer:item[2]};
 }
 
-
+// Quiz with 30s timer per question
 window.openQuiz=function(){
-
 const count=getQuizCount();
-
-openModal("quizModal");
-
 if(count>=QUIZ_DAILY_LIMIT){
-
-document.getElementById("quizContent").innerHTML=`
-
-<div class="row">
-<h3 style="font-size:22px">🔒 Quiz Locked</h3>
-<p>
-You have completed all
-<b style="color:#fff">40 correct questions</b>
-for today.
-<br><br>
-Quiz will unlock again tomorrow.
-</p>
-</div>
-
-`;
-
+openModal("quizModal");
+document.getElementById("quizContent").innerHTML=`<div class="row"><h3>🔒 Quiz Locked</h3><p>You have completed all 40 correct questions for today.</p></div>`;
 updateQuizProgress();
 return;
 }
-
-loadQuiz();
-
+loadQuizWithTimer();
 };
 
+function loadQuizWithTimer(){
+openModal("quizModal");
+let timeLeft = 30;
 
-function loadQuiz(){
+document.getElementById("quizContent").innerHTML=`
+<div class="row" style="text-align:center;">
+<h3>🧠 Quiz Loading...</h3>
+<div class="timer-banner">Next question unlocks in: <span id="qSeconds">30</span>s</div>
+<p>Get ready for the question!</p>
+</div>
+`;
 
+let timerInterval = setInterval(() => {
+timeLeft--;
+const secEl = document.getElementById("qSeconds");
+if(secEl) secEl.textContent = timeLeft;
+
+if(timeLeft <= 0){
+clearInterval(timerInterval);
+loadQuizQuestionContent();
+}
+}, 1000);
+}
+
+function loadQuizQuestionContent(){
 const q=generateQuizQuestion();
-
 window.currentQuiz=q;
-
 updateQuizProgress();
 
 document.getElementById("quizContent").innerHTML=`
-
 <div class="row">
-
-<div style="color:#6fd3ff;font-weight:900">
-${q.type} Question
-</div>
-
-<div class="quiz-question">
-${safeText(q.question)}
-</div>
-
+<div style="color:#6fd3ff;font-weight:900">${q.type} Question</div>
+<div class="quiz-question">${safeText(q.question)}</div>
 <div class="quiz-options">
-
-${q.options.map((option,index)=>`
-
-<button
-class="quiz-option"
-onclick="answerQuiz(${index})">
-
-${safeText(option)}
-
-</button>
-
-`).join("")}
-
+${q.options.map((option,index)=>`<button class="quiz-option" onclick="answerQuiz(${index})">${safeText(option)}</button>`).join("")}
 </div>
-
 <div id="quizResult"></div>
-
 </div>
 `;
-
 }
 
-
-/* IMPORTANT QUIZ FIX */
-
 window.answerQuiz=function(index){
-
 const q=window.currentQuiz;
-
 if(!q)return;
-
 const buttons=document.querySelectorAll(".quiz-option");
-
 buttons.forEach(b=>b.disabled=true);
-
 const selected=q.options[index];
-
 const result=document.getElementById("quizResult");
-
 const u=getUser();
-
 if(!u)return;
 
-const correct=
-String(selected)===String(q.answer);
-
-
-/*
- ONLY CORRECT ANSWER COUNTS.
-
- Wrong answer:
- - quizCount does NOT increase
- - coins do NOT increase
-*/
+const correct=String(selected)===String(q.answer);
 
 if(correct){
-
-u.quizCount=
-Number(u.quizCount||0)+1;
-
-u.coins=
-Number(u.coins||0)+QUIZ_REWARD;
-
-result.innerHTML=`
-
-<div
-class="quiz-result"
-style="border:1px solid rgba(34,228,154,.3)">
-
-<div style="font-size:25px;font-weight:900">
-🎉 Congratulations!
-</div>
-
-<div style="color:#22e49a;margin-top:6px">
-Correct Answer — +10 Coins
-<br>
-Progress: ${Number(u.quizCount)}/40
-</div>
-
-</div>
-
-`;
-
+u.quizCount=Number(u.quizCount||0)+1;
+u.coins=Number(u.coins||0)+QUIZ_REWARD;
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(34,228,154,.3)"><div style="font-size:20px;font-weight:900">🎉 Correct!</div><div style="color:#22e49a;margin-top:6px">+10 Coins Added</div></div>`;
 }else{
-
-result.innerHTML=`
-
-<div
-class="quiz-result"
-style="border:1px solid rgba(255,85,119,.3)">
-
-<div style="font-size:20px;font-weight:900">
-❌ Try Again
-</div>
-
-<div style="color:#ff8ba4;margin-top:6px">
-Correct answer:
-<b>${safeText(q.answer)}</b>
-<br>
-This wrong answer does not use today's 40-question limit.
-</div>
-
-</div>
-
-`;
-
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Correct answer: <b>${safeText(q.answer)}</b></div></div>`;
 }
 
 saveUser(u);
 updateQuizProgress();
 
 setTimeout(()=>{
-
 if(getQuizCount()>=QUIZ_DAILY_LIMIT){
-
-document.getElementById("quizContent").innerHTML=`
-
-<div class="row">
-
-<h3 style="font-size:22px">
-🔒 Today's Quiz Completed
-</h3>
-
-<p>
-You completed all 40 correct questions today.
-Quiz will unlock tomorrow.
-</p>
-
-</div>
-
-`;
-
+document.getElementById("quizContent").innerHTML=`<div class="row"><h3 style="font-size:22px">🔒 Today's Quiz Completed</h3><p>You completed all 40 correct questions today.</p></div>`;
 return;
 }
-
-loadQuiz();
-
-},1300);
-
+loadQuizWithTimer();
+}, 1500);
 };
-
 
 function updateQuizProgress(){
-
 const count=getQuizCount();
-
 const percentage=(count/40)*100;
-
-document.getElementById("quizModalCount").textContent=count+"/40";
-
-document.getElementById("quizModalProgress").style.width=percentage+"%";
-
+const countEl=document.getElementById("quizModalCount");
+if(countEl) countEl.textContent=count+"/40";
+const progEl=document.getElementById("quizModalProgress");
+if(progEl) progEl.style.width=percentage+"%";
 }
-
-
-/* SURVEY */
 
 function loadSurveys(){
-
-const list=[
-"Quick Lifestyle Survey",
-"Technology Usage Survey",
-"Shopping Preferences Survey",
-"Entertainment Survey",
-"General Opinion Survey"
-];
-
-document.getElementById("surveyList").innerHTML=
-list.map((name,i)=>`
-
+const list=["Quick Lifestyle Survey","Technology Usage Survey","Shopping Preferences Survey","Entertainment Survey","General Opinion Survey"];
+document.getElementById("surveyList").innerHTML=list.map((name,i)=>`
 <div class="row">
-
 <h3>📋 ${safeText(name)}</h3>
-
-<p>Complete this available survey task.</p>
-
-<button
-class="primary"
-onclick="completeSurvey(${i})">
-
-EARN 25 COINS
-
-</button>
-
+<p>Complete this survey task.</p>
+<button class="primary" onclick="completeSurvey(${i})">EARN 25 COINS</button>
 </div>
-
 `).join("");
-
 }
-
 
 window.completeSurvey=function(index){
-
 const u=getUser();
 if(!u)return;
-
 resetDailyCounters(u);
-
-if(u.surveyCount>=20){
-toast("Today's survey limit reached");
-return;
-}
+if(u.surveyCount>=20){ toast("Today's survey limit reached"); return; }
 
 const key="survey_"+index+"_"+today();
-
 const doneKey="surveyDone_"+currentUser+"_"+key;
-
-if(localStorage.getItem(doneKey)){
-toast("Survey already completed");
-return;
-}
-
+if(localStorage.getItem(doneKey)){ toast("Survey already completed"); return; }
 localStorage.setItem(doneKey,"1");
-
 u.surveyCount++;
-
-u.coins=
-Number(u.coins||0)+25;
-
+u.coins=Number(u.coins||0)+25;
 saveUser(u);
-
 toast("+25 coins earned 📋");
-
 };
-
-
-/* ================= PROMO USER ================= */
-
-window.claimPromo=async function(){
-
-const u=getUser();
-
-if(!u)return;
-
-if(u.promoDate===today()){
-
-toast("Today's promo already claimed");
-return;
-
-}
-
-const code=
-document.getElementById("promoInput").value.trim();
-
-if(!code){
-
-toast("Enter promocode");
-return;
-
-}
-
-try{
-
-const snap=
-await get(
-ref(database,"admin/promocode")
-);
-
-if(!snap.exists()){
-
-toast("No active promocode");
-return;
-
-}
-
-const data=snap.val();
-
-const active=
-data&&data.active!==false;
-
-const validCode=
-typeof data==="string"
-?data
-:(data?.code||"");
-
-const reward=
-typeof data==="object"
-?Number(data.reward||0)
-:200;
-
-if(!active||!validCode){
-
-toast("No active promocode");
-return;
-
-}
-
-if(
-code.toUpperCase()!==
-String(validCode).toUpperCase()
-){
-
-toast("Invalid promocode");
-return;
-
-}
-
-if(reward<=0){
-
-toast("Promo reward unavailable");
-return;
-
-}
-
-u.promoDate=today();
-
-u.coins=
-Number(u.coins||0)+reward;
-
-saveUser(u);
-
-toast("+"+reward+" coins added 🎟️");
-
-document.getElementById("promoInput").value="";
-
-closeModal("promoModal");
-
-}catch(e){
-
-console.error(e);
-toast("Promo service unavailable");
-
-}
-
-};
-
-
-/* REFERRAL */
 
 function setupReferral(){
-
 const code="CR-"+currentUser;
-
-const link=
-location.origin+
-location.pathname+
-"?ref="+encodeURIComponent(code);
-
+const link=location.origin+location.pathname+"?ref="+encodeURIComponent(code);
 document.getElementById("referralCode").textContent=code;
 document.getElementById("referralLink").value=link;
-
 }
 
 window.copyReferral=function(){
-
-const input=document.getElementById("referralLink");
-
-navigator.clipboard
-.writeText(input.value)
-.then(()=>toast("Referral link copied"));
-
+navigator.clipboard.writeText(document.getElementById("referralLink").value).then(()=>toast("Referral link copied"));
 };
 
 window.shareReferral=function(){
-
-const link=document.getElementById("referralLink").value;
-
-const text=
-"Join CoinRush Pro and start earning coins! "+link;
-
-location.href=
-"https://wa.me/?text="+encodeURIComponent(text);
-
+const text="Join CoinRush Pro and start earning coins! "+document.getElementById("referralLink").value;
+location.href="https://wa.me/?text="+encodeURIComponent(text);
 };
-
-
-/* WITHDRAW */
 
 function getTodayWithdrawnCoins(){
-
-const key="withdrawCoins_"+currentUser;
-
-const data=
-JSON.parse(localStorage.getItem(key)||"{}");
-
+const data=JSON.parse(localStorage.getItem("withdrawCoins_"+currentUser)||"{}");
 if(data.date!==today())return 0;
-
 return Number(data.amount)||0;
-
 }
-
 
 function addTodayWithdrawnCoins(amount){
-
-const key="withdrawCoins_"+currentUser;
-
-localStorage.setItem(
-key,
-JSON.stringify({
-date:today(),
-amount:getTodayWithdrawnCoins()+Number(amount)
-})
-);
-
+localStorage.setItem("withdrawCoins_"+currentUser,JSON.stringify({date:today(),amount:getTodayWithdrawnCoins()+Number(amount)}));
 }
-
 
 function validUpi(upi){
-
 return /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi);
-
 }
-
 
 window.submitWithdrawal=async function(){
-
 const u=getUser();
+if(!u)return;
+const coins=Number(document.getElementById("withdrawCoins").value);
+const upi=document.getElementById("upi").value.trim();
 
-if(!u){
-toast("Please login first");
+if(!Number.isFinite(coins)){ toast("Enter coin amount"); return; }
+if(coins<MIN_WITHDRAW){ toast("Minimum redeem is 9,000 coins"); return; }
+if(coins>MAX_WITHDRAW_DAILY){ toast("Maximum redeem is 20,000 coins/day"); return; }
+if(!validUpi(upi)){ toast("Enter a valid UPI ID"); return; }
+
+if(getTodayWithdrawnCoins()+coins>MAX_WITHDRAW_DAILY){
+toast("Exceeds daily maximum redeem limit");
 return;
 }
+if(Number(u.coins||0)<coins){ toast("Insufficient coins"); return; }
 
-const coinsInput=document.getElementById("withdrawCoins");
-const upiInput=document.getElementById("upi");
-
-const coins=Number(coinsInput.value);
-const upi=upiInput.value.trim();
-
-if(!Number.isFinite(coins)){
-toast("Enter coin amount");
-return;
-}
-
-if(coins<MIN_WITHDRAW){
-toast("Minimum redeem is 9,000 coins");
-return;
-}
-
-if(coins>MAX_WITHDRAW_DAILY){
-toast("Maximum redeem is 20,000 coins/day");
-return;
-}
-
-if(!validUpi(upi)){
-toast("Enter a valid UPI ID");
-return;
-}
-
-const alreadyToday=getTodayWithdrawnCoins();
-
-if(alreadyToday+coins>MAX_WITHDRAW_DAILY){
-
-const remaining=MAX_WITHDRAW_DAILY-alreadyToday;
-
-toast(
-"Today's remaining limit: "+
-Math.max(0,remaining).toLocaleString()+
-" coins"
-);
-
-return;
-}
-
-if(Number(u.coins||0)<coins){
-
-toast("Insufficient coins");
-return;
-}
-
-const rupees=
-Math.round(coins*COIN_TO_RUPEE*100)/100;
-
-const request={
-userId:u.id,
-name:u.name,
-uid:"LOCAL-"+u.id,
-mobile:u.id,
-coins,
-rupees,
-upi,
-date:today(),
-timestamp:Date.now(),
-status:"Pending"
-};
+const rupees=Math.round(coins*COIN_TO_RUPEE*100)/100;
+const request={userId:u.id, name:u.name, uid:"LOCAL-"+u.id, mobile:u.id, coins, rupees, upi, date:today(), timestamp:Date.now(), status:"Pending"};
 
 try{
-
-const newRef=
-push(ref(database,"withdrawals"));
-
+const newRef=push(ref(database,"withdrawals"));
 await set(newRef,request);
-
-u.coins=
-Number(u.coins||0)-coins;
-
+u.coins=Number(u.coins||0)-coins;
 saveUser(u);
-
 addTodayWithdrawnCoins(coins);
 
-const history=
-JSON.parse(
-localStorage.getItem("history_"+currentUser)||"[]"
-);
-
+const history=JSON.parse(localStorage.getItem("history_"+currentUser)||"[]");
 history.unshift({...request,id:newRef.key});
+localStorage.setItem("history_"+currentUser,JSON.stringify(history));
 
-localStorage.setItem(
-"history_"+currentUser,
-JSON.stringify(history)
-);
-
-coinsInput.value="";
-upiInput.value="";
-
+document.getElementById("withdrawCoins").value="";
+document.getElementById("upi").value="";
 closeModal("withdrawModal");
-
 renderHistory();
-
 toast("Redeem request submitted 💎");
-
 }catch(e){
-
-console.error(e);
 toast("Unable to submit redeem request");
-
 }
-
 };
-
-
-/* HISTORY */
 
 function renderHistory(){
-
-const history=
-JSON.parse(
-localStorage.getItem("history_"+currentUser)||"[]"
-);
-
+const history=JSON.parse(localStorage.getItem("history_"+currentUser)||"[]");
 const container=document.getElementById("historyList");
-
 if(!history.length){
-
-container.innerHTML=`
-<div class="row"><p>No redeem history yet.</p></div>
-`;
-
+container.innerHTML=`<div class="row"><p>No redeem history yet.</p></div>`;
 }else{
-
-container.innerHTML=
-history.map(item=>`
-
+container.innerHTML=history.map(item=>`
 <div class="withdraw-card" style="margin-bottom:10px">
-
-<b>
-💎 ${Number(item.coins).toLocaleString()} Coins
-</b>
-
-<div class="muted">
-₹${item.rupees} • ${safeText(item.upi)}
-</div>
-
+<b>💎 ${Number(item.coins).toLocaleString()} Coins</b>
+<div class="muted">₹${item.rupees} • ${safeText(item.upi)}</div>
 <div class="muted">${safeText(item.date)}</div>
-
-<span class="status ${
-String(item.status||"Pending").toLowerCase()
-}">
-${safeText(item.status||"Pending")}
-</span>
-
+<span class="status ${String(item.status||"Pending").toLowerCase()}">${safeText(item.status||"Pending")}</span>
 </div>
-
 `).join("");
-
 }
-
 }
-
 
 window.renderHistory=function(){
-
-const history=
-JSON.parse(
-localStorage.getItem("history_"+currentUser)||"[]"
-);
-
+const history=JSON.parse(localStorage.getItem("history_"+currentUser)||"[]");
 const container=document.getElementById("modalHistory");
-
-if(!history.length){
-
-container.innerHTML=`
-<div class="row">No redeem history yet.</div>
-`;
-
-return;
-}
-
-container.innerHTML=
-history.map(item=>`
-
+if(!history.length){ container.innerHTML=`<div class="row">No redeem history yet.</div>`; return; }
+container.innerHTML=history.map(item=>`
 <div class="withdraw-card" style="margin-bottom:10px">
-
 <b>${Number(item.coins).toLocaleString()} Coins</b>
-
 <div class="muted">₹${item.rupees}</div>
-
-<div class="muted">
-UPI: ${safeText(item.upi)}
+<div class="muted">UPI: ${safeText(item.upi)}</div>
+<div class="muted">${safeText(item.date)}</div>
+<span class="status ${String(item.status||"Pending").toLowerCase()}">${safeText(item.status||"Pending")}</span>
 </div>
-
-<div class="muted">
-${safeText(item.date)}
-</div>
-
-<span class="status ${
-String(item.status||"Pending").toLowerCase()
-}">
-${safeText(item.status||"Pending")}
-</span>
-
-</div>
-
 `).join("");
-
 };
-
-
-/* ADMIN WITHDRAWALS */
 
 window.updateWithdrawStatusFirebase=async function(id,newStatus){
-
-await update(
-ref(database,"withdrawals/"+id),
-{
-status:newStatus,
-statusUpdatedAt:Date.now()
-}
-);
-
+await update(ref(database,"withdrawals/"+id),{status:newStatus, statusUpdatedAt:Date.now()});
 };
-
 
 function listenAdminWithdrawals(){
-
-onValue(
-ref(database,"withdrawals"),
-snapshot=>{
-
+onValue(ref(database,"withdrawals"),snapshot=>{
 const list=[];
-
 if(snapshot.exists()){
-
-snapshot.forEach(child=>{
-
-list.push({
-id:child.key,
-...child.val()
-});
-
-});
-
+snapshot.forEach(child=>{ list.push({id:child.key, ...child.val()}); });
 }
-
-list.sort(
-(a,b)=>
-Number(b.timestamp||0)-
-Number(a.timestamp||0)
-);
-
+list.sort((a,b)=>Number(b.timestamp||0)-Number(a.timestamp||0));
 renderAdmin(list);
-
-},
-error=>{
-
-console.error(error);
-
-document.getElementById("adminWithdrawList").innerHTML=`
-<div class="row">
-Firebase error. Check Realtime Database Rules.
-</div>
-`;
-
+},error=>{});
 }
-);
-
-}
-
 
 function renderAdmin(list){
-
 const container=document.getElementById("adminWithdrawList");
-
-const pending=
-list.filter(x=>x.status==="Pending").length;
-
-const paid=
-list.filter(x=>x.status==="Paid").length;
-
-const rejected=
-list.filter(x=>x.status==="Rejected").length;
+const pending=list.filter(x=>x.status==="Pending").length;
+const paid=list.filter(x=>x.status==="Paid").length;
+const rejected=list.filter(x=>x.status==="Rejected").length;
 
 document.getElementById("adminStats").innerHTML=`
-
-<div class="stat">
-<small>Total</small>
-<strong>${list.length}</strong>
-</div>
-
-<div class="stat">
-<small>Pending</small>
-<strong>${pending}</strong>
-</div>
-
-<div class="stat">
-<small>Paid</small>
-<strong>${paid}</strong>
-</div>
-
-<div class="stat">
-<small>Rejected</small>
-<strong>${rejected}</strong>
-</div>
-
+<div class="stat"><small>Total</small><strong>${list.length}</strong></div>
+<div class="stat"><small>Pending</small><strong>${pending}</strong></div>
+<div class="stat"><small>Paid</small><strong>${paid}</strong></div>
+<div class="stat"><small>Rejected</small><strong>${rejected}</strong></div>
 `;
 
-if(!list.length){
+if(!list.length){ container.innerHTML=`<div class="row">No redeem requests.</div>`; return; }
 
-container.innerHTML=`
-<div class="row">No redeem requests.</div>
-`;
-
-return;
-}
-
-container.innerHTML=
-list.map(item=>`
-
+container.innerHTML=list.map(item=>`
 <div class="withdraw-card">
-
-<b>
-💎 ${Number(item.coins||0).toLocaleString()} Coins
-</b>
-
-<div class="muted">
-Amount: ₹${safeText(item.rupees)}
-</div>
-
-<div class="muted">
-Name: ${safeText(item.name)}
-</div>
-
-<div class="muted">
-Mobile/ID: ${safeText(item.mobile)}
-</div>
-
-<div class="muted">
-UID: ${safeText(item.uid)}
-</div>
-
-<div class="muted">
-UPI: ${safeText(item.upi)}
-</div>
-
-<div class="muted">
-Date: ${safeText(item.date)}
-</div>
-
-<span class="status ${
-String(item.status||"Pending").toLowerCase()
-}">
-${safeText(item.status||"Pending")}
-</span>
-
-${
-item.status==="Pending"
-?`
-
+<b>💎 ${Number(item.coins||0).toLocaleString()} Coins</b>
+<div class="muted">Amount: ₹${safeText(item.rupees)}</div>
+<div class="muted">Name: ${safeText(item.name)}</div>
+<div class="muted">Mobile/ID: ${safeText(item.mobile)}</div>
+<div class="muted">UPI: ${safeText(item.upi)}</div>
+<div class="muted">Date: ${safeText(item.date)}</div>
+<span class="status ${String(item.status||"Pending").toLowerCase()}">${safeText(item.status||"Pending")}</span>
+${item.status==="Pending"?`
 <div class="admin-actions">
-
-<button onclick="changeWithdrawalStatus('${safeText(item.id)}','Paid')">
-✓ Mark Paid
-</button>
-
-<button onclick="changeWithdrawalStatus('${safeText(item.id)}','Rejected')">
-✕ Reject
-</button>
-
+<button onclick="changeWithdrawalStatus('${safeText(item.id)}','Paid')">✓ Mark Paid</button>
+<button onclick="changeWithdrawalStatus('${safeText(item.id)}','Rejected')">✕ Reject</button>
+</div>`:""}
 </div>
-
-`
-:""
-}
-
-</div>
-
 `).join("");
-
 }
-
 
 window.changeWithdrawalStatus=async function(id,status){
-
 try{
-
 await updateWithdrawStatusFirebase(id,status);
-
 toast("Status updated: "+status);
-
 }catch(e){
-
-console.error(e);
 toast("Could not update status");
-
 }
-
 };
-
-
-/* ================= ADMIN PROMO ================= */
-
-window.savePromoAdmin=async function(){
-
-if(!adminLoggedIn){
-
-toast("Admin login required");
-return;
-
-}
-
-const code=
-document.getElementById("adminPromoCode").value.trim().toUpperCase();
-
-const reward=
-Number(document.getElementById("adminPromoReward").value);
-
-const active=
-document.getElementById("adminPromoActive").checked;
-
-if(!code){
-
-toast("Enter promo code");
-return;
-
-}
-
-if(!Number.isFinite(reward)||reward<=0){
-
-toast("Enter valid reward");
-return;
-
-}
-
-try{
-
-await set(
-ref(database,"admin/promocode"),
-{
-code,
-reward,
-active,
-updatedAt:Date.now()
-}
-);
-
-toast("Promocode saved successfully");
-
-loadAdminPromo();
-
-}catch(e){
-
-console.error(e);
-toast("Could not save promocode");
-
-}
-
-};
-
-
-window.disablePromoAdmin=async function(){
-
-if(!adminLoggedIn)return;
-
-try{
-
-const current=
-await get(
-ref(database,"admin/promocode")
-);
-
-const data=
-current.exists()?current.val():{};
-
-await set(
-ref(database,"admin/promocode"),
-{
-code:data.code||"",
-reward:Number(data.reward||0),
-active:false,
-updatedAt:Date.now()
-}
-);
-
-toast("Promocode disabled");
-
-loadAdminPromo();
-
-}catch(e){
-
-console.error(e);
-toast("Could not disable promo");
-
-}
-
-};
-
-
-async function loadAdminPromo(){
-
-if(!adminLoggedIn)return;
-
-try{
-
-const snap=
-await get(
-ref(database,"admin/promocode")
-);
-
-if(!snap.exists()){
-
-document.getElementById("adminPromoCode").value="";
-document.getElementById("adminPromoReward").value="200";
-document.getElementById("adminPromoActive").checked=false;
-
-document.getElementById("adminPromoStatus").innerHTML=
-"No promocode created yet.";
-
-return;
-}
-
-const data=snap.val();
-
-document.getElementById("adminPromoCode").value=
-data.code||"";
-
-document.getElementById("adminPromoReward").value=
-Number(data.reward||0);
-
-document.getElementById("adminPromoActive").checked=
-data.active!==false;
-
-document.getElementById("adminPromoStatus").innerHTML=`
-
-<b>Current Promo</b>
-
-<p>
-Code:
-<b style="color:#fff">${safeText(data.code||"-")}</b>
-<br>
-Reward:
-<b style="color:#22e49a">
-${Number(data.reward||0)} Coins
-</b>
-<br>
-Status:
-<b style="color:${data.active!==false?"#22e49a":"#ff5577"}">
-${data.active!==false?"ACTIVE":"INACTIVE"}
-</b>
-</p>
-
-`;
-
-document.getElementById("promoInfo").innerHTML=
-data.active!==false&&data.code
-?
-"Active promocode reward: <b style='color:#fff'>"+
-Number(data.reward||0)+
-" coins</b>."
-:
-"No active promocode currently.";
-
-document.getElementById("promoRewardHome").textContent=
-data.active!==false&&data.reward
-?
-"+"+Number(data.reward)+" Coins"
-:
-"Admin controlled";
-
-}catch(e){
-
-console.error(e);
-
-}
-
-}
-
-
-/* ================= ADMIN DOWNLOAD TASK EDITOR ================= */
 
 function getDefaultTask(index){
-
-return DEFAULT_DOWNLOAD_TASKS[index]||{
-id:index+1,
-name:"App Task "+(index+1),
-url:"https://play.google.com/store/apps",
-reward:20,
-active:false
-};
-
+return DEFAULT_DOWNLOAD_TASKS[index]||{id:index+1,name:"App Task "+(index+1),url:"https://play.google.com/store/apps",reward:20,active:false};
 }
-
 
 async function loadAdminTaskEditor(){
-
 if(!adminLoggedIn)return;
-
 let tasks=DEFAULT_DOWNLOAD_TASKS;
-
 try{
-
-const snap=
-await get(
-ref(database,"admin/downloadTasks")
-);
-
+const snap=await get(ref(database,"admin/downloadTasks"));
 if(snap.exists()){
-
 const data=snap.val();
-
-tasks=
-Array.isArray(data)
-?data
-:Object.values(data);
-
+tasks=Array.isArray(data)?data:Object.values(data);
 }
-
-}catch(e){
-
-console.error(e);
-
-}
+}catch(e){}
 
 tasks=Array.from({length:10},(_,i)=>{
-
-const found=
-tasks.find(
-x=>Number(x.id)===i+1
-);
-
+const found=tasks.find(x=>Number(x.id)===i+1);
 return found||getDefaultTask(i);
-
 });
 
-document.getElementById("adminTaskEditor").innerHTML=
-
-tasks.map((task,i)=>`
-
+document.getElementById("adminTaskEditor").innerHTML=tasks.map((task,i)=>`
 <div class="row">
-
 <h3>📱 Task ${i+1}</h3>
-
-<input
-class="input"
-id="taskName${i+1}"
-value="${safeText(task.name||"App Task "+(i+1))}"
-placeholder="App name">
-
-<input
-class="input"
-id="taskUrl${i+1}"
-value="${safeText(task.url||"")}"
-placeholder="https://play.google.com/store/apps/details?id=PACKAGE">
-
-<input
-class="input"
-id="taskReward${i+1}"
-type="number"
-min="0"
-value="${Number(task.reward||20)}"
-placeholder="Reward">
-
-<label class="check">
-
-<input
-id="taskActive${i+1}"
-type="checkbox"
-${task.active!==false?"checked":""}>
-
-Active
-
-</label>
-
+<input class="input" id="taskName${i+1}" value="${safeText(task.name||"App Task "+(i+1))}" placeholder="App name">
+<input class="input" id="taskUrl${i+1}" value="${safeText(task.url||"")}" placeholder="Play Store URL">
+<input class="input" id="taskReward${i+1}" type="number" min="0" value="${Number(task.reward||20)}" placeholder="Reward">
+<label class="check"><input id="taskActive${i+1}" type="checkbox" ${task.active!==false?"checked":""}> Active</label>
 </div>
-
 `).join("");
-
 }
-
 
 window.saveDownloadTasksAdmin=async function(){
-
-if(!adminLoggedIn){
-
-toast("Admin login required");
-return;
-
-}
-
+if(!adminLoggedIn){ toast("Admin login required"); return; }
 const tasks=[];
-
 for(let i=1;i<=10;i++){
-
-const name=
-document.getElementById("taskName"+i).value.trim();
-
-const url=
-document.getElementById("taskUrl"+i).value.trim();
-
-const reward=
-Number(document.getElementById("taskReward"+i).value);
-
-const active=
-document.getElementById("taskActive"+i).checked;
-
-if(url&&!/^https:\/\/play\.google\.com\/store\//i.test(url)){
-
-toast("Task "+i+": use a valid Play Store URL");
-return;
-
-}
+const name=document.getElementById("taskName"+i).value.trim();
+const url=document.getElementById("taskUrl"+i).value.trim();
+const reward=Number(document.getElementById("taskReward"+i).value);
+const active=document.getElementById("taskActive"+i).checked;
 
 tasks.push({
 id:i,
@@ -2745,38 +1387,20 @@ url:url||"https://play.google.com/store/apps",
 reward:Number.isFinite(reward)?reward:0,
 active
 });
-
 }
 
 try{
-
-await set(
-ref(database,"admin/downloadTasks"),
-tasks
-);
-
+await set(ref(database,"admin/downloadTasks"), tasks);
 toast("10 download tasks saved");
-
 }catch(e){
-
-console.error(e);
 toast("Could not save download tasks");
-
 }
-
 };
 
-
-/* START */
-
 if(currentUser&&getUser()){
-
 showApp();
-
 }else{
-
 document.getElementById("loginScreen").classList.remove("hidden");
-
 }
 
 </script>
