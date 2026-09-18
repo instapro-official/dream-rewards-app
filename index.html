@@ -260,7 +260,8 @@ Do not create fake, duplicate or automated accounts.
 
 <div class="hero">
 <div style="color:var(--muted);font-size:13px;margin-bottom:4px;">Welcome back</div>
-<h1><span id="userName">Player</span> 👋</h1>
+<!-- Emoji hata diya gaya hai -->
+<h1><span id="userName">Player</span></h1>
 <div class="vip" id="vipText">⭐ VIP 1</div>
 </div>
 
@@ -809,7 +810,8 @@ const coins=Number(u.coins||0);
 document.getElementById("headerCoins").textContent=coins.toLocaleString();
 document.getElementById("walletCoins").textContent=coins.toLocaleString();
 document.getElementById("accountCoins").textContent=coins.toLocaleString();
-document.getElementById("userName").innerHTML=`${safeText(u.name)} 👋`;
+// Yahan se emoji hata diya gaya hai taaki sirf naam aaye
+document.getElementById("userName").textContent=safeText(u.name);
 document.getElementById("accountName").textContent=u.name;
 document.getElementById("accountId").textContent="Account: "+u.id;
 
