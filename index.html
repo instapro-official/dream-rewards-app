@@ -289,7 +289,7 @@ Do not create fake, duplicate or automated accounts.
 <div class="card" style="grid-column: span 2;">
 <div class="icon">🧠</div>
 <h3>Quiz</h3>
-<p>Math + General Knowledge (+10 Coins per correct answer)</p>
+<p>Class 3 & 4 GK Questions (+10 Coins per correct answer)</p>
 
 <div style="display:flex;justify-content:space-between;margin-top:10px;color:var(--muted);font-size:12px">
 <span>Quiz Today</span>
@@ -445,7 +445,7 @@ Do not create fake, duplicate or automated accounts.
 </div>
 
 
-<!-- SURVEY MODAL (INTERACTIVE SURVEY PAGE) -->
+<!-- SURVEY MODAL -->
 <div id="surveyModal" class="modal">
 <div class="modal-box">
 <button class="close" onclick="closeModal('surveyModal')">×</button>
@@ -525,33 +525,15 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <p>CoinRush Pro is a reward-based task and quiz platform. Users can complete available activities and earn coins.</p></div>
 
 <div class="row"><h3>👤 2. Account Rules</h3>
-<p>• One account should be used by one user.<br>• Do not create duplicate or fake accounts.<br>• Do not share your password.</p></div>
-
-<div class="row"><h3>🎁 3. Daily Bonus</h3>
-<p>• Once per day.<br>• Reward: <b>100 coins</b>.</p></div>
+<p>• One account should be used by one user.<br>• Do not create duplicate or fake accounts.</p></div>
 
 <div class="row"><h3>🧠 4. Quiz Rules</h3>
 <p>
-• Math + GK questions.<br>
+• Class 3 & 4 simple questions.<br>
 • Maximum <b>70 correct questions per day</b>.<br>
 • Correct answer: <b>10 coins</b>.<br>
-• Requires a 30-second wait timer per question sequence.
+• 30-second wait timer applies *after* a correct answer.
 </p></div>
-
-<div class="row"><h3>📋 5. Survey Center</h3>
-<p>• Complete actual interactive surveys to earn <b>25 coins</b> per survey.</p></div>
-
-<div class="row"><h3>🃏 6. Lucky Card</h3>
-<p>• Once per day.<br>• 30-second timer before reward unlock.<br>• Possible rewards: <b>30, 50, 75, 100 coins</b>.</p></div>
-
-<div class="row"><h3>🤖 7. Captcha Tasks</h3>
-<p>• Solve daily captchas with a 30-second wait timer.<br>• Reward: <b>15 coins</b> per captcha.</p></div>
-
-<div class="row"><h3>👥 8. Referral Program</h3>
-<p>• Earn <b>200 coins</b> when someone registers using your WhatsApp share link.<br>• New users get <b>50 welcome bonus coins</b> upon registering via link.</p></div>
-
-<div class="row"><h3>💎 9. Redeem</h3>
-<p>• Minimum: <b>9,000 coins</b> (₹30).</p></div>
 
 </div>
 </div>
@@ -861,36 +843,12 @@ const u=getUser();
 if(!u)return;
 if(u.luckyDate===today()){ toast("Lucky Card already used today"); return; }
 
-document.getElementById("modalMainTitle").textContent = "🃏 Lucky Card";
-document.getElementById("modalProgressBarBox").style.display = "none";
-openModal("quizModal");
-
-let timeLeft = 30;
-document.getElementById("quizContent").innerHTML = `
-<div class="row" style="text-align:center;">
-<h3>🃏 Lucky Card Timer</h3>
-<div class="timer-banner" id="luckyTimerText">Please wait 30 seconds... (<span id="lSeconds">30</span>s)</div>
-<p>Do not close this window while the timer is running.</p>
-</div>
-`;
-
-let timerInterval = setInterval(() => {
-timeLeft--;
-const secEl = document.getElementById("lSeconds");
-if(secEl) secEl.textContent = timeLeft;
-
-if(timeLeft <= 0){
-clearInterval(timerInterval);
-closeModal("quizModal");
-
 const rewards=[30,50,75,100];
 const reward=rewards[Math.floor(Math.random()*rewards.length)];
 u.luckyDate=today();
 u.coins=Number(u.coins||0)+reward;
 saveUser(u);
 toast("Lucky Card: +"+reward+" coins 🃏");
-}
-}, 1000);
 };
 
 window.openCaptchaModal = function(){
@@ -907,14 +865,14 @@ document.getElementById("modalMainTitle").textContent = "🤖 Captcha Task";
 document.getElementById("modalProgressBarBox").style.display = "none";
 openModal("quizModal");
 
-const num1 = Math.floor(Math.random()*50) + 10;
-const num2 = Math.floor(Math.random()*50) + 10;
+const num1 = Math.floor(Math.random()*10) + 1;
+const num2 = Math.floor(Math.random()*10) + 1;
 window.currentCaptchaAns = num1 + num2;
 
 document.getElementById("quizContent").innerHTML = `
 <div class="row">
-<h3>Solve the Captcha</h3>
-<p>Enter the sum of numbers below to proceed:</p>
+<h3>Solve Simple Captcha</h3>
+<p>What is the sum of these numbers?</p>
 <div class="captcha-box">
 <div class="captcha-text">${num1} + ${num2}</div>
 </div>
@@ -927,27 +885,9 @@ document.getElementById("quizContent").innerHTML = `
 window.verifyCaptcha = function(){
 const inputVal = document.getElementById("captchaInput").value.trim();
 if(!inputVal || Number(inputVal) !== window.currentCaptchaAns){
-toast("Incorrect captcha answer!");
+toast("Incorrect answer!");
 return;
 }
-
-let timeLeft = 30;
-document.getElementById("quizContent").innerHTML = `
-<div class="row" style="text-align:center;">
-<h3>🤖 Captcha Verified</h3>
-<div class="timer-banner">Please wait for timer... (<span id="cSeconds">30</span>s remaining)</div>
-<p>Do not close this window.</p>
-</div>
-`;
-
-let timerInterval = setInterval(() => {
-timeLeft--;
-const secEl = document.getElementById("cSeconds");
-if(secEl) secEl.textContent = timeLeft;
-
-if(timeLeft <= 0){
-clearInterval(timerInterval);
-closeModal("quizModal");
 
 const u = getUser();
 if(!u) return;
@@ -955,22 +895,27 @@ u.captchaDone = true;
 u.coins = Number(u.coins || 0) + 15;
 saveUser(u);
 
+closeModal("quizModal");
 toast("Captcha Task Completed! +15 coins 🤖");
-}
-}, 1000);
 };
 
-const GK_QUESTIONS=[
-["What is the capital of India?",["Mumbai","New Delhi","Kolkata","Chennai"],"New Delhi"],
-["Which planet is known as the Red Planet?",["Earth","Mars","Venus","Jupiter"],"Mars"],
-["How many days are there in a leap year?",["365","366","364","367"],"366"],
-["Which is the largest ocean?",["Indian","Atlantic","Pacific","Arctic"],"Pacific"],
-["What is H2O commonly called?",["Oxygen","Water","Hydrogen","Salt"],"Water"],
-["Which gas do plants absorb?",["Oxygen","Nitrogen","Carbon Dioxide","Helium"],"Carbon Dioxide"],
-["How many continents are there?",["5","6","7","8"],"7"],
-["Which animal is called the King of the Jungle?",["Tiger","Lion","Elephant","Bear"],"Lion"],
-["What is the currency of India?",["Dollar","Rupee","Yen","Euro"],"Rupee"],
-["Which is the fastest land animal?",["Lion","Horse","Cheetah","Tiger"],"Cheetah"]
+// Class 3 & 4 Standard Questions Only
+const EASY_QUESTIONS=[
+["Which animal is known as the Ship of the Desert?",["Elephant","Camel","Horse","Lion"],"Camel"],
+["How many days are there in a normal year?",["365","366","300","350"],"365"],
+["Which is the national fruit of India?",["Apple","Mango","Banana","Orange"],"Mango"],
+["Which part of the plant is under the ground?",["Leaf","Flower","Root","Stem"],"Root"],
+["How many colors are there in a rainbow?",["5","6","7","8"],"7"],
+["Which animal gives us wool?",["Cow","Sheep","Dog","Cat"],"Sheep"],
+["What do bees make?",["Milk","Honey","Silk","Wool"],"Honey"],
+["Which is the largest mammal on Earth?",["Elephant","Blue Whale","Giraffe","Shark"],"Blue Whale"],
+["Which direction does the Sun rise from?",["West","North","East","South"],"East"],
+["How many hours are there in a single day?",["12","24","48","60"],"24"],
+["Which festival is known as the Festival of Lights?",["Holi","Diwali","Eid","Christmas"],"Diwali"],
+["What do we breathe in to stay alive?",["Carbon Dioxide","Oxygen","Nitrogen","Smoke"],"Oxygen"],
+["Which is our national bird?",["Pigeon","Sparrow","Peacock","Crow"],"Peacock"],
+["How many days are in a week?",["5","6","7","10"],"7"],
+["Which shape has 3 sides?",["Square","Rectangle","Triangle","Circle"],"Triangle"]
 ];
 
 function getQuizCount(){
@@ -980,30 +925,6 @@ resetDailyCounters(u);
 return Number(u.quizCount||0);
 }
 
-function generateMathQuestion(){
-const type=Math.floor(Math.random()*4);
-let question, answer;
-if(type===0){
-const a=rand(10,99), b=rand(10,99);
-question=a+" + "+b+" = ?"; answer=a+b;
-}else if(type===1){
-const a=rand(50,150), b=rand(20,a-1);
-question=a+" − "+b+" = ?"; answer=a-b;
-}else if(type===2){
-const a=rand(5,15), b=rand(2,10);
-question=a+" × "+b+" = ?"; answer=a*b;
-}else{
-const b=rand(2,10), ans=rand(5,15), a=b*ans;
-question=a+" ÷ "+b+" = ?"; answer=ans;
-}
-const options=new Set([answer]);
-while(options.size<4){ options.add(rand(Math.max(0,answer-15),answer+15)); }
-const arr=[...options];
-shuffle(arr);
-return{type:"Math",question,options:arr.map(String),answer:String(answer)};
-}
-
-function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
 function shuffle(arr){
 for(let i=arr.length-1;i>0;i--){
 const j=Math.floor(Math.random()*(i+1));
@@ -1013,10 +934,8 @@ return arr;
 }
 
 function generateQuizQuestion(){
-const count=getQuizCount();
-if(count%2===0) return generateMathQuestion();
-const item=GK_QUESTIONS[Math.floor(Math.random()*GK_QUESTIONS.length)];
-return{type:"GK",question:item[0],options:shuffle([...item[1]]),answer:item[2]};
+const item=EASY_QUESTIONS[Math.floor(Math.random()*EASY_QUESTIONS.length)];
+return{type:"Class 3-4 GK",question:item[0],options:shuffle([...item[1]]),answer:item[2]};
 }
 
 window.openQuiz=function(){
@@ -1029,43 +948,21 @@ document.getElementById("quizContent").innerHTML=`<div class="row"><h3>🔒 Quiz
 updateQuizProgress();
 return;
 }
-loadQuizWithTimer();
+loadQuizQuestionContent();
 };
 
-function loadQuizWithTimer(){
+function loadQuizQuestionContent(){
 document.getElementById("modalMainTitle").textContent = "🧠 CoinRush Quiz";
 document.getElementById("modalProgressBarBox").style.display = "block";
 openModal("quizModal");
-let timeLeft = 30;
 
-document.getElementById("quizContent").innerHTML=`
-<div class="row" style="text-align:center;">
-<h3>🧠 Quiz Loading...</h3>
-<div class="timer-banner">Next question unlocks in: <span id="qSeconds">30</span>s</div>
-<p>Get ready for the question!</p>
-</div>
-`;
-
-let timerInterval = setInterval(() => {
-timeLeft--;
-const secEl = document.getElementById("qSeconds");
-if(secEl) secEl.textContent = timeLeft;
-
-if(timeLeft <= 0){
-clearInterval(timerInterval);
-loadQuizQuestionContent();
-}
-}, 1000);
-}
-
-function loadQuizQuestionContent(){
 const q=generateQuizQuestion();
 window.currentQuiz=q;
 updateQuizProgress();
 
 document.getElementById("quizContent").innerHTML=`
 <div class="row">
-<div style="color:#6fd3ff;font-weight:900">${q.type} Question</div>
+<div style="color:#6fd3ff;font-weight:900">${q.type}</div>
 <div class="quiz-question">${safeText(q.question)}</div>
 <div class="quiz-options">
 ${q.options.map((option,index)=>`<button class="quiz-option" onclick="answerQuiz(${index})">${safeText(option)}</button>`).join("")}
@@ -1090,21 +987,30 @@ const correct=String(selected)===String(q.answer);
 if(correct){
 u.quizCount=Number(u.quizCount||0)+1;
 u.coins=Number(u.coins||0)+QUIZ_REWARD;
-result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(34,228,154,.3)"><div style="font-size:20px;font-weight:900">🎉 Correct!</div><div style="color:#22e49a;margin-top:6px">+10 Coins Added</div></div>`;
-}else{
-result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Correct answer: <b>${safeText(q.answer)}</b></div></div>`;
-}
-
 saveUser(u);
 updateQuizProgress();
 
-setTimeout(()=>{
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(34,228,154,.3)"><div style="font-size:20px;font-weight:900">🎉 Correct!</div><div style="color:#22e49a;margin-top:6px">+10 Coins Added</div><div class="timer-banner" style="margin-top:10px">Next question in: <span id="qSeconds">30</span>s</div></div>`;
+
+let timeLeft = 30;
+let timerInterval = setInterval(() => {
+timeLeft--;
+const secEl = document.getElementById("qSeconds");
+if(secEl) secEl.textContent = timeLeft;
+
+if(timeLeft <= 0){
+clearInterval(timerInterval);
 if(getQuizCount()>=QUIZ_DAILY_LIMIT){
 document.getElementById("quizContent").innerHTML=`<div class="row"><h3 style="font-size:22px">🔒 Today's Quiz Completed</h3><p>You completed all 70 correct questions today.</p></div>`;
 return;
 }
-loadQuizWithTimer();
-}, 1500);
+loadQuizQuestionContent();
+}
+}, 1000);
+
+}else{
+result.innerHTML=`<div class="quiz-result" style="border:1px solid rgba(255,85,119,.3)"><div style="font-size:20px;font-weight:900">❌ Incorrect</div><div style="color:#ff8ba4;margin-top:6px">Correct answer: <b>${safeText(q.answer)}</b></div><button class="primary" style="margin-top:10px" onclick="loadQuizQuestionContent()">NEXT QUESTION</button></div>`;
+}
 };
 
 function updateQuizProgress(){
@@ -1113,35 +1019,28 @@ const percentage=(count/70)*100;
 const countEl=document.getElementById("quizModalCount");
 if(countEl) countEl.textContent=count+"/70";
 const progEl=document.getElementById("quizModalProgress");
-if(progEl) progEl.style.width=percentage+"%";
+if(progEl) progEl.style.width=percentage+"%</strong>";
 }
 
-/* INTERACTIVE SURVEY PAGE & TASK LOGIC */
 const SURVEY_LIST = [
 { id: 1, title: "Lifestyle & Shopping Survey", question: "How often do you shop online?", options: ["Daily", "Weekly", "Monthly", "Rarely"] },
-{ id: 2, title: "Technology Usage Survey", question: "Which device do you use most for browsing?", options: ["Smartphone", "Laptop", "Tablet", "Desktop PC"] },
-{ id: 3, title: "Entertainment & Media", question: "What is your preferred video streaming platform?", options: ["YouTube", "Netflix", "Hotstar", "Prime Video"] },
-{ id: 4, title: "General Opinion Survey", question: "How important is mobile gaming in your daily routine?", options: ["Very Important", "Somewhat Important", "Not Important", "Just for Fun"] }
+{ id: 2, title: "Technology Usage Survey", question: "Which device do you use most for browsing?", options: ["Smartphone", "Laptop", "Tablet", "Desktop PC"] }
 ];
 
 window.openSurveyModal = function(){
 const u = getUser();
 if(!u) return;
 resetDailyCounters(u);
-
 document.getElementById("surveyModalTitle").textContent = "📋 Survey Center";
 openModal("surveyModal");
 renderSurveyList();
 };
 
 function renderSurveyList(){
-const u = getUser();
 const container = document.getElementById("surveyContent");
-
-container.innerHTML = SURVEY_LIST.map((survey, index) => {
+container.innerHTML = SURVEY_LIST.map((survey) => {
 const doneKey = "surveyDone_" + currentUser + "_" + survey.id + "_" + today();
 const isDone = localStorage.getItem(doneKey) === "1";
-
 return `
 <div class="row">
 <h3>📋 ${safeText(survey.title)}</h3>
@@ -1157,26 +1056,19 @@ ${isDone ? "COMPLETED" : "START SURVEY (+25 Coins)"}
 window.startSurvey = function(surveyId){
 const survey = SURVEY_LIST.find(s => s.id === surveyId);
 if(!survey) return;
-
 document.getElementById("surveyModalTitle").textContent = "📋 " + survey.title;
 document.getElementById("surveyContent").innerHTML = `
 <div class="row">
 <h3 style="font-size:18px;margin-bottom:10px;">Question: ${safeText(survey.question)}</h3>
 <div class="quiz-options">
-${survey.options.map((opt, i) => `<button class="quiz-option" onclick="submitSurveyAnswer(${survey.id}, ${i})">${safeText(opt)}</button>`).join("")}
+${survey.options.map((opt, i) => `<button class="quiz-option" onclick="submitSurveyAnswer(${survey.id})">${safeText(opt)}</button>`).join("")}
 </div>
 </div>
 `;
 };
 
-window.submitSurveyAnswer = function(surveyId, optionIndex){
+window.submitSurveyAnswer = function(surveyId){
 const doneKey = "surveyDone_" + currentUser + "_" + surveyId + "_" + today();
-if(localStorage.getItem(doneKey) === "1"){
-toast("Survey already completed!");
-openSurveyModal();
-return;
-}
-
 localStorage.setItem(doneKey, "1");
 const u = getUser();
 if(u){
@@ -1184,7 +1076,6 @@ u.surveyCount = Number(u.surveyCount || 0) + 1;
 u.coins = Number(u.coins || 0) + 25;
 saveUser(u);
 }
-
 toast("Survey completed successfully! +25 coins 📋");
 openSurveyModal();
 };
