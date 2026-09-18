@@ -198,15 +198,18 @@ padding:14px;border-radius:16px;background:#0b1230;border:1px solid var(--border
 }
 .task-card h3{font-size:15px}.task-card p{font-size:12px;color:var(--muted);margin-top:5px}
 .task-card .reward{margin-top:7px}
-.admin-code{
-display:grid;grid-template-columns:1fr 1fr;gap:8px
-}
 .timer-banner{
 background:rgba(57,191,255,0.1);border:1px solid rgba(57,191,255,0.3);
 padding:10px;border-radius:12px;text-align:center;margin-bottom:15px;color:var(--blue);font-weight:bold;font-size:14px;
 }
+.captcha-box{
+background:#0a102b;padding:15px;border-radius:12px;text-align:center;margin:15px 0;border:1px solid var(--border);
+}
+.captcha-text{
+font-size:24px;font-weight:900;letter-spacing:4px;color:var(--gold);margin:10px 0;background:#11183d;padding:10px;border-radius:8px;
+}
 @media(max-width:430px){
-.grid{gap:9px}.card{padding:13px}.hero h1{font-size:27px}.admin-code{grid-template-columns:1fr}
+.grid{gap:9px}.card{padding:13px}.hero h1{font-size:27px}
 }
 </style>
 </head>
@@ -317,11 +320,11 @@ Do not create fake, duplicate or automated accounts.
 </div>
 
 <div class="card">
-<div class="icon">📱</div>
-<h3>Download Tasks</h3>
-<p>Up to 10 Play Store task options daily</p>
-<div class="reward">Admin configured</div>
-<button class="card-btn" onclick="openModal('downloadModal');loadDownloadTasks()">OPEN TASKS</button>
+<div class="icon">🤖</div>
+<h3>Captcha Task</h3>
+<p>Solve daily captchas to earn coins</p>
+<div class="reward">+15 Coins</div>
+<button class="card-btn" onclick="openCaptchaModal()">SOLVE CAPTCHA</button>
 </div>
 
 <div class="card" style="grid-column: span 2;">
@@ -428,14 +431,14 @@ Do not create fake, duplicate or automated accounts.
 </div>
 
 
-<!-- QUIZ -->
+<!-- QUIZ / TIMER MODAL -->
 <div id="quizModal" class="modal">
 <div class="modal-box">
 
 <button class="close" onclick="closeModal('quizModal')">×</button>
-<div class="modal-title">🧠 CoinRush Quiz</div>
+<div class="modal-title" id="modalMainTitle">🧠 CoinRush Quiz</div>
 
-<div class="progress-box" style="margin:0">
+<div id="modalProgressBarBox" class="progress-box" style="margin:0">
 <div class="progress-top">
 <span>Correct Questions Today</span>
 <span><b id="quizModalCount">0/40</b></span>
@@ -479,28 +482,6 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <button class="close" onclick="closeModal('surveyModal')">×</button>
 <div class="modal-title">📋 Survey Center</div>
 <div id="surveyList"></div>
-</div>
-</div>
-
-
-<!-- DOWNLOAD TASKS -->
-<div id="downloadModal" class="modal">
-<div class="modal-box">
-
-<button class="close" onclick="closeModal('downloadModal')">×</button>
-<div class="modal-title">📱 Daily Download Tasks</div>
-
-<div class="row">
-<h3>Play Store Tasks</h3>
-<p>
-Clicking a task will open the link and start a 30-second timer. Please wait for the timer to finish to receive your reward.
-</p>
-</div>
-
-<div id="downloadTaskList" class="task-grid">
-<div class="row">Loading tasks...</div>
-</div>
-
 </div>
 </div>
 
@@ -568,8 +549,8 @@ Clicking a task will open the link and start a 30-second timer. Please wait for 
 <div class="row"><h3>🃏 6. Lucky Card</h3>
 <p>• Once per day.<br>• 30-second timer before reward unlock.<br>• Possible rewards: <b>30, 50, 75, 100 coins</b>.</p></div>
 
-<div class="row"><h3>📱 7. Download Tasks</h3>
-<p>• 30-second wait timer required to claim coin rewards.</p></div>
+<div class="row"><h3>🤖 7. Captcha Tasks</h3>
+<p>• Solve daily captchas with a 30-second wait timer.<br>• Reward: <b>15 coins</b> per captcha.</p></div>
 
 <div class="row"><h3>💎 8. Redeem</h3>
 <p>• Minimum: <b>9,000 coins</b> (₹30).</p></div>
@@ -586,13 +567,6 @@ Clicking a task will open the link and start a 30-second timer. Please wait for 
 <div class="modal-title">🛡️ CoinRush Admin Panel</div>
 
 <div id="adminStats" class="stat-grid"></div>
-
-<!-- DOWNLOAD ADMIN -->
-<div class="row">
-<h3>📱 Daily Play Store Tasks</h3>
-<div id="adminTaskEditor"></div>
-<button class="primary" onclick="saveDownloadTasksAdmin()">SAVE 10 TASKS</button>
-</div>
 
 <div class="section-title" style="padding:0;margin-top:22px">
 💎 Redeem Requests
@@ -702,7 +676,6 @@ document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.add("hidden");
 openModal("adminModal");
 listenAdminWithdrawals();
-loadAdminTaskEditor();
 toast("Admin login successful");
 return;
 }
@@ -722,8 +695,8 @@ bonusDate:"",
 luckyDate:"",
 surveyDate:today(),
 surveyCount:0,
-downloadTasksDate:today(),
-downloadOpened:{}
+captchaDate:today(),
+captchaDone:false
 };
 localStorage.setItem("user_"+OWNER_NUMBER,JSON.stringify(owner));
 }
@@ -756,8 +729,8 @@ bonusDate:"",
 luckyDate:"",
 surveyDate:today(),
 surveyCount:0,
-downloadTasksDate:today(),
-downloadOpened:{}
+captchaDate:today(),
+captchaDone:false
 };
 localStorage.setItem("user_"+id,JSON.stringify(user));
 currentUser=id;
@@ -832,7 +805,7 @@ if(!u)return;
 let changed=false;
 if(u.quizDate!==today()){ u.quizDate=today(); u.quizCount=0; changed=true; }
 if(u.surveyDate!==today()){ u.surveyDate=today(); u.surveyCount=0; changed=true; }
-if(u.downloadTasksDate!==today()){ u.downloadTasksDate=today(); u.downloadOpened={}; changed=true; }
+if(u.captchaDate!==today()){ u.captchaDate=today(); u.captchaDone=false; changed=true; }
 if(changed){ localStorage.setItem("user_"+currentUser,JSON.stringify(u)); }
 }
 
@@ -870,7 +843,10 @@ const u=getUser();
 if(!u)return;
 if(u.luckyDate===today()){ toast("Lucky Card already used today"); return; }
 
+document.getElementById("modalMainTitle").textContent = "🃏 Lucky Card";
+document.getElementById("modalProgressBarBox").style.display = "none";
 openModal("quizModal");
+
 let timeLeft = 30;
 document.getElementById("quizContent").innerHTML = `
 <div class="row" style="text-align:center;">
@@ -899,103 +875,71 @@ toast("Lucky Card: +"+reward+" coins 🃏");
 }, 1000);
 };
 
-/* DOWNLOAD TASKS */
-const DEFAULT_DOWNLOAD_TASKS=[
-{id:1,name:"App Task 1",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:2,name:"App Task 2",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:3,name:"App Task 3",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:4,name:"App Task 4",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:5,name:"App Task 5",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:6,name:"App Task 6",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:7,name:"App Task 7",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:8,name:"App Task 8",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:9,name:"App Task 9",url:"https://play.google.com/store/apps",reward:20,active:true},
-{id:10,name:"App Task 10",url:"https://play.google.com/store/apps",reward:20,active:true}
-];
+/* CAPTCHA TASK SYSTEM */
+window.openCaptchaModal = function(){
+const u = getUser();
+if(!u) return;
+resetDailyCounters(u);
 
-async function getDownloadTasks(){
-try{
-const snap=await get(ref(database,"admin/downloadTasks"));
-if(snap.exists()){
-const data=snap.val();
-return Array.isArray(data)?data:Object.values(data);
-}
-}catch(e){}
-return DEFAULT_DOWNLOAD_TASKS;
-}
-
-window.loadDownloadTasks=async function(){
-const container=document.getElementById("downloadTaskList");
-container.innerHTML=`<div class="row">Loading tasks...</div>`;
-const tasks=await getDownloadTasks();
-const activeTasks=tasks.filter(x=>x&&x.active!==false).slice(0,10);
-
-if(!activeTasks.length){
-container.innerHTML=`<div class="row">No download tasks available today.</div>`;
+if(u.captchaDone){
+toast("Captcha task already completed today!");
 return;
 }
 
-const u=getUser();
-if(u)resetDailyCounters(u);
-
-container.innerHTML=activeTasks.map((task,index)=>{
-const taskId=String(task.id||index+1);
-const opened=u&&u.downloadOpened&&u.downloadOpened[taskId]===today();
-return`
-<div class="task-card">
-<h3>📱 ${safeText(task.name||("App Task "+(index+1)))}</h3>
-<p>Open the listing and wait 30 seconds to claim reward.</p>
-<div class="reward">+${Number(task.reward||0)} Coins</div>
-<button class="card-btn" ${opened?"disabled":""} onclick="openPlayStoreTask('${safeText(taskId)}')">
-${opened?"COMPLETED TODAY":"START TASK (30s)"}
-</button>
-</div>
-`;
-}).join("");
-};
-
-// Download Task with 30s timer
-window.openPlayStoreTask=async function(taskId){
-const tasks=await getDownloadTasks();
-const task=tasks.find(x=>String(x.id)===String(taskId));
-if(!task||task.active===false){ toast("Task unavailable"); return; }
-
-const u=getUser();
-if(!u)return;
-resetDailyCounters(u);
-if(!u.downloadOpened)u.downloadOpened={};
-if(u.downloadOpened[String(taskId)]===today()){ toast("Task already completed today"); return; }
-
-window.open(task.url,"_blank");
-closeModal("downloadModal");
+document.getElementById("modalMainTitle").textContent = "🤖 Captcha Task";
+document.getElementById("modalProgressBarBox").style.display = "none";
 openModal("quizModal");
 
+const num1 = Math.floor(Math.random()*50) + 10;
+const num2 = Math.floor(Math.random()*50) + 10;
+window.currentCaptchaAns = num1 + num2;
+
+document.getElementById("quizContent").innerHTML = `
+<div class="row">
+<h3>Solve the Captcha</h3>
+<p>Enter the sum of numbers below to proceed:</p>
+<div class="captcha-box">
+<div class="captcha-text">${num1} + ${num2}</div>
+</div>
+<input id="captchaInput" class="input" type="number" placeholder="Enter answer">
+<button class="primary" onclick="verifyCaptcha()">VERIFY CAPTCHA</button>
+</div>
+`;
+};
+
+window.verifyCaptcha = function(){
+const inputVal = document.getElementById("captchaInput").value.trim();
+if(!inputVal || Number(inputVal) !== window.currentCaptchaAns){
+toast("Incorrect captcha answer!");
+return;
+}
+
+// Start 30s timer after captcha verification
 let timeLeft = 30;
 document.getElementById("quizContent").innerHTML = `
 <div class="row" style="text-align:center;">
-<h3>📱 Download Task Timer</h3>
-<div class="timer-banner">Please wait on the store page... (<span id="dSeconds">30</span>s remaining)</div>
-<p>Do not close this window before the timer finishes.</p>
+<h3>🤖 Captcha Verified</h3>
+<div class="timer-banner">Please wait for timer... (<span id="cSeconds">30</span>s remaining)</div>
+<p>Do not close this window.</p>
 </div>
 `;
 
 let timerInterval = setInterval(() => {
 timeLeft--;
-const secEl = document.getElementById("dSeconds");
+const secEl = document.getElementById("cSeconds");
 if(secEl) secEl.textContent = timeLeft;
 
 if(timeLeft <= 0){
 clearInterval(timerInterval);
 closeModal("quizModal");
 
-const latest = getUser();
-if(!latest) return;
-if(!latest.downloadOpened) latest.downloadOpened = {};
-latest.downloadOpened[String(taskId)] = today();
-latest.coins = Number(latest.coins||0) + Number(task.reward||20);
-saveUser(latest);
+const u = getUser();
+if(!u) return;
+u.captchaDone = true;
+u.coins = Number(u.coins || 0) + 15;
+saveUser(u);
 
-toast("Task completed! +"+Number(task.reward||20)+" coins 📱");
+toast("Captcha Task Completed! +15 coins 🤖");
 }
 }, 1000);
 };
@@ -1027,13 +971,13 @@ if(type===0){
 const a=rand(10,99), b=rand(10,99);
 question=a+" + "+b+" = ?"; answer=a+b;
 }else if(type===1){
-const a=rand(50,150), b=rand(10,a-1);
+const a=rand(50,150), b=rand(20,a-1);
 question=a+" − "+b+" = ?"; answer=a-b;
 }else if(type===2){
-const a=rand(5,20), b=rand(2,10);
+const a=rand(5,15), b=rand(2,10);
 question=a+" × "+b+" = ?"; answer=a*b;
 }else{
-const b=rand(2,10), ans=rand(5,20), a=b*ans;
+const b=rand(2,10), ans=rand(5,15), a=b*ans;
 question=a+" ÷ "+b+" = ?"; answer=ans;
 }
 const options=new Set([answer]);
@@ -1063,6 +1007,8 @@ return{type:"GK",question:item[0],options:shuffle([...item[1]]),answer:item[2]};
 window.openQuiz=function(){
 const count=getQuizCount();
 if(count>=QUIZ_DAILY_LIMIT){
+document.getElementById("modalMainTitle").textContent = "🧠 CoinRush Quiz";
+document.getElementById("modalProgressBarBox").style.display = "block";
 openModal("quizModal");
 document.getElementById("quizContent").innerHTML=`<div class="row"><h3>🔒 Quiz Locked</h3><p>You have completed all 40 correct questions for today.</p></div>`;
 updateQuizProgress();
@@ -1072,6 +1018,8 @@ loadQuizWithTimer();
 };
 
 function loadQuizWithTimer(){
+document.getElementById("modalMainTitle").textContent = "🧠 CoinRush Quiz";
+document.getElementById("modalProgressBarBox").style.display = "block";
 openModal("quizModal");
 let timeLeft = 30;
 
@@ -1337,63 +1285,6 @@ await updateWithdrawStatusFirebase(id,status);
 toast("Status updated: "+status);
 }catch(e){
 toast("Could not update status");
-}
-};
-
-function getDefaultTask(index){
-return DEFAULT_DOWNLOAD_TASKS[index]||{id:index+1,name:"App Task "+(index+1),url:"https://play.google.com/store/apps",reward:20,active:false};
-}
-
-async function loadAdminTaskEditor(){
-if(!adminLoggedIn)return;
-let tasks=DEFAULT_DOWNLOAD_TASKS;
-try{
-const snap=await get(ref(database,"admin/downloadTasks"));
-if(snap.exists()){
-const data=snap.val();
-tasks=Array.isArray(data)?data:Object.values(data);
-}
-}catch(e){}
-
-tasks=Array.from({length:10},(_,i)=>{
-const found=tasks.find(x=>Number(x.id)===i+1);
-return found||getDefaultTask(i);
-});
-
-document.getElementById("adminTaskEditor").innerHTML=tasks.map((task,i)=>`
-<div class="row">
-<h3>📱 Task ${i+1}</h3>
-<input class="input" id="taskName${i+1}" value="${safeText(task.name||"App Task "+(i+1))}" placeholder="App name">
-<input class="input" id="taskUrl${i+1}" value="${safeText(task.url||"")}" placeholder="Play Store URL">
-<input class="input" id="taskReward${i+1}" type="number" min="0" value="${Number(task.reward||20)}" placeholder="Reward">
-<label class="check"><input id="taskActive${i+1}" type="checkbox" ${task.active!==false?"checked":""}> Active</label>
-</div>
-`).join("");
-}
-
-window.saveDownloadTasksAdmin=async function(){
-if(!adminLoggedIn){ toast("Admin login required"); return; }
-const tasks=[];
-for(let i=1;i<=10;i++){
-const name=document.getElementById("taskName"+i).value.trim();
-const url=document.getElementById("taskUrl"+i).value.trim();
-const reward=Number(document.getElementById("taskReward"+i).value);
-const active=document.getElementById("taskActive"+i).checked;
-
-tasks.push({
-id:i,
-name:name||("App Task "+i),
-url:url||"https://play.google.com/store/apps",
-reward:Number.isFinite(reward)?reward:0,
-active
-});
-}
-
-try{
-await set(ref(database,"admin/downloadTasks"), tasks);
-toast("10 download tasks saved");
-}catch(e){
-toast("Could not save download tasks");
 }
 };
 
