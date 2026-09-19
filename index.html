@@ -97,7 +97,8 @@ display:flex;
 align-items:center;
 justify-content:center;
 background:linear-gradient(135deg,var(--blue),var(--purple));
-font-weight:900
+font-weight:900;
+cursor:pointer
 }
 
 .coin-pill{
@@ -106,7 +107,7 @@ border:1px solid rgba(57,191,255,.25);
 padding:8px 12px;
 border-radius:20px;
 font-weight:800;
-cursor:pointer;
+cursor:pointer
 }
 
 .hero{
@@ -758,7 +759,7 @@ CoinRush <span>Pro</span>
 <div class="coin-pill" onclick="showPage('walletPage', document.querySelectorAll('.nav-btn')[1])">
 🪙 <span id="headerCoins">0</span>
 </div>
-<div class="avatar" id="headerAvatar">C</div>
+<div class="avatar" id="headerAvatar" onclick="showPage('accountPage', document.querySelectorAll('.nav-btn')[2])">C</div>
 </div>
 </div>
 </header>
