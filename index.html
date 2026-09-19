@@ -864,7 +864,7 @@ CoinRush <span>Pro</span>
 <div class="hero">
 <small>Available Coins</small>
 <h1><span id="walletCoins">0</span> 🪙</h1>
-<p style="color:var(--muted);margin-top:7px">9,000 Coins = ₹30</p>
+<p style="color:var(--muted);margin-top:7px">20,000 Coins = ₹100</p>
 <button class="primary" onclick="openModal('withdrawModal')">REDEEM COINS</button>
 </div>
 </section>
@@ -966,13 +966,15 @@ CoinRush <span>Pro</span>
 <div class="row">
 <h3>Redeem Coin Rules</h3>
 <p>
-Minimum: <b style="color:#fff">9,000 coins</b><br>
-Conversion: <b style="color:#fff">9,000 coins = ₹30</b><br>
-Daily maximum: <b style="color:#fff">20,000 coins</b><br>
-Processing: <b style="color:#fff">24–72 hours</b>
+Minimum: <b style="color:#fff">20,000 coins (₹100)</b><br>
+Conversion Rates:<br>
+• <b style="color:#fff">6,000 coins = ₹30</b><br>
+• <b style="color:#fff">10,000 coins = ₹50</b><br>
+• <b style="color:#fff">20,000 coins = ₹100</b><br>
+Processing time: <b style="color:#fff">Within 24 hours</b>
 </p>
 </div>
-<input id="withdrawCoins" class="input" type="number" placeholder="Enter coin amount">
+<input id="withdrawCoins" class="input" type="number" placeholder="Enter coin amount (e.g. 20000)">
 <input id="upi" class="input" type="text" placeholder="Enter UPI ID">
 <button id="withdrawSubmitBtn" class="primary" onclick="submitWithdrawal()">SUBMIT REDEEM REQUEST</button>
 </div>
@@ -1070,9 +1072,15 @@ const OWNER_PASSWORD = "1234567";
 
 const QUIZ_DAILY_LIMIT = 70;
 const QUIZ_REWARD = 10;
-const MIN_WITHDRAW = 9000;
+const MIN_WITHDRAW = 20000;
 const MAX_WITHDRAW_DAILY = 20000;
-const COIN_TO_RUPEE = 30 / 9000;
+
+function calculateRupees(coins){
+if(coins >= 20000) return 100;
+if(coins >= 10000) return 50;
+if(coins >= 6000) return 30;
+return 0;
+}
 
 function today(){
 const d = new Date(Date.now() + 330 * 60000);
@@ -1189,7 +1197,6 @@ toast("This account already exists");
 return;
 }
 
-// Check if joined via share link (Friend gets 50 coins automatically)
 const urlParams = new URLSearchParams(location.search);
 const isSharedJoin = urlParams.get("shared") === "1";
 let initialCoins = isSharedJoin ? 50 : 0;
@@ -1596,7 +1603,6 @@ openSurveyModal();
 window.shareOnWhatsApp = function(){
 const u = getUser();
 if(u){
-// Give 200 coins for sharing
 u.coins = Number(u.coins || 0) + 200;
 saveUser(u, "WhatsApp Share Reward", "+200");
 }
@@ -1659,15 +1665,15 @@ const coins = Number(coinInput.value);
 const upi = upiInput.value.trim();
 
 if(!Number.isFinite(coins) || coins <= 0){ toast("Enter valid coin amount"); return; }
-if(coins < MIN_WITHDRAW){ toast("Minimum redeem is 9,000 coins"); return; }
-if(coins > MAX_WITHDRAW_DAILY){ toast("Maximum redeem is 20,000 coins/day"); return; }
+if(coins < MIN_WITHDRAW){ toast("Minimum redeem is 20,000 coins (₹100)"); return; }
+if(coins > MAX_WITHDRAW_DAILY){ toast("Maximum redeem is 20,000 coins (₹100) per day"); return; }
 if(!validUpi(upi)){ toast("Enter a valid UPI ID"); return; }
 
 const todayUsed = getTodayWithdrawnCoins();
 if(todayUsed + coins > MAX_WITHDRAW_DAILY){ toast("Daily redeem limit exceeded"); return; }
 if(Number(u.coins || 0) < coins){ toast("Insufficient coins"); return; }
 
-const rupees = Math.round(coins * COIN_TO_RUPEE * 100) / 100;
+const rupees = calculateRupees(coins);
 const request = {
 userId: String(u.id), name: String(u.name || "User"), mobile: String(u.id),
 coins: coins, rupees: rupees, upi: upi, date: today(), timestamp: Date.now(), status: "Pending"
@@ -1691,7 +1697,7 @@ coinInput.value = "";
 upiInput.value = "";
 closeModal("withdrawModal");
 updateUI();
-toast("Withdrawal request submitted successfully 💎");
+toast("Withdrawal request submitted successfully (Within 24 hours) 💎");
 } catch(error){
 toast("Withdrawal failed: " + (error.message || "Firebase error"));
 } finally {
