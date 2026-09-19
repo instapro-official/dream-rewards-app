@@ -706,6 +706,17 @@ padding:10px;
 border-radius:8px
 }
 
+.history-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 15px;
+margin-top:8px;
+border-radius:12px;
+background:#0b1230;
+border:1px solid var(--border)
+}
+
 @media(max-width:430px){
 .grid{gap:9px}
 .card{padding:13px}
@@ -826,13 +837,13 @@ CoinRush <span>Pro</span>
 <button class="card-btn" onclick="openCaptchaModal()">SOLVE CAPTCHA</button>
 </div>
 
-<!-- REFERRAL -->
+<!-- REFERRAL / SHARE -->
 <div class="card" style="grid-column:span 2;">
 <div class="icon">👥</div>
-<h3>Referral</h3>
-<p>Invite friends and earn 200 coins</p>
-<div class="reward">Share & Earn</div>
-<button class="card-btn" onclick="openModal('referralModal')">INVITE</button>
+<h3>Share & Earn</h3>
+<p>Share on WhatsApp: You get 200 coins, Friend gets 50 coins!</p>
+<div class="reward">+200 Coins</div>
+<button class="card-btn" onclick="shareOnWhatsApp()">SHARE ON WHATSAPP</button>
 </div>
 </div>
 
@@ -884,16 +895,16 @@ CoinRush <span>Pro</span>
 <span class="menu-left"><span class="menu-icon">💎</span><span>Redeem Coin</span></span>
 <span>›</span>
 </button>
+<button onclick="openModal('historyModal')">
+<span class="menu-left"><span class="menu-icon">📜</span><span>Coin History</span></span>
+<span>›</span>
+</button>
 <button onclick="openModal('supportModal')">
 <span class="menu-left"><span class="menu-icon">💬</span><span>Help & Support</span></span>
 <span>›</span>
 </button>
 <button onclick="openModal('rulesModal')">
 <span class="menu-left"><span class="menu-icon">📜</span><span>Game Rules</span></span>
-<span>›</span>
-</button>
-<button onclick="openModal('referralModal')">
-<span class="menu-left"><span class="menu-icon">👥</span><span>Referral</span></span>
 <span>›</span>
 </button>
 <button onclick="logout()">
@@ -938,6 +949,15 @@ CoinRush <span>Pro</span>
 </div>
 </div>
 
+<!-- HISTORY MODAL -->
+<div id="historyModal" class="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal('historyModal')">×</button>
+<div class="modal-title">📜 Coin Earnings History</div>
+<div id="historyList"></div>
+</div>
+</div>
+
 <!-- WITHDRAW -->
 <div id="withdrawModal" class="modal">
 <div class="modal-box">
@@ -955,22 +975,6 @@ Processing: <b style="color:#fff">24–72 hours</b>
 <input id="withdrawCoins" class="input" type="number" placeholder="Enter coin amount">
 <input id="upi" class="input" type="text" placeholder="Enter UPI ID">
 <button id="withdrawSubmitBtn" class="primary" onclick="submitWithdrawal()">SUBMIT REDEEM REQUEST</button>
-</div>
-</div>
-
-<!-- REFERRAL -->
-<div id="referralModal" class="modal">
-<div class="modal-box">
-<button class="close" onclick="closeModal('referralModal')">×</button>
-<div class="modal-title">👥 Referral</div>
-<div class="row">
-<h3>Your Referral Code</h3>
-<p id="referralCode" style="color:#fff;font-size:18px;font-weight:900"></p>
-<p style="margin-top:6px">Earn <b style="color:var(--green)">200 Coins</b> when your friend registers using your link!</p>
-</div>
-<input id="referralLink" class="input" readonly>
-<button class="primary" onclick="copyReferral()">COPY LINK</button>
-<button class="secondary" onclick="shareReferral()">SHARE ON WHATSAPP</button>
 </div>
 </div>
 
@@ -1083,9 +1087,24 @@ return JSON.parse(localStorage.getItem("user_" + currentUser) || "null");
 } catch(e) { return null; }
 }
 
-function saveUser(u){
+function saveUser(u, historyTitle, historyAmount){
 if(!u || !currentUser) return;
 localStorage.setItem("user_" + currentUser, JSON.stringify(u));
+
+if(historyTitle && historyAmount){
+let history = [];
+try {
+history = JSON.parse(localStorage.getItem("history_" + currentUser) || "[]");
+} catch(e){ history = []; }
+history.unshift({
+title: historyTitle,
+amount: historyAmount,
+time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+date: today()
+});
+localStorage.setItem("history_" + currentUser, JSON.stringify(history));
+}
+
 updateUI();
 }
 
@@ -1170,17 +1189,10 @@ toast("This account already exists");
 return;
 }
 
+// Check if joined via share link (Friend gets 50 coins automatically)
 const urlParams = new URLSearchParams(location.search);
-const refCode = urlParams.get("ref");
-let initialCoins = 0;
-let referrerId = null;
-
-if(refCode && refCode.startsWith("CR-")){
-referrerId = refCode.replace("CR-","");
-if(referrerId !== id && localStorage.getItem("user_" + referrerId)){
-initialCoins = 50;
-}
-}
+const isSharedJoin = urlParams.get("shared") === "1";
+let initialCoins = isSharedJoin ? 50 : 0;
 
 const user = {
 id, name, password: pass, coins: initialCoins, createdAt: Date.now(),
@@ -1190,12 +1202,14 @@ surveyDate: today(), surveyCount: 0, captchaDate: today(), captchaDone: false
 
 localStorage.setItem("user_" + id, JSON.stringify(user));
 
-if(referrerId && referrerId !== id){
-const referrerObj = JSON.parse(localStorage.getItem("user_" + referrerId) || "null");
-if(referrerObj){
-referrerObj.coins = Number(referrerObj.coins || 0) + 200;
-localStorage.setItem("user_" + referrerId, JSON.stringify(referrerObj));
-}
+if(initialCoins > 0){
+let history = [{
+title: "Joining Bonus (Via Share)",
+amount: "+50",
+time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+date: today()
+}];
+localStorage.setItem("history_" + id, JSON.stringify(history));
 }
 
 currentUser = id;
@@ -1230,7 +1244,6 @@ function showApp(){
 document.getElementById("loginScreen").classList.add("hidden");
 document.getElementById("app").classList.remove("hidden");
 updateUI();
-setupReferral();
 }
 
 function resetDailyCounters(u){
@@ -1276,6 +1289,8 @@ document.getElementById("bonusBtn").disabled = bonusClaimed;
 const luckyClaimed = u.luckyDate === today();
 document.getElementById("luckyBtn").textContent = luckyClaimed ? "CLAIMED" : "OPEN";
 document.getElementById("luckyBtn").disabled = luckyClaimed;
+
+renderHistory();
 }
 
 function getVip(coins){
@@ -1307,9 +1322,9 @@ window.claimBonus = function(){
 const u = getUser();
 if(!u) return;
 if(u.bonusDate === today()){ toast("Daily Bonus already claimed"); return; }
-u.coins = Number(u.coins || 0) + 100;
 u.bonusDate = today();
-saveUser(u);
+u.coins = Number(u.coins || 0) + 100;
+saveUser(u, "Daily Bonus Reward", "+100");
 toast("+100 Coins Added 🎉");
 };
 
@@ -1321,7 +1336,7 @@ const rewards = [30,50,75,100];
 const reward = rewards[Math.floor(Math.random() * rewards.length)];
 u.luckyDate = today();
 u.coins = Number(u.coins || 0) + reward;
-saveUser(u);
+saveUser(u, "Lucky Card Reward", "+" + reward);
 toast("Lucky Card: +" + reward + " coins 🃏");
 };
 
@@ -1360,14 +1375,11 @@ const u = getUser();
 if(!u) return;
 u.captchaDone = true;
 u.coins = Number(u.coins || 0) + 15;
-saveUser(u);
+saveUser(u, "Captcha Task Reward", "+15");
 closeModal("quizModal");
 toast("Captcha Task Completed! +15 coins 🤖");
 };
 
-/* =========================================================
-   LARGE INLINE HINDI QUIZ QUESTIONS POOL (Class 3 & 4 GK Level)
-========================================================= */
 const HINDI_EASY_QUESTIONS = [
 ["मरुस्थल का जहाज किस जानवर को कहा जाता है?", ["हाथी","ऊँट","घोड़ा","शेर"], "ऊँट"],
 ["एक सामान्य वर्ष में कितने दिन होते हैं?", ["365","366","300","350"], "365"],
@@ -1378,47 +1390,7 @@ const HINDI_EASY_QUESTIONS = [
 ["मधुमक्खियां क्या बनाती हैं?", ["दूध","शहद","रेशम","ऊन"], "शहद"],
 ["पृथ्वी पर सबसे बड़ा स्तनधारी (Mammal) कौन सा है?", ["हाथी","ब्लू ह्वेल","जिराफ","शार्क"], "ब्लू ह्वेल"],
 ["सूरज किस दिशा से उगता है?", ["पश्चिम","उत्तर","पूर्व","दक्षिण"], "पूर्व"],
-["एक दिन में कुल कितने घंटे होते हैं?", ["12","24","48","60"], "24"],
-["रोशनी का त्योहार किसे कहा जाता है?", ["होली","दिवाली","ईद","क्रिसमस"], "दिवाली"],
-["जिंदा रहने के लिए हम हवा में क्या सांस लेते हैं?", ["कार्बन डाइऑक्साइड","ऑक्सीजन","नाइट्रोजन","धुआँ"], "ऑक्सीजन"],
-["हमारा राष्ट्रीय पक्षी कौन सा है?", ["कबूतर","गौरैया","मोर","कौवा"], "मोर"],
-["एक सप्ताह में कितने दिन होते हैं?", ["5","6","7","10"], "7"],
-["किस आकृति की 3 भुजाएं होती हैं?", ["वर्ग","आयत","त्रिभुज","वृत्त"], "त्रिभुज"],
-["भारत की राजधानी कहाँ है?", ["मुंबई","कोलकाता","नई दिल्ली","चेन्नई"], "नई दिल्ली"],
-["क्रिकेट के खेल में एक टीम में कितने खिलाड़ी होते हैं?", ["9","10","11","12"], "11"],
-["हृदय हमारे शरीर में क्या काम करता है?", ["खून पंप करना","खाना पचाना","सोचना","सांस लेना"], "खून पंप करना"],
-["लाल रंग और पीले रंग को मिलाने से कौन सा रंग बनता है?", ["हरा","नारंगी","नीला","बैंगनी"], "नारंगी"],
-["कंप्यूटर का दिमाग किसे कहा जाता है?", ["कीबोर्ड","माउस","सीपीयू (CPU)","मॉनिटर"], "सीपीयू (CPU)"],
-["हमारे सौर मंडल में कुल कितने ग्रह हैं?", ["7","8","9","10"], "8"],
-["किस जानवर को जंगल का राजा कहा जाता है?", ["हाथी","शेर","चीता","भालू"], "शेर"],
-["पानी का रासायनिक सूत्र क्या होता है?", ["CO2","H2O","O2","NaCl"], "H2O"],
-["भारत का राष्ट्रीय पशु कौन सा है?", ["शेर","हाथी","बाघ","घोड़ा"], "बाघ"],
-["दुनिया का सबसे ऊंचा पर्वत कौन सा है?", ["के-टू","माउंट एवरेस्ट","कंचनजंगा","नंदा देवी"], "माउंट एवरेस्ट"],
-["हमारे देश के तिरंगे झंडे में कितने रंग होते हैं?", ["2","3","4","5"], "3"],
-["दूध में कौन सा विटामिन मुख्य रूप से पाया जाता है?", ["विटामिन ए","विटामिन सी","विटामिन डी","विटामिन बी"], "विटामिन डी"],
-["शरीर की सबसे बड़ी हड्डी कौन सी है?", ["फीमर (जांघ की हड्डी)","हाथ की हड्डी","पैर की उंगली","खोपड़ी"], "फीमर (जांघ की हड्डी)"],
-["सूर्य के सबसे पास कौन सा ग्रह है?", ["शुक्र","मंगल","बुध (Mercury)","बृहस्पति"], "बुध (Mercury)"],
-["अंग्रेजी वर्णमाला (Alphabet) में कुल कितने अक्षर होते हैं?", ["24","25","26","27"], "26"],
-["वर्ष का सबसे छोटा महीना कौन सा होता है?", ["जनवरी","फरवरी","मार्च","दिसंबर"], "फरवरी"],
-["पेड़-पौधे दिन में सूरज की रोशनी से अपना खाना बनाते हैं, इस प्रक्रिया को क्या कहते हैं?", ["प्रकाश संश्लेषण (Photosynthesis)","श्वसन","वाष्पसर्जन","पाचन"], "प्रकाश संश्लेषण (Photosynthesis)"],
-["भारत का राष्ट्रीय खेल किसे माना जाता है?", ["क्रिकेट","फुटबॉल","हॉकी","कबड्डी"], "हॉकी"],
-["एक किलोमीटर में कितने मीटर होते हैं?", ["100 मीटर","500 मीटर","1000 मीटर","2000 मीटर"], "1000 मीटर"],
-["मछलियां किस अंग से सांस लेती हैं?", ["फेफड़े","गिल्स (गलफड़े)","त्वचा","नाक"], "गिल्स (गलफड़े)"],
-["हमारे शरीर में कुल कितनी हड्डियां होती हैं (वयस्क में)?", ["200", "206", "250", "300"], "206"],
-["चंद्रमा पर पैर रखने वाला पहला व्यक्ति कौन था?", ["यूरी गगारिन", "नील आर्मस्ट्रांग", "राकेश शर्मा", "बज़ ऑल्ड्रिन"], "नील आर्मस्ट्रांग"],
-["भारत के प्रथम प्रधानमंत्री कौन थे?", ["महात्मा गांधी", "जवाहरलाल नेहरू", "डॉ. राजेंद्र प्रसाद", "वल्लभभाई पटेल"], "जवाहरलाल नेहरू"],
-["कंप्यूटर का आविष्कार किसने किया था?", ["चार्ल्स बेबेज", "थॉमस एडिसन", "अल्बर्ट आइंस्टीन", "आइज़ैक न्यूटन"], "चार्ल्स बेबेज"],
-["क्षेत्रफल की दृष्टि से भारत का सबसे बड़ा राज्य कौन सा है?", ["उत्तर प्रदेश", "महाराष्ट्र", "राजस्थान", "मध्य प्रदेश"], "राजस्थान"],
-["भारत का राष्ट्रगान 'जन गण मन' किसने लिखा था?", ["बंकिम चंद्र चट्टोपाध्याय", "रबींद्रनाथ टैगोर", "महात्मा गांधी", "सुभाष चंद्र बोस"], "रबींद्रनाथ टैगोर"],
-["जलियांवाला बाग हत्याकांड कहाँ हुआ था?", ["अमृतसर", "दिल्ली", "लाहौर", "कोलकाता"], "अमृतसर"],
-["ताजमहल किस नदी के किनारे स्थित है?", ["गंगा", "यमुना", "ब्रह्मपुत्र", "नर्मदा"], "यमुना"],
-["गेटवे ऑफ इंडिया कहाँ स्थित है?", ["दिल्ली", "मुंबई", "कोलकाता", "चेन्नई"], "मुंबई"],
-["भारत का राष्ट्रीय गीत 'वंदे मातरम' किसने लिखा था?", ["रबींद्रनाथ टैगोर", "बंकिम चंद्र चट्टोपाध्याय", "मोहम्मद इकबाल", "सरदार पटेल"], "बंकिम चंद्र चट्टोपाध्याय"],
-["गुर्दे (Kidneys) का मुख्य कार्य क्या है?", ["खून साफ करना", "खाना पचाना", "सांस लेना", "देखना"], "खून साफ करना"],
-["विश्व पर्यावरण दिवस कब मनाया जाता है?", ["5 जून", "15 अगस्त", "2 अक्टूबर", "26 जनवरी"], "5 जून"],
-["किस ग्रह को 'लाल ग्रह' कहा जाता है?", ["बुध", "शुक्र", "मंगल", "शनि"], "मंगल"],
-["भारत की सबसे लंबी नदी कौन सी है?", ["यमुना", "गंगा", "ब्रह्मपुत्र", "गोदावरी"], "गंगा"],
-["हमारे सौर मंडल का सबसे बड़ा ग्रह कौन सा है?", ["शनि", "बृहस्पति (Jupiter)", "पृथ्वी", "मंगल"], "बृहस्पति (Jupiter)"]
+["एक दिन में कुल कितने घंटे होते हैं?", ["12","24","48","60"], "24"]
 ];
 
 function getQuizCount(){
@@ -1502,7 +1474,7 @@ const correct = String(selected) === String(q.answer);
 if(correct){
 u.quizCount = Number(u.quizCount || 0) + 1;
 u.coins = Number(u.coins || 0) + QUIZ_REWARD;
-saveUser(u);
+saveUser(u, "Quiz Correct Answer", "+" + QUIZ_REWARD);
 updateQuizProgress();
 
 const buttons = document.querySelectorAll(".quiz-option");
@@ -1615,29 +1587,48 @@ const u = getUser();
 if(u){
 u.surveyCount = Number(u.surveyCount || 0) + 1;
 u.coins = Number(u.coins || 0) + 25;
-saveUser(u);
+saveUser(u, "Survey Reward", "+25");
 }
 toast("Survey completed successfully! +25 coins 📋");
 openSurveyModal();
 };
 
-function setupReferral(){
-if(!currentUser) return;
-const code = "CR-" + currentUser;
-const link = location.origin + location.pathname + "?ref=" + encodeURIComponent(code);
-document.getElementById("referralCode").textContent = code;
-document.getElementById("referralLink").value = link;
+window.shareOnWhatsApp = function(){
+const u = getUser();
+if(u){
+// Give 200 coins for sharing
+u.coins = Number(u.coins || 0) + 200;
+saveUser(u, "WhatsApp Share Reward", "+200");
+}
+const shareLink = location.origin + location.pathname + "?shared=1";
+const text = "Join CoinRush Pro and get 50 coins free! Play quizzes and earn rewards: " + shareLink;
+location.href = "https://wa.me/?text=" + encodeURIComponent(text);
+toast("Shared on WhatsApp! +200 Coins added 👥");
+};
+
+function renderHistory(){
+const listContainer = document.getElementById("historyList");
+if(!listContainer) return;
+let history = [];
+try {
+history = JSON.parse(localStorage.getItem("history_" + currentUser) || "[]");
+} catch(e){ history = []; }
+
+if(!history.length){
+listContainer.innerHTML = `<div class="row"><p style="text-align:center;">No earnings history yet.</p></div>`;
+return;
 }
 
-window.copyReferral = function(){
-const input = document.getElementById("referralLink");
-navigator.clipboard.writeText(input.value).then(()=>toast("Referral link copied")).catch(()=>toast("Unable to copy link"));
-};
-
-window.shareReferral = function(){
-const text = "Join CoinRush Pro and get 50 coins bonus! " + document.getElementById("referralLink").value;
-location.href = "https://wa.me/?text=" + encodeURIComponent(text);
-};
+listContainer.innerHTML = history.map(h => `
+<div class="history-item">
+<div>
+<div style="font-weight:bold;font-size:14px;">${safeText(h.title)}</div>
+<div style="font-size:11px;color:var(--muted);margin-top:3px;">${safeText(h.date)} • ${safeText(h.time)}</div>
+</div>
+<div style="color:var(--green);font-weight:900;font-size:16px;">${safeText(h.amount)}</div>
+</div>
+`).join("");
+}
 
 function getTodayWithdrawnCoins(){
 const data = JSON.parse(localStorage.getItem("withdrawCoins_" + currentUser) || "{}");
@@ -1693,7 +1684,7 @@ const newRequestRef = push(withdrawalsRef);
 await set(newRequestRef, request);
 
 u.coins = Number(u.coins || 0) - coins;
-saveUser(u);
+saveUser(u, "Coin Redeem", "-" + coins);
 addTodayWithdrawnCoins(coins);
 
 coinInput.value = "";
